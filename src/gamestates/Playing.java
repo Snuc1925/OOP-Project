@@ -2,7 +2,7 @@ package gamestates;
 
 import main.Game;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Playing extends State implements Statemethods {
@@ -15,7 +15,9 @@ public class Playing extends State implements Statemethods {
 
     }
 
-    public void draw(Graphics g) {
+
+    @Override
+    public void draw(Graphics2D g) {
 
     }
 

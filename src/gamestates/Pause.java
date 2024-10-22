@@ -2,7 +2,7 @@ package gamestates;
 
 import main.Game;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Pause extends State implements Statemethods {
@@ -14,7 +14,7 @@ public class Pause extends State implements Statemethods {
 
     }
 
-    public void draw(Graphics g) {
+    public void draw(Graphics2D g) {
 
     }
 
