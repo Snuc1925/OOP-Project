@@ -1,9 +1,15 @@
 package utils;
 
+import main.UtilityTool;
+
+import javax.imageio.ImageIO;
 import java.awt.*;
 import static utils.Constants.Screen.*;
+
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 
 public class HelpMethods {
@@ -31,5 +37,18 @@ public class HelpMethods {
             System.err.println("Lỗi đọc file font: " + e.getMessage());
         }
         return maruMonica; // Trả về font hoặc null nếu có lỗi
+    }
+
+    public static BufferedImage setUp(String imagePath, int width, int height) {
+        UtilityTool utilityTool = new UtilityTool();
+        BufferedImage scaledImage = null;
+        try {
+            scaledImage = ImageIO.read(Objects.requireNonNull(HelpMethods.class.getClassLoader().getResourceAsStream(imagePath + ".png")));
+            scaledImage = utilityTool.scaleImage(scaledImage, width, height);
+
+        } catch (IOException e) {
+            System.out.println("Failed to load/scale image");
+        }
+        return scaledImage;
     }
 }
