@@ -2,21 +2,34 @@ package gamestates;
 
 import main.Game;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.KeyEvent;
+import entities.Player;
+import tile.Tile;
+import tile.TileManager;
 
 public class Playing extends State implements Statemethods {
+
+    public Player player;
+    private TileManager tileManager;
     public Playing(Game game) {
         super(game);
+        player = new Player(this);
+        tileManager = new TileManager(player);
     }
+
+
+    public Player getPlayer() { return player; }
 
     @Override
     public void update() {
 
     }
 
-    public void draw(Graphics g) {
 
+    @Override
+    public void draw(Graphics2D g2) {
+        tileManager.draw(g2);
     }
 
     @Override

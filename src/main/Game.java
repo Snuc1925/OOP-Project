@@ -1,22 +1,31 @@
 package main;
 
+import java.awt.*;
+
 import gamestates.Gamestate;
 import gamestates.Menu;
 import gamestates.Playing;
 
+import static utils.Constants.Screen.*;
+
 public class Game implements Runnable {
     private GamePanel gamePanel;
+    private GameWindow gameWindow;
     private Playing playing;
     private Menu menu;
 
     private Thread gameThread;
-    private final int FPS_SET = 120;
-    private final int UPS_SET = 200;
+
+    public Playing getPlaying() { return playing; }
+    public Menu getMenu() { return menu; }
+
+
 
     public Game() {
         initClasses();
 
         gamePanel = new GamePanel(this);
+        gameWindow = new GameWindow(gamePanel);
 
         startGameLoop();
 
@@ -85,10 +94,23 @@ public class Game implements Runnable {
             case PLAYING:
                 playing.update();
                 break;
-            case QUIT:
             default:
                 System.exit(0);
                 break;
         }
     }
+
+    public void render(Graphics2D g) {
+        switch(Gamestate.state) {
+            case MENU:
+                menu.draw(g);
+                break;
+            case PLAYING:
+                playing.draw(g);
+                break;
+            default:
+                break;
+        }
+    }
+
 }
