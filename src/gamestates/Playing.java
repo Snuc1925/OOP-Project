@@ -10,7 +10,7 @@ import tile.TileManager;
 
 public class Playing extends State implements Statemethods {
 
-    public Player player;
+    private Player player;
     private TileManager tileManager;
     public Playing(Game game) {
         super(game);
