@@ -5,6 +5,7 @@ import java.awt.*;
 import gamestates.Gamestate;
 import gamestates.Menu;
 import gamestates.Playing;
+import inputs.KeyboardInputs;
 
 import static utils.Constants.Screen.*;
 

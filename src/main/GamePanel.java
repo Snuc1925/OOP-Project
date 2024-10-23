@@ -1,5 +1,7 @@
 package main;
 
+import inputs.KeyboardInputs;
+
 import java.awt.*;
 import javax.swing.JPanel;
 
@@ -17,11 +19,11 @@ public class GamePanel extends JPanel{
     }
 
     private void setPanelSize() {
-        this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-        this.setBackground(BLACK);
-        this.setDoubleBuffered(true); // Make game render better
-//        this.addKeyListener(keyHandler);
-        this.setFocusable(true);
+        setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
+        setBackground(BLACK);
+        setDoubleBuffered(true); // Make game render better
+        addKeyListener(new KeyboardInputs(this));
+        setFocusable(true);
 //        this.eventHandler = new EventHandler(this);
     }
     public void paintComponent(Graphics g) {
