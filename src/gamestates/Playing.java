@@ -5,12 +5,17 @@ import main.Game;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import entities.Player;
+import tile.Tile;
+import tile.TileManager;
 
 public class Playing extends State implements Statemethods {
 
     private Player player;
+    private TileManager tileManager;
     public Playing(Game game) {
         super(game);
+        player = new Player();
+        tileManager = new TileManager(player);
     }
 
 
@@ -23,8 +28,8 @@ public class Playing extends State implements Statemethods {
 
 
     @Override
-    public void draw(Graphics2D g) {
-
+    public void draw(Graphics2D g2) {
+        tileManager.draw(g2);
     }
 
     @Override

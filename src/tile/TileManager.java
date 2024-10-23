@@ -8,15 +8,15 @@ import java.io.*;
 import java.util.Objects;
 
 import static utils.Constants.Screen.*;
-import main.Game;
+import entities.Player;
 public class TileManager {
 
-    private Game game;
+    private Player player;
     public Tile[] tile;
     public int tileNum[][];
 
-    public TileManager(Game game) {
-        this.game = game;
+    public TileManager(Player player) {
+        this.player = player;
         tile = new Tile[50];
         tileNum = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
         getTileImage();
@@ -99,8 +99,8 @@ public class TileManager {
         int worldCol = 0;
         int worldRow = 0;
         
-        int playerWorldX = game.getPlaying().getPlayer().worldX;
-        int playerWorldY = game.getPlaying().getPlayer().worldY;
+        int playerWorldX = player.worldX;
+        int playerWorldY = player.worldY;
 
         while (worldCol < MAX_WORLD_COL && worldRow < MAX_WORLD_ROW) {
             int tileId = tileNum[worldRow][worldCol];
