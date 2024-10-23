@@ -99,8 +99,8 @@ public class UI {
 //    }
 //
 //    public void drawPlayerStatus() {
-//        int x = gp.tileSize/4;
-//        int y = gp.tileSize/4;
+//        int x = gp.TILE_SIZE/4;
+//        int y = gp.TILE_SIZE/4;
 //
 //        g2.drawImage(statusPanel, x, y, null);
 //
@@ -136,8 +136,8 @@ public class UI {
 //    }
 //
 //    public void drawPlayerMana() {
-//        int x = gp.tileSize/4;
-//        int y = gp.tileSize/4 + gp.tileSize;
+//        int x = gp.TILE_SIZE/4;
+//        int y = gp.TILE_SIZE/4 + gp.TILE_SIZE;
 //        g2.drawImage(mana_bar_decoration, x, y, null);
 //
 //        int mana_bar_width = (int) (46 * 3 * ((double) gp.player.currentMana / gp.player.maxMana));
@@ -154,8 +154,8 @@ public class UI {
 //    }
 //
 //    public void drawPlayerLife() {
-//        int x = gp.tileSize/4;
-//        int y = gp.tileSize/4;
+//        int x = gp.TILE_SIZE/4;
+//        int y = gp.TILE_SIZE/4;
 //        g2.drawImage(health_bar_decoration, x, y, null);
 //
 //        int health_bar_width = (int) (46 * 3 * ((double) gp.player.currentLife / gp.player.maxLife));
@@ -181,13 +181,13 @@ public class UI {
 //
 //            // Configure background color
 //            g2.setColor(Color.BLACK);
-//            g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+//            g2.fillRect(0, 0, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT);
 //
 //            // Create shadow for
 //            g2.setColor(Color.GRAY);
 //            String gameTitle = "Dungeon Game";
 //            int x = getXForCenterText(gameTitle);
-//            int y = getYForCenterText(gameTitle) - gp.tileSize * 3;
+//            int y = getYForCenterText(gameTitle) - gp.TILE_SIZE * 3;
 //            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 80F));
 //            g2.drawString(gameTitle, x + 5, y + 3);
 //
@@ -196,8 +196,8 @@ public class UI {
 //            g2.drawString(gameTitle, x, y);
 //
 //            // Display main character
-//            x = gp.screenWidth / 2 - gp.tileSize;
-//            y += gp.tileSize / 2;
+//            x = gp.SCREEN_WIDTH / 2 - gp.TILE_SIZE;
+//            y += gp.TILE_SIZE / 2;
 //            String direction;
 //            frameCounter++;
 //            if (frameCounter >= 60) {
@@ -222,26 +222,26 @@ public class UI {
 //            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
 //            String text = "New game";
 //            x = getXForCenterText(text);
-//            y = getYForCenterText(text) + gp.tileSize * 3 / 2;
+//            y = getYForCenterText(text) + gp.TILE_SIZE * 3 / 2;
 //            g2.drawString(text, x, y);
 //            if (commandNumber == 0) {
-//                g2.drawString("->", x - gp.tileSize, y);
+//                g2.drawString("->", x - gp.TILE_SIZE, y);
 //            }
 //
 //            text = "Load game";
 //            x = getXForCenterText(text);
-//            y += gp.tileSize;
+//            y += gp.TILE_SIZE;
 //            g2.drawString(text, x, y);
 //            if (commandNumber == 1) {
-//                g2.drawString("->", x - gp.tileSize, y);
+//                g2.drawString("->", x - gp.TILE_SIZE, y);
 //            }
 //
 //            text = "Quit";
 //            x = getXForCenterText(text);
-//            y += gp.tileSize;
+//            y += gp.TILE_SIZE;
 //            g2.drawString(text, x, y);
 //            if (commandNumber == 2) {
-//                g2.drawString("->", x - gp.tileSize, y);
+//                g2.drawString("->", x - gp.TILE_SIZE, y);
 //            }
 //        }
 //        else if (titleScreenState == 1) {
@@ -252,39 +252,39 @@ public class UI {
 //            String text = "Select your class:";
 //            int x = getXForCenterText(text);
 //            int y = getYForCenterText(text);
-////            y -= gp.tileSize*3;
+////            y -= gp.TILE_SIZE*3;
 //            g2.drawString(text, x, y);
 //
 //            text = "Warrior";
 //            x = getXForCenterText(text);
-//            y += gp.tileSize;
+//            y += gp.TILE_SIZE;
 //            g2.drawString(text, x, y);
 //            if (commandNumber == 0) {
-//                g2.drawString("->", x - gp.tileSize, y);
+//                g2.drawString("->", x - gp.TILE_SIZE, y);
 //            }
 //
 //            text = "Fighter";
 //            x = getXForCenterText(text);
-//            y += gp.tileSize;
+//            y += gp.TILE_SIZE;
 //            g2.drawString(text, x, y);
 //            if (commandNumber == 1) {
-//                g2.drawString("->", x - gp.tileSize, y);
+//                g2.drawString("->", x - gp.TILE_SIZE, y);
 //            }
 //
 //            text = "Wizard";
 //            x = getXForCenterText(text);
-//            y += gp.tileSize;
+//            y += gp.TILE_SIZE;
 //            g2.drawString(text, x, y);
 //            if (commandNumber == 2) {
-//                g2.drawString("->", x - gp.tileSize, y);
+//                g2.drawString("->", x - gp.TILE_SIZE, y);
 //            }
 //
 //            text = "Go back";
 //            x = getXForCenterText(text);
-//            y += gp.tileSize*2;
+//            y += gp.TILE_SIZE*2;
 //            g2.drawString(text, x, y);
 //            if (commandNumber == 3) {
-//                g2.drawString("->", x - gp.tileSize, y);
+//                g2.drawString("->", x - gp.TILE_SIZE, y);
 //            }
 //
 //        }
@@ -292,13 +292,13 @@ public class UI {
 //
 //    private void drawDialogueScreen() {
 //        // Window
-//        int x = gp.tileSize * 2, y = gp.tileSize / 2;
-//        int width = gp.screenWidth - gp.tileSize*4 , height = gp.tileSize * 4;
+//        int x = gp.TILE_SIZE * 2, y = gp.TILE_SIZE / 2;
+//        int width = gp.SCREEN_WIDTH - gp.TILE_SIZE*4 , height = gp.TILE_SIZE * 4;
 //
 //        drawSubWindow(x, y, width, height);
 //
-//        x += gp.tileSize;
-//        y += gp.tileSize;
+//        x += gp.TILE_SIZE;
+//        y += gp.TILE_SIZE;
 //        g2.setFont(maruMonica);
 //        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
 //        if (currentDialogue == null) {
@@ -335,11 +335,11 @@ public class UI {
 //
 //    public int getXForCenterText(String text) {
 //        int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-//        return gp.screenWidth/2 - length/2;
+//        return gp.SCREEN_WIDTH/2 - length/2;
 //    }
 //    public int getYForCenterText(String text) {
 //        int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getHeight();
-//        return gp.screenHeight/2 - length/2;
+//        return gp.SCREEN_HEIGHT/2 - length/2;
 //    }
 //
 //    public void showMessage(String text) {

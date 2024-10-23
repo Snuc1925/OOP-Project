@@ -4,11 +4,17 @@ import main.Game;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import entities.Player;
 
 public class Playing extends State implements Statemethods {
+
+    private Player player;
     public Playing(Game game) {
         super(game);
     }
+
+
+    public Player getPlayer() { return player; }
 
     @Override
     public void update() {

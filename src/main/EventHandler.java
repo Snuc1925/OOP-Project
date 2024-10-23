@@ -11,10 +11,10 @@ public class EventHandler {
 //    public EventHandler(GamePanel gp) {
 //        this.gp = gp;
 //
-//        eventRect = new EventRect[gp.maxWorldRow][gp.maxWorldCol];
+//        eventRect = new EventRect[gp.MAX_WORLD_ROW][gp.MAX_WORLD_COL];
 //
-//        for (int row = 0; row < gp.maxWorldRow; row++)
-//            for (int col = 0; col < gp.maxWorldCol; col++){
+//        for (int row = 0; row < gp.MAX_WORLD_ROW; row++)
+//            for (int col = 0; col < gp.MAX_WORLD_COL; col++){
 //                eventRect[row][col] = new EventRect();
 //                eventRect[row][col].x = 23;
 //                eventRect[row][col].y = 23;
@@ -31,7 +31,7 @@ public class EventHandler {
 //        int yDistance = Math.abs(gp.player.worldY - previousEventY);
 //
 //        int distance = Math.max(xDistance, yDistance);
-//        if (distance > gp.tileSize) {
+//        if (distance > gp.TILE_SIZE) {
 //            canTouch = true;
 //        }
 //
@@ -55,8 +55,8 @@ public class EventHandler {
 //        gp.player.solidArea.x = gp.player.worldX + gp.player.solidArea.x;
 //        gp.player.solidArea.y = gp.player.worldY + gp.player.solidArea.y;
 //
-//        eventRect[eventRow][eventCol].x = eventCol * gp.tileSize + eventRect[eventRow][eventCol].x;
-//        eventRect[eventRow][eventCol].y = eventRow * gp.tileSize + eventRect[eventRow][eventCol].y;
+//        eventRect[eventRow][eventCol].x = eventCol * gp.TILE_SIZE + eventRect[eventRow][eventCol].x;
+//        eventRect[eventRow][eventCol].y = eventRow * gp.TILE_SIZE + eventRect[eventRow][eventCol].y;
 //
 //        // Checking if player is hitting rectEvent
 //        if (gp.player.solidArea.intersects(eventRect[eventRow][eventCol]) && !eventRect[eventRow][eventCol].eventDone) {

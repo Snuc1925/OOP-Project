@@ -24,13 +24,13 @@ public class Menu extends State implements Statemethods {
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 80F));
         g2.setColor(Color.WHITE);
         g2.setColor(Color.BLACK);
-        g2.fillRect(0, 0, screenWidth, screenHeight);
+        g2.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         // Create shadow for
         g2.setColor(Color.GRAY);
         String gameTitle = "Dungeon Game";
         int x = getXForCenterText(gameTitle, g2);
-        int y = getYForCenterText(gameTitle, g2) - tileSize * 3;
+        int y = getYForCenterText(gameTitle, g2) - TILE_SIZE * 3;
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 80F));
         g2.drawString(gameTitle, x + 5, y + 3);
 
@@ -41,8 +41,8 @@ public class Menu extends State implements Statemethods {
         System.out.println(x + " " + y);
 
         // Display main character
-//        x = screenWidth / 2 - tileSize;
-//        y += tileSize / 2;
+//        x = SCREEN_WIDTH / 2 - TILE_SIZE;
+//        y += TILE_SIZE / 2;
 //        String direction;
 //        frameCounter++;
 //        if (frameCounter >= 60) {
@@ -67,26 +67,26 @@ public class Menu extends State implements Statemethods {
 //        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
 //        String text = "New game";
 //        x = getXForCenterText(text);
-//        y = getYForCenterText(text) + gp.tileSize * 3 / 2;
+//        y = getYForCenterText(text) + gp.TILE_SIZE * 3 / 2;
 //        g2.drawString(text, x, y);
 //        if (commandNumber == 0) {
-//            g2.drawString("->", x - gp.tileSize, y);
+//            g2.drawString("->", x - gp.TILE_SIZE, y);
 //        }
 //
 //        text = "Load game";
 //        x = getXForCenterText(text);
-//        y += gp.tileSize;
+//        y += gp.TILE_SIZE;
 //        g2.drawString(text, x, y);
 //        if (commandNumber == 1) {
-//            g2.drawString("->", x - gp.tileSize, y);
+//            g2.drawString("->", x - gp.TILE_SIZE, y);
 //        }
 //
 //        text = "Quit";
 //        x = getXForCenterText(text);
-//        y += gp.tileSize;
+//        y += gp.TILE_SIZE;
 //        g2.drawString(text, x, y);
 //        if (commandNumber == 2) {
-//            g2.drawString("->", x - gp.tileSize, y);
+//            g2.drawString("->", x - gp.TILE_SIZE, y);
 //        }
     }
 

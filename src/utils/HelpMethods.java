@@ -9,11 +9,11 @@ import java.io.InputStream;
 public class HelpMethods {
     public static int getXForCenterText(String text, Graphics2D g2) {
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-        return screenWidth/2 - length/2;
+        return SCREEN_WIDTH/2 - length/2;
     }
     public static int getYForCenterText(String text, Graphics2D g2) {
         int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getHeight();
-        return screenHeight/2 - length/2;
+        return SCREEN_HEIGHT/2 - length/2;
     }
 
     public static Font loadFontMaruMonica() {

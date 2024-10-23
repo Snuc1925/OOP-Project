@@ -16,55 +16,55 @@ public class CollisionChecker {
 //        int entityTopWorldY = entity.worldY + entity.solidArea.y;
 //        int entityBottomWorldY = entity.worldY + entity.solidArea.y + entity.solidArea.height;
 //
-//        int entityLeftCol = entityLeftWorldX/gp.tileSize;
-//        int entityRightCol = entityRightWorldX/gp.tileSize;
-//        int entityTopRow = entityTopWorldY/gp.tileSize;
-//        int entityBottomRow = entityBottomWorldY/gp.tileSize;
+//        int entityLeftCol = entityLeftWorldX/gp.TILE_SIZE;
+//        int entityRightCol = entityRightWorldX/gp.TILE_SIZE;
+//        int entityTopRow = entityTopWorldY/gp.TILE_SIZE;
+//        int entityBottomRow = entityBottomWorldY/gp.TILE_SIZE;
 //
 //        int tileNum1 = 0, tileNum2 = 0;
 //
 //        switch (entity.direction) {
 //            case "up":
-//                entityTopRow = (entityTopWorldY - entity.speed)/gp.tileSize;
+//                entityTopRow = (entityTopWorldY - entity.speed)/gp.TILE_SIZE;
 //                tileNum1 = gp.tileManager.tileNum[entityTopRow][entityLeftCol];
 //                tileNum2 = gp.tileManager.tileNum[entityTopRow][entityRightCol];
 //                break;
 //            case "down":
-//                entityBottomRow = (entityBottomWorldY + entity.speed)/gp.tileSize;
+//                entityBottomRow = (entityBottomWorldY + entity.speed)/gp.TILE_SIZE;
 //                tileNum1 = gp.tileManager.tileNum[entityBottomRow][entityLeftCol];
 //                tileNum2 = gp.tileManager.tileNum[entityBottomRow][entityRightCol];
 //                break;
 //            case "left":
-//                entityLeftCol = (entityLeftWorldX - entity.speed)/gp.tileSize;
+//                entityLeftCol = (entityLeftWorldX - entity.speed)/gp.TILE_SIZE;
 //                tileNum1 = gp.tileManager.tileNum[entityTopRow][entityLeftCol];
 //                tileNum2 = gp.tileManager.tileNum[entityBottomRow][entityLeftCol];
 //                break;
 //            case "right":
-//                entityRightCol = (entityRightWorldX + entity.speed)/gp.tileSize;
+//                entityRightCol = (entityRightWorldX + entity.speed)/gp.TILE_SIZE;
 //                tileNum1 = gp.tileManager.tileNum[entityTopRow][entityRightCol];
 //                tileNum2 = gp.tileManager.tileNum[entityBottomRow][entityRightCol];
 //                break;
 //            case "up_left":
-//                entityLeftCol = (entityLeftWorldX - entity.speed)/gp.tileSize;
-//                entityTopRow = (entityTopWorldY - entity.speed)/gp.tileSize;
+//                entityLeftCol = (entityLeftWorldX - entity.speed)/gp.TILE_SIZE;
+//                entityTopRow = (entityTopWorldY - entity.speed)/gp.TILE_SIZE;
 //                tileNum1 = gp.tileManager.tileNum[entityTopRow][entityLeftCol];
 //                tileNum2 = gp.tileManager.tileNum[entityTopRow][entityRightCol];
 //                break;
 //            case "up_right":
-//                entityRightCol = (entityRightWorldX + entity.speed)/gp.tileSize;
-//                entityTopRow = (entityTopWorldY - entity.speed)/gp.tileSize;
+//                entityRightCol = (entityRightWorldX + entity.speed)/gp.TILE_SIZE;
+//                entityTopRow = (entityTopWorldY - entity.speed)/gp.TILE_SIZE;
 //                tileNum1 = gp.tileManager.tileNum[entityTopRow][entityLeftCol];
 //                tileNum2 = gp.tileManager.tileNum[entityTopRow][entityRightCol];
 //                break;
 //            case "down_left":
-//                entityLeftCol = (entityLeftWorldX - entity.speed)/gp.tileSize;
-//                entityBottomRow = (entityBottomWorldY + entity.speed)/gp.tileSize;
+//                entityLeftCol = (entityLeftWorldX - entity.speed)/gp.TILE_SIZE;
+//                entityBottomRow = (entityBottomWorldY + entity.speed)/gp.TILE_SIZE;
 //                tileNum1 = gp.tileManager.tileNum[entityBottomRow][entityLeftCol];
 //                tileNum2 = gp.tileManager.tileNum[entityBottomRow][entityRightCol];
 //                break;
 //            case "down_right":
-//                entityRightCol = (entityRightWorldX + entity.speed)/gp.tileSize;
-//                entityBottomRow = (entityBottomWorldY + entity.speed)/gp.tileSize;
+//                entityRightCol = (entityRightWorldX + entity.speed)/gp.TILE_SIZE;
+//                entityBottomRow = (entityBottomWorldY + entity.speed)/gp.TILE_SIZE;
 //                tileNum1 = gp.tileManager.tileNum[entityBottomRow][entityLeftCol];
 //                tileNum2 = gp.tileManager.tileNum[entityBottomRow][entityRightCol];
 //                break;

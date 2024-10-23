@@ -16,6 +16,10 @@ public class Game implements Runnable {
 
     private Thread gameThread;
 
+    public Playing getPlaying() { return playing; }
+    public Menu getMenu() { return menu; }
+
+
 
     public Game() {
         initClasses();

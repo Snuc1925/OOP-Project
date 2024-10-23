@@ -4,8 +4,8 @@ import java.awt.*;
 import javax.swing.JPanel;
 
 import static java.awt.Color.BLACK;
-import static utils.Constants.Screen.screenWidth;
-import static utils.Constants.Screen.screenHeight;
+import static utils.Constants.Screen.SCREEN_WIDTH;
+import static utils.Constants.Screen.SCREEN_HEIGHT;
 //import inputs.KeyboardInputs;
 
 public class GamePanel extends JPanel{
@@ -17,7 +17,7 @@ public class GamePanel extends JPanel{
     }
 
     private void setPanelSize() {
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
+        this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(BLACK);
         this.setDoubleBuffered(true); // Make game render better
 //        this.addKeyListener(keyHandler);
