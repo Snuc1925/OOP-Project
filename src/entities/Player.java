@@ -11,7 +11,7 @@ public class Player extends Entity {
     public int speed;
 
     public Player(Playing playing) {
-        super("Player", "player/down1", playing, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT);
+        super("Player", "player/Idle/Normal/down/1", playing, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT);
         setDefaultValues();
     }
 
@@ -37,13 +37,13 @@ public class Player extends Entity {
         worldX += speed;
     }
 
-//    @Override
-//    public void draw(Graphics2D g2) {
-//        int tempScreenX = SCREEN_X;
-//        int tempScreenY = SCREEN_Y;
-//        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1f));
-//        g2.drawImage(image,tempScreenX,tempScreenY, null);
-//    }
+    @Override
+    public void draw(Graphics2D g2) {
+        int tempScreenX = SCREEN_X;
+        int tempScreenY = SCREEN_Y;
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1f));
+        g2.drawImage(image,tempScreenX,tempScreenY, null);
+    }
 
 
 }
