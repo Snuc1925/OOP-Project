@@ -16,10 +16,12 @@ public class Entity {
     protected String image_path;
     protected boolean collision;
     protected boolean collisionOn = false;
-    protected Rectangle solidArea;
-    protected int solidAreaDefaultX, solidAreaDefaultY;
+    public Rectangle solidArea;
+    public int solidAreaDefaultX, solidAreaDefaultY;
     protected int worldX, worldY;
     protected Playing playing;
+
+    public Playing getPlaying() {return playing;}
 
     // For wall and super objects
     public Entity(String name, String image_path, Playing Playing) {

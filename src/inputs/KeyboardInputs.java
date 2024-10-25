@@ -6,9 +6,10 @@ import java.awt.event.KeyListener;
 import gamestates.Gamestate;
 import main.GamePanel;
 
-public class KeyboardInputs implements KeyListener{
+public class KeyboardInputs implements KeyListener {
 
     private GamePanel gamePanel;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
 
     public KeyboardInputs(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -22,30 +23,45 @@ public class KeyboardInputs implements KeyListener{
 
     @Override
     public void keyReleased(KeyEvent e) {
-        switch(Gamestate.state) {
-            case MENU:
-                gamePanel.getGame().getMenu().keyReleased(e);
-                break;
-            case PLAYING:
-                gamePanel.getGame().getPlaying().keyReleased(e);
-                break;
-            default:
-                break;
+        int code = e.getKeyCode();
+        if (code == KeyEvent.VK_W) {
+            upPressed = false;
         }
+        if (code == KeyEvent.VK_A) {
+            leftPressed = false;
+        }
+        if (code == KeyEvent.VK_S) {
+            downPressed = false;
+        }
+        if (code == KeyEvent.VK_D) {
+            rightPressed = false;
+        }
+        if (code == KeyEvent.VK_ENTER) {
+            enterPressed = false;
+        }
+
+
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        switch(Gamestate.state) {
-            case MENU:
-                gamePanel.getGame().getMenu().keyPressed(e);
-                break;
-            case PLAYING:
-                gamePanel.getGame().getPlaying().keyPressed(e);
-                break;
-            default:
-                break;
+        int code = e.getKeyCode();
+        if (code == KeyEvent.VK_W) {
+            upPressed = true;
         }
+        if (code == KeyEvent.VK_A) {
+            leftPressed = true;
+        }
+        if (code == KeyEvent.VK_S) {
+            downPressed = true;
+        }
+        if (code == KeyEvent.VK_D) {
+            rightPressed = true;
+        }
+        if (code == KeyEvent.VK_ENTER) {
+            enterPressed = true;
+        }
+
     }
 
 }

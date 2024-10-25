@@ -10,8 +10,8 @@ public class Constants {
         public static final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL; // 768 pixels
         public static final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW; // 576 pixels
 
-        public static final int FPS_SET = 120;
-        public static final int UPS_SET = 200;
+        public static final int FPS_SET = 60;
+        public static final int UPS_SET = 60;
 
         public static final int MAX_WORLD_COL = 50;
         public static final int MAX_WORLD_ROW = 50;

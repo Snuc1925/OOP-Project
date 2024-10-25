@@ -18,11 +18,16 @@ public class Game implements Runnable {
     private GameWindow gameWindow;
     private Playing playing;
     private Menu menu;
+    private final CollisionChecker collisionChecker;
 
 
+    public CollisionChecker getCollisionChecker() {
+        return collisionChecker;
+    }
 
     public Playing getPlaying() { return playing; }
     public Menu getMenu() { return menu; }
+    public KeyboardInputs getKeyboardInputs() { return gamePanel.getKeyboardInputs(); }
 
     public Game() {
         initClasses();
@@ -30,6 +35,7 @@ public class Game implements Runnable {
         imageManager = ImageManager.getInstance();
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
+        collisionChecker = new CollisionChecker(this);
 
         startGameLoop();
 
@@ -92,10 +98,10 @@ public class Game implements Runnable {
     public void update() {
         switch(Gamestate.state) {
             case MENU:
-                menu.update();
+                menu.update(this);
                 break;
             case PLAYING:
-                playing.update();
+                playing.update(this);
                 break;
             default:
                 System.exit(0);

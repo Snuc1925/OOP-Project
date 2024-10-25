@@ -1,5 +1,6 @@
 package gamestates;
 
+import inputs.KeyboardInputs;
 import main.Game;
 
 import java.awt.*;
@@ -10,7 +11,7 @@ public class Pause extends State implements Statemethods {
         super(game);
     }
 
-    public void update() {
+    public void update(Game game) {
 
     }
 
@@ -18,13 +19,4 @@ public class Pause extends State implements Statemethods {
 
     }
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
-    }
 }
