@@ -13,7 +13,7 @@ import static utils.Constants.Screen.*;
 public class Game implements Runnable {
 
     private Thread gameThread;
-    private ImageManager imageManager;
+    public ImageManager imageManager;
     private GamePanel gamePanel;
     private GameWindow gameWindow;
     private Playing playing;
@@ -24,6 +24,7 @@ public class Game implements Runnable {
     public CollisionChecker getCollisionChecker() {
         return collisionChecker;
     }
+
 
     public Playing getPlaying() { return playing; }
     public Menu getMenu() { return menu; }
@@ -98,10 +99,10 @@ public class Game implements Runnable {
     public void update() {
         switch(Gamestate.state) {
             case MENU:
-                menu.update(this);
+                menu.update();
                 break;
             case PLAYING:
-                playing.update(this);
+                playing.update();
                 break;
             default:
                 System.exit(0);

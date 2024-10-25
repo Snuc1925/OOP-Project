@@ -1,5 +1,6 @@
 package entities;
 
+import enitystates.*;
 import gamestates.Playing;
 
 import java.awt.*;
@@ -7,10 +8,19 @@ import java.awt.*;
 import static utils.Constants.Player.*;
 import static utils.Constants.Screen.*;
 public class Player extends Sprite {
+    // Create EntityState for Player
+    Attack attack;
+    Idle idle;
+    Run run;
+
+
 
     public Player(Playing playing) {
         super("Player", "player/Idle/Normal/down/1", playing, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT, 8);
         setDefaultValues();
+        attack = new Attack(this, playing.getGame().imageManager);
+        idle = new Idle(this, playing.getGame().imageManager);
+        run = new Run(this, playing.getGame().imageManager);
     }
 
     public void setDefaultValues() {
@@ -19,8 +29,8 @@ public class Player extends Sprite {
 
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        worldX = TILE_SIZE * 21;
-        worldY = TILE_SIZE * 20;
+        worldX = TILE_SIZE * 22;
+        worldY = TILE_SIZE * 19;
         speed = 4;
     }
 
@@ -78,5 +88,14 @@ public class Player extends Sprite {
 
     }
 
+    @Override
+    public void update() {
+        switch (currentState) {
+            case IDLE:
+                idle.update(this, playing.getGame().getKeyboardInputs());
+                image = idle.getImage();
+                break;
 
+        }
+    }
 }

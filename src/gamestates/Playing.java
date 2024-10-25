@@ -23,6 +23,9 @@ public class Playing extends State implements Statemethods {
     }
 
 
+    public Game getGame() {
+        return game;
+    }
     public Player getPlayer() {
         return player;
     }
@@ -32,7 +35,7 @@ public class Playing extends State implements Statemethods {
     }
 
     @Override
-    public void update(Game game) {
+    public void update() {
         KeyboardInputs keyboardInputs = game.getKeyboardInputs();
         player.isIdling = false;
         if (keyboardInputs.upPressed) {
@@ -82,6 +85,7 @@ public class Playing extends State implements Statemethods {
                     break;
             }
         }
+        player.update();
 
     }
 

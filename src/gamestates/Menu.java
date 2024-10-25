@@ -15,7 +15,7 @@ public class Menu extends State implements Statemethods {
     public Menu(Game game) {
         super(game);
     }
-    public void update(Game game) {
+    public void update() {
 
     }
 
