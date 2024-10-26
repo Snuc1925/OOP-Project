@@ -79,9 +79,7 @@ public class CollisionChecker {
                 break;
         }
         entity.collisionOn = tileManager.tile[tileNum1].collision || tileManager.tile[tileNum2].collision;
-        if (entity.collisionOn) {
-            System.out.println(entity.direction);
-        }
+
     }
 //    public int checkObject(Sprite entity, boolean player) {
 //        int index = 999;

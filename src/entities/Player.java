@@ -33,8 +33,8 @@ public class Player extends Sprite {
 
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        worldX = TILE_SIZE * 22;
-        worldY = TILE_SIZE * 19;
+        worldX = TILE_SIZE * 5;
+        worldY = TILE_SIZE * 5;
         speed = 4;
     }
 
