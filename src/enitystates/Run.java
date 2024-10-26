@@ -3,9 +3,6 @@ package enitystates;
 import entities.Sprite;
 import inputs.KeyboardInputs;
 import entities.Player;
-import utils.ImageManager;
-
-import java.security.Key;
 
 public class Run extends EntityStateMethods{
     public Run(Sprite entity, int totalAnimationFrames, int frameDuration) {
@@ -49,32 +46,33 @@ public class Run extends EntityStateMethods{
         stateChanger(player, keyboardInputs);
 
         if (!player.collisionOn && !player.isIdling) {
-            switch (player.direction) {
-                case "up":
-                    player.goUp();
-                    break;
-                case "down":
-                    player.goDown();
-                    break;
-                case "left":
-                    player.goLeft();
-                    break;
-                case "right":
-                    player.goRight();
-                    break;
-                case "up_left":
-                    player.goUpLeft();
-                    break;
-                case "up_right":
-                    player.goUpRight();
-                    break;
-                case "down_left":
-                    player.goDownLeft();
-                    break;
-                case "down_right":
-                    player.goDownRight();
-                    break;
-            }
+//            switch (player.direction) {
+//                case "up":
+//                    player.goUp();
+//                    break;
+//                case "down":
+//                    player.goDown();
+//                    break;
+//                case "left":
+//                    player.goLeft();
+//                    break;
+//                case "right":
+//                    player.goRight();
+//                    break;
+//                case "up_left":
+//                    player.goUpLeft();
+//                    break;
+//                case "up_right":
+//                    player.goUpRight();
+//                    break;
+//                case "down_left":
+//                    player.goDownLeft();
+//                    break;
+//                case "down_right":
+//                    player.goDownRight();
+//                    break;
+//            }
+            player.move();
         }
 
     }

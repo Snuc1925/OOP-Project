@@ -12,6 +12,7 @@ public class ImageManager {
 
     private static ImageManager instance;
     Map<String, BufferedImage> playerImages;
+    Map<String, BufferedImage> guiImages;
 
     public static ImageManager getInstance() {
         if (instance == null) {
@@ -27,6 +28,7 @@ public class ImageManager {
 
     private ImageManager() {
         playerImages = loadAllImages("PLAYER");
+        guiImages = loadAllImages("GUI");
     }
 
     private static Map<String, BufferedImage> loadAllImages(String imagePath) {
@@ -81,5 +83,9 @@ public class ImageManager {
             key += direction + "_";
             key += numAnimationFrame;
         return playerImages.get(key);  // Trả về ảnh từ bộ nhớ
+    }
+    public BufferedImage getGuiImage(String name) {
+        String key = "GUI_" + name;
+        return guiImages.get(key);
     }
 }

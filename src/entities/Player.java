@@ -2,18 +2,20 @@ package entities;
 
 import enitystates.*;
 import gamestates.Playing;
-
 import java.awt.*;
-
 import static utils.Constants.Player.*;
 import static utils.Constants.Screen.*;
 public class Player extends Sprite {
-    // Create EntityState for Player
+    // Player's states
     Attack attack;
     Idle idle;
     Run run;
     Walk walk;
 
+    // Player's attributes
+    public int maxArmor = 10, maxHealth = 12, maxMana = 200;
+    public int currentArmor = 8, currentHealth = 5, currentMana = 102;
+    public int attackPointSpear = 3, attackPointGun = 2;
 
 
     public Player(Playing playing) {
@@ -36,48 +38,35 @@ public class Player extends Sprite {
         speed = 4;
     }
 
-    public void goUp() {
-        direction = "up";
-        worldY -= speed;
-    }
-
-    public void goDown() {
-        direction = "down";
-        worldY += speed;
-    }
-
-    public void goLeft() {
-        direction = "left";
-        worldX -= speed;
-    }
-
-    public void goRight() {
-        direction = "right";
-        worldX += speed;
-    }
-
-    public void goUpLeft() {
-        direction = "up_left";
-        worldX -= speed - 1;
-        worldY -= speed - 1;
-    }
-
-    public void goUpRight() {
-        direction = "up_right";
-        worldX += speed - 1;
-        worldY -= speed - 1;
-    }
-
-    public void goDownLeft() {
-        direction = "down_left";
-        worldX -= speed - 1;
-        worldY += speed - 1;
-    }
-
-    public void goDownRight() {
-        direction = "down_right";
-        worldX += speed - 1;
-        worldY += speed - 1;
+    public void move() {
+        if (direction.equals("down")) {
+            worldY += speed;
+        }
+        if (direction.equals("up")) {
+            worldY -= speed;
+        }
+        if (direction.equals("left")) {
+            worldX -= speed;
+        }
+        if (direction.equals("right")) {
+            worldX += speed;
+        }
+        if (direction.equals("down_right")) {
+            worldX += speed - 1;
+            worldY += speed - 1;
+        }
+        if (direction.equals("up_left")) {
+            worldX -= speed - 1;
+            worldY -= speed - 1;
+        }
+        if (direction.equals("down_left")) {
+            worldX -= speed - 1;
+            worldY += speed - 1;
+        }
+        if (direction.equals("up_right")) {
+            worldX += speed - 1;
+            worldY -= speed - 1;
+        }
     }
 
     @Override
