@@ -62,6 +62,7 @@ public class ImageManager {
                 try {
                     // Load the image and put it into the map
                     BufferedImage image = ImageIO.read(file);
+                    image = HelpMethods.scaleImage(image, Constants.Screen.SCALE);
                     images.put(key, image);
                     System.out.println(key);
                 } catch (IOException e) {
@@ -73,7 +74,7 @@ public class ImageManager {
     }
 
     public BufferedImage getPlayerImage(String state, String weapon, String direction, int numAnimationFrame) {
-            String key = state + "_";
+            String key = "PLAYER_" + state + "_";
             if (!state.equals("RELOADING")) {
                 key += weapon + "_";
             }

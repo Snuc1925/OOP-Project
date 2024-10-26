@@ -8,13 +8,13 @@ import java.awt.image.BufferedImage;
 
 public class Idle extends EntityStateMethods{
 
-    public Idle(Sprite entity, ImageManager imageManager, int totalAnimationFrames, int frameDuration) {
-        super(entity, imageManager, totalAnimationFrames, frameDuration);
+    public Idle(Sprite entity, int totalAnimationFrames, int frameDuration) {
+        super(entity, totalAnimationFrames, frameDuration);
         state = "IDLE";
     }
 
-    public Idle(Sprite entity, ImageManager imageManager) {
-        super(entity, imageManager);
+    public Idle(Sprite entity) {
+        super(entity);
         state = "IDLE";
     }
 

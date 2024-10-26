@@ -32,11 +32,11 @@ public class Game implements Runnable {
 
     public Game() {
         initClasses();
-
         imageManager = ImageManager.getInstance();
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         collisionChecker = new CollisionChecker(this);
+
 
         startGameLoop();
 

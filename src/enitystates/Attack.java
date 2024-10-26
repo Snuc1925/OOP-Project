@@ -8,13 +8,13 @@ import java.awt.image.BufferedImage;
 
 public class Attack extends EntityStateMethods{
 
-    public Attack(Sprite entity, ImageManager imageManager, int totalAnimationFrames, int frameDuration) {
-        super(entity, imageManager, totalAnimationFrames, frameDuration);
+    public Attack(Sprite entity,int totalAnimationFrames, int frameDuration) {
+        super(entity, totalAnimationFrames, frameDuration);
         state = "ATTACK";
     }
 
-    public Attack(Sprite entity, ImageManager imageManager) {
-        super(entity, imageManager);
+    public Attack(Sprite entity) {
+        super(entity);
         state = "ATTACK";
     }
 

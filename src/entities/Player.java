@@ -18,9 +18,9 @@ public class Player extends Sprite {
     public Player(Playing playing) {
         super("Player", "player/Idle/Normal/down/1", playing, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT, 8);
         setDefaultValues();
-        attack = new Attack(this, playing.getGame().imageManager);
-        idle = new Idle(this, playing.getGame().imageManager);
-        run = new Run(this, playing.getGame().imageManager);
+        attack = new Attack(this);
+        idle = new Idle(this);
+        run = new Run(this);
     }
 
     public void setDefaultValues() {
