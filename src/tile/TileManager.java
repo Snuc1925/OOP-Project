@@ -8,6 +8,7 @@ import java.io.*;
 import java.util.Objects;
 
 import static utils.Constants.Screen.*;
+import static utils.Constants.Player.*;
 import entities.Player;
 public class TileManager {
 

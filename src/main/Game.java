@@ -5,27 +5,38 @@ import java.awt.*;
 import gamestates.Gamestate;
 import gamestates.Menu;
 import gamestates.Playing;
+import inputs.KeyboardInputs;
+import utils.ImageManager;
 
 import static utils.Constants.Screen.*;
 
 public class Game implements Runnable {
+
+    private Thread gameThread;
+    public ImageManager imageManager;
     private GamePanel gamePanel;
     private GameWindow gameWindow;
     private Playing playing;
     private Menu menu;
+    private final CollisionChecker collisionChecker;
 
-    private Thread gameThread;
+
+    public CollisionChecker getCollisionChecker() {
+        return collisionChecker;
+    }
+
 
     public Playing getPlaying() { return playing; }
     public Menu getMenu() { return menu; }
-
-
+    public KeyboardInputs getKeyboardInputs() { return gamePanel.getKeyboardInputs(); }
 
     public Game() {
         initClasses();
-
+        imageManager = ImageManager.getInstance();
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
+        collisionChecker = new CollisionChecker(this);
+
 
         startGameLoop();
 
@@ -43,7 +54,6 @@ public class Game implements Runnable {
 
     @Override
     public void run() {
-
         double timePerFrame = 1000000000.0 / FPS_SET;
         double timePerUpdate = 1000000000.0 / UPS_SET;
 

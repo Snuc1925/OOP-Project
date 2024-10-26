@@ -12,28 +12,32 @@ public class Entity {
     public String name;
     public BufferedImage image;
 
-    protected int width, height;
+    public int width, height;
     protected String image_path;
     protected boolean collision;
     protected boolean collisionOn = false;
-    protected Rectangle solidArea;
-    protected int solidAreaDefaultX, solidAreaDefaultY;
+    public Rectangle solidArea;
+    public int solidAreaDefaultX, solidAreaDefaultY;
     protected int worldX, worldY;
     protected Playing playing;
 
-    public Entity(String name, Playing Playing) {
+    public Playing getPlaying() {return playing;}
+
+    // For wall and super objects
+    public Entity(String name, String image_path, Playing Playing) {
         this.name = name;
         this.playing = Playing;
+        this.image_path = image_path;
 
-        image_path = null;
         width = Constants.Screen.TILE_SIZE;
         height = Constants.Screen.TILE_SIZE;
-        image = null;
+        image = HelpMethods.setUp(image_path, width, height);
         solidArea = new Rectangle(0, 0, Constants.Screen.TILE_SIZE, Constants.Screen.TILE_SIZE);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
     }
 
+    // For player, npc and monster
     public Entity(String name, String image_path, Playing playing, int width, int height) {
         this.playing = playing;
         this.name = name;
@@ -48,9 +52,17 @@ public class Entity {
         image = HelpMethods.setUp(image_path, width, height);
     }
 
+    public void setSolidArea(int x, int y, int width, int height) {
+        solidArea = new Rectangle(x, y, width, height);
+    }
+    public void setImageSize(int width, int height) {
+        this.width = width;
+        this.height = height;
+        image = HelpMethods.setUp(image_path, width, height);
+    }
 
     public void draw(Graphics2D g2) {
-        Player player = playing.player;
+        Player player = playing.getPlayer();
         int screenX = worldX - player.worldX + Constants.Player.PLAYER_SCREEN_X;
         int screenY = worldY - player.worldY + Constants.Player.PLAYER_SCREEN_Y;
 

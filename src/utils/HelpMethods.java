@@ -6,6 +6,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import static utils.Constants.Screen.*;
 
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,6 +50,18 @@ public class HelpMethods {
         } catch (IOException e) {
             System.out.println("Failed to load/scale image");
         }
+        return scaledImage;
+    }
+    public static BufferedImage scaleImage(BufferedImage inputImage, double scaleFactor) {
+        int width = (int) (inputImage.getWidth() * scaleFactor);
+        int height = (int) (inputImage.getHeight() * scaleFactor);
+
+        BufferedImage scaledImage = new BufferedImage(width, height, inputImage.getType());
+        Graphics2D g = scaledImage.createGraphics();
+        AffineTransform at = AffineTransform.getScaleInstance(scaleFactor, scaleFactor);
+        g.drawRenderedImage(inputImage, at);
+        g.dispose();
+
         return scaledImage;
     }
 }
