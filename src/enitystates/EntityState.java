@@ -1,6 +1,6 @@
 package enitystates;
 
 public enum EntityState {
-    IDLE, RUN, ATTACK, DEATH;
+    IDLE, RUN, WALK, ATTACK, DEATH;
 
 }

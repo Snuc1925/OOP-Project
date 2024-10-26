@@ -10,6 +10,7 @@ public class KeyboardInputs implements KeyListener {
 
     private GamePanel gamePanel;
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
+    public boolean shiftPressed;
 
     public KeyboardInputs(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -39,6 +40,9 @@ public class KeyboardInputs implements KeyListener {
         if (code == KeyEvent.VK_ENTER) {
             enterPressed = false;
         }
+        if (code == KeyEvent.VK_SHIFT) {
+            shiftPressed = false;
+        }
 
 
     }
@@ -60,6 +64,9 @@ public class KeyboardInputs implements KeyListener {
         }
         if (code == KeyEvent.VK_ENTER) {
             enterPressed = true;
+        }
+        if (code == KeyEvent.VK_SHIFT) {
+            shiftPressed = true;
         }
 
     }

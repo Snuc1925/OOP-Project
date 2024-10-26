@@ -1,6 +1,5 @@
 package enitystates;
 
-import entities.Entity;
 import entities.Sprite;
 import utils.ImageLoader;
 import utils.ImageManager;
@@ -19,17 +18,14 @@ public abstract class EntityStateMethods {
     protected int numAnimationFrames = 0;
 
     public EntityStateMethods(Sprite entity, int totalAnimationFrames, int frameDuration) {
-        this.imageManager = imageManager;
         this.totalAnimationFrames = totalAnimationFrames;
         this.frameDuration = frameDuration;
         this.entity = entity;
     }
     public EntityStateMethods(Sprite entity) {
-        this.imageManager = imageManager;
         this.entity = entity;
     }
 
-    int cnt = 0;
     public BufferedImage getImage() {
         frameCounter++;
         if (frameCounter >= frameDuration) {

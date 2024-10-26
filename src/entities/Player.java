@@ -12,6 +12,7 @@ public class Player extends Sprite {
     Attack attack;
     Idle idle;
     Run run;
+    Walk walk;
 
 
 
@@ -21,6 +22,7 @@ public class Player extends Sprite {
         attack = new Attack(this);
         idle = new Idle(this);
         run = new Run(this);
+        walk = new Walk(this);
     }
 
     public void setDefaultValues() {
@@ -95,7 +97,14 @@ public class Player extends Sprite {
                 idle.update(this, playing.getGame().getKeyboardInputs());
                 image = idle.getImage();
                 break;
-
+            case RUN:
+                run.update(this, playing.getGame().getKeyboardInputs());
+                image = run.getImage();
+                break;
+            case WALK:
+                walk.update(this, playing.getGame().getKeyboardInputs());
+                image = walk.getImage();
+                break;
         }
     }
 }

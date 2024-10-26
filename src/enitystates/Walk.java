@@ -1,29 +1,27 @@
 package enitystates;
 
+import entities.Player;
 import entities.Sprite;
 import inputs.KeyboardInputs;
-import entities.Player;
-import utils.ImageManager;
 
-import java.security.Key;
-
-public class Run extends EntityStateMethods{
-    public Run(Sprite entity, int totalAnimationFrames, int frameDuration) {
+public class Walk extends EntityStateMethods{
+    public Walk(Sprite entity, int totalAnimationFrames, int frameDuration) {
         super(entity, totalAnimationFrames, frameDuration);
-        state = "RUN";
+        state = "WALK";
     }
 
-    public Run(Sprite entity) {
+    public Walk(Sprite entity) {
         super(entity);
-        state = "RUN";
+        state = "WALK";
     }
 
     @Override
     public void update(Sprite entity) {
 
     }
+
     public void update(Player player, KeyboardInputs keyboardInputs) {
-        player.speed = 5;
+        player.speed = 4;
         player.isIdling = false;
         if (keyboardInputs.upPressed) {
             if (keyboardInputs.leftPressed)
@@ -45,9 +43,10 @@ public class Run extends EntityStateMethods{
 
         player.getPlaying().getGame().getCollisionChecker().checkTile(player);
 
-        // Condition to change player state
+        // Condition for changing player state
         stateChanger(player, keyboardInputs);
 
+        if (player.isIdling) player.currentState = EntityState.IDLE;
         if (!player.collisionOn && !player.isIdling) {
             switch (player.direction) {
                 case "up":
@@ -76,15 +75,9 @@ public class Run extends EntityStateMethods{
                     break;
             }
         }
-
     }
-
     public void stateChanger(Player player, KeyboardInputs keyboardInputs) {
-        if (player.isIdling) {
-            player.currentState = EntityState.IDLE;
-        }
-        if (!keyboardInputs.shiftPressed && !player.isIdling) {
-            player.currentState = EntityState.WALK;
-        }
+        if (player.isIdling) player.currentState = EntityState.WALK;
+        if (!player.isIdling && keyboardInputs.shiftPressed) player.currentState = EntityState.RUN;
     }
 }

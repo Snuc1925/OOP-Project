@@ -80,7 +80,6 @@ public class ImageManager {
             }
             key += direction + "_";
             key += numAnimationFrame;
-        System.out.println(key);
         return playerImages.get(key);  // Trả về ảnh từ bộ nhớ
     }
 }
