@@ -80,9 +80,9 @@ public class Entity {
             g2.drawImage(image, screenX, screenY, Constants.Screen.TILE_SIZE, Constants.Screen.TILE_SIZE, null);
 
             // Draw solid area for debugging purposes
-            g2.setColor(Color.WHITE);
-            g2.setStroke(new BasicStroke(3));
-            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+//            g2.setColor(Color.WHITE);
+//            g2.setStroke(new BasicStroke(3));
+//            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }
     }
 
