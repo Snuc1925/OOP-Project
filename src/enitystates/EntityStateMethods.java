@@ -37,6 +37,9 @@ public abstract class EntityStateMethods {
         if (entity.name.equals("Player")) {
             return imageManager.getPlayerImage(state, weaponName.toUpperCase(), entity.direction.toUpperCase(), numAnimationFrames + 1);
         }
+        if (entity.name.equals("Slime")) {
+            return imageManager.getMonsterImage(entity.name, state, entity.direction.toUpperCase(), numAnimationFrames + 1);
+        }
         return null;
     }
 

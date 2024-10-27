@@ -20,7 +20,7 @@ public class Menu extends State implements Statemethods {
     }
 
     public void draw(Graphics2D g2) {
-        Font maruMonica = loadFontMaruMonica();
+        Font maruMonica = loadFont("MaruMonica");
         g2.setFont(maruMonica);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 80F));
         g2.setColor(Color.WHITE);

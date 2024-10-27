@@ -1,11 +1,15 @@
 package enitystates;
 
+import entities.Slime;
 import entities.Sprite;
 import inputs.KeyboardInputs;
 import utils.ImageManager;
 import entities.Player;
 
 import java.awt.image.BufferedImage;
+
+import static java.lang.Math.abs;
+import static utils.Constants.Screen.TILE_SIZE;
 
 public class Idle extends EntityStateMethods{
 
@@ -21,7 +25,18 @@ public class Idle extends EntityStateMethods{
 
     @Override
     public void update(Sprite entity) {
-
+        Player player = entity.getPlaying().getPlayer();
+        if (entity.name.equals("Slime")) {
+            System.out.println("Player: " + player.worldX + " " + player.worldY);
+            System.out.println("Slime: " + entity.worldX + " " + entity.worldY);
+            System.out.println();
+            if (abs(player.worldX - entity.worldX) < TILE_SIZE || abs(player.worldY - entity.worldY) < TILE_SIZE) {
+                entity.currentState = EntityState.ATTACK;
+                return;
+            }
+            Slime slime = (Slime) entity;
+            slime.stateChanger();
+        }
     }
 
     public void update(Sprite player, KeyboardInputs keyboardInputs) {

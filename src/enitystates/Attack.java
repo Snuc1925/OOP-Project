@@ -1,6 +1,7 @@
 package enitystates;
 
 import entities.Entity;
+import entities.Slime;
 import entities.Sprite;
 import utils.ImageManager;
 
@@ -18,8 +19,19 @@ public class Attack extends EntityStateMethods{
         state = "ATTACK";
     }
 
+    int frameCounter = 0;
     @Override
     public void update(Sprite entity) {
-
+        if (entity.name.equals("Slime")) {
+            entity.speed = 4;
+            entity.move();
+            frameCounter++;
+            if (frameCounter > totalAnimationFrames) {
+                Slime slime = (Slime) entity;
+                slime.stateChanger();
+                frameCounter = 0;
+            }
+            entity.speed = 2;
+        }
     }
 }

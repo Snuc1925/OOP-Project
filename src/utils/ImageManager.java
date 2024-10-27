@@ -12,6 +12,8 @@ public class ImageManager {
 
     private static ImageManager instance;
     Map<String, BufferedImage> playerImages;
+    Map<String, BufferedImage> guiImages;
+    Map<String, BufferedImage> monsterImages;
 
     public static ImageManager getInstance() {
         if (instance == null) {
@@ -27,6 +29,8 @@ public class ImageManager {
 
     private ImageManager() {
         playerImages = loadAllImages("PLAYER");
+        guiImages = loadAllImages("GUI");
+        monsterImages = loadAllImages("MONSTER");
     }
 
     private static Map<String, BufferedImage> loadAllImages(String imagePath) {
@@ -46,6 +50,7 @@ public class ImageManager {
         return images;
     }
 
+    // Load toan bo anh tu directory
     private static void loadImagesFromDirectory(File directory, Map<String, BufferedImage> images, String keyPrefix) {
         File[] files = directory.listFiles();
         if (files == null) return;
@@ -81,5 +86,14 @@ public class ImageManager {
             key += direction + "_";
             key += numAnimationFrame;
         return playerImages.get(key);  // Trả về ảnh từ bộ nhớ
+    }
+    public BufferedImage getGuiImage(String name) {
+        String key = "GUI_" + name;
+        return guiImages.get(key);
+    }
+    public BufferedImage getMonsterImage(String name, String state, String direction, int numAnimationFrame) {
+        String key = "MONSTER_" + name.toUpperCase() + "_" + state.toUpperCase() + "_" + direction.toUpperCase() + "_" + numAnimationFrame;
+        System.out.println(key);
+        return monsterImages.get(key);
     }
 }

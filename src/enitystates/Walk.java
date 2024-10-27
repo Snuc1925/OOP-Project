@@ -1,8 +1,12 @@
 package enitystates;
 
 import entities.Player;
+import entities.Slime;
 import entities.Sprite;
 import inputs.KeyboardInputs;
+
+import static java.lang.Math.abs;
+import static utils.Constants.Screen.TILE_SIZE;
 
 public class Walk extends EntityStateMethods{
     public Walk(Sprite entity, int totalAnimationFrames, int frameDuration) {
@@ -17,7 +21,20 @@ public class Walk extends EntityStateMethods{
 
     @Override
     public void update(Sprite entity) {
+        Player player = entity.getPlaying().getPlayer();
+        entity.move();
 
+        if (entity.name.equals("Slime")) {
+            System.out.println("Player: " + player.worldX + " " + player.worldY);
+            System.out.println("Slime: " + entity.worldX + " " + entity.worldY);
+            System.out.println();
+            if (abs(player.worldX - entity.worldX) < TILE_SIZE || abs(player.worldY - entity.worldY) < TILE_SIZE) {
+                entity.currentState = EntityState.ATTACK;
+                return;
+            }
+            Slime slime = (Slime) entity;
+            slime.stateChanger();
+        }
     }
 
     public void update(Player player, KeyboardInputs keyboardInputs) {
@@ -48,32 +65,7 @@ public class Walk extends EntityStateMethods{
 
         if (player.isIdling) player.currentState = EntityState.IDLE;
         if (!player.collisionOn && !player.isIdling) {
-            switch (player.direction) {
-                case "up":
-                    player.goUp();
-                    break;
-                case "down":
-                    player.goDown();
-                    break;
-                case "left":
-                    player.goLeft();
-                    break;
-                case "right":
-                    player.goRight();
-                    break;
-                case "up_left":
-                    player.goUpLeft();
-                    break;
-                case "up_right":
-                    player.goUpRight();
-                    break;
-                case "down_left":
-                    player.goDownLeft();
-                    break;
-                case "down_right":
-                    player.goDownRight();
-                    break;
-            }
+            player.move();
         }
     }
     public void stateChanger(Player player, KeyboardInputs keyboardInputs) {

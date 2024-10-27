@@ -79,9 +79,7 @@ public class CollisionChecker {
                 break;
         }
         entity.collisionOn = tileManager.tile[tileNum1].collision || tileManager.tile[tileNum2].collision;
-        if (entity.collisionOn) {
-            System.out.println(entity.direction);
-        }
+
     }
 //    public int checkObject(Sprite entity, boolean player) {
 //        int index = 999;
@@ -147,8 +145,7 @@ public class CollisionChecker {
 
     // NPC and monster collision
     public int checkEntity(Sprite entity, Sprite[] target) {
-        tileManager = entity.getPlaying().getTileManager();
-        int index = 999;
+        int index = -1;
         for (int i = 0; i < target.length; i++) {
             if (target[i] != null) {
                 // Get entity solid area position

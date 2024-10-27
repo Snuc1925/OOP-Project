@@ -8,6 +8,10 @@ import utils.HelpMethods;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static utils.Constants.Player.PLAYER_SCREEN_X;
+import static utils.Constants.Player.PLAYER_SCREEN_Y;
+import static utils.Constants.Screen.TILE_SIZE;
+
 public class Entity {
     public String name;
     public BufferedImage image;
@@ -18,13 +22,13 @@ public class Entity {
     protected boolean collisionOn = false;
     public Rectangle solidArea;
     public int solidAreaDefaultX, solidAreaDefaultY;
-    protected int worldX, worldY;
+    public int worldX, worldY;
     protected Playing playing;
 
     public Playing getPlaying() {return playing;}
 
     // For wall and super objects
-    public Entity(String name, String image_path, Playing Playing) {
+    public Entity(String name, String image_path, Playing Playing, int worldX, int worldY) {
         this.name = name;
         this.playing = Playing;
         this.image_path = image_path;
@@ -38,7 +42,7 @@ public class Entity {
     }
 
     // For player, npc and monster
-    public Entity(String name, String image_path, Playing playing, int width, int height) {
+    public Entity(String name, String image_path, Playing playing, int width, int height, int worldX, int worldY) {
         this.playing = playing;
         this.name = name;
         this.image_path = image_path;
@@ -63,14 +67,15 @@ public class Entity {
 
     public void draw(Graphics2D g2) {
         Player player = playing.getPlayer();
-        int screenX = worldX - player.worldX + Constants.Player.PLAYER_SCREEN_X;
-        int screenY = worldY - player.worldY + Constants.Player.PLAYER_SCREEN_Y;
+        int playerWorldX = player.worldX;
+        int playerWorldY = player.worldY;
+        int screenX = worldX - (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE);
+        int screenY = worldY - (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE);
 
-        // Check if entity is inside the screen to decide drawing or not
-        if (worldX > player.worldX - Constants.Player.PLAYER_SCREEN_X - Constants.Screen.TILE_SIZE
-                && worldX < player.worldX + Constants.Player.PLAYER_SCREEN_X + Constants.Screen.TILE_SIZE
-                && worldY > player.worldY - Constants.Player.PLAYER_SCREEN_Y - Constants.Screen.TILE_SIZE
-                && worldY < player.worldY + Constants.Player.PLAYER_SCREEN_Y + Constants.Screen.TILE_SIZE) {
+        if (worldX > (playerWorldX + TILE_SIZE) - (PLAYER_SCREEN_X + TILE_SIZE) - TILE_SIZE
+                && worldX < (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE) + TILE_SIZE
+                && worldY > (playerWorldY + TILE_SIZE) - (PLAYER_SCREEN_Y + TILE_SIZE) - TILE_SIZE
+                && worldY < (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE) + TILE_SIZE) {
 
             g2.drawImage(image, screenX, screenY, Constants.Screen.TILE_SIZE, Constants.Screen.TILE_SIZE, null);
 

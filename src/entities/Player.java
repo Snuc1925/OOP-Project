@@ -2,22 +2,24 @@ package entities;
 
 import enitystates.*;
 import gamestates.Playing;
-
 import java.awt.*;
-
 import static utils.Constants.Player.*;
 import static utils.Constants.Screen.*;
 public class Player extends Sprite {
-    // Create EntityState for Player
+    // Player's states
     Attack attack;
     Idle idle;
     Run run;
     Walk walk;
 
+    // Player's attributes
+    public int maxArmor = 10, maxHealth = 12, maxMana = 200;
+    public int currentArmor = 8, currentHealth = 5, currentMana = 102;
+    public int attackPointSpear = 3, attackPointGun = 2;
 
 
     public Player(Playing playing) {
-        super("Player", "player/Idle/Normal/down/1", playing, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT, 8);
+        super("Player", "player/Idle/Normal/down/1", playing, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT, TILE_SIZE * 5, TILE_SIZE * 5);
         setDefaultValues();
         attack = new Attack(this);
         idle = new Idle(this);
@@ -31,54 +33,11 @@ public class Player extends Sprite {
 
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        worldX = TILE_SIZE * 22;
-        worldY = TILE_SIZE * 19;
+        worldX = TILE_SIZE * 5;
+        worldY = TILE_SIZE * 5;
         speed = 4;
     }
 
-    public void goUp() {
-        direction = "up";
-        worldY -= speed;
-    }
-
-    public void goDown() {
-        direction = "down";
-        worldY += speed;
-    }
-
-    public void goLeft() {
-        direction = "left";
-        worldX -= speed;
-    }
-
-    public void goRight() {
-        direction = "right";
-        worldX += speed;
-    }
-
-    public void goUpLeft() {
-        direction = "up_left";
-        worldX -= speed - 1;
-        worldY -= speed - 1;
-    }
-
-    public void goUpRight() {
-        direction = "up_right";
-        worldX += speed - 1;
-        worldY -= speed - 1;
-    }
-
-    public void goDownLeft() {
-        direction = "down_left";
-        worldX -= speed - 1;
-        worldY += speed - 1;
-    }
-
-    public void goDownRight() {
-        direction = "down_right";
-        worldX += speed - 1;
-        worldY += speed - 1;
-    }
 
     @Override
     public void draw(Graphics2D g2) {
