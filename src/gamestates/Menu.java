@@ -39,7 +39,6 @@ public class Menu extends State implements Statemethods {
         g2.setColor(Color.WHITE);
         g2.drawString(gameTitle, x, y);
 
-        System.out.println(x + " " + y);
 
         // Display main character
 //        x = SCREEN_WIDTH / 2 - TILE_SIZE;
@@ -56,10 +55,10 @@ public class Menu extends State implements Statemethods {
 //            case "down" -> gp.player.getImage("down");
 //            case "left" -> gp.player.getImage("left");
 //            case "right" -> gp.player.getImage("right");
-//            case "up_left" -> gp.player.getImage("up_left");
-//            case "up_right" -> gp.player.getImage("up_right");
-//            case "down_left" -> gp.player.getImage("down_left");
-//            case "down_right" -> gp.player.getImage("down_right");
+//            case "left_up" -> gp.player.getImage("left_up");
+//            case "right_up" -> gp.player.getImage("right_up");
+//            case "left_down" -> gp.player.getImage("left_down");
+//            case "right_down" -> gp.player.getImage("right_down");
 //            default -> null;
 //        };
 //        g2.drawImage(image, x - 16 * 4, y - 16 * 4, 48 * 5, 64 * 5, null);

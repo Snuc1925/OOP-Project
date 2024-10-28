@@ -24,15 +24,15 @@ public class Run extends EntityStateMethods{
         player.isIdling = false;
         if (keyboardInputs.upPressed) {
             if (keyboardInputs.leftPressed)
-                player.direction = "up_left";
+                player.direction = "left_up";
             else if (keyboardInputs.rightPressed)
-                player.direction = "up_right";
+                player.direction = "right_up";
             else player.direction = "up";
         } else if (keyboardInputs.downPressed) {
             if (keyboardInputs.leftPressed)
-                player.direction = "down_left";
+                player.direction = "left_down";
             else if (keyboardInputs.rightPressed)
-                player.direction = "down_right";
+                player.direction = "right_down";
             else player.direction = "down";
         } else if (keyboardInputs.leftPressed)
             player.direction = "left";

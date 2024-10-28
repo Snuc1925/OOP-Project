@@ -1,12 +1,14 @@
 package gamestates;
 
-import entities.Slime;
-import entities.Sprite;
+import entities.*;
 import main.Game;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
-import entities.Player;
 import tile.TileManager;
 import utils.HelpMethods;
 import utils.ImageLoader;
@@ -18,15 +20,31 @@ public class Playing extends State implements Statemethods {
 
     private final Player player;
     private final TileManager tileManager;
-    public Sprite[] monsters;
-    public Sprite[] allSprites;
+
+    // Array of monsters
+    public Monster[] monsters;
+
+    // List and array of entities
+    public ArrayList<Entity> entityList;
+    public Entity[] entityArray;
+
     public Playing(Game game) {
         super(game);
         player = new Player(this);
         tileManager = new TileManager(player);
-        allSprites = new Sprite[2];
-        allSprites[0] = player;
-        allSprites[1] = new Slime(this, 10*TILE_SIZE,12 * TILE_SIZE);
+
+        monsters = new Monster[5];
+        monsters[0] = new Slime(this, 5 * TILE_SIZE, 7 * TILE_SIZE);
+        monsters[1] = new Slime(this,  5 * TILE_SIZE, 3 * TILE_SIZE);
+        monsters[2] = new Slime(this, 7 * TILE_SIZE, 3 * TILE_SIZE);
+        monsters[3] = new Slime(this, 6 * TILE_SIZE, 3 * TILE_SIZE);
+        monsters[4] = new Slime(this, 8 * TILE_SIZE, 3 * TILE_SIZE);
+
+        entityList = new ArrayList<>();
+        entityList.add(player);
+        entityList.addAll(Arrays.asList(monsters));
+
+        entityArray = entityList.toArray(new Entity[0]);
     }
 
     public Game getGame() {
@@ -43,17 +61,20 @@ public class Playing extends State implements Statemethods {
     @Override
     public void update() {
 
-        for (Sprite sprite : allSprites) {
-            sprite.update();
-        }
+        for (Entity entity : entityArray)
+            if (entity != null){
+                entity.update();
+            }
+        player.lockOn();
     }
 
     @Override
     public void draw(Graphics2D g2) {
         tileManager.draw(g2);
+        entityList.sort(Comparator.comparingDouble(Entity::getWorldY));
 
-        for (Sprite sprite : allSprites) {
-            sprite.draw(g2);
+        for (Entity entity : entityList) {
+            entity.draw(g2);
         }
 
         // Draw player status GUI

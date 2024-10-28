@@ -69,7 +69,6 @@ public class ImageManager {
                     BufferedImage image = ImageIO.read(file);
                     image = HelpMethods.scaleImage(image, Constants.Screen.SCALE);
                     images.put(key, image);
-                    System.out.println(key);
                 } catch (IOException e) {
                     System.err.println("Failed to load image: " + file.getPath());
                     e.printStackTrace();
@@ -93,7 +92,6 @@ public class ImageManager {
     }
     public BufferedImage getMonsterImage(String name, String state, String direction, int numAnimationFrame) {
         String key = "MONSTER_" + name.toUpperCase() + "_" + state.toUpperCase() + "_" + direction.toUpperCase() + "_" + numAnimationFrame;
-        System.out.println(key);
         return monsterImages.get(key);
     }
 }

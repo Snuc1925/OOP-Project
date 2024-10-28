@@ -13,13 +13,13 @@ public class Sprite extends Entity{
     public boolean collisionOn;
     public boolean isIdling = true;
 
-    public Sprite(String name, String image_path, Playing playing, int width, int height, int worldX, int worldY) {
-        super(name, image_path, playing, width, height, worldX, worldY);
+    public Sprite(String name, String image_path, Playing playing, int width, int height) {
+        super(name, image_path, playing, width, height);
     }
 
     public void move() {
         playing.getGame().getCollisionChecker().checkTile(this);
-        playing.getGame().getCollisionChecker().checkEntity(this, getPlaying().allSprites);
+        playing.getGame().getCollisionChecker().checkEntity(this, getPlaying().entityList);
         if (collisionOn) return;
         if (direction.equals("down")) {
             worldY += speed;
@@ -33,19 +33,19 @@ public class Sprite extends Entity{
         if (direction.equals("right")) {
             worldX += speed;
         }
-        if (direction.equals("down_right")) {
+        if (direction.equals("right_down")) {
             worldX += speed - 1;
             worldY += speed - 1;
         }
-        if (direction.equals("up_left")) {
+        if (direction.equals("left_up")) {
             worldX -= speed - 1;
             worldY -= speed - 1;
         }
-        if (direction.equals("down_left")) {
+        if (direction.equals("left_down")) {
             worldX -= speed - 1;
             worldY += speed - 1;
         }
-        if (direction.equals("up_right")) {
+        if (direction.equals("right_up")) {
             worldX += speed - 1;
             worldY -= speed - 1;
         }

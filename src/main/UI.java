@@ -173,7 +173,7 @@ public class UI {
 //
 //
 //
-//    String[] directionArray = {"down", "down_left", "left", "up_left", "up", "up_right", "right", "down_right"};
+//    String[] directionArray = {"down", "left_down", "left", "left_up", "up", "right_up", "right", "right_down"};
 //    int frameCounter = 0;
 //    int directionIndex = 0;
 //    private void drawTitleScreen() {
@@ -210,10 +210,10 @@ public class UI {
 //                case "down" -> gp.player.getImage("down");
 //                case "left" -> gp.player.getImage("left");
 //                case "right" -> gp.player.getImage("right");
-//                case "up_left" -> gp.player.getImage("up_left");
-//                case "up_right" -> gp.player.getImage("up_right");
-//                case "down_left" -> gp.player.getImage("down_left");
-//                case "down_right" -> gp.player.getImage("down_right");
+//                case "left_up" -> gp.player.getImage("left_up");
+//                case "right_up" -> gp.player.getImage("right_up");
+//                case "left_down" -> gp.player.getImage("left_down");
+//                case "right_down" -> gp.player.getImage("right_down");
 //                default -> null;
 //            };
 //            g2.drawImage(image, x - 16 * 4, y - 16 * 4, 48 * 5, 64 * 5, null);

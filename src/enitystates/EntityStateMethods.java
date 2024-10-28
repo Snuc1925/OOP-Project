@@ -1,6 +1,6 @@
 package enitystates;
 
-import entities.Sprite;
+import entities.*;
 import utils.ImageLoader;
 import utils.ImageManager;
 
@@ -35,7 +35,8 @@ public abstract class EntityStateMethods {
         ImageLoader.initialize();
         imageManager = ImageLoader.imageManager;
         if (entity.name.equals("Player")) {
-            return imageManager.getPlayerImage(state, weaponName.toUpperCase(), entity.direction.toUpperCase(), numAnimationFrames + 1);
+            Player player = (Player) entity;
+            return imageManager.getPlayerImage(state, player.currentWeapon, entity.direction.toUpperCase(), numAnimationFrames + 1);
         }
         if (entity.name.equals("Slime")) {
             return imageManager.getMonsterImage(entity.name, state, entity.direction.toUpperCase(), numAnimationFrames + 1);

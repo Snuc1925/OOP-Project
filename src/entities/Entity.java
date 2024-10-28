@@ -28,7 +28,7 @@ public class Entity {
     public Playing getPlaying() {return playing;}
 
     // For wall and super objects
-    public Entity(String name, String image_path, Playing Playing, int worldX, int worldY) {
+    public Entity(String name, String image_path, Playing Playing) {
         this.name = name;
         this.playing = Playing;
         this.image_path = image_path;
@@ -42,7 +42,7 @@ public class Entity {
     }
 
     // For player, npc and monster
-    public Entity(String name, String image_path, Playing playing, int width, int height, int worldX, int worldY) {
+    public Entity(String name, String image_path, Playing playing, int width, int height) {
         this.playing = playing;
         this.name = name;
         this.image_path = image_path;
@@ -72,13 +72,9 @@ public class Entity {
         int screenX = worldX - (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE);
         int screenY = worldY - (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE);
 
-        if (worldX > (playerWorldX + TILE_SIZE) - (PLAYER_SCREEN_X + TILE_SIZE) - TILE_SIZE
-                && worldX < (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE) + TILE_SIZE
-                && worldY > (playerWorldY + TILE_SIZE) - (PLAYER_SCREEN_Y + TILE_SIZE) - TILE_SIZE
-                && worldY < (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE) + TILE_SIZE) {
+        if (isOnTheScreen()) {
 
-            g2.drawImage(image, screenX, screenY, Constants.Screen.TILE_SIZE, Constants.Screen.TILE_SIZE, null);
-
+            g2.drawImage(image, screenX, screenY, width, height, null);
             // Draw solid area for debugging purposes
 //            g2.setColor(Color.WHITE);
 //            g2.setStroke(new BasicStroke(3));
@@ -88,5 +84,23 @@ public class Entity {
 
     public void update(){
 
+    }
+
+    public int getWorldY() {
+        if (name.equals("Player")) return worldY + TILE_SIZE * 3 / 2;
+        return worldY + height / 2;
+    }
+    public int getWorldX() {
+        if (name.equals("Player")) return worldX + TILE_SIZE * 2;
+        return worldX + width / 2;
+    }
+    public boolean isOnTheScreen() {
+        Player player = playing.getPlayer();
+        int playerWorldX = player.worldX;
+        int playerWorldY = player.worldY;
+        return worldX > (playerWorldX + TILE_SIZE) - (PLAYER_SCREEN_X + TILE_SIZE) - TILE_SIZE
+                && worldX < (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE) + TILE_SIZE
+                && worldY > (playerWorldY + TILE_SIZE) - (PLAYER_SCREEN_Y + TILE_SIZE) - TILE_SIZE
+                && worldY < (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE) + TILE_SIZE;
     }
 }

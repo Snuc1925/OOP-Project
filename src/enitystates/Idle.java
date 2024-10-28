@@ -1,12 +1,15 @@
 package enitystates;
 
+import entities.Entity;
 import entities.Slime;
 import entities.Sprite;
+import gamestates.Playing;
 import inputs.KeyboardInputs;
 import utils.ImageManager;
 import entities.Player;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import static java.lang.Math.abs;
 import static utils.Constants.Screen.TILE_SIZE;
@@ -27,10 +30,7 @@ public class Idle extends EntityStateMethods{
     public void update(Sprite entity) {
         Player player = entity.getPlaying().getPlayer();
         if (entity.name.equals("Slime")) {
-            System.out.println("Player: " + player.worldX + " " + player.worldY);
-            System.out.println("Slime: " + entity.worldX + " " + entity.worldY);
-            System.out.println();
-            if (abs(player.worldX - entity.worldX) < TILE_SIZE || abs(player.worldY - entity.worldY) < TILE_SIZE) {
+            if (abs(player.getWorldX() - entity.getWorldX()) < 3 * TILE_SIZE && abs(player.getWorldY() - entity.getWorldY()) < 3 * TILE_SIZE) {
                 entity.currentState = EntityState.ATTACK;
                 return;
             }
@@ -39,19 +39,19 @@ public class Idle extends EntityStateMethods{
         }
     }
 
-    public void update(Sprite player, KeyboardInputs keyboardInputs) {
+    public void update(Player player, KeyboardInputs keyboardInputs) {
         player.isIdling = false;
         if (keyboardInputs.upPressed) {
             if (keyboardInputs.leftPressed)
-                player.direction = "up_left";
+                player.direction = "left_up";
             else if (keyboardInputs.rightPressed)
-                player.direction = "up_right";
+                player.direction = "right_up";
             else player.direction = "up";
         } else if (keyboardInputs.downPressed) {
             if (keyboardInputs.leftPressed)
-                player.direction = "down_left";
+                player.direction = "left_down";
             else if (keyboardInputs.rightPressed)
-                player.direction = "down_right";
+                player.direction = "right_down";
             else player.direction = "down";
         } else if (keyboardInputs.leftPressed)
             player.direction = "left";
@@ -63,6 +63,7 @@ public class Idle extends EntityStateMethods{
             if (keyboardInputs.shiftPressed) player.currentState = EntityState.RUN;
             else player.currentState = EntityState.WALK;
         }
+
 
     }
 }
