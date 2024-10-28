@@ -14,6 +14,7 @@ public class ImageManager {
     Map<String, BufferedImage> playerImages;
     Map<String, BufferedImage> guiImages;
     Map<String, BufferedImage> monsterImages;
+    Map<String, BufferedImage> effectImages;
 
     public static ImageManager getInstance() {
         if (instance == null) {
@@ -31,6 +32,7 @@ public class ImageManager {
         playerImages = loadAllImages("PLAYER");
         guiImages = loadAllImages("GUI");
         monsterImages = loadAllImages("MONSTER");
+        effectImages = loadAllImages("EFFECT");
     }
 
     private static Map<String, BufferedImage> loadAllImages(String imagePath) {
@@ -93,5 +95,9 @@ public class ImageManager {
     public BufferedImage getMonsterImage(String name, String state, String direction, int numAnimationFrame) {
         String key = "MONSTER_" + name.toUpperCase() + "_" + state.toUpperCase() + "_" + direction.toUpperCase() + "_" + numAnimationFrame;
         return monsterImages.get(key);
+    }
+    public BufferedImage getEffectImage(String name, int numAnimationFrame) {
+        String key = "EFFECT_" + name.toUpperCase() + "_" + numAnimationFrame;
+        return effectImages.get(key);
     }
 }

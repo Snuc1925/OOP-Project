@@ -5,6 +5,7 @@ import enitystates.EntityState;
 import enitystates.Idle;
 import enitystates.Walk;
 import gamestates.Playing;
+import utils.ImageLoader;
 
 import java.awt.*;
 import java.util.Random;
@@ -44,17 +45,27 @@ public class Monster extends Sprite{
         }
     }
 
+    int effectCounter = 0;
+    int numEffectFrame = 0;
     public void draw(Graphics2D g2) {
         super.draw(g2);
         if (isBeingLockOn) {
+            effectCounter++;
             Player player = playing.getPlayer();
             int playerWorldX = player.worldX;
             int playerWorldY = player.worldY;
-            int screenX = worldX - (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE);
-            int screenY = worldY - (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE);
-            g2.setColor(Color.WHITE);
-            g2.setStroke(new BasicStroke(3));
-            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+
+            int effectWidth = TILE_SIZE * 5 / 2;
+            int effectHeight = TILE_SIZE * 5 / 2;
+
+            int screenX = getWorldX() - (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE) - effectWidth / 2;
+            int screenY = getWorldY() - (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE) - effectHeight / 2;
+
+            if (effectCounter > 2) {
+                numEffectFrame = (numEffectFrame + 1) % 8;
+                effectCounter = 0;
+            }
+            g2.drawImage(ImageLoader.imageManager.getEffectImage("LockOn", 7), screenX, screenY, effectWidth, effectHeight, null);
         }
     }
 

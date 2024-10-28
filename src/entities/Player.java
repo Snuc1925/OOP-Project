@@ -18,9 +18,8 @@ public class Player extends Sprite {
     Walk walk;
 
     // Player's attributes
-    public int maxArmor = 10, maxHealth = 12, maxMana = 150;
-    public int currentArmor = 8, currentHealth = 5, currentMana = 102;
-    public int attackPointSpear = 3, attackPointGun = 2;
+    public int maxHealth, maxArmor, maxMana, currentArmor, currentHealth, currentMana;
+    public int attackPointSpear, attackPointGun;
 
     // Player's weapons
     public String currentWeapon = "NORMAL";
@@ -38,12 +37,22 @@ public class Player extends Sprite {
     public void setDefaultValues() {
         solidArea = new Rectangle();
         solidArea.setBounds(18 * SCALE, 32 * SCALE, 13 * SCALE, 12 * SCALE);
+        worldX = TILE_SIZE * 5;
+        worldY = TILE_SIZE * 5;
 
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        worldX = TILE_SIZE * 5;
-        worldY = TILE_SIZE * 5;
+
         speed = 4;
+        maxArmor = 10;
+        maxHealth = 12;
+        maxMana = 150;
+        currentArmor = 8;
+        currentHealth = 5;
+        currentMana = 102;
+        attackPointSpear = 3;
+        attackPointGun = 2;
+
     }
 
 

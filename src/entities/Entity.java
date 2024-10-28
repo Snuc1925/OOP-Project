@@ -88,10 +88,12 @@ public class Entity {
 
     public int getWorldY() {
         if (name.equals("Player")) return worldY + TILE_SIZE * 3 / 2;
+        if (name.equals("Slime")) return worldY + TILE_SIZE * 3 / 2;
         return worldY + height / 2;
     }
     public int getWorldX() {
         if (name.equals("Player")) return worldX + TILE_SIZE * 2;
+        if (name.equals("Slime")) return worldX + TILE_SIZE/2;
         return worldX + width / 2;
     }
     public boolean isOnTheScreen() {
