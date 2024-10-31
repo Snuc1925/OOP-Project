@@ -15,7 +15,6 @@ import static utils.Constants.Player.PLAYER_SCREEN_Y;
 import static utils.Constants.Screen.TILE_SIZE;
 
 public class Monster extends Sprite{
-    protected EntityState currentState;
     protected Attack attack;
     protected Idle idle;
     protected Walk walk;
@@ -26,6 +25,7 @@ public class Monster extends Sprite{
     }
 
     public void update() {
+
         switch (currentState) {
             case IDLE:
                 if (idle == null) return;
@@ -49,6 +49,8 @@ public class Monster extends Sprite{
     int numEffectFrame = 0;
     public void draw(Graphics2D g2) {
         super.draw(g2);
+
+        // Draw auto lockOn effect
         if (isBeingLockOn) {
             effectCounter++;
             Player player = playing.getPlayer();
@@ -71,23 +73,20 @@ public class Monster extends Sprite{
 
 
     private int frameCounter = 0;
+    // This method needs to be called 60 times before it starts changing state
     public void stateChanger() {
         frameCounter++;
         int totalFrames = 60;
         if (frameCounter < totalFrames) return;
         frameCounter = 0;
         Random random = new Random();
-        int randomState = random.nextInt(3); // Generates a random number between 0 (inclusive) and 3 (exclusive)
-
+        int randomState = random.nextInt(2); // Generates a random number between 0 (inclusive) and 3 (exclusive)
         switch (randomState) {
             case 0:
                 currentState = EntityState.IDLE;
                 break;
             case 1:
                 currentState = EntityState.WALK;
-                break;
-            case 2:
-                currentState = EntityState.ATTACK;
                 break;
         }
 

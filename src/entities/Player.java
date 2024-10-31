@@ -5,7 +5,6 @@ import gamestates.Playing;
 import inputs.KeyboardInputs;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 import static utils.Constants.Player.*;
 import static utils.Constants.Screen.*;
@@ -116,14 +115,14 @@ public class Player extends Sprite {
         KeyboardInputs keyboardInputs = playing.getGame().getKeyboardInputs();
         int mouseX = keyboardInputs.getMouseX();
         int mouseY = keyboardInputs.getMouseY();
-        int angle = 0;
+        int angle;
         int dx = -mouseX + PLAYER_SCREEN_X + TILE_SIZE * 3 / 2;
         int dy = -mouseY + PLAYER_SCREEN_Y + TILE_SIZE * 3 / 2;
         angle = (int) (Math.atan2(dy, dx) * 180 / Math.PI);
         return angle;
     }
 
-    private int getAngle() {
+    private int getAngleAuto() {
         int distance = Integer.MAX_VALUE;
         int angle = 0;
         Monster lockedMonster = null;

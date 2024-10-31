@@ -12,8 +12,8 @@ public abstract class EntityStateMethods {
     protected String state;
 
     protected ImageManager imageManager;
-    protected int totalAnimationFrames = 8;
-    protected int frameDuration = 5;
+    public int totalAnimationFrames = 8;
+    public int frameDuration = 5;
     protected int frameCounter = 0;
     protected int numAnimationFrames = 0;
 

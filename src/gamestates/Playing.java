@@ -84,20 +84,26 @@ public class Playing extends State implements Statemethods {
         ui_bar_decor = HelpMethods.scaleImage(ui_bar_decor, 0.25);
         g2.drawImage(ui_bar_decor, 0, 0, null);
 
-        BufferedImage player_health_bar = imageManager.getGuiImage("HEALTH_BAR");
-        player_health_bar = HelpMethods.scaleImage(player_health_bar, 0.25);
-        player_health_bar = HelpMethods.getBarImage(player_health_bar, 1.0*player.currentHealth/player.maxHealth);
-        g2.drawImage(player_health_bar, 49, 10, null);
+        if (player.currentHealth > 0) {
+            BufferedImage player_health_bar = imageManager.getGuiImage("HEALTH_BAR");
+            player_health_bar = HelpMethods.scaleImage(player_health_bar, 0.25);
+            player_health_bar = HelpMethods.getBarImage(player_health_bar, 1.0 * player.currentHealth / player.maxHealth);
+            g2.drawImage(player_health_bar, 49, 10, null);
+        }
 
-        BufferedImage player_armor_bar = imageManager.getGuiImage("ARMOR_BAR");
-        player_armor_bar = HelpMethods.scaleImage(player_armor_bar, 0.25);
-        player_armor_bar = HelpMethods.getBarImage(player_armor_bar, 1.0*player.currentArmor/player.maxArmor);
-        g2.drawImage(player_armor_bar, 49, 43, null);
+        if (player.currentArmor > 0) {
+            BufferedImage player_armor_bar = imageManager.getGuiImage("ARMOR_BAR");
+            player_armor_bar = HelpMethods.scaleImage(player_armor_bar, 0.25);
+            player_armor_bar = HelpMethods.getBarImage(player_armor_bar, 1.0 * player.currentArmor / player.maxArmor);
+            g2.drawImage(player_armor_bar, 49, 43, null);
+        }
 
-        BufferedImage player_mana_bar = imageManager.getGuiImage("MANA_BAR");
-        player_mana_bar = HelpMethods.scaleImage(player_mana_bar, 0.25);
-        player_mana_bar = HelpMethods.getBarImage(player_mana_bar, 1.0*player.currentMana/player.maxMana);
-        g2.drawImage(player_mana_bar, 49, 75, null);
+        if (player.currentMana > 0) {
+            BufferedImage player_mana_bar = imageManager.getGuiImage("MANA_BAR");
+            player_mana_bar = HelpMethods.scaleImage(player_mana_bar, 0.25);
+            player_mana_bar = HelpMethods.getBarImage(player_mana_bar, 1.0 * player.currentMana / player.maxMana);
+            g2.drawImage(player_mana_bar, 49, 75, null);
+        }
 
         Font pixelFont = HelpMethods.loadFont("PixelFont");
         String text = player.currentHealth + "/" + player.maxHealth;

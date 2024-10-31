@@ -30,7 +30,7 @@ public class Idle extends EntityStateMethods{
     public void update(Sprite entity) {
         Player player = entity.getPlaying().getPlayer();
         if (entity.name.equals("Slime")) {
-            if (abs(player.getWorldX() - entity.getWorldX()) < 3 * TILE_SIZE && abs(player.getWorldY() - entity.getWorldY()) < 3 * TILE_SIZE) {
+            if (abs(player.getWorldX() - entity.getWorldX()) < TILE_SIZE && abs(player.getWorldY() - entity.getWorldY()) < TILE_SIZE) {
                 entity.currentState = EntityState.ATTACK;
                 return;
             }

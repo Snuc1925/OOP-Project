@@ -25,7 +25,7 @@ public class Walk extends EntityStateMethods{
         entity.move();
 
         if (entity.name.equals("Slime")) {
-            if (abs(player.getWorldX() - entity.getWorldX()) < 3 * TILE_SIZE && abs(player.getWorldY() - entity.getWorldY()) < 3 * TILE_SIZE) {
+            if (abs(player.getWorldX() - entity.getWorldX()) < TILE_SIZE * 2 && abs(player.getWorldY() - entity.getWorldY()) < TILE_SIZE * 2) {
                 entity.currentState = EntityState.ATTACK;
                 return;
             }
