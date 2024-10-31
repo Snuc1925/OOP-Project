@@ -92,7 +92,7 @@ public class Entity {
         return worldY + height / 2;
     }
     public int getWorldX() {
-        if (name.equals("Player")) return worldX + TILE_SIZE * 2;
+        if (name.equals("Player")) return worldX + TILE_SIZE * 3 / 2;
         if (name.equals("Slime")) return worldX + TILE_SIZE/2;
         return worldX + width / 2;
     }

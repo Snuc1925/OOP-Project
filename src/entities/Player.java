@@ -12,7 +12,7 @@ import static utils.Constants.Screen.*;
 
 public class Player extends Sprite {
     // Player's states
-    Attack attack;
+    public Attack attack;
     Idle idle;
     Run run;
     Walk walk;
@@ -32,6 +32,8 @@ public class Player extends Sprite {
         idle = new Idle(this);
         run = new Run(this);
         walk = new Walk(this);
+
+
     }
 
     public void setDefaultValues() {
@@ -91,11 +93,15 @@ public class Player extends Sprite {
                 walk.update(this, keyboardInputs);
                 image = walk.getImage();
                 break;
+            case ATTACK:
+                attack.update(this, keyboardInputs);
+                image = attack.getImage();
+                break;
         }
     }
 
     public void lockOn() {
-        int angle = getAngle();
+        int angle = getAngleMouse();
         if (angle == 181) return;
         if (angle <= 15 && angle >= -15) this.direction = "left";
         else if (angle < -15 && angle > -75) this.direction = "left_down";
@@ -105,6 +111,16 @@ public class Player extends Sprite {
         else if (angle >= 75 && angle <= 105) this.direction = "up";
         else if (angle > 15 && angle < 75) this.direction = "left_up";
         else this.direction = "right";
+    }
+    public int getAngleMouse() {
+        KeyboardInputs keyboardInputs = playing.getGame().getKeyboardInputs();
+        int mouseX = keyboardInputs.getMouseX();
+        int mouseY = keyboardInputs.getMouseY();
+        int angle = 0;
+        int dx = -mouseX + PLAYER_SCREEN_X + TILE_SIZE * 3 / 2;
+        int dy = -mouseY + PLAYER_SCREEN_Y + TILE_SIZE * 3 / 2;
+        angle = (int) (Math.atan2(dy, dx) * 180 / Math.PI);
+        return angle;
     }
 
     private int getAngle() {

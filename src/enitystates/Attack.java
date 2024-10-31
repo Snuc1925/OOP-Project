@@ -3,11 +3,14 @@ package enitystates;
 import entities.Entity;
 import entities.Slime;
 import entities.Sprite;
+import inputs.KeyboardInputs;
+import entities.Player;
 import utils.ImageManager;
 
 import java.awt.image.BufferedImage;
 
 public class Attack extends EntityStateMethods{
+    public EntityState lastState;
 
     public Attack(Sprite entity,int totalAnimationFrames, int frameDuration) {
         super(entity, totalAnimationFrames, frameDuration);
@@ -32,6 +35,19 @@ public class Attack extends EntityStateMethods{
                 frameCounter = 0;
             }
             entity.speed = 2;
+        }
+    }
+
+    public void update(Player player, KeyboardInputs keyboardInputs) {
+        // focus at the position of the mouse
+        player.lockOn();
+        frameCounter++;
+        if (frameCounter >= totalAnimationFrames * frameDuration) {
+            if (!keyboardInputs.mousePressed) {
+                System.out.println(frameCounter);
+                player.currentState = lastState;
+            }
+            frameCounter = 0;
         }
     }
 }

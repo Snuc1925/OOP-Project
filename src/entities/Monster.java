@@ -65,7 +65,7 @@ public class Monster extends Sprite{
                 numEffectFrame = (numEffectFrame + 1) % 8;
                 effectCounter = 0;
             }
-            g2.drawImage(ImageLoader.imageManager.getEffectImage("LockOn", 7), screenX, screenY, effectWidth, effectHeight, null);
+            g2.drawImage(ImageLoader.imageManager.getEffectImage("LockOn", numEffectFrame), screenX, screenY, effectWidth, effectHeight, null);
         }
     }
 

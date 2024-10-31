@@ -71,6 +71,7 @@ public class ImageManager {
                     BufferedImage image = ImageIO.read(file);
                     image = HelpMethods.scaleImage(image, Constants.Screen.SCALE);
                     images.put(key, image);
+                    System.out.println(key);
                 } catch (IOException e) {
                     System.err.println("Failed to load image: " + file.getPath());
                     e.printStackTrace();

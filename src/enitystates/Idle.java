@@ -59,11 +59,15 @@ public class Idle extends EntityStateMethods{
             player.direction = "right";
         else player.isIdling = true;
 
-        if (!player.isIdling) {
-            if (keyboardInputs.shiftPressed) player.currentState = EntityState.RUN;
-            else player.currentState = EntityState.WALK;
+        if (!keyboardInputs.mousePressed || player.currentWeapon.equals("NORMAL")) {
+            if (!player.isIdling) {
+                if (keyboardInputs.shiftPressed) player.currentState = EntityState.RUN;
+                else player.currentState = EntityState.WALK;
+            }
+        } else {
+            player.attack.lastState = EntityState.IDLE;
+            player.currentState = EntityState.ATTACK;
         }
-
 
     }
 }

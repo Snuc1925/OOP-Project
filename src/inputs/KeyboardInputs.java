@@ -1,20 +1,34 @@
 package inputs;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 
 import gamestates.Gamestate;
 import main.GamePanel;
 
-public class KeyboardInputs implements KeyListener {
+public class KeyboardInputs extends KeyAdapter implements KeyListener  {
 
-    private GamePanel gamePanel;
+    private final GamePanel gamePanel;
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
     public boolean shiftPressed;
     public boolean spacePressed;
+    public boolean mousePressed;
 
     public KeyboardInputs(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
+        gamePanel.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mousePressed = true;
+//                System.out.println("Mouse pressed at: (" + e.getX() + ", " + e.getY() + ")");
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                mousePressed = false;
+//                System.out.println("Mouse released at: (" + e.getX() + ", " + e.getY() + ")");
+            }
+        });
     }
 
     @Override
@@ -74,7 +88,13 @@ public class KeyboardInputs implements KeyListener {
         if (code == KeyEvent.VK_SPACE) {
             spacePressed = true;
         }
-
     }
+    public int getMouseX() {
+        return gamePanel.getMouseX();
+    }
+    public int getMouseY() {
+        return gamePanel.getMouseY();
+    }
+
 
 }
