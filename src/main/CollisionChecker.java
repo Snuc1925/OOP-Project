@@ -1,6 +1,8 @@
 package main;
 
+import enitystates.EntityState;
 import entities.Entity;
+import entities.Monster;
 import entities.Sprite;
 import entities.Player;
 import tile.TileManager;
@@ -148,6 +150,9 @@ public class CollisionChecker {
         int index = -1;
         for (int i = 0; i < entityArrayList.size(); i++) {
             Entity target = entityArrayList.get(i);
+            if (target instanceof Monster) {
+                if (((Monster)(target)).currentState == EntityState.DEATH) continue;
+            }
             if (target != null) {
                 // Get entity solid area position
                 entity.solidArea.x = entity.worldX + entity.solidArea.x;

@@ -1,9 +1,6 @@
 package entities;
 
-import enitystates.Attack;
-import enitystates.EntityState;
-import enitystates.Idle;
-import enitystates.Walk;
+import enitystates.*;
 import gamestates.Playing;
 import utils.ImageLoader;
 
@@ -18,7 +15,9 @@ public class Monster extends Sprite{
     protected Attack attack;
     protected Idle idle;
     protected Walk walk;
+    protected Death death;
     public boolean isBeingLockOn = false;
+    public int currentHealth, maxHealth, attackPoints;
     public Monster(String name, String image_path, Playing playing, int width, int height) {
         super(name, image_path, playing, width, height);
         currentState = EntityState.IDLE;
@@ -42,6 +41,10 @@ public class Monster extends Sprite{
                 attack.update(this);
                 image = attack.getImage();
                 break;
+            case DEATH:
+                death.update(this);
+                image = death.getImage();
+                break;
         }
     }
 
@@ -49,9 +52,15 @@ public class Monster extends Sprite{
     int numEffectFrame = 0;
     public void draw(Graphics2D g2) {
         super.draw(g2);
+        // Draw health bar
+        int healthBarWidth = (int) (15 * 3 * ((double) currentHealth / maxHealth));
+        if (healthBarWidth > 0) {
+            g2.setColor(Color.RED);
+            g2.fillRect(getScreenX(), getScreenY() + 5 * 3, healthBarWidth, 4 * 3);
+        }
 
         // Draw auto lockOn effect
-        if (isBeingLockOn) {
+        if (isBeingLockOn && currentState != EntityState.DEATH) {
             effectCounter++;
             Player player = playing.getPlayer();
             int playerWorldX = player.worldX;
