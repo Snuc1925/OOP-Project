@@ -29,12 +29,11 @@ public class Idle extends EntityStateMethods{
     @Override
     public void update(Sprite entity) {
         Player player = entity.getPlaying().getPlayer();
-        if (entity.name.equals("Slime")) {
+        if (entity instanceof Slime slime) {
             if (abs(player.getWorldX() - entity.getWorldX()) < TILE_SIZE && abs(player.getWorldY() - entity.getWorldY()) < TILE_SIZE) {
                 entity.currentState = EntityState.ATTACK;
                 return;
             }
-            Slime slime = (Slime) entity;
             slime.stateChanger();
         }
     }
@@ -65,9 +64,10 @@ public class Idle extends EntityStateMethods{
                 else player.currentState = EntityState.WALK;
             }
         } else {
-            player.attack.lastState = EntityState.IDLE;
-            player.currentState = EntityState.ATTACK;
+            if (player.currentWeapon.equals("SPEAR") || player.currentMana - player.manaCostPerShot >= 0) {
+                player.attack.lastState = EntityState.WALK;
+                player.currentState = EntityState.ATTACK;
+            }
         }
-
     }
 }

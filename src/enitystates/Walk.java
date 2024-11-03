@@ -24,12 +24,11 @@ public class Walk extends EntityStateMethods{
         Player player = entity.getPlaying().getPlayer();
         entity.move();
 
-        if (entity.name.equals("Slime")) {
+        if (entity instanceof Slime slime) {
             if (abs(player.getWorldX() - entity.getWorldX()) < TILE_SIZE * 2 && abs(player.getWorldY() - entity.getWorldY()) < TILE_SIZE * 2) {
                 entity.currentState = EntityState.ATTACK;
                 return;
             }
-            Slime slime = (Slime) entity;
             slime.stateChanger();
         }
     }
@@ -71,8 +70,10 @@ public class Walk extends EntityStateMethods{
             if (!player.isIdling && keyboardInputs.shiftPressed) player.currentState = EntityState.RUN;
         }
         else {
-            player.attack.lastState = EntityState.WALK;
-            player.currentState = EntityState.ATTACK;
+            if (player.currentWeapon.equals("SPEAR") || player.currentMana - player.manaCostPerShot >= 0) {
+                player.attack.lastState = EntityState.WALK;
+                player.currentState = EntityState.ATTACK;
+            }
         }
     }
 }

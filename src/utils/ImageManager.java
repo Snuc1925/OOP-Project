@@ -81,22 +81,27 @@ public class ImageManager {
     }
 
     public BufferedImage getPlayerImage(String state, String weapon, String direction, int numAnimationFrame) {
-            String key = "PLAYER_" + state + "_";
-            if (!state.equals("RELOADING")) {
-                key += weapon + "_";
-            }
-            key += direction + "_";
-            key += numAnimationFrame;
+        String key = "PLAYER_" + state + "_";
+        if (!state.equals("RELOADING")) {
+            key += weapon + "_";
+        }
+        key += direction.toUpperCase() + "_";
+        key += numAnimationFrame;
+        if (state.equals("DEATH"))
+            System.out.println(key);
         return playerImages.get(key);  // Trả về ảnh từ bộ nhớ
     }
+
     public BufferedImage getGuiImage(String name) {
         String key = "GUI_" + name;
         return guiImages.get(key);
     }
+
     public BufferedImage getMonsterImage(String name, String state, String direction, int numAnimationFrame) {
         String key = "MONSTER_" + name.toUpperCase() + "_" + state.toUpperCase() + "_" + direction.toUpperCase() + "_" + numAnimationFrame;
         return monsterImages.get(key);
     }
+
     public BufferedImage getEffectImage(String name, int numAnimationFrame) {
         String key = "EFFECT_" + name.toUpperCase() + "_" + numAnimationFrame;
         return effectImages.get(key);

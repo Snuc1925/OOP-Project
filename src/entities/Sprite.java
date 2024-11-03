@@ -7,7 +7,6 @@ import gamestates.Playing;
 import static enitystates.EntityState.*;
 
 public class Sprite extends Entity{
-    public EntityState currentState = IDLE;
     public int speed;
     public String direction = "down";
     public boolean collisionOn;

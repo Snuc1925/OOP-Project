@@ -1,5 +1,6 @@
 package gamestates;
 
+import enitystates.EntityState;
 import entities.*;
 import main.Game;
 import java.awt.*;
@@ -61,15 +62,18 @@ public class Playing extends State implements Statemethods {
     @Override
     public void update() {
 
-        for (Entity entity : entityArray)
+        for (Entity entity : entityArray) {
             if (entity != null){
                 entity.update();
             }
-        player.lockOn();
+        }
+        if (player.currentState != EntityState.DEATH)
+            player.lockOn();
     }
 
     @Override
     public void draw(Graphics2D g2) {
+
         tileManager.draw(g2);
         entityList.sort(Comparator.comparingDouble(Entity::getWorldY));
 

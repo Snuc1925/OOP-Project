@@ -1,5 +1,6 @@
 package enitystates;
 
+import entities.Monster;
 import entities.Slime;
 import entities.Sprite;
 import inputs.KeyboardInputs;
@@ -32,6 +33,25 @@ public class Attack extends EntityStateMethods{
         player.lockOn();
         frameCounter++;
         if (frameCounter >= totalAnimationFrames * frameDuration) {
+            for (Monster monster : player.getPlaying().monsters) {
+                if (monster != null) {
+                    if (monster.isBeingLockOn) {
+                        if (player.currentWeapon.equals("SPEAR"))
+                            monster.currentHealth -= player.attackPointSpear;
+                        else if (player.currentMana - player.manaCostPerShot < 0) {
+                            player.currentState = lastState;
+                            return;
+                        }
+                        else if (player.currentWeapon.equals("GUN")) {
+                            monster.currentHealth -= player.attackPointGun;
+                            player.currentMana -= player.manaCostPerShot;
+                        }
+                        if (monster.currentHealth <= 0) {
+                            monster.currentState = EntityState.DEATH;
+                        }
+                    }
+                }
+            }
             if (!keyboardInputs.mousePressed) {
                 player.currentState = lastState;
             }
