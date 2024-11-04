@@ -1,13 +1,14 @@
 package enitystates;
 
-import entities.Entity;
-import entities.Slime;
+import entities.monsters.Monster;
+import entities.monsters.Slime;
 import entities.Sprite;
-import utils.ImageManager;
+import inputs.KeyboardInputs;
+import entities.Player;
 
-import java.awt.image.BufferedImage;
 
 public class Attack extends EntityStateMethods{
+    public EntityState lastState;
 
     public Attack(Sprite entity,int totalAnimationFrames, int frameDuration) {
         super(entity, totalAnimationFrames, frameDuration);
@@ -22,16 +23,39 @@ public class Attack extends EntityStateMethods{
     int frameCounter = 0;
     @Override
     public void update(Sprite entity) {
-        if (entity.name.equals("Slime")) {
-            entity.speed = 4;
-            entity.move();
-            frameCounter++;
-            if (frameCounter > totalAnimationFrames) {
-                Slime slime = (Slime) entity;
-                slime.stateChanger();
-                frameCounter = 0;
+        if (entity instanceof Slime) {
+            ((Slime) entity).attack();
+        }
+    }
+
+    public void update(Player player, KeyboardInputs keyboardInputs) {
+        // focus at the position of the mouse
+        player.lockOn();
+        frameCounter++;
+        if (frameCounter >= totalAnimationFrames * frameDuration) {
+            for (Monster monster : player.getPlaying().monsters) {
+                if (monster != null) {
+                    if (monster.isBeingLockOn) {
+                        if (player.currentWeapon.equals("SPEAR"))
+                            monster.currentHealth -= player.attackPointSpear;
+                        else if (player.currentMana - player.manaCostPerShot < 0) {
+                            player.currentState = lastState;
+                            return;
+                        }
+                        else if (player.currentWeapon.equals("GUN")) {
+                            monster.currentHealth -= player.attackPointGun;
+                            player.currentMana -= player.manaCostPerShot;
+                        }
+                        if (monster.currentHealth <= 0) {
+                            monster.currentState = EntityState.DEATH;
+                        }
+                    }
+                }
             }
-            entity.speed = 2;
+            if (!keyboardInputs.mousePressed) {
+                player.currentState = lastState;
+            }
+            frameCounter = 0;
         }
     }
 }

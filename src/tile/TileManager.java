@@ -10,6 +10,8 @@ import java.util.Objects;
 import static utils.Constants.Screen.*;
 import static utils.Constants.Player.*;
 import entities.Player;
+import utils.Constants;
+
 public class TileManager {
 
     private Player player;
@@ -22,34 +24,15 @@ public class TileManager {
         tileNum = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
         getTileImage();
         loadMap("res/maps/dungeonMap");
+//        temp = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
+    }
+
+//    public int temp[][];
+    public boolean isWall(int row, int col) {
+//        temp[row][col] = 1;
+        return tileNum[row][col] >= 0 && tile[tileNum[row][col]].collision;
     }
     public void getTileImage() {
-//        // PLACEHOLDER
-//        int indexes[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-//        for(int i = 0; i < indexes.length; i++){
-//            setUp(indexes[i], "grass00", false);
-//        }
-//
-//        // TILES
-//        setUp(11, "grass01", false);
-//
-//        // WATER loop
-//        indexes = new int[]{12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25};
-//        for(int i = 0; i < indexes.length; i++){
-//            String waterIndex = "water" + String.format("%02d", i);
-//            setUp(indexes[i], waterIndex, true);
-//        }
-//
-//        // ROAD loop
-//        indexes = new int[]{26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38};
-//        for(int i = 0; i < indexes.length; i++){
-//            String roadIndex = "road" + String.format("%02d", i);
-//            setUp(indexes[i], roadIndex, false);
-//        }
-//
-//        setUp(39, "earth", false);
-//        setUp(40, "wall", true);
-//        setUp(41,"tree", true);
         String path = "res/dungeontiles/tileData";
         try {
             File file = new File(path);
@@ -84,7 +67,6 @@ public class TileManager {
     public void setUp(int index, String imagePath, boolean collision) {
         UtilityTool utilityTool = new UtilityTool();
         try {
-            System.out.println(index + " " + imagePath);
             tile[index] = new Tile();
             tile[index].image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
                     "dungeontiles/" + imagePath + ".png")));
@@ -112,13 +94,6 @@ public class TileManager {
                 }
                 row++;
             }
-            for (int i = 0; i < MAX_WORLD_ROW; i++) {
-                for (int j = 0; j < MAX_WORLD_COL; j++) {
-                    System.out.print(tileNum[i][j] + " ");
-                }
-            }
-            System.out.println();
-
             in.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,6 +109,8 @@ public class TileManager {
 
         while (worldCol < MAX_WORLD_COL && worldRow < MAX_WORLD_ROW) {
             int tileId = tileNum[worldRow][worldCol];
+//            if (temp[worldRow][worldCol] == 1)
+//                tileId = 99;
             if (tileId >= 0) {
                 int worldX = worldCol*TILE_SIZE;
                 int worldY = worldRow*TILE_SIZE;
@@ -154,5 +131,9 @@ public class TileManager {
                 worldRow++;
             }
         }
+
+//        for (int i = 0; i < MAX_WORLD_ROW; i++)
+//            for (int j = 0; j < MAX_WORLD_COL; j++)
+//                temp[i][j] = 0;
     }
 }

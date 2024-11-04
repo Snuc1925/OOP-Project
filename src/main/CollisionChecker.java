@@ -1,14 +1,16 @@
 package main;
 
+import enitystates.EntityState;
 import entities.Entity;
+import entities.monsters.Monster;
 import entities.Sprite;
 import entities.Player;
 import tile.TileManager;
 
-import java.awt.*;
+import java.util.ArrayList;
 
 import static utils.Constants.Screen.*;
-import static utils.Constants.Player.*;
+
 public class CollisionChecker {
 
     Game game;
@@ -53,25 +55,25 @@ public class CollisionChecker {
                 tileNum1 = tileManager.tileNum[entityTopRow][entityRightCol];
                 tileNum2 = tileManager.tileNum[entityBottomRow][entityRightCol];
                 break;
-            case "up_left":
+            case "left_up":
                 entityLeftCol = (entityLeftWorldX - (entity.speed))/TILE_SIZE;
                 entityTopRow = (entityTopWorldY - entity.speed)/TILE_SIZE;
                 tileNum1 = tileManager.tileNum[entityTopRow][entityLeftCol];
                 tileNum2 = tileManager.tileNum[entityTopRow][entityRightCol];
                 break;
-            case "up_right":
+            case "right_up":
                 entityRightCol = (entityRightWorldX + entity.speed)/TILE_SIZE;
                 entityTopRow = (entityTopWorldY - entity.speed)/TILE_SIZE;
                 tileNum1 = tileManager.tileNum[entityTopRow][entityLeftCol];
                 tileNum2 = tileManager.tileNum[entityTopRow][entityRightCol];
                 break;
-            case "down_left":
+            case "left_down":
                 entityLeftCol = (entityLeftWorldX - entity.speed)/TILE_SIZE;
                 entityBottomRow = (entityBottomWorldY + entity.speed)/TILE_SIZE;
                 tileNum1 = tileManager.tileNum[entityBottomRow][entityLeftCol];
                 tileNum2 = tileManager.tileNum[entityBottomRow][entityRightCol];
                 break;
-            case "down_right":
+            case "right_down":
                 entityRightCol = (entityRightWorldX + entity.speed)/TILE_SIZE;
                 entityBottomRow = (entityBottomWorldY + entity.speed)/TILE_SIZE;
                 tileNum1 = tileManager.tileNum[entityBottomRow][entityLeftCol];
@@ -108,19 +110,19 @@ public class CollisionChecker {
 //                    case "right":
 //                        entity.solidArea.x += entity.speed;
 //                        break;
-//                    case "up_left":
+//                    case "left_up":
 //                        entity.solidArea.x -= entity.speed;
 //                        entity.solidArea.y -= entity.speed;
 //                        break;
-//                    case "up_right":
+//                    case "right_up":
 //                        entity.solidArea.x += entity.speed;
 //                        entity.solidArea.y -= entity.speed;
 //                        break;
-//                    case "down_left":
+//                    case "left_down":
 //                        entity.solidArea.x -= entity.speed;
 //                        entity.solidArea.y += entity.speed;
 //                        break;
-//                    case "down_right":
+//                    case "right_down":
 //                        entity.solidArea.x += entity.speed;
 //                        entity.solidArea.y += entity.speed;
 //                        break;
@@ -144,17 +146,21 @@ public class CollisionChecker {
 //    }
 
     // NPC and monster collision
-    public int checkEntity(Sprite entity, Sprite[] target) {
+    public int checkEntity(Sprite entity, ArrayList<Entity> entityArrayList) {
         int index = -1;
-        for (int i = 0; i < target.length; i++) {
-            if (target[i] != null) {
+        for (int i = 0; i < entityArrayList.size(); i++) {
+            Entity target = entityArrayList.get(i);
+            if (target instanceof Monster) {
+                if (((Monster)(target)).currentState == EntityState.DEATH) continue;
+            }
+            if (target != null) {
                 // Get entity solid area position
                 entity.solidArea.x = entity.worldX + entity.solidArea.x;
                 entity.solidArea.y = entity.worldY + entity.solidArea.y;
 
                 // Get the target solid area position
-                target[i].solidArea.x = target[i].solidArea.x + target[i].worldX;
-                target[i].solidArea.y = target[i].solidArea.y + target[i].worldY;
+                target.solidArea.x = target.solidArea.x + target.worldX;
+                target.solidArea.y = target.solidArea.y + target.worldY;
 
                 switch (entity.direction) {
                     case "up":
@@ -169,30 +175,30 @@ public class CollisionChecker {
                     case "right":
                         entity.solidArea.x += entity.speed;
                         break;
-                    case "up_left":
+                    case "left_up":
                         entity.solidArea.x -= entity.speed;
                         entity.solidArea.y -= entity.speed;
                         break;
-                    case "up_right":
+                    case "right_up":
                         entity.solidArea.x += entity.speed;
                         entity.solidArea.y -= entity.speed;
                         break;
-                    case "down_left":
+                    case "left_down":
                         entity.solidArea.x -= entity.speed;
                         entity.solidArea.y += entity.speed;
                         break;
-                    case "down_right":
+                    case "right_down":
                         entity.solidArea.x += entity.speed;
                         entity.solidArea.y += entity.speed;
                         break;
                 }
-                if (entity.solidArea.intersects(target[i].solidArea) && target[i] != entity) {
+                if (entity.solidArea.intersects(target.solidArea) && target != entity) {
                     entity.collisionOn = true;
                     index = i;
                 }
 
-                target[i].solidArea.x = target[i].solidAreaDefaultX;
-                target[i].solidArea.y = target[i].solidAreaDefaultY;
+                target.solidArea.x = target.solidAreaDefaultX;
+                target.solidArea.y = target.solidAreaDefaultY;
             }
             entity.solidArea.x = entity.solidAreaDefaultX;
             entity.solidArea.y = entity.solidAreaDefaultY;
@@ -228,19 +234,19 @@ public class CollisionChecker {
             case "right":
                 entity.solidArea.x += entity.speed;
                 break;
-            case "up_left":
+            case "left_up":
                 entity.solidArea.x -= entity.speed;
                 entity.solidArea.y -= entity.speed;
                 break;
-            case "up_right":
+            case "right_up":
                 entity.solidArea.x += entity.speed;
                 entity.solidArea.y -= entity.speed;
                 break;
-            case "down_left":
+            case "left_down":
                 entity.solidArea.x -= entity.speed;
                 entity.solidArea.y += entity.speed;
                 break;
-            case "down_right":
+            case "right_down":
                 entity.solidArea.x += entity.speed;
                 entity.solidArea.y += entity.speed;
                 break;

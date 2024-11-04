@@ -3,6 +3,8 @@ package main;
 import inputs.KeyboardInputs;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.security.Key;
 import javax.swing.JPanel;
 
@@ -14,10 +16,24 @@ import static utils.Constants.Screen.SCREEN_HEIGHT;
 public class GamePanel extends JPanel{
     private final Game game;
     private final KeyboardInputs keyboardInputs = new KeyboardInputs(this);
-
+    private int mouseX, mouseY;
     public GamePanel(Game game) {
         this.game = game;
         setPanelSize();
+        addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                mouseX = e.getX();
+                mouseY = e.getY();
+//                System.out.println("Mouse position: (" + mouseX + ", " + mouseY + ")");
+            }
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                mouseX = e.getX();
+                mouseY = e.getY();
+            }
+        });
+
     }
 
     private void setPanelSize() {
@@ -38,5 +54,13 @@ public class GamePanel extends JPanel{
     }
     public KeyboardInputs getKeyboardInputs() {
         return keyboardInputs;
+    }
+
+    public int getMouseX() {
+        return mouseX;
+    }
+
+    public int getMouseY() {
+        return mouseY;
     }
 }

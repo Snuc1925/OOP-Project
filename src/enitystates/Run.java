@@ -24,15 +24,15 @@ public class Run extends EntityStateMethods{
         player.isIdling = false;
         if (keyboardInputs.upPressed) {
             if (keyboardInputs.leftPressed)
-                player.direction = "up_left";
+                player.direction = "left_up";
             else if (keyboardInputs.rightPressed)
-                player.direction = "up_right";
+                player.direction = "right_up";
             else player.direction = "up";
         } else if (keyboardInputs.downPressed) {
             if (keyboardInputs.leftPressed)
-                player.direction = "down_left";
+                player.direction = "left_down";
             else if (keyboardInputs.rightPressed)
-                player.direction = "down_right";
+                player.direction = "right_down";
             else player.direction = "down";
         } else if (keyboardInputs.leftPressed)
             player.direction = "left";
@@ -52,11 +52,17 @@ public class Run extends EntityStateMethods{
     }
 
     public void stateChanger(Player player, KeyboardInputs keyboardInputs) {
-        if (player.isIdling) {
-            player.currentState = EntityState.IDLE;
+        if (!keyboardInputs.mousePressed || player.currentWeapon.equals("NORMAL")) {
+            if (player.isIdling) {
+                player.currentState = EntityState.IDLE;
+            }
+            if (!keyboardInputs.shiftPressed && !player.isIdling) {
+                player.currentState = EntityState.WALK;
+            }
         }
-        if (!keyboardInputs.shiftPressed && !player.isIdling) {
-            player.currentState = EntityState.WALK;
+        else {
+            player.attack.lastState = EntityState.RUN;
+            player.currentState = EntityState.ATTACK;
         }
     }
 }
