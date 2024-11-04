@@ -9,7 +9,6 @@ import static enitystates.EntityState.*;
 public class Sprite extends Entity{
     public int speed;
     public String direction = "down";
-    public boolean collisionOn;
     public boolean isIdling = true;
 
     public Sprite(String name, String image_path, Playing playing, int width, int height) {

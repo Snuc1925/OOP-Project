@@ -1,10 +1,10 @@
-package entities;
+package entities.monsters;
 
 import enitystates.*;
+import entities.Player;
 import gamestates.Playing;
 
 import java.awt.*;
-import java.util.Random;
 
 import static utils.Constants.Screen.TILE_SIZE;
 

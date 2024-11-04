@@ -1,15 +1,9 @@
 package enitystates;
 
-import entities.Entity;
-import entities.Slime;
+import entities.monsters.Slime;
 import entities.Sprite;
-import gamestates.Playing;
 import inputs.KeyboardInputs;
-import utils.ImageManager;
 import entities.Player;
-
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 import static java.lang.Math.abs;
 import static utils.Constants.Screen.TILE_SIZE;

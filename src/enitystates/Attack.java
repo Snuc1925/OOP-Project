@@ -1,7 +1,7 @@
 package enitystates;
 
-import entities.Monster;
-import entities.Slime;
+import entities.monsters.Monster;
+import entities.monsters.Slime;
 import entities.Sprite;
 import inputs.KeyboardInputs;
 import entities.Player;

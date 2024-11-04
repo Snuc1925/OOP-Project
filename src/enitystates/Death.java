@@ -1,7 +1,6 @@
 package enitystates;
 
-import entities.Monster;
-import entities.Slime;
+import entities.monsters.Slime;
 import entities.Sprite;
 import utils.ImageLoader;
 import entities.Player;
@@ -42,7 +41,6 @@ public class Death extends EntityStateMethods{
         }
 
         if (entity instanceof Player player) {
-
             return imageManager.getPlayerImage(state, player.currentWeapon, player.direction, animationIndex + 1);
         }
 

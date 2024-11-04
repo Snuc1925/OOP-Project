@@ -1,8 +1,10 @@
 package entities;
 
 import enitystates.*;
+import entities.monsters.Monster;
 import gamestates.Playing;
 import inputs.KeyboardInputs;
+import utils.HelpMethods;
 
 import java.awt.*;
 
@@ -83,7 +85,6 @@ public class Player extends Sprite {
             }
             frameCounter = 0;
         }
-        System.out.println(direction);
 
         switch (currentState) {
             case IDLE:
@@ -137,29 +138,30 @@ public class Player extends Sprite {
         int angle = 0;
         Monster lockedMonster = null;
         Monster[] entities = this.getPlaying().monsters;
-        for (Monster entity : entities) {
-            if (entity != null && entity.currentState != EntityState.DEATH) {
+        for (Monster entity : entities)
+            if (entity != null) {
                 entity.isBeingLockOn = false;
-                int newDistance = (this.getWorldY() - entity.getWorldY()) * (this.getWorldY() - entity.getWorldY()) +
-                        (this.getWorldX() - entity.getWorldX()) * (this.getWorldX() - entity.getWorldX());
-                switch (currentWeapon) {
-                    case "SPEAR":
-                        System.out.println(newDistance);
-                        if (newDistance > spearAttackRange * spearAttackRange) continue;
-                        break;
-                    case "GUN":
-                        if (newDistance > gunAttackRange * gunAttackRange) continue;
-                        break;
-                }
-                if (newDistance < distance && entity.isOnTheScreen()) {
-                    lockedMonster = entity;
-                    distance = newDistance;
-                    int dx = -entity.getWorldX() + this.getWorldX();
-                    int dy = -entity.getWorldY() + this.getWorldY();
-                    angle = (int) (Math.atan2(dy, dx) * 180 / Math.PI);
+                if (entity.currentState != EntityState.DEATH && HelpMethods.canSeeEntity(playing, this, entity)) {
+                    int newDistance = (this.getWorldY() - entity.getWorldY()) * (this.getWorldY() - entity.getWorldY()) +
+                            (this.getWorldX() - entity.getWorldX()) * (this.getWorldX() - entity.getWorldX());
+                    switch (currentWeapon) {
+                        case "SPEAR":
+                            System.out.println(newDistance);
+                            if (newDistance > spearAttackRange * spearAttackRange) continue;
+                            break;
+                        case "GUN":
+                            if (newDistance > gunAttackRange * gunAttackRange) continue;
+                            break;
+                    }
+                    if (newDistance < distance && entity.isOnTheScreen()) {
+                        lockedMonster = entity;
+                        distance = newDistance;
+                        int dx = -entity.getWorldX() + this.getWorldX();
+                        int dy = -entity.getWorldY() + this.getWorldY();
+                        angle = (int) (Math.atan2(dy, dx) * 180 / Math.PI);
+                    }
                 }
             }
-        }
         if (lockedMonster == null) return 181;
         lockedMonster.isBeingLockOn = true;
         return angle;

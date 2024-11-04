@@ -1,6 +1,8 @@
-package entities;
+package entities.monsters;
 
 import enitystates.*;
+import entities.Player;
+import entities.Sprite;
 import gamestates.Playing;
 import utils.ImageLoader;
 
@@ -11,7 +13,7 @@ import static utils.Constants.Player.PLAYER_SCREEN_X;
 import static utils.Constants.Player.PLAYER_SCREEN_Y;
 import static utils.Constants.Screen.TILE_SIZE;
 
-public class Monster extends Sprite{
+public class Monster extends Sprite {
     protected Attack attack;
     protected Idle idle;
     protected Walk walk;
@@ -115,4 +117,5 @@ public class Monster extends Sprite{
                 break;
         }
     }
+
 }

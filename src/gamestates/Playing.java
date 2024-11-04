@@ -2,12 +2,13 @@ package gamestates;
 
 import enitystates.EntityState;
 import entities.*;
+import entities.monsters.Monster;
+import entities.monsters.Slime;
 import main.Game;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 
 import tile.TileManager;

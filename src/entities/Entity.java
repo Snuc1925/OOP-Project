@@ -75,7 +75,7 @@ public class Entity {
             // Draw solid area for debugging purposes
 //            g2.setColor(Color.WHITE);
 //            g2.setStroke(new BasicStroke(3));
-//            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+//            g2.drawRect(getScreenX() + solidArea.x, getScreenY() + solidArea.y, solidArea.width, solidArea.height);
         }
     }
 
@@ -85,7 +85,7 @@ public class Entity {
 
     public int getWorldY() {
         if (this.currentState == EntityState.DEATH) return -10000;
-        if (name.equals("Player")) return worldY + TILE_SIZE * 3 / 2;
+        if (name.equals("Player")) return worldY + TILE_SIZE * 2;
         if (name.equals("Slime")) return worldY + TILE_SIZE * 3 / 2;
         return worldY + height / 2;
     }
