@@ -92,10 +92,10 @@ public class Entity {
     }
 
     public int getScreenX() {
-        return worldX - (playing.getPlayer().worldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE);
+        return worldX - playing.getPlayer().worldX + PLAYER_SCREEN_X;
     }
     public int getScreenY() {
-        return worldY - (playing.getPlayer().worldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE);
+        return worldY - playing.getPlayer().worldY + PLAYER_SCREEN_Y;
     }
     public boolean isOnTheScreen() {
         Player player = playing.getPlayer();

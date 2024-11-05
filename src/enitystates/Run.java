@@ -1,5 +1,6 @@
 package enitystates;
 
+import effect.Dash;
 import entities.Sprite;
 import inputs.KeyboardInputs;
 import entities.Player;
@@ -20,7 +21,7 @@ public class Run extends EntityStateMethods{
 
     }
     public void update(Player player, KeyboardInputs keyboardInputs) {
-        player.speed = 5;
+        player.speed = player.getSpeed();
         player.isIdling = false;
         if (keyboardInputs.upPressed) {
             if (keyboardInputs.leftPressed)

@@ -1,5 +1,6 @@
 package entities;
 
+import effect.Dash;
 import enitystates.*;
 import entities.monsters.Monster;
 import gamestates.Playing;
@@ -7,6 +8,7 @@ import inputs.KeyboardInputs;
 import utils.HelpMethods;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 import static utils.Constants.Player.*;
 import static utils.Constants.Screen.*;
@@ -15,7 +17,7 @@ public class Player extends Sprite {
     // Player's states
     public Attack attack;
     Idle idle;
-    Run run;
+    public Run run;
     Walk walk;
     Death death;
 
@@ -28,6 +30,9 @@ public class Player extends Sprite {
     // Player's weapons
     public String currentWeapon = "NORMAL";
 
+    //Player's skills
+    public Dash dash = null;
+
 
     public Player(Playing playing) {
         super("Player", "player/Idle/Normal/down/1", playing, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT);
@@ -37,12 +42,13 @@ public class Player extends Sprite {
         run = new Run(this);
         walk = new Walk(this);
         death = new Death(this);
+
     }
 
     public void setDefaultValues() {
         solidArea = new Rectangle();
         solidArea.setBounds(18 * SCALE, 32 * SCALE, 13 * SCALE, 12 * SCALE);
-        worldX = TILE_SIZE * 10;
+        worldX = TILE_SIZE * 10 - TILE_SIZE * 3 / 2;
         worldY = TILE_SIZE * 10;
 
         solidAreaDefaultX = solidArea.x;
@@ -50,7 +56,7 @@ public class Player extends Sprite {
 
         speed = 4;
         maxArmor = 10;
-        maxHealth = 1000;
+        maxHealth = 12;
         maxMana = 50;
         currentArmor = maxArmor;
         currentHealth = maxHealth;
@@ -65,16 +71,23 @@ public class Player extends Sprite {
 
     @Override
     public void draw(Graphics2D g2) {
-        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
-        g2.drawImage(image, PLAYER_SCREEN_X, PLAYER_SCREEN_Y, null);
-//        g2.drawRect(tempScreenX + solidArea.x, tempScreenY + solidArea.y, solidArea.width, solidArea.height);
+//        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        if (dash != null) {
+            dash.draw(g2);
+            g2.drawImage(HelpMethods.makeMoreTransparent(image, 100), PLAYER_SCREEN_X, PLAYER_SCREEN_Y, null);
+        }
+        else g2.drawImage(image, PLAYER_SCREEN_X, PLAYER_SCREEN_Y, null);
+
 
     }
 
     int frameCounter = 0;
     int weaponSwitchDelayed = 60;
+    int cooldownCounter = 0;
+    int skillCooldown = 120;
     @Override
     public void update() {
+        // Switch weapons
         KeyboardInputs keyboardInputs = playing.getGame().getKeyboardInputs();
         frameCounter++;
         if (keyboardInputs.enterPressed && frameCounter > weaponSwitchDelayed) {
@@ -86,6 +99,15 @@ public class Player extends Sprite {
             frameCounter = 0;
         }
 
+        // Skill cooldown
+        cooldownCounter++;
+        if (currentState == EntityState.WALK || currentState == EntityState.RUN)
+            if (keyboardInputs.skillActivePressed && cooldownCounter > skillCooldown) {
+                dash = new Dash(this, 20);
+                cooldownCounter = 0;
+            }
+
+        // Update state
         switch (currentState) {
             case IDLE:
                 idle.update(this, keyboardInputs);
@@ -108,7 +130,12 @@ public class Player extends Sprite {
                 image = death.getImage();
                 break;
         }
+
+        // Update skill
+        if (dash != null) dash.update();
     }
+
+
 
     public void lockOn() {
         int angle = getAngleAuto();
@@ -174,5 +201,16 @@ public class Player extends Sprite {
     @Override
     public int getWorldY() {
         return worldY + TILE_SIZE * 2;
+    }
+
+    public int getSpeed() {
+        if (currentState == EntityState.WALK) {
+            if (dash != null) return 5;
+            return 4;
+        } else if (currentState == EntityState.RUN) {
+            if (dash != null) return 5;
+            return 5;
+        }
+        return 0;
     }
 }

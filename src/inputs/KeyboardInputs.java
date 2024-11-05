@@ -12,6 +12,7 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
     public boolean shiftPressed;
     public boolean spacePressed;
     public boolean mousePressed;
+    public boolean skillActivePressed;
 
     public KeyboardInputs(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -61,6 +62,9 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
         if (code == KeyEvent.VK_SPACE) {
             spacePressed = false;
         }
+        if (code == KeyEvent.VK_K) {
+            skillActivePressed = false;
+        }
 
     }
 
@@ -87,6 +91,9 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
         }
         if (code == KeyEvent.VK_SPACE) {
             spacePressed = true;
+        }
+        if (code == KeyEvent.VK_K) {
+            skillActivePressed = true;
         }
     }
     public int getMouseX() {

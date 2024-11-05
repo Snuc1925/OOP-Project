@@ -65,8 +65,8 @@ public class Monster extends Sprite {
             int effectWidth = TILE_SIZE * 5 / 2;
             int effectHeight = TILE_SIZE * 5 / 2;
 
-            int screenX = getWorldX() - (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE) - effectWidth / 2;
-            int screenY = getWorldY() - (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE) - effectHeight / 2;
+            int screenX = getWorldX() - playerWorldX + PLAYER_SCREEN_X - effectWidth / 2;
+            int screenY = getWorldY() - playerWorldY + PLAYER_SCREEN_Y - effectHeight / 2;
 
             if (effectCounter > 2) {
                 numEffectFrame = (numEffectFrame + 1) % 8;

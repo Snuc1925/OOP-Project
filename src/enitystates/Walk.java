@@ -1,5 +1,6 @@
 package enitystates;
 
+import effect.Dash;
 import entities.Player;
 import entities.monsters.Slime;
 import entities.Sprite;
@@ -34,7 +35,7 @@ public class Walk extends EntityStateMethods{
     }
 
     public void update(Player player, KeyboardInputs keyboardInputs) {
-        player.speed = 4;
+        player.speed = player.getSpeed();
         player.isIdling = false;
         if (keyboardInputs.upPressed) {
             if (keyboardInputs.leftPressed)
@@ -63,6 +64,7 @@ public class Walk extends EntityStateMethods{
         if (!player.collisionOn && !player.isIdling) {
             player.move();
         }
+
     }
     public void stateChanger(Player player, KeyboardInputs keyboardInputs) {
         if (!keyboardInputs.spacePressed || player.currentWeapon.equals("NORMAL")) {
