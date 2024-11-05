@@ -2,11 +2,22 @@ package gamestates;
 
 import enitystates.EntityState;
 import entities.*;
+
 import entities.projectile.ProjectileManager;
 import main.Game;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
+import entities.monsters.Demon;
+import entities.monsters.Monster;
+import entities.monsters.PlantMelee;
+import entities.monsters.Slime;
+import main.Game;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 import tile.TileManager;
 import utils.HelpMethods;
@@ -35,12 +46,16 @@ public class Playing extends State implements Statemethods {
         tileManager = new TileManager(player);
         projectileManager = new ProjectileManager(this);
 
-        monsters = new Monster[5];
-        monsters[0] = new Slime(this, 5 * TILE_SIZE, 7 * TILE_SIZE);
-        monsters[1] = new Slime(this,  5 * TILE_SIZE, 3 * TILE_SIZE);
-        monsters[2] = new Slime(this, 7 * TILE_SIZE, 3 * TILE_SIZE);
-        monsters[3] = new Slime(this, 6 * TILE_SIZE, 3 * TILE_SIZE);
-        monsters[4] = new Slime(this, 8 * TILE_SIZE, 3 * TILE_SIZE);
+        monsters = new Monster[7];
+        monsters[1] = new Slime(this,  9 * TILE_SIZE, 25 * TILE_SIZE);
+        monsters[2] = new Slime(this, 11 * TILE_SIZE, 25 * TILE_SIZE);
+        monsters[3] = new Slime(this, 7 * TILE_SIZE, 26 * TILE_SIZE);
+        monsters[4] = new Slime(this, 10 * TILE_SIZE, 24 * TILE_SIZE);
+        monsters[5] = new Slime(this, 13 * TILE_SIZE, 26 * TILE_SIZE);
+
+        monsters[6] = new PlantMelee(this, 7 * TILE_SIZE, 2 * TILE_SIZE);
+
+        monsters[0] = new Demon(this, 9 * TILE_SIZE, 30 * TILE_SIZE);
 
         entityList = new ArrayList<>();
         entityList.add(player);
@@ -87,7 +102,7 @@ public class Playing extends State implements Statemethods {
     @Override
     public void draw(Graphics2D g2) {
         tileManager.draw(g2);
-        entityList.sort(Comparator.comparingDouble(Entity::getWorldY));
+        entityList.sort(Comparator.comparingDouble(Entity::getRenderOrder));
 
         for (Entity entity : entityList) {
             entity.draw(g2);

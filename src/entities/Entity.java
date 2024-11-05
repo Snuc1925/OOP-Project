@@ -9,6 +9,7 @@ import utils.HelpMethods;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static enitystates.EntityState.DEATH;
 import static enitystates.EntityState.IDLE;
 import static utils.Constants.Player.PLAYER_SCREEN_X;
 import static utils.Constants.Player.PLAYER_SCREEN_Y;
@@ -75,7 +76,7 @@ public class Entity {
             // Draw solid area for debugging purposes
 //            g2.setColor(Color.WHITE);
 //            g2.setStroke(new BasicStroke(3));
-//            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+//            g2.drawRect(getScreenX() + solidArea.x, getScreenY() + solidArea.y, solidArea.width, solidArea.height);
         }
     }
 
@@ -84,30 +85,31 @@ public class Entity {
     }
 
     public int getWorldY() {
-        if (this.currentState == EntityState.DEATH) return -10000;
-        if (name.equals("Player")) return worldY + TILE_SIZE * 3 / 2;
-        if (name.equals("Slime")) return worldY + TILE_SIZE * 3 / 2;
         return worldY + height / 2;
     }
     public int getWorldX() {
-        if (name.equals("Player")) return worldX + TILE_SIZE * 3 / 2;
-        if (name.equals("Slime")) return worldX + TILE_SIZE/2;
         return worldX + width / 2;
     }
 
     public int getScreenX() {
-        return worldX - (playing.getPlayer().worldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE);
+        return worldX - playing.getPlayer().worldX + PLAYER_SCREEN_X;
     }
     public int getScreenY() {
-        return worldY - (playing.getPlayer().worldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE);
+        return worldY - playing.getPlayer().worldY + PLAYER_SCREEN_Y;
     }
     public boolean isOnTheScreen() {
         Player player = playing.getPlayer();
         int playerWorldX = player.worldX;
         int playerWorldY = player.worldY;
-        return worldX > (playerWorldX + TILE_SIZE) - (PLAYER_SCREEN_X + TILE_SIZE) - TILE_SIZE
-                && worldX < (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE) + TILE_SIZE
-                && worldY > (playerWorldY + TILE_SIZE) - (PLAYER_SCREEN_Y + TILE_SIZE) - TILE_SIZE
-                && worldY < (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE) + TILE_SIZE;
+        return getWorldX() > (playerWorldX + TILE_SIZE) - (PLAYER_SCREEN_X + TILE_SIZE) - TILE_SIZE * 10
+                && getWorldX() < (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE) + TILE_SIZE * 10
+                && getWorldY() > (playerWorldY + TILE_SIZE) - (PLAYER_SCREEN_Y + TILE_SIZE) - TILE_SIZE * 10
+                && getWorldY() < (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE) + TILE_SIZE * 10;
+    }
+
+    public int getRenderOrder() {
+        if (this.currentState == DEATH) return -100;
+        if (name.equals("Demon")) return worldY + height;
+        return getWorldY();
     }
 }

@@ -9,7 +9,6 @@ import static enitystates.EntityState.*;
 public class Sprite extends Entity{
     public int speed;
     public String direction = "down";
-    public boolean collisionOn;
     public boolean isIdling = true;
 
     public Sprite(String name, String image_path, Playing playing, int width, int height) {
@@ -20,6 +19,9 @@ public class Sprite extends Entity{
         playing.getGame().getCollisionChecker().checkTile(this);
         playing.getGame().getCollisionChecker().checkEntity(this, getPlaying().entityList);
         if (collisionOn) return;
+//        if (name.equals("Demon"))
+//            System.out.println(direction);
+
         if (direction.equals("down")) {
             worldY += speed;
         }
@@ -63,4 +65,14 @@ public class Sprite extends Entity{
         else if (angle >= -112 && angle < -67) return "up";
         else return "right_up";
     }
+    public void knock_back(int speed, String direction) {
+        String temp = this.direction;
+        int tempSpeed = this.speed;
+        this.direction = direction;
+        this.speed = speed;
+        move();
+        this.direction = temp;
+        this.speed = tempSpeed;
+    }
+
 }

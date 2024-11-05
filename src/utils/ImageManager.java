@@ -101,6 +101,7 @@ public class ImageManager {
 
     public BufferedImage getMonsterImage(String name, String state, String direction, int numAnimationFrame) {
         String key = "MONSTER_" + name.toUpperCase() + "_" + state.toUpperCase() + "_" + direction.toUpperCase() + "_" + numAnimationFrame;
+        System.out.println(key);
         return monsterImages.get(key);
     }
 

@@ -10,6 +10,8 @@ import java.util.Objects;
 import static utils.Constants.Screen.*;
 import static utils.Constants.Player.*;
 import entities.Player;
+import utils.Constants;
+
 public class TileManager {
 
     private Player player;
@@ -22,6 +24,13 @@ public class TileManager {
         tileNum = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
         getTileImage();
         loadMap("res/maps/dungeonMap");
+//        temp = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
+    }
+
+//    public int temp[][];
+    public boolean isWall(int row, int col) {
+//        temp[row][col] = 1;
+        return tileNum[row][col] >= 0 && tile[tileNum[row][col]].collision;
     }
     public void getTileImage() {
         String path = "res/dungeontiles/tileData";
@@ -85,7 +94,6 @@ public class TileManager {
                 }
                 row++;
             }
-
             in.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,6 +109,8 @@ public class TileManager {
 
         while (worldCol < MAX_WORLD_COL && worldRow < MAX_WORLD_ROW) {
             int tileId = tileNum[worldRow][worldCol];
+//            if (temp[worldRow][worldCol] == 1)
+//                tileId = 99;
             if (tileId >= 0) {
                 int worldX = worldCol*TILE_SIZE;
                 int worldY = worldRow*TILE_SIZE;
@@ -121,5 +131,9 @@ public class TileManager {
                 worldRow++;
             }
         }
+
+//        for (int i = 0; i < MAX_WORLD_ROW; i++)
+//            for (int j = 0; j < MAX_WORLD_COL; j++)
+//                temp[i][j] = 0;
     }
 }

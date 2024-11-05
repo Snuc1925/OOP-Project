@@ -2,7 +2,7 @@ package main;
 
 import enitystates.EntityState;
 import entities.Entity;
-import entities.Monster;
+import entities.monsters.Monster;
 import entities.Sprite;
 import entities.Player;
 import tile.TileManager;

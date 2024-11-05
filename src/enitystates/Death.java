@@ -1,14 +1,15 @@
 package enitystates;
 
-import entities.Monster;
-import entities.Slime;
+import entities.monsters.Demon;
+import entities.monsters.PlantMelee;
+import entities.monsters.Slime;
 import entities.Sprite;
 import utils.ImageLoader;
 import entities.Player;
 
 import java.awt.image.BufferedImage;
 
-public class Death extends EntityStateMethods{
+public class Death extends EntityStateMethods {
     public Death(Sprite entity, int totalAnimationFrames, int frameDuration) {
         super(entity, totalAnimationFrames, frameDuration);
         state = "DEATH";
@@ -26,6 +27,7 @@ public class Death extends EntityStateMethods{
 
     int frameCounter = 0;
     int animationIndex = 0;
+
     @Override
     public BufferedImage getImage() {
         ImageLoader.initialize();
@@ -38,12 +40,23 @@ public class Death extends EntityStateMethods{
             frameCounter = 0;
         }
         if (entity instanceof Slime) {
-             return imageManager.getMonsterImage(entity.name, state, entity.direction, animationIndex + 1);
+            return imageManager.getMonsterImage(entity.name, state, entity.direction, animationIndex + 1);
+        }
+
+        if (entity instanceof PlantMelee) {
+            return imageManager.getMonsterImage(entity.name, state, "ALL", animationIndex + 1);
         }
 
         if (entity instanceof Player player) {
-
             return imageManager.getPlayerImage(state, player.currentWeapon, player.direction, animationIndex + 1);
+        }
+        if (entity instanceof Demon) {
+            switch (entity.direction) {
+                case "up", "left_up", "left", "left_down":
+                    return imageManager.getMonsterImage(entity.name, state, "left", animationIndex + 1);
+                case "down", "right_down", "right", "right_up":
+                    return imageManager.getMonsterImage(entity.name, state, "right", animationIndex + 1);
+            }
         }
 
         return null;
