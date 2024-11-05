@@ -52,7 +52,7 @@ public class Run extends EntityStateMethods{
     }
 
     public void stateChanger(Player player, KeyboardInputs keyboardInputs) {
-        if (!keyboardInputs.mousePressed || player.currentWeapon.equals("NORMAL")) {
+        if ((!keyboardInputs.spacePressed) || player.currentWeapon.equals("NORMAL")) {
             if (player.isIdling) {
                 player.currentState = EntityState.IDLE;
             }

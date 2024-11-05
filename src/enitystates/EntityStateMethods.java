@@ -1,6 +1,8 @@
 package enitystates;
 
 import entities.*;
+import entities.monsters.PlantMelee;
+import entities.monsters.Slime;
 import utils.ImageLoader;
 import utils.ImageManager;
 
@@ -34,12 +36,14 @@ public abstract class EntityStateMethods {
         }
         ImageLoader.initialize();
         imageManager = ImageLoader.imageManager;
-        if (entity.name.equals("Player")) {
-            Player player = (Player) entity;
+        if (entity instanceof Player player) {
             return imageManager.getPlayerImage(state, player.currentWeapon, entity.direction, numAnimationFrames + 1);
         }
-        if (entity.name.equals("Slime")) {
+        if (entity instanceof Slime) {
             return imageManager.getMonsterImage(entity.name, state, entity.direction, numAnimationFrames + 1);
+        }
+        if (entity instanceof PlantMelee) {
+            return imageManager.getMonsterImage("PlantMelee", state, "ALL", numAnimationFrames + 1);
         }
         return null;
     }

@@ -54,12 +54,6 @@ public class Monster extends Sprite {
     int numEffectFrame = 0;
     public void draw(Graphics2D g2) {
         super.draw(g2);
-        // Draw health bar
-        int healthBarWidth = (int) (15 * 3 * ((double) currentHealth / maxHealth));
-        if (healthBarWidth > 0) {
-            g2.setColor(Color.RED);
-            g2.fillRect(getScreenX(), getScreenY() + 5 * 3, healthBarWidth, 4 * 3);
-        }
 
         // Draw auto lockOn effect
         if (isBeingLockOn && currentState != EntityState.DEATH) {
@@ -116,6 +110,19 @@ public class Monster extends Sprite {
                 direction = "up";
                 break;
         }
+    }
+    public void getDirectionForAttacking() {
+        int dx = playing.getPlayer().getWorldX() - worldX;
+        int dy = playing.getPlayer().getWorldY() - worldY;
+        double angle = (Math.atan2(dy, dx) * 180 / Math.PI);
+        if (angle >= -22 && angle < 22) direction = "right";
+        else if (angle >= 22 && angle < 67) direction = "right_down";
+        else if (angle >= 67 && angle < 112) direction = "down";
+        else if (angle >= 112 && angle < 157) direction = "left_down";
+        else if (angle >= 157 || angle < -157) direction = "left";
+        else if (angle >= -157 && angle < -112) direction = "left_up";
+        else if (angle >= -112 && angle < -67) direction = "up";
+        else direction = "right_up";
     }
 
 }

@@ -1,5 +1,6 @@
 package enitystates;
 
+import entities.monsters.PlantMelee;
 import entities.monsters.Slime;
 import entities.Sprite;
 import utils.ImageLoader;
@@ -38,6 +39,10 @@ public class Death extends EntityStateMethods{
         }
         if (entity instanceof Slime) {
              return imageManager.getMonsterImage(entity.name, state, entity.direction, animationIndex + 1);
+        }
+
+        if (entity instanceof PlantMelee) {
+            return imageManager.getMonsterImage(entity.name, state, "ALL", animationIndex + 1);
         }
 
         if (entity instanceof Player player) {

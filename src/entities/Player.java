@@ -50,7 +50,7 @@ public class Player extends Sprite {
 
         speed = 4;
         maxArmor = 10;
-        maxHealth = 12;
+        maxHealth = 1000;
         maxMana = 50;
         currentArmor = maxArmor;
         currentHealth = maxHealth;
@@ -146,7 +146,6 @@ public class Player extends Sprite {
                             (this.getWorldX() - entity.getWorldX()) * (this.getWorldX() - entity.getWorldX());
                     switch (currentWeapon) {
                         case "SPEAR":
-                            System.out.println(newDistance);
                             if (newDistance > spearAttackRange * spearAttackRange) continue;
                             break;
                         case "GUN":
@@ -165,5 +164,15 @@ public class Player extends Sprite {
         if (lockedMonster == null) return 181;
         lockedMonster.isBeingLockOn = true;
         return angle;
+    }
+
+    @Override
+    public int getWorldX() {
+        return worldX + TILE_SIZE * 3 / 2;
+    }
+
+    @Override
+    public int getWorldY() {
+        return worldY + TILE_SIZE * 2;
     }
 }

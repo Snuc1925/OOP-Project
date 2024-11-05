@@ -49,4 +49,14 @@ public class Sprite extends Entity{
         }
     }
 
+    public void knock_back(int speed, String direction) {
+        String temp = this.direction;
+        int tempSpeed = this.speed;
+        this.direction = direction;
+        this.speed = speed;
+        move();
+        this.direction = temp;
+        this.speed = tempSpeed;
+    }
+
 }

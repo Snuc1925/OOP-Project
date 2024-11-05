@@ -1,6 +1,7 @@
 package enitystates;
 
 import entities.monsters.Monster;
+import entities.monsters.PlantMelee;
 import entities.monsters.Slime;
 import entities.Sprite;
 import inputs.KeyboardInputs;
@@ -25,6 +26,10 @@ public class Attack extends EntityStateMethods{
     public void update(Sprite entity) {
         if (entity instanceof Slime) {
             ((Slime) entity).attack();
+        }
+
+        if (entity instanceof PlantMelee) {
+            ((PlantMelee) entity).attack();
         }
     }
 
@@ -52,7 +57,7 @@ public class Attack extends EntityStateMethods{
                     }
                 }
             }
-            if (!keyboardInputs.mousePressed) {
+            if (!keyboardInputs.spacePressed) {
                 player.currentState = lastState;
             }
             frameCounter = 0;

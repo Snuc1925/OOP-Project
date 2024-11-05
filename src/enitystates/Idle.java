@@ -1,5 +1,6 @@
 package enitystates;
 
+import entities.monsters.PlantMelee;
 import entities.monsters.Slime;
 import entities.Sprite;
 import inputs.KeyboardInputs;
@@ -30,6 +31,11 @@ public class Idle extends EntityStateMethods{
             }
             slime.stateChanger();
         }
+        if (entity instanceof PlantMelee plantMelee) {
+            if (plantMelee.canAttack()) {
+                plantMelee.currentState = EntityState.ATTACK;
+            }
+        }
     }
 
     public void update(Player player, KeyboardInputs keyboardInputs) {
@@ -52,7 +58,7 @@ public class Idle extends EntityStateMethods{
             player.direction = "right";
         else player.isIdling = true;
 
-        if (!keyboardInputs.mousePressed || player.currentWeapon.equals("NORMAL")) {
+        if ((!keyboardInputs.spacePressed) || player.currentWeapon.equals("NORMAL")) {
             if (!player.isIdling) {
                 if (keyboardInputs.shiftPressed) player.currentState = EntityState.RUN;
                 else player.currentState = EntityState.WALK;

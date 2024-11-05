@@ -3,6 +3,7 @@ package gamestates;
 import enitystates.EntityState;
 import entities.*;
 import entities.monsters.Monster;
+import entities.monsters.PlantMelee;
 import entities.monsters.Slime;
 import main.Game;
 import java.awt.*;
@@ -35,12 +36,14 @@ public class Playing extends State implements Statemethods {
         player = new Player(this);
         tileManager = new TileManager(player);
 
-        monsters = new Monster[5];
-        monsters[0] = new Slime(this, 5 * TILE_SIZE, 7 * TILE_SIZE);
-        monsters[1] = new Slime(this,  5 * TILE_SIZE, 3 * TILE_SIZE);
-        monsters[2] = new Slime(this, 7 * TILE_SIZE, 3 * TILE_SIZE);
-        monsters[3] = new Slime(this, 6 * TILE_SIZE, 3 * TILE_SIZE);
-        monsters[4] = new Slime(this, 8 * TILE_SIZE, 3 * TILE_SIZE);
+        monsters = new Monster[6];
+        monsters[1] = new Slime(this,  9 * TILE_SIZE, 25 * TILE_SIZE);
+        monsters[2] = new Slime(this, 11 * TILE_SIZE, 25 * TILE_SIZE);
+        monsters[3] = new Slime(this, 7 * TILE_SIZE, 26 * TILE_SIZE);
+        monsters[4] = new Slime(this, 10 * TILE_SIZE, 24 * TILE_SIZE);
+        monsters[5] = new Slime(this, 13 * TILE_SIZE, 26 * TILE_SIZE);
+
+        monsters[0] = new PlantMelee(this, 7 * TILE_SIZE, 2 * TILE_SIZE);
 
         entityList = new ArrayList<>();
         entityList.add(player);
@@ -70,13 +73,15 @@ public class Playing extends State implements Statemethods {
         }
         if (player.currentState != EntityState.DEATH)
             player.lockOn();
+
+//        System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
     }
 
     @Override
     public void draw(Graphics2D g2) {
 
         tileManager.draw(g2);
-        entityList.sort(Comparator.comparingDouble(Entity::getWorldY));
+        entityList.sort(Comparator.comparingDouble(Entity::getRenderOrder));
 
         for (Entity entity : entityList) {
             entity.draw(g2);

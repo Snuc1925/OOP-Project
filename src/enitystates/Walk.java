@@ -65,7 +65,7 @@ public class Walk extends EntityStateMethods{
         }
     }
     public void stateChanger(Player player, KeyboardInputs keyboardInputs) {
-        if (!keyboardInputs.mousePressed || player.currentWeapon.equals("NORMAL")) {
+        if (!keyboardInputs.spacePressed || player.currentWeapon.equals("NORMAL")) {
             if (player.isIdling) player.currentState = EntityState.WALK;
             if (!player.isIdling && keyboardInputs.shiftPressed) player.currentState = EntityState.RUN;
         }
