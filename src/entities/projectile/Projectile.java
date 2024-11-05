@@ -14,22 +14,50 @@ import static utils.Constants.Player.PLAYER_SCREEN_X;
 import static utils.Constants.Player.PLAYER_SCREEN_Y;
 
 public class Projectile extends Sprite {
-    public Projectile(Playing playing, String image_path, int worldX, int worldY, String direction, int speed) {
-        super("PROJECTILE", image_path, playing, Constants.Projectile.WIDTH, Constants.Projectile.HEIGHT);
+    public int attackPoints;
+    public Projectile(Playing playing, String image_path, int worldX, int worldY, String direction, int speed, int attackPoints) {
+        super("PROJECTILE", image_path, playing, Constants.Screen.TILE_SIZE, Constants.Screen.TILE_SIZE);
         this.playing = playing;
         this.worldX = worldX;
         this.worldY = worldY;
         this.direction = direction;
         this.speed = speed;
-        image = HelpMethods.setUp(image_path, Constants.Projectile.WIDTH, Constants.Projectile.HEIGHT);
-        solidArea = new Rectangle(0, 0, Constants.Projectile.WIDTH, Constants.Projectile.HEIGHT);
+        this.attackPoints = attackPoints;
+    }
+
+    public void move() {
+        if (direction.equals("down")) {
+            worldY += speed;
+        }
+        if (direction.equals("up")) {
+            worldY -= speed;
+        }
+        if (direction.equals("left")) {
+            worldX -= speed;
+        }
+        if (direction.equals("right")) {
+            worldX += speed;
+        }
+        if (direction.equals("right_down")) {
+            worldX += speed - 1;
+            worldY += speed - 1;
+        }
+        if (direction.equals("left_up")) {
+            worldX -= speed - 1;
+            worldY -= speed - 1;
+        }
+        if (direction.equals("left_down")) {
+            worldX -= speed - 1;
+            worldY += speed - 1;
+        }
+        if (direction.equals("right_up")) {
+            worldX += speed - 1;
+            worldY -= speed - 1;
+        }
     }
 
     public void update() {
         move();
-        if (collisionOn) {
-            currentState = DEATH;
-        }
     }
 
     public void draw(Graphics2D g2) {

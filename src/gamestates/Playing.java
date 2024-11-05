@@ -2,13 +2,11 @@ package gamestates;
 
 import enitystates.EntityState;
 import entities.*;
+import entities.projectile.ProjectileManager;
 import main.Game;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 import tile.TileManager;
 import utils.HelpMethods;
@@ -29,10 +27,13 @@ public class Playing extends State implements Statemethods {
     public ArrayList<Entity> entityList;
     public Entity[] entityArray;
 
+    private ProjectileManager projectileManager;
+
     public Playing(Game game) {
         super(game);
         player = new Player(this);
         tileManager = new TileManager(player);
+        projectileManager = new ProjectileManager(this);
 
         monsters = new Monster[5];
         monsters[0] = new Slime(this, 5 * TILE_SIZE, 7 * TILE_SIZE);
@@ -55,13 +56,15 @@ public class Playing extends State implements Statemethods {
         return player;
     }
 
+    public ProjectileManager getProjectileManager() { return projectileManager; }
+
     public TileManager getTileManager() {
         return tileManager;
     }
 
+    int frameCounter = 0;
     @Override
     public void update() {
-
         for (Entity entity : entityArray) {
             if (entity != null){
                 entity.update();
@@ -69,11 +72,20 @@ public class Playing extends State implements Statemethods {
         }
         if (player.currentState != EntityState.DEATH)
             player.lockOn();
+
+        projectileManager.update();
+
+        frameCounter++;
+        if (frameCounter == 60) {
+            frameCounter = 0;
+            Random random = new Random();
+            int id = random.nextInt(monsters.length);
+            monsters[id].attackLongRange();
+        }
     }
 
     @Override
     public void draw(Graphics2D g2) {
-
         tileManager.draw(g2);
         entityList.sort(Comparator.comparingDouble(Entity::getWorldY));
 
@@ -121,6 +133,8 @@ public class Playing extends State implements Statemethods {
 
         text = player.currentMana + "/" + player.maxMana;
         g2.drawString(text, 90, 93);
+
+        projectileManager.draw(g2);
     }
 
 

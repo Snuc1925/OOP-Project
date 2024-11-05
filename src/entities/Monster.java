@@ -1,10 +1,14 @@
 package entities;
 
 import enitystates.*;
+import entities.projectile.Projectile;
+import entities.projectile.ProjectileManager;
 import gamestates.Playing;
 import utils.ImageLoader;
+import utils.ImageManager;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import static utils.Constants.Player.PLAYER_SCREEN_X;
@@ -114,5 +118,15 @@ public class Monster extends Sprite{
                 direction = "up";
                 break;
         }
+    }
+
+    public void attackLongRange() {
+        String projectileDirection = getDirectionForAttacking(playing.getPlayer());
+//        BufferedImage projectileImage = ImageManager.getInstance().getProjectileImage("MONSTER_SLIME", projectileDirection);
+        int speed = 4;
+        int attackPoints = 2;
+        String image_path = "projectile/monster/slime/" + projectileDirection;
+        Projectile projectile = new Projectile(playing, image_path, worldX, worldY, projectileDirection, speed, attackPoints);
+        playing.getProjectileManager().addProjectile(projectile);
     }
 }

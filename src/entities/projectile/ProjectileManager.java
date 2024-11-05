@@ -1,6 +1,8 @@
 package entities.projectile;
 
 import static enitystates.EntityState.*;
+
+import enitystates.EntityState;
 import entities.Entity;
 import gamestates.Playing;
 import utils.Constants;
@@ -13,27 +15,11 @@ import java.util.Iterator;
 
 public class ProjectileManager {
     ArrayList<Projectile> projectileList;
-    Entity entity;
-
-    BufferedImage image;
-    String image_path;
     Playing playing;
 
-    String direction;
-    int speed;
-
-    public ProjectileManager(Entity entity, String image_path, Playing playing) {
-        this.entity = entity;
+    public ProjectileManager(Playing playing) {
+        projectileList = new ArrayList<>();
         this.playing = playing;
-        image = HelpMethods.setUp(image_path, Constants.Projectile.WIDTH, Constants.Projectile.HEIGHT);
-    }
-
-    public void changeProjectile(String image_path) {
-
-    }
-
-    public void projectileAttack(String direction) {
-        Projectile projectile = new Projectile(playing,image_path, entity.worldX, entity.worldY, direction, speed);
     }
 
     public void update() {
@@ -41,12 +27,24 @@ public class ProjectileManager {
 
         while (iterator.hasNext()) {
             Projectile projectile = iterator.next();
+            playing.getGame().getCollisionChecker().checkPlayer(projectile);
+            if (projectile.collisionOn == true) {
+                playing.getPlayer().currentHealth -= projectile.attackPoints;
+                if (playing.getPlayer().currentHealth <= 0) {
+                    playing.getPlayer().currentState = EntityState.DEATH;
+                }
+            }
+            playing.getGame().getCollisionChecker().checkTile(projectile);
             if (projectile.collisionOn == true) {
                 iterator.remove();
             } else {
                 projectile.update();
             }
         }
+    }
+
+    public void addProjectile(Projectile projectile) {
+        projectileList.add(projectile);
     }
 
     public void draw(Graphics2D g2) {
