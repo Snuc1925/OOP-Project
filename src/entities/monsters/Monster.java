@@ -4,6 +4,7 @@ import enitystates.*;
 import entities.Player;
 import entities.Sprite;
 import gamestates.Playing;
+import utils.HelpMethods;
 import utils.ImageLoader;
 
 import java.awt.*;
@@ -20,6 +21,14 @@ public class Monster extends Sprite {
     protected Death death;
     public boolean isBeingLockOn = false;
     public int currentHealth, maxHealth, attackPoints;
+
+    public Rectangle attackBox;
+    public Rectangle visionBox;
+    public Rectangle hitBox;
+
+
+
+    public int attackRate = 180; // Total frames between 2 attack
     public Monster(String name, String image_path, Playing playing, int width, int height) {
         super(name, image_path, playing, width, height);
         currentState = EntityState.IDLE;
@@ -27,6 +36,7 @@ public class Monster extends Sprite {
 
     public void update() {
 
+//        System.out.println(worldX + " " + worldY);
         switch (currentState) {
             case IDLE:
                 if (idle == null) return;
@@ -55,25 +65,13 @@ public class Monster extends Sprite {
     public void draw(Graphics2D g2) {
         super.draw(g2);
 
-        // Draw auto lockOn effect
-        if (isBeingLockOn && currentState != EntityState.DEATH) {
-            effectCounter++;
-            Player player = playing.getPlayer();
-            int playerWorldX = player.worldX;
-            int playerWorldY = player.worldY;
+        // Draw hitBox
+//        g2.setColor(Color.GREEN);
+//        g2.drawRect(hitBox.x + getScreenX(), hitBox.y + getScreenY(), hitBox.width, hitBox.height);
 
-            int effectWidth = TILE_SIZE * 5 / 2;
-            int effectHeight = TILE_SIZE * 5 / 2;
+//        g2.drawRect(visionBox.x + getScreenX(),visionBox.y + getScreenY(),visionBox.width,visionBox.height);
 
-            int screenX = getWorldX() - playerWorldX + PLAYER_SCREEN_X - effectWidth / 2;
-            int screenY = getWorldY() - playerWorldY + PLAYER_SCREEN_Y - effectHeight / 2;
-
-            if (effectCounter > 2) {
-                numEffectFrame = (numEffectFrame + 1) % 8;
-                effectCounter = 0;
-            }
-            g2.drawImage(ImageLoader.imageManager.getEffectImage("LockOn", numEffectFrame), screenX, screenY, effectWidth, effectHeight, null);
-        }
+//        g2.drawRect(attackBox.x + getScreenX(), attackBox.y + getScreenY(), attackBox.width, attackBox.height);
     }
 
 
@@ -112,8 +110,9 @@ public class Monster extends Sprite {
         }
     }
     public void getDirectionForAttacking() {
-        int dx = playing.getPlayer().getWorldX() - worldX;
-        int dy = playing.getPlayer().getWorldY() - worldY;
+        int dx = playing.getPlayer().getWorldX() - getWorldX();
+        int dy = playing.getPlayer().getWorldY() - getWorldY();
+
         double angle = (Math.atan2(dy, dx) * 180 / Math.PI);
         if (angle >= -22 && angle < 22) direction = "right";
         else if (angle >= 22 && angle < 67) direction = "right_down";
@@ -123,6 +122,81 @@ public class Monster extends Sprite {
         else if (angle >= -157 && angle < -112) direction = "left_up";
         else if (angle >= -112 && angle < -67) direction = "up";
         else direction = "right_up";
+
+    }
+
+    // Use needCooldown = true if checking player is in attack range at the last attack frame
+    // Use needCooldown = false for changing other state to attack state
+    int cooldown = 0;
+    public boolean canAttack(boolean needCooldown) {
+        boolean result;
+        Player player = playing.getPlayer();
+        if (player.currentState == EntityState.DEATH) return false;
+
+        int currentAttackX = attackBox.x;
+        int currentAttackY = attackBox.y;
+        player.solidArea.x += player.worldX;
+        player.solidArea.y += player.worldY;
+        attackBox.x += worldX;
+        attackBox.y += worldY;
+
+        result = player.solidArea.intersects(attackBox) && HelpMethods.canSeeEntity(playing, this, player);
+
+        player.solidArea.x = player.solidAreaDefaultX;
+        player.solidArea.y = player.solidAreaDefaultY;
+        attackBox.x = currentAttackX;
+        attackBox.y = currentAttackY;
+        if (!needCooldown) return result;
+
+        if (result) {
+            cooldown++;
+            if (cooldown >= attackRate) {
+                cooldown = 0;
+                return true;
+            }
+        } else cooldown = 0;
+
+        return false;
+    }
+
+    public boolean canSeePlayer() {
+        Player player = playing.getPlayer();
+        if (player.currentState == EntityState.DEATH) return false;
+        int visionDefaultX = visionBox.x;
+        int visionDefaultY = visionBox.y;
+
+        player.solidArea.x += player.worldX;
+        player.solidArea.y += player.worldY;
+        visionBox.x += worldX;
+        visionBox.y += worldY;
+
+        boolean result = visionBox.intersects(player.solidArea);
+
+        player.solidArea.x = player.solidAreaDefaultX;
+        player.solidArea.y = player.solidAreaDefaultY;
+        visionBox.x = visionDefaultX;
+        visionBox.y = visionDefaultY;
+
+        return result;
+    }
+
+    public void drawLockOn(Graphics2D g2, int effectWidth, int effectHeight) {
+        // Draw auto lockOn effect
+        if (isBeingLockOn && currentState != EntityState.DEATH) {
+            effectCounter++;
+            Player player = playing.getPlayer();
+            int playerWorldX = player.worldX;
+            int playerWorldY = player.worldY;
+
+            int screenX = getWorldX() - playerWorldX + PLAYER_SCREEN_X - effectWidth / 2;
+            int screenY = getWorldY() - playerWorldY + PLAYER_SCREEN_Y - effectHeight / 2;
+
+            if (effectCounter > 2) {
+                numEffectFrame = (numEffectFrame + 1) % 8;
+                effectCounter = 0;
+            }
+            g2.drawImage(ImageLoader.imageManager.getEffectImage("LockOn", numEffectFrame), screenX, screenY, effectWidth, effectHeight, null);
+        }
     }
 
 }

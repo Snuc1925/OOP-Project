@@ -2,6 +2,7 @@ package gamestates;
 
 import enitystates.EntityState;
 import entities.*;
+import entities.monsters.Demon;
 import entities.monsters.Monster;
 import entities.monsters.PlantMelee;
 import entities.monsters.Slime;
@@ -36,14 +37,16 @@ public class Playing extends State implements Statemethods {
         player = new Player(this);
         tileManager = new TileManager(player);
 
-        monsters = new Monster[6];
+        monsters = new Monster[7];
         monsters[1] = new Slime(this,  9 * TILE_SIZE, 25 * TILE_SIZE);
         monsters[2] = new Slime(this, 11 * TILE_SIZE, 25 * TILE_SIZE);
         monsters[3] = new Slime(this, 7 * TILE_SIZE, 26 * TILE_SIZE);
         monsters[4] = new Slime(this, 10 * TILE_SIZE, 24 * TILE_SIZE);
         monsters[5] = new Slime(this, 13 * TILE_SIZE, 26 * TILE_SIZE);
 
-        monsters[0] = new PlantMelee(this, 7 * TILE_SIZE, 2 * TILE_SIZE);
+        monsters[6] = new PlantMelee(this, 7 * TILE_SIZE, 2 * TILE_SIZE);
+
+        monsters[0] = new Demon(this, 9 * TILE_SIZE, 30 * TILE_SIZE);
 
         entityList = new ArrayList<>();
         entityList.add(player);

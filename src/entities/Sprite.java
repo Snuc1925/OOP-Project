@@ -19,6 +19,9 @@ public class Sprite extends Entity{
         playing.getGame().getCollisionChecker().checkTile(this);
         playing.getGame().getCollisionChecker().checkEntity(this, getPlaying().entityList);
         if (collisionOn) return;
+//        if (name.equals("Demon"))
+//            System.out.println(direction);
+
         if (direction.equals("down")) {
             worldY += speed;
         }

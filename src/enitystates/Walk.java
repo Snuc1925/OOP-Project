@@ -2,6 +2,7 @@ package enitystates;
 
 import effect.Dash;
 import entities.Player;
+import entities.monsters.Demon;
 import entities.monsters.Slime;
 import entities.Sprite;
 import inputs.KeyboardInputs;
@@ -23,14 +24,22 @@ public class Walk extends EntityStateMethods{
     @Override
     public void update(Sprite entity) {
         Player player = entity.getPlaying().getPlayer();
-        entity.move();
 
         if (entity instanceof Slime slime) {
-            if (abs(player.getWorldX() - entity.getWorldX()) < TILE_SIZE * 2 && abs(player.getWorldY() - entity.getWorldY()) < TILE_SIZE * 2) {
+            entity.move();
+            if (slime.canAttack(true)) {
                 entity.currentState = EntityState.ATTACK;
-                return;
             }
-            slime.stateChanger();
+            else slime.stateChanger();
+        }
+        if (entity instanceof Demon demon) {
+            if (!demon.canSeePlayer()) {
+                demon.currentState = EntityState.IDLE;
+            }
+            else {
+                if (demon.canAttack(true)) demon.currentState = EntityState.ATTACK;
+                else demon.move();
+            }
         }
     }
 
@@ -67,7 +76,7 @@ public class Walk extends EntityStateMethods{
 
     }
     public void stateChanger(Player player, KeyboardInputs keyboardInputs) {
-        if (!keyboardInputs.spacePressed || player.currentWeapon.equals("NORMAL")) {
+        if (!keyboardInputs.attackPressed || player.currentWeapon.equals("NORMAL")) {
             if (player.isIdling) player.currentState = EntityState.WALK;
             if (!player.isIdling && keyboardInputs.shiftPressed) player.currentState = EntityState.RUN;
         }

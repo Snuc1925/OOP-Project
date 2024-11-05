@@ -26,13 +26,14 @@ public class Player extends Sprite {
     public int attackPointSpear, attackPointGun, manaCostPerShot;
     public int spearAttackRange, gunAttackRange;
 
-
     // Player's weapons
     public String currentWeapon = "NORMAL";
 
+    // Player weapons attackBox
+    public Rectangle spearAttackBox, gunAttackBox;
+
     //Player's skills
     public Dash dash = null;
-
 
     public Player(Playing playing) {
         super("Player", "player/Idle/Normal/down/1", playing, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT);
@@ -43,6 +44,8 @@ public class Player extends Sprite {
         walk = new Walk(this);
         death = new Death(this);
 
+        spearAttackBox = new Rectangle(0, 0, 3 * TILE_SIZE, 4 * TILE_SIZE);
+        gunAttackBox = new Rectangle(-7 * TILE_SIZE/2, -3 * TILE_SIZE, 10 * TILE_SIZE, 10 * TILE_SIZE);
     }
 
     public void setDefaultValues() {
@@ -68,17 +71,25 @@ public class Player extends Sprite {
         manaCostPerShot = 1;
     }
 
-
     @Override
     public void draw(Graphics2D g2) {
-//        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         if (dash != null) {
             dash.draw(g2);
             g2.drawImage(HelpMethods.makeMoreTransparent(image, 100), PLAYER_SCREEN_X, PLAYER_SCREEN_Y, null);
         }
         else g2.drawImage(image, PLAYER_SCREEN_X, PLAYER_SCREEN_Y, null);
 
-
+//        g2.setColor(Color.RED);
+//        if (currentWeapon.equals("GUN")) {
+//            g2.drawRect(gunAttackBox.x + PLAYER_SCREEN_X,
+//                    gunAttackBox.y + PLAYER_SCREEN_Y,
+//                    gunAttackBox.width, gunAttackBox.height);
+//        }
+//        else if (currentWeapon.equals("SPEAR")) {
+//            g2.drawRect(spearAttackBox.x + PLAYER_SCREEN_X,
+//                    spearAttackBox.y + PLAYER_SCREEN_Y,
+//                    spearAttackBox.width, spearAttackBox.height);
+//        }
     }
 
     int frameCounter = 0;
@@ -90,13 +101,16 @@ public class Player extends Sprite {
         // Switch weapons
         KeyboardInputs keyboardInputs = playing.getGame().getKeyboardInputs();
         frameCounter++;
-        if (keyboardInputs.enterPressed && frameCounter > weaponSwitchDelayed) {
+        if (keyboardInputs.changWeaponPressed && frameCounter > weaponSwitchDelayed) {
             switch (currentWeapon) {
                 case "NORMAL" -> currentWeapon = "SPEAR";
                 case "SPEAR" -> currentWeapon = "GUN";
                 case "GUN" -> currentWeapon = "NORMAL";
             }
             frameCounter = 0;
+            if (currentWeapon.equals("NORMAL") && currentState == EntityState.ATTACK) {
+                currentState = EntityState.IDLE;
+            }
         }
 
         // Skill cooldown
@@ -135,8 +149,6 @@ public class Player extends Sprite {
         if (dash != null) dash.update();
     }
 
-
-
     public void lockOn() {
         int angle = getAngleAuto();
         if (angle == 181) return;
@@ -171,14 +183,8 @@ public class Player extends Sprite {
                 if (entity.currentState != EntityState.DEATH && HelpMethods.canSeeEntity(playing, this, entity)) {
                     int newDistance = (this.getWorldY() - entity.getWorldY()) * (this.getWorldY() - entity.getWorldY()) +
                             (this.getWorldX() - entity.getWorldX()) * (this.getWorldX() - entity.getWorldX());
-                    switch (currentWeapon) {
-                        case "SPEAR":
-                            if (newDistance > spearAttackRange * spearAttackRange) continue;
-                            break;
-                        case "GUN":
-                            if (newDistance > gunAttackRange * gunAttackRange) continue;
-                            break;
-                    }
+                    if (!canAttackMonster(entity)) continue;
+
                     if (newDistance < distance && entity.isOnTheScreen()) {
                         lockedMonster = entity;
                         distance = newDistance;
@@ -212,5 +218,45 @@ public class Player extends Sprite {
             return 5;
         }
         return 0;
+    }
+
+    public void getHurt(int damage) {
+        if (dash != null) return;
+        currentHealth -= damage;
+        if (currentHealth <= 0) {
+            currentHealth = 0;
+            currentState = EntityState.DEATH;
+        }
+    }
+
+    public boolean canAttackMonster(Monster monster) {
+        int currentHitBoxX = monster.hitBox.x;
+        int currentHitBoxY = monster.hitBox.y;
+        int spearX = spearAttackBox.x;
+        int spearY = spearAttackBox.y;
+        int gunX = gunAttackBox.x;
+        int gunY = gunAttackBox.y;
+
+        spearAttackBox.x += worldX;
+        spearAttackBox.y += worldY;
+        gunAttackBox.x += worldX;
+        gunAttackBox.y += worldY;
+        monster.hitBox.x += monster.worldX;
+        monster.hitBox.y += monster.worldY;
+
+        boolean result = false;
+
+        if (currentWeapon.equals("SPEAR")) {
+            if (monster.hitBox.intersects(spearAttackBox)) result = true;
+        } else if (currentWeapon.equals("GUN")) {
+            if (monster.hitBox.intersects(gunAttackBox)) result = true;
+        }
+        monster.hitBox.x = currentHitBoxX;
+        monster.hitBox.y = currentHitBoxY;
+        spearAttackBox.x = spearX;
+        spearAttackBox.y = spearY;
+        gunAttackBox.x = gunX;
+        gunAttackBox.y = gunY;
+        return result;
     }
 }

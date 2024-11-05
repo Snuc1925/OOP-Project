@@ -101,14 +101,15 @@ public class Entity {
         Player player = playing.getPlayer();
         int playerWorldX = player.worldX;
         int playerWorldY = player.worldY;
-        return getWorldX() > (playerWorldX + TILE_SIZE) - (PLAYER_SCREEN_X + TILE_SIZE) - TILE_SIZE
-                && getWorldX() < (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE) + TILE_SIZE
-                && getWorldY() > (playerWorldY + TILE_SIZE) - (PLAYER_SCREEN_Y + TILE_SIZE) - TILE_SIZE
-                && getWorldY() < (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE) + TILE_SIZE;
+        return getWorldX() > (playerWorldX + TILE_SIZE) - (PLAYER_SCREEN_X + TILE_SIZE) - TILE_SIZE * 10
+                && getWorldX() < (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE) + TILE_SIZE * 10
+                && getWorldY() > (playerWorldY + TILE_SIZE) - (PLAYER_SCREEN_Y + TILE_SIZE) - TILE_SIZE * 10
+                && getWorldY() < (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE) + TILE_SIZE * 10;
     }
 
     public int getRenderOrder() {
         if (this.currentState == DEATH) return -100;
+        if (name.equals("Demon")) return worldY + height;
         return getWorldY();
     }
 }

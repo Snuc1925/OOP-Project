@@ -19,12 +19,18 @@ public class Slime extends Monster {
         death = new Death(this, 5, 10);
         this.worldX = worldX;
         this.worldY = worldY;
+
         speed = 2;
         attackPoints = 1;
-        currentHealth = 10;
         maxHealth = 10;
+        currentHealth = maxHealth;
+        attackRate = 30;
 
         solidArea = new Rectangle(0, TILE_SIZE*3/2, TILE_SIZE, TILE_SIZE/2);
+        visionBox = new Rectangle(-TILE_SIZE, 0, 3 * TILE_SIZE, 3 * TILE_SIZE);
+        hitBox = new Rectangle(0, TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        attackBox = (Rectangle) visionBox.clone();
+
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
     }
@@ -38,10 +44,7 @@ public class Slime extends Monster {
         Player player = playing.getPlayer();
         if (frameCounter > attack.totalAnimationFrames * attack.frameDuration) {
             if (playing.getGame().getCollisionChecker().checkPlayer(this)) {
-                player.currentHealth -= attackPoints;
-                if (player.currentHealth <= 0) {
-                    player.currentState = EntityState.DEATH;
-                }
+                player.getHurt(attackPoints);
             }
             currentState = EntityState.IDLE;
             frameCounter = 0;
@@ -59,6 +62,9 @@ public class Slime extends Monster {
             g2.setColor(Color.RED);
             g2.fillRect(getScreenX(), getScreenY() + 5 * 3, healthBarWidth, 4 * 3);
         }
+
+        // Draw auto LockOn
+        super.drawLockOn(g2, TILE_SIZE * 5 / 2, TILE_SIZE * 5 / 2);
     }
 
     @Override

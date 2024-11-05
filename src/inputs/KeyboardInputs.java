@@ -8,11 +8,14 @@ import main.GamePanel;
 public class KeyboardInputs extends KeyAdapter implements KeyListener  {
 
     private final GamePanel gamePanel;
-    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed;
+    public boolean enterPressed;
     public boolean shiftPressed;
     public boolean spacePressed;
     public boolean mousePressed;
-    public boolean skillActivePressed;
+    public boolean skillActivePressed; // K pressed
+    public boolean attackPressed; // J pressed
+    public boolean changWeaponPressed; // L pressed
 
     public KeyboardInputs(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -36,7 +39,6 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
     public void keyTyped(KeyEvent e) {
 
     }
-
 
     @Override
     public void keyReleased(KeyEvent e) {
@@ -64,6 +66,12 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
         }
         if (code == KeyEvent.VK_K) {
             skillActivePressed = false;
+        }
+        if (code == KeyEvent.VK_J) {
+            attackPressed = false;
+        }
+        if (code == KeyEvent.VK_L) {
+            changWeaponPressed = false;
         }
 
     }
@@ -94,6 +102,12 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
         }
         if (code == KeyEvent.VK_K) {
             skillActivePressed = true;
+        }
+        if (code == KeyEvent.VK_J) {
+            attackPressed = true;
+        }
+        if (code == KeyEvent.VK_L) {
+            changWeaponPressed = true;
         }
     }
     public int getMouseX() {
