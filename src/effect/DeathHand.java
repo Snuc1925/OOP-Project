@@ -32,7 +32,7 @@ public class DeathHand {
         this.worldY = worldY;
         this.player = player;
         this.bringerOfDeath = bringerOfDeath;
-        effectRect = new Rectangle(worldX + 5 * TILE_SIZE / 2, worldY + 5 * TILE_SIZE, 3 * TILE_SIZE, 3 * TILE_SIZE);
+        effectRect = new Rectangle(worldX + 5 * TILE_SIZE / 2, worldY + 5 * TILE_SIZE, 4 * TILE_SIZE, 4 * TILE_SIZE);
     }
     public BufferedImage getImage() {
         frameCounter++;

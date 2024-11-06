@@ -14,7 +14,6 @@ public class BringerOfDeath extends Monster{
     Attack normalAttack, castAttack;
     String currentAttackType = "NORMAl";
     DeathHand[] deathHand;
-    int skillCooldown = 600;
 
     public BringerOfDeath(Playing playing, int worldX, int worldY) {
         super("BringerOfDeath", "monster/BringerOfDeath/Idle/left/1", playing, 13 * TILE_SIZE, 6 * TILE_SIZE);
@@ -31,7 +30,7 @@ public class BringerOfDeath extends Monster{
 
         maxHealth = 50;
         currentHealth = maxHealth;
-        attackPoints = 3;
+        attackPoints = 5;
         speed = 4;
 
         normalAttack = new Attack(this, 10, 5, "ATTACK");
