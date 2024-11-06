@@ -1,6 +1,7 @@
 package enitystates;
 
 import entities.*;
+import entities.monsters.BringerOfDeath;
 import entities.monsters.Demon;
 import entities.monsters.PlantMelee;
 import entities.monsters.Slime;
@@ -46,16 +47,16 @@ public abstract class EntityStateMethods {
         if (entity instanceof PlantMelee) {
             return imageManager.getMonsterImage("PlantMelee", state, "ALL", numAnimationFrames + 1);
         }
-        if (entity instanceof Demon) {
-            return imageManager.getMonsterImage("Demon", state, entity.direction, numAnimationFrames + 1);
-//            // Add more cases for other directions if needed
-//            switch (entity.direction) {
-//                case "left", "up", "left_down", "left_up":
-//                    return imageManager.getMonsterImage("Demon", state, "left", numAnimationFrames + 1);
-//                case "right", "down", "right_down", "right_up":
-//                    return imageManager.getMonsterImage("Demon", state, "right", numAnimationFrames + 1);
-//            }
+        if (entity instanceof Demon || entity instanceof BringerOfDeath) {
+            // Add more cases for other directions if needed
+            switch (entity.direction) {
+                case "left", "up", "left_down", "left_up":
+                    return imageManager.getMonsterImage(entity.name, state, "left", numAnimationFrames + 1);
+                case "right", "down", "right_down", "right_up":
+                    return imageManager.getMonsterImage(entity.name, state, "right", numAnimationFrames + 1);
+            }
         }
+
         return null;
     }
 

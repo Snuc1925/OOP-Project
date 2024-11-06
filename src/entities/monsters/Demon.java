@@ -39,11 +39,11 @@ public class Demon extends Monster{
         frameCounter++;
         getDirectionForAttacking();
         int totalFrame = attack.totalAnimationFrames * attack.frameDuration;
+        if (frameCounter == 10 * attack.frameDuration && player.dash == null) {
+            if (canAttack(false))
+                player.getHurt(attackPoints);
+        }
         if (frameCounter == totalFrame) {
-            if (player.dash == null) {
-                if (canAttack(false))
-                    player.getHurt(attackPoints);
-            }
             currentState = EntityState.IDLE;
             frameCounter = 0;
         }
@@ -70,6 +70,6 @@ public class Demon extends Monster{
             g2.fillRect(getScreenX() + 7 * TILE_SIZE, getScreenY() + 4 * TILE_SIZE, healthBarWidth, 4 * 3);
         }
 
-        super.drawLockOn(g2, 8 * TILE_SIZE, 10 * TILE_SIZE);
+        super.drawLockOn(g2, 8 * TILE_SIZE, 10 * TILE_SIZE, 0, 0);
     }
 }

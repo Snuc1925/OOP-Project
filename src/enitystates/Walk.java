@@ -2,6 +2,7 @@ package enitystates;
 
 import effect.Dash;
 import entities.Player;
+import entities.monsters.BringerOfDeath;
 import entities.monsters.Demon;
 import entities.monsters.Slime;
 import entities.Sprite;
@@ -41,6 +42,16 @@ public class Walk extends EntityStateMethods{
                 else demon.move();
             }
         }
+        if (entity instanceof BringerOfDeath bringerOfDeath) {
+            if (!bringerOfDeath.canSeePlayer()) {
+                bringerOfDeath.currentState = EntityState.IDLE;
+            }
+            else {
+                if (bringerOfDeath.canAttack(true)) bringerOfDeath.currentState = EntityState.ATTACK;
+                else bringerOfDeath.move();
+            }
+        }
+
     }
 
     public void update(Player player, KeyboardInputs keyboardInputs) {

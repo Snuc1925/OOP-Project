@@ -4,6 +4,8 @@ import main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+
+import static utils.Constants.Player.*;
 import static utils.Constants.Screen.*;
 
 import java.awt.geom.AffineTransform;
@@ -12,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 import gamestates.Playing;
-import entities.Sprite;
+import entities.*;
 
 
 public class HelpMethods {
@@ -154,5 +156,12 @@ public class HelpMethods {
         g2.dispose();
 
         return transparentImage;
+    }
+
+    public static int getScreenX(int worldX, Player player) {
+        return worldX - player.worldX + PLAYER_SCREEN_X;
+    }
+    public static int getScreenY(int worldY, Player player) {
+        return worldY - player.worldY + PLAYER_SCREEN_Y;
     }
 }

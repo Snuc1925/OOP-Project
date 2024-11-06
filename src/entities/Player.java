@@ -25,6 +25,7 @@ public class Player extends Sprite {
     public int maxHealth, maxArmor, maxMana, currentArmor, currentHealth, currentMana;
     public int attackPointSpear, attackPointGun, manaCostPerShot;
     public int spearAttackRange, gunAttackRange;
+    public int outOfCombatCounter, armorGenTime, outOfCombatTime;
 
     // Player's weapons
     public String currentWeapon = "NORMAL";
@@ -45,7 +46,7 @@ public class Player extends Sprite {
         death = new Death(this);
 
         spearAttackBox = new Rectangle(0, 0, 3 * TILE_SIZE, 4 * TILE_SIZE);
-        gunAttackBox = new Rectangle(-7 * TILE_SIZE/2, -3 * TILE_SIZE, 10 * TILE_SIZE, 10 * TILE_SIZE);
+        gunAttackBox = new Rectangle(-7 * TILE_SIZE / 2, -3 * TILE_SIZE, 10 * TILE_SIZE, 10 * TILE_SIZE);
     }
 
     public void setDefaultValues() {
@@ -53,6 +54,8 @@ public class Player extends Sprite {
         solidArea.setBounds(18 * SCALE, 32 * SCALE, 13 * SCALE, 12 * SCALE);
         worldX = TILE_SIZE * 10 - TILE_SIZE * 3 / 2;
         worldY = TILE_SIZE * 10;
+//        worldX = 15 * TILE_SIZE;
+//        worldY = 34 * TILE_SIZE;
 
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
@@ -61,6 +64,8 @@ public class Player extends Sprite {
         maxArmor = 10;
         maxHealth = 12;
         maxMana = 50;
+        armorGenTime = 90; // 1.5 seconds between increasing 1 armor point
+        outOfCombatTime = 360 - armorGenTime; // After 6 seconds out of combat, armor will be generated
         currentArmor = maxArmor;
         currentHealth = maxHealth;
         currentMana = maxMana;
@@ -76,8 +81,7 @@ public class Player extends Sprite {
         if (dash != null) {
             dash.draw(g2);
             g2.drawImage(HelpMethods.makeMoreTransparent(image, 100), PLAYER_SCREEN_X, PLAYER_SCREEN_Y, null);
-        }
-        else g2.drawImage(image, PLAYER_SCREEN_X, PLAYER_SCREEN_Y, null);
+        } else g2.drawImage(image, PLAYER_SCREEN_X, PLAYER_SCREEN_Y, null);
 
 //        g2.setColor(Color.RED);
 //        if (currentWeapon.equals("GUN")) {
@@ -96,6 +100,7 @@ public class Player extends Sprite {
     int weaponSwitchDelayed = 60;
     int cooldownCounter = 0;
     int skillCooldown = 120;
+
     @Override
     public void update() {
         // Switch weapons
@@ -147,6 +152,13 @@ public class Player extends Sprite {
 
         // Update skill
         if (dash != null) dash.update();
+
+        // Increase armor when out of combat
+        outOfCombatCounter++;
+        if (outOfCombatCounter > outOfCombatTime + armorGenTime) {
+            if (currentArmor < maxArmor) currentArmor++;
+            outOfCombatCounter = outOfCombatTime;
+        }
     }
 
     public void lockOn() {
@@ -161,6 +173,7 @@ public class Player extends Sprite {
         else if (angle > 15 && angle < 75) this.direction = "left_up";
         else this.direction = "right";
     }
+
     public int getAngleMouse() {
         KeyboardInputs keyboardInputs = playing.getGame().getKeyboardInputs();
         int mouseX = keyboardInputs.getMouseX();
@@ -222,6 +235,16 @@ public class Player extends Sprite {
 
     public void getHurt(int damage) {
         if (dash != null) return;
+        outOfCombatCounter = 0;
+
+        if (currentArmor > damage) {
+            currentArmor -= damage;
+            return;
+        } else {
+            damage -= currentArmor;
+            currentArmor = 0;
+        }
+
         currentHealth -= damage;
         if (currentHealth <= 0) {
             currentHealth = 0;

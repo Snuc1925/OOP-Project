@@ -1,5 +1,6 @@
 package enitystates;
 
+import entities.monsters.BringerOfDeath;
 import entities.monsters.Demon;
 import entities.monsters.PlantMelee;
 import entities.monsters.Slime;
@@ -50,7 +51,7 @@ public class Death extends EntityStateMethods {
         if (entity instanceof Player player) {
             return imageManager.getPlayerImage(state, player.currentWeapon, player.direction, animationIndex + 1);
         }
-        if (entity instanceof Demon) {
+        if (entity instanceof Demon || entity instanceof BringerOfDeath) {
             switch (entity.direction) {
                 case "up", "left_up", "left", "left_down":
                     return imageManager.getMonsterImage(entity.name, state, "left", animationIndex + 1);
