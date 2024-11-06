@@ -33,6 +33,8 @@ public class ProjectileManager {
                 if (playing.getPlayer().currentHealth <= 0) {
                     playing.getPlayer().currentState = EntityState.DEATH;
                 }
+                iterator.remove();
+                continue;
             }
             playing.getGame().getCollisionChecker().checkTile(projectile);
             if (projectile.collisionOn == true) {

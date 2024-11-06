@@ -71,9 +71,9 @@ public class Projectile extends Sprite {
 
             g2.drawImage(image, screenX, screenY, width, height, null);
             // Draw solid area for debugging purposes
-            g2.setColor(Color.WHITE);
-            g2.setStroke(new BasicStroke(3));
-            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+//            g2.setColor(Color.WHITE);
+//            g2.setStroke(new BasicStroke(3));
+//            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }
     }
 
