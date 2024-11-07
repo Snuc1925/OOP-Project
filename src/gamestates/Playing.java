@@ -95,7 +95,10 @@ public class Playing extends State implements Statemethods {
             frameCounter = 0;
             Random random = new Random();
             int id = random.nextInt(monsters.length);
-            monsters[id].attackLongRange();
+            int ok = random.nextInt(3);
+            if (ok != 0) {
+                monsters[id].attackLongRange();
+            }
         }
     }
 

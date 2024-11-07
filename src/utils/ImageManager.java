@@ -110,8 +110,8 @@ public class ImageManager {
         return effectImages.get(key);
     }
 
-    public BufferedImage getProjectileImage(String name, String direction) {
-        String key = "PROJECTILE_" + name + "_" + direction;
+    public BufferedImage getProjectileImage(String name, int numAnimationFrame, String direction) {
+        String key = "PROJECTILE_" + name + "_" + numAnimationFrame + "_" + direction;
         return projectileImages.get(key);
     }
 }

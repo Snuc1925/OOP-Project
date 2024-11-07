@@ -9,6 +9,7 @@ import utils.HelpMethods;
 import utils.ImageLoader;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import static utils.Constants.Player.PLAYER_SCREEN_X;
@@ -203,10 +204,12 @@ public class Monster extends Sprite {
     public void attackLongRange() {
         String projectileDirection = getDirectionForAttacking(playing.getPlayer());
 //        BufferedImage projectileImage = ImageManager.getInstance().getProjectileImage("MONSTER_SLIME", projectileDirection);
-        int speed = 3;
+//        BufferedImage image = imageManager.getProjectileImage("MONSTER_SLIME", 0, projectileDirection);
+        int speed = 4;
         int attackPoints = 1;
-        String image_path = "projectile/monster/slime/" + projectileDirection;
-        Projectile projectile = new Projectile(playing, image_path, worldX, worldY, projectileDirection, speed, attackPoints);
+        int numAnimationFrame = 3;
+        String image_path = "projectile/monster/slime/1/" + projectileDirection;
+        Projectile projectile = new Projectile(playing, image_path, worldX, worldY, projectileDirection, speed, attackPoints, numAnimationFrame);
         playing.getProjectileManager().addProjectile(projectile);
     }
 }

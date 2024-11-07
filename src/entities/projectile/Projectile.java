@@ -15,7 +15,15 @@ import static utils.Constants.Player.PLAYER_SCREEN_Y;
 
 public class Projectile extends Sprite {
     public int attackPoints;
-    public Projectile(Playing playing, String image_path, int worldX, int worldY, String direction, int speed, int attackPoints) {
+    public int totalAnimationFrame;
+    public int numAnimationFrame;
+
+    public Projectile(Playing playing,
+                      String image_path,
+                      int worldX, int worldY,
+                      String direction, int speed,
+                      int attackPoints,
+                      int totalAnimationFrame) {
         super("PROJECTILE", image_path, playing, Constants.Screen.TILE_SIZE, Constants.Screen.TILE_SIZE);
         this.playing = playing;
         this.worldX = worldX;
@@ -23,6 +31,8 @@ public class Projectile extends Sprite {
         this.direction = direction;
         this.speed = speed;
         this.attackPoints = attackPoints;
+        this.numAnimationFrame = 0;
+        this.totalAnimationFrame = totalAnimationFrame;
     }
 
     public void move() {
@@ -66,6 +76,7 @@ public class Projectile extends Sprite {
         int playerWorldY = player.worldY;
         int screenX = worldX - playerWorldX + PLAYER_SCREEN_X;
         int screenY = worldY - playerWorldY + PLAYER_SCREEN_Y;
+
 
         if (isOnTheScreen()) {
 

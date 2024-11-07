@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ProjectileManager {
-    ArrayList<Projectile> projectileList;
-    Playing playing;
+    public ArrayList<Projectile> projectileList;
+    private Playing playing;
 
     public ProjectileManager(Playing playing) {
         projectileList = new ArrayList<>();
