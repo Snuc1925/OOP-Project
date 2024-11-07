@@ -1,5 +1,8 @@
 package enitystates;
 
+import entities.monsters.BringerOfDeath;
+import entities.monsters.Demon;
+import entities.monsters.PlantMelee;
 import entities.monsters.Slime;
 import entities.Sprite;
 import inputs.KeyboardInputs;
@@ -24,11 +27,26 @@ public class Idle extends EntityStateMethods{
     public void update(Sprite entity) {
         Player player = entity.getPlaying().getPlayer();
         if (entity instanceof Slime slime) {
-            if (abs(player.getWorldX() - entity.getWorldX()) < TILE_SIZE && abs(player.getWorldY() - entity.getWorldY()) < TILE_SIZE) {
+            if (slime.canAttack(true)) {
                 entity.currentState = EntityState.ATTACK;
-                return;
+            } else slime.stateChanger();
+        }
+        if (entity instanceof PlantMelee plantMelee) {
+            if (plantMelee.canAttack(true)) {
+                plantMelee.currentState = EntityState.ATTACK;
             }
-            slime.stateChanger();
+        }
+        if (entity instanceof Demon demon) {
+            demon.getDirectionForAttacking();
+            if (demon.canSeePlayer()) {
+                demon.currentState = EntityState.WALK;
+            }
+        }
+        if (entity instanceof BringerOfDeath bringerOfDeath) {
+            bringerOfDeath.getDirectionForAttacking();
+            if (bringerOfDeath.canSeePlayer()) {
+                bringerOfDeath.currentState = EntityState.WALK;
+            }
         }
     }
 
@@ -52,7 +70,7 @@ public class Idle extends EntityStateMethods{
             player.direction = "right";
         else player.isIdling = true;
 
-        if (!keyboardInputs.mousePressed || player.currentWeapon.equals("NORMAL")) {
+        if ((!keyboardInputs.attackPressed) || player.currentWeapon.equals("NORMAL")) {
             if (!player.isIdling) {
                 if (keyboardInputs.shiftPressed) player.currentState = EntityState.RUN;
                 else player.currentState = EntityState.WALK;

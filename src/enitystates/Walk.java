@@ -1,6 +1,9 @@
 package enitystates;
 
+import effect.Dash;
 import entities.Player;
+import entities.monsters.BringerOfDeath;
+import entities.monsters.Demon;
 import entities.monsters.Slime;
 import entities.Sprite;
 import inputs.KeyboardInputs;
@@ -22,19 +25,37 @@ public class Walk extends EntityStateMethods{
     @Override
     public void update(Sprite entity) {
         Player player = entity.getPlaying().getPlayer();
-        entity.move();
 
         if (entity instanceof Slime slime) {
-            if (abs(player.getWorldX() - entity.getWorldX()) < TILE_SIZE * 2 && abs(player.getWorldY() - entity.getWorldY()) < TILE_SIZE * 2) {
+            entity.move();
+            if (slime.canAttack(true)) {
                 entity.currentState = EntityState.ATTACK;
-                return;
             }
-            slime.stateChanger();
+            else slime.stateChanger();
         }
+        if (entity instanceof Demon demon) {
+            if (!demon.canSeePlayer()) {
+                demon.currentState = EntityState.IDLE;
+            }
+            else {
+                if (demon.canAttack(true)) demon.currentState = EntityState.ATTACK;
+                else demon.move();
+            }
+        }
+        if (entity instanceof BringerOfDeath bringerOfDeath) {
+            if (!bringerOfDeath.canSeePlayer()) {
+                bringerOfDeath.currentState = EntityState.IDLE;
+            }
+            else {
+                if (bringerOfDeath.canAttack(true)) bringerOfDeath.currentState = EntityState.ATTACK;
+                else bringerOfDeath.move();
+            }
+        }
+
     }
 
     public void update(Player player, KeyboardInputs keyboardInputs) {
-        player.speed = 4;
+        player.speed = player.getSpeed();
         player.isIdling = false;
         if (keyboardInputs.upPressed) {
             if (keyboardInputs.leftPressed)
@@ -63,9 +84,10 @@ public class Walk extends EntityStateMethods{
         if (!player.collisionOn && !player.isIdling) {
             player.move();
         }
+
     }
     public void stateChanger(Player player, KeyboardInputs keyboardInputs) {
-        if (!keyboardInputs.mousePressed || player.currentWeapon.equals("NORMAL")) {
+        if (!keyboardInputs.attackPressed || player.currentWeapon.equals("NORMAL")) {
             if (player.isIdling) player.currentState = EntityState.WALK;
             if (!player.isIdling && keyboardInputs.shiftPressed) player.currentState = EntityState.RUN;
         }

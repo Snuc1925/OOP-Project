@@ -4,6 +4,8 @@ import main.UtilityTool;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+
+import static utils.Constants.Player.*;
 import static utils.Constants.Screen.*;
 
 import java.awt.geom.AffineTransform;
@@ -12,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 import gamestates.Playing;
-import entities.Sprite;
+import entities.*;
 
 
 public class HelpMethods {
@@ -117,5 +119,49 @@ public class HelpMethods {
             }
         }
         return !playing.getTileManager().isWall(y2, x2);
+    }
+
+    public static BufferedImage makeWhiteExceptTransparent(BufferedImage image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        BufferedImage whiteImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int rgb = image.getRGB(x, y);
+                int alpha = (rgb >> 24) & 0xFF;
+
+                if (alpha == 0) {
+                    // Pixel is transparent, keep the original color
+                    whiteImage.setRGB(x, y, rgb);
+                } else {
+                    // Pixel is not transparent, make it white
+                    whiteImage.setRGB(x, y, 0xFFFFFFFF);
+                }
+            }
+        }
+
+        return whiteImage;
+    }
+    public static BufferedImage makeMoreTransparent(BufferedImage image, int alpha) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        BufferedImage transparentImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g2 = transparentImage.createGraphics();
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha / 255f));
+        g2.drawImage(image, 0, 0, null);
+        g2.dispose();
+
+        return transparentImage;
+    }
+
+    public static int getScreenX(int worldX, Player player) {
+        return worldX - player.worldX + PLAYER_SCREEN_X;
+    }
+    public static int getScreenY(int worldY, Player player) {
+        return worldY - player.worldY + PLAYER_SCREEN_Y;
     }
 }

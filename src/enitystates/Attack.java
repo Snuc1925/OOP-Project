@@ -1,7 +1,6 @@
 package enitystates;
 
-import entities.monsters.Monster;
-import entities.monsters.Slime;
+import entities.monsters.*;
 import entities.Sprite;
 import inputs.KeyboardInputs;
 import entities.Player;
@@ -15,6 +14,12 @@ public class Attack extends EntityStateMethods{
         state = "ATTACK";
     }
 
+    // This constructor used for multiple attack types
+    public Attack(Sprite entity, int totalAnimationFrames, int frameDuration, String customAttackState) {
+        super(entity, totalAnimationFrames, frameDuration);
+        state = customAttackState;
+    }
+
     public Attack(Sprite entity) {
         super(entity);
         state = "ATTACK";
@@ -23,9 +28,18 @@ public class Attack extends EntityStateMethods{
     int frameCounter = 0;
     @Override
     public void update(Sprite entity) {
-        if (entity instanceof Slime) {
-            ((Slime) entity).attack();
+        if (entity instanceof Slime slime) {
+            slime.attack();
         }
+
+        if (entity instanceof PlantMelee plantMelee) {
+            plantMelee.attack();
+        }
+
+        if (entity instanceof Demon demon) {
+            demon.attack();
+        }
+
     }
 
     public void update(Player player, KeyboardInputs keyboardInputs) {
@@ -52,7 +66,7 @@ public class Attack extends EntityStateMethods{
                     }
                 }
             }
-            if (!keyboardInputs.mousePressed) {
+            if (!keyboardInputs.attackPressed) {
                 player.currentState = lastState;
             }
             frameCounter = 0;
