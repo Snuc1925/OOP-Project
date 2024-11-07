@@ -39,6 +39,8 @@ public abstract class EntityStateMethods {
         ImageLoader.initialize();
         imageManager = ImageLoader.imageManager;
         if (entity instanceof Player player) {
+            if (state.equals("ATTACK") && player.currentWeapon.equals("SPEAR"))
+                return imageManager.getPlayerImage(state, player.currentWeapon, "VFX_" + entity.direction, numAnimationFrames + 1);
             return imageManager.getPlayerImage(state, player.currentWeapon, entity.direction, numAnimationFrames + 1);
         }
         if (entity instanceof Slime) {
