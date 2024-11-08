@@ -13,6 +13,12 @@ import static utils.Constants.Screen.TILE_SIZE;
 
 public class Idle extends EntityStateMethods{
 
+    // This constructor used for customization idle transformations
+    public Idle(Sprite entity, int totalAnimationFrames, int frameDuration, String state) {
+        super(entity, totalAnimationFrames, frameDuration);
+        this.state = state;
+    }
+
     public Idle(Sprite entity, int totalAnimationFrames, int frameDuration) {
         super(entity, totalAnimationFrames, frameDuration);
         state = "IDLE";

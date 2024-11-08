@@ -24,11 +24,11 @@ public class BringerOfDeath extends Monster{
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
         attackBox = new Rectangle(0, TILE_SIZE, 13 * TILE_SIZE, 6 * TILE_SIZE);
-        visionBox = new Rectangle(- 3 * TILE_SIZE, -3 * TILE_SIZE, 19 * TILE_SIZE, 18 * TILE_SIZE);
+        visionBox = new Rectangle(- 3 * TILE_SIZE, -3 * TILE_SIZE, 19 * TILE_SIZE, 14 * TILE_SIZE);
         hitBox = new Rectangle(88 * SCALE, 41 * SCALE, 32 * SCALE, 51 * SCALE);
         attackRate = 120;
 
-        maxHealth = 50;
+        maxHealth = 100;
         currentHealth = maxHealth;
         attackPoints = 5;
         speed = 4;
@@ -87,10 +87,11 @@ public class BringerOfDeath extends Monster{
                 player.getHurt(attackPoints);
         }
         if (frameCounter == totalFrame) {
-            Random random = new Random();
-            int x = random.nextInt(2);
-            if (x == 1) currentAttackType = "CAST";
-
+            if (currentHealth < maxHealth * 3 / 4) {
+                Random random = new Random();
+                int x = random.nextInt(2);
+                if (x == 0) currentAttackType = "CAST";
+            }
             currentState = EntityState.IDLE;
             frameCounter = 0;
         }
@@ -105,10 +106,10 @@ public class BringerOfDeath extends Monster{
             if (deathHand[0] == null) {
                 int deathHandWorldX = player.worldX - 5 * TILE_SIZE / 2;
                 int deathHandWorldY = player.worldY - TILE_SIZE * 5;
-                deathHand[0] = new DeathHand(this, player, deathHandWorldX - 5 * TILE_SIZE / 2 , deathHandWorldY - 5 * TILE_SIZE / 2, 0);
-                deathHand[1] = new DeathHand(this, player, deathHandWorldX, deathHandWorldY, 1);
-                deathHand[2] = new DeathHand(this, player, deathHandWorldX + 5 * TILE_SIZE, deathHandWorldY - 5 * TILE_SIZE / 2, 2);
-                deathHand[3] = new DeathHand(this, player, deathHandWorldX, deathHandWorldY + 5 * TILE_SIZE, 3);
+                deathHand[0] = new DeathHand(this, deathHandWorldX - 5 * TILE_SIZE / 2 , deathHandWorldY - 5 * TILE_SIZE / 2, 0);
+                deathHand[1] = new DeathHand(this, deathHandWorldX, deathHandWorldY, 1);
+                deathHand[2] = new DeathHand(this, deathHandWorldX + 5 * TILE_SIZE, deathHandWorldY - 5 * TILE_SIZE / 2, 2);
+                deathHand[3] = new DeathHand(this, deathHandWorldX, deathHandWorldY + 5 * TILE_SIZE, 3);
             }
             currentState = EntityState.IDLE;
             currentAttackType = "NORMAL";

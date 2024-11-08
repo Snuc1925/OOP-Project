@@ -15,59 +15,25 @@ import java.awt.image.BufferedImage;
 
 import static utils.Constants.Screen.TILE_SIZE;
 
-public class DeathHand {
-    int totalAnimationFrames = 15;
-    int numAnimationFrames = 0;
-    int frameDuration = 5;
-    int frameCounter = 0;
-    int worldX, worldY;
-    Player player;
-    Rectangle effectRect;
+public class DeathHand extends EffectMethod {
     BringerOfDeath bringerOfDeath;
-    int index;
+    public DeathHand(BringerOfDeath bringerOfDeath, int worldX, int worldY, int index) {
+        super("DeathHand",15,  bringerOfDeath, bringerOfDeath.getPlaying().getPlayer(), worldX, worldY, index);
 
-    public DeathHand(BringerOfDeath bringerOfDeath, Player player, int worldX, int worldY, int index) {
-        this.index = index;
-        this.worldX = worldX;
-        this.worldY = worldY;
-        this.player = player;
-        this.bringerOfDeath = bringerOfDeath;
+        frameDuration = 5;
         effectRect = new Rectangle(worldX + 5 * TILE_SIZE / 2, worldY + 5 * TILE_SIZE, 4 * TILE_SIZE, 4 * TILE_SIZE);
+        this.bringerOfDeath = bringerOfDeath;
     }
-    public BufferedImage getImage() {
-        frameCounter++;
-        if (frameCounter % frameDuration == 0) {
-            numAnimationFrames = (numAnimationFrames + 1) % totalAnimationFrames;
-        }
-        ImageLoader.initialize();
-        ImageManager eimageManager = ImageLoader.imageManager;
-        return eimageManager.getEffectImage("DeathHand", numAnimationFrames + 1);
 
-    }
     public void draw(Graphics2D g2) {
-        int screenX = HelpMethods.getScreenX(worldX, player);
-        int screenY = HelpMethods.getScreenY(worldY, player);
-        BufferedImage image = HelpMethods.scaleImage(getImage(), 2);
-        g2.drawImage(image, screenX, screenY, null);
-
-        // Draw effect rect
-        g2.setColor(Color.WHITE);
-        g2.drawRect(effectRect.x + screenX, effectRect.y + screenY, effectRect.width, effectRect.height);
+        super.draw(g2, 2);
+    }
+    public void update() {
+        super.update(8, true);
     }
 
-
-    public void update() {
-        if (frameCounter == 8 * frameDuration) {
-            player.solidArea.x += player.worldX;
-            player.solidArea.y += player.worldY;
-            if (player.solidArea.intersects(effectRect)) {
-                player.getHurt(bringerOfDeath.attackPoints);
-            }
-            player.solidArea.x = player.solidAreaDefaultX;
-            player.solidArea.y = player.solidAreaDefaultY;
-        }
-        if (frameCounter > frameDuration * totalAnimationFrames) {
-            bringerOfDeath.removeEffect(index);
-        }
+    @Override
+    public void removeEffect(int index) {
+        bringerOfDeath.removeEffect(index);
     }
 }

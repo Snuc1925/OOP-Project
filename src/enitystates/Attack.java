@@ -36,9 +36,7 @@ public class Attack extends EntityStateMethods{
             plantMelee.attack();
         }
 
-        if (entity instanceof Demon demon) {
-            demon.attack();
-        }
+
 
     }
 
@@ -51,18 +49,16 @@ public class Attack extends EntityStateMethods{
                 if (monster != null) {
                     if (monster.isBeingLockOn) {
                         if (player.currentWeapon.equals("SPEAR"))
-                            monster.currentHealth -= player.attackPointSpear;
+                            monster.getHurt(player.attackPointSpear);
                         else if (player.currentMana - player.manaCostPerShot < 0) {
                             player.currentState = lastState;
                             return;
                         }
                         else if (player.currentWeapon.equals("GUN")) {
-                            monster.currentHealth -= player.attackPointGun;
+                            monster.getHurt(player.attackPointGun);
                             player.currentMana -= player.manaCostPerShot;
                         }
-                        if (monster.currentHealth <= 0) {
-                            monster.currentState = EntityState.DEATH;
-                        }
+
                     }
                 }
             }

@@ -11,6 +11,12 @@ import entities.Player;
 import java.awt.image.BufferedImage;
 
 public class Death extends EntityStateMethods {
+
+    public Death(Sprite entity, int totalAnimationFrames, int frameDuration, String state) {
+        super(entity, totalAnimationFrames, frameDuration);
+        this.state = state;
+    }
+
     public Death(Sprite entity, int totalAnimationFrames, int frameDuration) {
         super(entity, totalAnimationFrames, frameDuration);
         state = "DEATH";

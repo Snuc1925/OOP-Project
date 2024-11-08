@@ -66,14 +66,15 @@ public class Monster extends Sprite {
         super.draw(g2);
 
         // Draw hitBox
-//        g2.setColor(Color.GREEN);
-//        g2.drawRect(hitBox.x + getScreenX(), hitBox.y + getScreenY(), hitBox.width, hitBox.height);
-//
-//        g2.setColor(Color.YELLOW);
-//        g2.drawRect(solidArea.x + getScreenX(), solidArea.y + getScreenY(), solidArea.width, solidArea.height);
-//        g2.drawRect(visionBox.x + getScreenX(),visionBox.y + getScreenY(),visionBox.width,visionBox.height);
+        if (playing.getGame().getKeyboardInputs().enterPressed) {
+            g2.setColor(Color.GREEN);
+            g2.drawRect(hitBox.x + getScreenX(), hitBox.y + getScreenY(), hitBox.width, hitBox.height);
 
-//        g2.drawRect(attackBox.x + getScreenX(), attackBox.y + getScreenY(), attackBox.width, attackBox.height);
+            g2.setColor(Color.YELLOW);
+            g2.drawRect(solidArea.x + getScreenX(), solidArea.y + getScreenY(), solidArea.width, solidArea.height);
+            g2.drawRect(visionBox.x + getScreenX(), visionBox.y + getScreenY(), visionBox.width, visionBox.height);
+            g2.drawRect(attackBox.x + getScreenX(), attackBox.y + getScreenY(), attackBox.width, attackBox.height);
+        }
     }
 
 
@@ -198,6 +199,14 @@ public class Monster extends Sprite {
                 effectCounter = 0;
             }
             g2.drawImage(ImageLoader.imageManager.getEffectImage("LockOn", numEffectFrame), screenX, screenY, effectWidth, effectHeight, null);
+        }
+    }
+
+    public void getHurt(int damage) {
+        currentHealth -= damage;
+        if (currentHealth <= 0) {
+            currentHealth = 0;
+            currentState = EntityState.DEATH;
         }
     }
 

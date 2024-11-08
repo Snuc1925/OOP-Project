@@ -1,5 +1,6 @@
 package gamestates;
 
+import effect.CameraShake;
 import enitystates.EntityState;
 import entities.*;
 import entities.monsters.*;
@@ -15,6 +16,7 @@ import utils.HelpMethods;
 import utils.ImageLoader;
 import utils.ImageManager;
 
+import static utils.Constants.Screen.SCREEN_X;
 import static utils.Constants.Screen.TILE_SIZE;
 
 public class Playing extends State implements Statemethods {
@@ -29,6 +31,9 @@ public class Playing extends State implements Statemethods {
     public ArrayList<Entity> entityList;
     public Entity[] entityArray;
 
+    // Test screen shake
+    public CameraShake cameraShake;
+
     public Playing(Game game) {
         super(game);
         player = new Player(this);
@@ -41,7 +46,7 @@ public class Playing extends State implements Statemethods {
         monsters[4] = new Slime(this, 10 * TILE_SIZE, 24 * TILE_SIZE);
         monsters[5] = new Slime(this, 13 * TILE_SIZE, 26 * TILE_SIZE);
         monsters[6] = new PlantMelee(this, 7 * TILE_SIZE, 2 * TILE_SIZE);
-        monsters[7] = new Demon(this, 8 * TILE_SIZE, 40 * TILE_SIZE);
+        monsters[7] = new Demon(this, 8 * TILE_SIZE, 30 * TILE_SIZE);
         monsters[0] = new BringerOfDeath(this, 33 * TILE_SIZE, 23 * TILE_SIZE);
 
         entityList = new ArrayList<>();
@@ -49,6 +54,8 @@ public class Playing extends State implements Statemethods {
         entityList.addAll(Arrays.asList(monsters));
 
         entityArray = entityList.toArray(new Entity[0]);
+
+        cameraShake = new CameraShake(20);
     }
 
     public Game getGame() {
@@ -64,6 +71,7 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void update() {
+        cameraShake.update();
 
         for (Entity entity : entityArray) {
             if (entity != null){

@@ -22,8 +22,8 @@ public class Constants {
         public static final int SCREEN_Y = SCREEN_HEIGHT/2- (TILE_SIZE/2);
     }
     public static class Player {
-        public static final int PLAYER_SCREEN_X = Screen.SCREEN_WIDTH/2 - Screen.TILE_SIZE/2 - 16 * Screen.SCALE;
-        public static final int PLAYER_SCREEN_Y = Screen.SCREEN_HEIGHT/2 - Screen.TILE_SIZE/2 - 16 * Screen.SCALE;
+        public static int PLAYER_SCREEN_X = Screen.SCREEN_WIDTH/2 - Screen.TILE_SIZE/2 - 16 * Screen.SCALE;
+        public static int PLAYER_SCREEN_Y = Screen.SCREEN_HEIGHT/2 - Screen.TILE_SIZE/2 - 16 * Screen.SCALE;
         public static final int PLAYER_IMAGE_WIDTH = Screen.TILE_SIZE*3;
         public static final int PLAYER_IMAGE_HEIGHT = Screen.TILE_SIZE*4;
     }
