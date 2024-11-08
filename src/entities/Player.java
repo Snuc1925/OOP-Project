@@ -52,10 +52,10 @@ public class Player extends Sprite {
     public void setDefaultValues() {
         solidArea = new Rectangle();
         solidArea.setBounds(18 * SCALE, 32 * SCALE, 13 * SCALE, 12 * SCALE);
-        worldX = TILE_SIZE * 10 - TILE_SIZE * 3 / 2;
-        worldY = TILE_SIZE * 10;
-//        worldX = 15 * TILE_SIZE;
-//        worldY = 34 * TILE_SIZE;
+//        worldX = TILE_SIZE * 10 - TILE_SIZE * 3 / 2;
+//        worldY = TILE_SIZE * 10;
+        worldX = 15 * TILE_SIZE;
+        worldY = 34 * TILE_SIZE;
 
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
@@ -83,17 +83,17 @@ public class Player extends Sprite {
             g2.drawImage(HelpMethods.makeMoreTransparent(image, 100), PLAYER_SCREEN_X, PLAYER_SCREEN_Y, null);
         } else g2.drawImage(image, PLAYER_SCREEN_X, PLAYER_SCREEN_Y, null);
 
-//        g2.setColor(Color.RED);
-//        if (currentWeapon.equals("GUN")) {
-//            g2.drawRect(gunAttackBox.x + PLAYER_SCREEN_X,
-//                    gunAttackBox.y + PLAYER_SCREEN_Y,
-//                    gunAttackBox.width, gunAttackBox.height);
-//        }
-//        else if (currentWeapon.equals("SPEAR")) {
-//            g2.drawRect(spearAttackBox.x + PLAYER_SCREEN_X,
-//                    spearAttackBox.y + PLAYER_SCREEN_Y,
-//                    spearAttackBox.width, spearAttackBox.height);
-//        }
+        g2.setColor(Color.RED);
+        if (currentWeapon.equals("GUN")) {
+            g2.drawRect(gunAttackBox.x + PLAYER_SCREEN_X,
+                    gunAttackBox.y + PLAYER_SCREEN_Y,
+                    gunAttackBox.width, gunAttackBox.height);
+        }
+        else if (currentWeapon.equals("SPEAR")) {
+            g2.drawRect(spearAttackBox.x + PLAYER_SCREEN_X,
+                    spearAttackBox.y + PLAYER_SCREEN_Y,
+                    spearAttackBox.width, spearAttackBox.height);
+        }
     }
 
     int frameCounter = 0;

@@ -12,6 +12,12 @@ import static java.lang.Math.abs;
 import static utils.Constants.Screen.TILE_SIZE;
 
 public class Walk extends EntityStateMethods{
+
+    public Walk(Sprite entity, int totalAnimationFrames, int frameDuration, String state) {
+        super(entity, totalAnimationFrames, frameDuration);
+        this.state = state;
+    }
+
     public Walk(Sprite entity, int totalAnimationFrames, int frameDuration) {
         super(entity, totalAnimationFrames, frameDuration);
         state = "WALK";

@@ -29,6 +29,7 @@ public class PlantMelee extends Monster {
         attackBox = new Rectangle(0, 0, width, height);
         solidArea = new Rectangle(2 * TILE_SIZE, 2 * TILE_SIZE, 2 * TILE_SIZE, 2 * TILE_SIZE);
         hitBox = (Rectangle) solidArea.clone();
+        visionBox = (Rectangle) attackBox.clone();
 
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;

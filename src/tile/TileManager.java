@@ -115,13 +115,13 @@ public class TileManager {
                 int worldX = worldCol*TILE_SIZE;
                 int worldY = worldRow*TILE_SIZE;
 
-                int screenX = worldX - (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE);
-                int screenY = worldY - (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE);
+                int screenX = worldX - playerWorldX + PLAYER_SCREEN_X;
+                int screenY = worldY - playerWorldY + PLAYER_SCREEN_Y;
 
-                if (worldX > (playerWorldX + TILE_SIZE) - (PLAYER_SCREEN_X + TILE_SIZE) - TILE_SIZE
-                        && worldX < (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE) + TILE_SIZE
-                        && worldY > (playerWorldY + TILE_SIZE) - (PLAYER_SCREEN_Y + TILE_SIZE) - TILE_SIZE
-                        && worldY < (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE) + TILE_SIZE)
+                if (worldX > (playerWorldX + TILE_SIZE) - (PLAYER_SCREEN_X + TILE_SIZE) - TILE_SIZE * 3
+                        && worldX < (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE) + TILE_SIZE * 3
+                        && worldY > (playerWorldY + TILE_SIZE) - (PLAYER_SCREEN_Y + TILE_SIZE) - TILE_SIZE * 3
+                        && worldY < (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE) + TILE_SIZE * 3)
                     g2.drawImage(tile[tileId].image, screenX, screenY, TILE_SIZE, TILE_SIZE, null);
             }
             worldCol++;
