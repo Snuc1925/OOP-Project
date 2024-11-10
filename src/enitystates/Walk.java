@@ -4,6 +4,7 @@ import effect.Dash;
 import entities.Player;
 import entities.monsters.BringerOfDeath;
 import entities.monsters.Demon;
+import entities.monsters.Samurai;
 import entities.monsters.Slime;
 import entities.Sprite;
 import inputs.KeyboardInputs;
@@ -55,6 +56,15 @@ public class Walk extends EntityStateMethods{
             else {
                 if (bringerOfDeath.canAttack(true)) bringerOfDeath.currentState = EntityState.ATTACK;
                 else bringerOfDeath.move();
+            }
+        }
+        if (entity instanceof Samurai samurai) {
+            if (!samurai.canSeePlayer()) {
+                samurai.currentState = EntityState.IDLE;
+            }
+            else {
+                if (samurai.canAttack(true)) samurai.currentState = EntityState.ATTACK;
+                else samurai.move();
             }
         }
 

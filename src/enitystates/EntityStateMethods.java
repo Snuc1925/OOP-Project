@@ -18,7 +18,7 @@ public abstract class EntityStateMethods {
     protected ImageManager imageManager;
     public int totalAnimationFrames = 8;
     public int frameDuration = 5;
-    protected int frameCounter = 0;
+    protected int frameCounter = -1;
     public int numAnimationFrames = 0;
 
     public EntityStateMethods(Sprite entity, int totalAnimationFrames, int frameDuration) {
@@ -46,10 +46,10 @@ public abstract class EntityStateMethods {
         if (entity instanceof Slime) {
             return imageManager.getMonsterImage(entity.name, state, entity.direction, numAnimationFrames + 1);
         }
-        if (entity instanceof PlantMelee) {
+        else if (entity instanceof PlantMelee) {
             return imageManager.getMonsterImage("PlantMelee", state, "ALL", numAnimationFrames + 1);
         }
-        if (entity instanceof Demon || entity instanceof BringerOfDeath) {
+        else {
             // Add more cases for other directions if needed
             switch (entity.direction) {
                 case "left", "up", "left_down", "left_up":

@@ -19,7 +19,7 @@ public class Demon extends Monster{
     public Death deathPhase2;
     private String attackPhase2Type = "CAST";
 
-    private Explosion[] explosion;
+    private final Explosion[] explosion;
 
 
     public Demon(Playing playing, int worldX, int worldY) {
@@ -255,7 +255,7 @@ public class Demon extends Monster{
         hitBox = (Rectangle) solidArea.clone();
 
         attackPoints = 5;
-        attackRate = 120;
+        attackRate = 100;
 
     }
 
