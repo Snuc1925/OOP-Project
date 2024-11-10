@@ -203,13 +203,12 @@ public class Monster extends Sprite {
 
     public void attackLongRange() {
         String projectileDirection = getDirectionForAttacking(playing.getPlayer());
-//        BufferedImage projectileImage = ImageManager.getInstance().getProjectileImage("MONSTER_SLIME", projectileDirection);
-//        BufferedImage image = imageManager.getProjectileImage("MONSTER_SLIME", 0, projectileDirection);
         int speed = 4;
         int attackPoints = 1;
         int numAnimationFrame = 3;
         String image_path = "projectile/monster/slime/1/" + projectileDirection;
-        Projectile projectile = new Projectile(playing, image_path, worldX, worldY, projectileDirection, speed, attackPoints, numAnimationFrame);
+        String name = "MONSTER_SLIME";
+        Projectile projectile = new Projectile(playing, name, image_path, worldX, worldY, projectileDirection, speed, attackPoints, numAnimationFrame);
         playing.getProjectileManager().addProjectile(projectile);
     }
 }

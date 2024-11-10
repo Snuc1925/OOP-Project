@@ -125,8 +125,8 @@ public class Monster extends Sprite{
 //        BufferedImage projectileImage = ImageManager.getInstance().getProjectileImage("MONSTER_SLIME", projectileDirection);
         int speed = 4;
         int attackPoints = 2;
-        String image_path = "projectile/monster/slime" + projectileDirection;
-        Projectile projectile = new Projectile(playing, image_path, worldX, worldY, projectileDirection, speed, attackPoints);
-        playing.getProjectileManager().addProjectile(projectile);
+        int totalAnimationFrame = 3;
+//        Projectile projectile = new Projectile(playing, image_path, worldX, worldY, projectileDirection, speed, attackPoints, totalAnimationFrame);
+//        playing.getProjectileManager().addProjectile(projectile);
     }
 }

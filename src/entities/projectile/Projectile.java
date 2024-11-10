@@ -1,6 +1,8 @@
 package entities.projectile;
 //import
 import static enitystates.EntityState.*;
+
+import enitystates.EntityStateMethods;
 import entities.Player;
 import entities.Sprite;
 import gamestates.Playing;
@@ -9,30 +11,30 @@ import utils.HelpMethods;
 
 import java.awt.*;
 import java.util.ArrayList;
+import enitystates.Attack;
 
 import static utils.Constants.Player.PLAYER_SCREEN_X;
 import static utils.Constants.Player.PLAYER_SCREEN_Y;
 
 public class Projectile extends Sprite {
     public int attackPoints;
-    public int totalAnimationFrame;
-    public int numAnimationFrame;
+    private Attack attack;
 
     public Projectile(Playing playing,
+                      String name,
                       String image_path,
                       int worldX, int worldY,
                       String direction, int speed,
                       int attackPoints,
                       int totalAnimationFrame) {
         super("PROJECTILE", image_path, playing, Constants.Screen.TILE_SIZE, Constants.Screen.TILE_SIZE);
-        this.playing = playing;
+        this.name = name;
         this.worldX = worldX;
         this.worldY = worldY;
         this.direction = direction;
         this.speed = speed;
         this.attackPoints = attackPoints;
-        this.numAnimationFrame = 0;
-        this.totalAnimationFrame = totalAnimationFrame;
+        this.attack = new Attack(this, totalAnimationFrame, 5);
     }
 
     public void move() {
@@ -68,6 +70,7 @@ public class Projectile extends Sprite {
 
     public void update() {
         move();
+        this.image = attack.getImage();
     }
 
     public void draw(Graphics2D g2) {

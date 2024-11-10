@@ -96,9 +96,8 @@ public class Playing extends State implements Statemethods {
             Random random = new Random();
             int id = random.nextInt(monsters.length);
             int ok = random.nextInt(3);
-            if (ok != 0) {
-                monsters[id].attackLongRange();
-            }
+            monsters[id].attackLongRange();
+            System.out.println("add projectile");
         }
     }
 

@@ -4,6 +4,7 @@ import entities.*;
 import entities.monsters.Demon;
 import entities.monsters.PlantMelee;
 import entities.monsters.Slime;
+import entities.projectile.Projectile;
 import utils.ImageLoader;
 import utils.ImageManager;
 
@@ -55,6 +56,10 @@ public abstract class EntityStateMethods {
 //                case "right", "down", "right_down", "right_up":
 //                    return imageManager.getMonsterImage("Demon", state, "right", numAnimationFrames + 1);
 //            }
+        }
+
+        if (entity instanceof Projectile) {
+            return imageManager.getMonsterImage(entity.name, state, entity.direction, numAnimationFrames + 1);
         }
         return null;
     }
