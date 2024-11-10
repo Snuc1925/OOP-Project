@@ -1,8 +1,6 @@
 package effect;
 
 import entities.Player;
-import entities.Sprite;
-import entities.monsters.BringerOfDeath;
 import entities.monsters.Monster;
 import utils.HelpMethods;
 import utils.ImageLoader;

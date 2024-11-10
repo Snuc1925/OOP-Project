@@ -46,7 +46,7 @@ public class Playing extends State implements Statemethods {
         monsters[4] = new Slime(this, 10 * TILE_SIZE, 24 * TILE_SIZE);
         monsters[5] = new Slime(this, 13 * TILE_SIZE, 26 * TILE_SIZE);
         monsters[6] = new PlantMelee(this, 7 * TILE_SIZE, 2 * TILE_SIZE);
-        monsters[7] = new Demon(this, 8 * TILE_SIZE, 30 * TILE_SIZE);
+        monsters[7] = new Samurai(this, 8 * TILE_SIZE, 30 * TILE_SIZE);
         monsters[0] = new BringerOfDeath(this, 33 * TILE_SIZE, 23 * TILE_SIZE);
 
         entityList = new ArrayList<>();
@@ -81,7 +81,7 @@ public class Playing extends State implements Statemethods {
         if (player.currentState != EntityState.DEATH)
             player.lockOn();
 
-        System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
+//        System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
     }
 
     @Override

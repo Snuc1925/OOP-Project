@@ -1,9 +1,6 @@
 package enitystates;
 
-import entities.monsters.BringerOfDeath;
-import entities.monsters.Demon;
-import entities.monsters.PlantMelee;
-import entities.monsters.Slime;
+import entities.monsters.*;
 import entities.Sprite;
 import inputs.KeyboardInputs;
 import entities.Player;
@@ -52,6 +49,12 @@ public class Idle extends EntityStateMethods{
             bringerOfDeath.getDirectionForAttacking();
             if (bringerOfDeath.canSeePlayer()) {
                 bringerOfDeath.currentState = EntityState.WALK;
+            }
+        }
+        if (entity instanceof Samurai samurai) {
+            samurai.getDirectionForAttacking();
+            if (samurai.canSeePlayer()) {
+                samurai.currentState = EntityState.WALK;
             }
         }
     }
