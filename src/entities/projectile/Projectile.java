@@ -2,9 +2,12 @@ package entities.projectile;
 //import
 import static enitystates.EntityState.*;
 
+import enitystates.EntityState;
 import enitystates.EntityStateMethods;
+import entities.Entity;
 import entities.Player;
 import entities.Sprite;
+import entities.monsters.Monster;
 import gamestates.Playing;
 import utils.Constants;
 import utils.HelpMethods;
@@ -12,6 +15,9 @@ import utils.HelpMethods;
 import java.awt.*;
 import java.util.ArrayList;
 import enitystates.Attack;
+import enitystates.Death;
+import utils.ImageLoader;
+import utils.ImageManager;
 
 import static utils.Constants.Player.PLAYER_SCREEN_X;
 import static utils.Constants.Player.PLAYER_SCREEN_Y;
@@ -19,22 +25,21 @@ import static utils.Constants.Player.PLAYER_SCREEN_Y;
 public class Projectile extends Sprite {
     public int attackPoints;
     private Attack attack;
+    private Death death;
 
-    public Projectile(Playing playing,
-                      String name,
-                      String image_path,
-                      int worldX, int worldY,
-                      String direction, int speed,
-                      int attackPoints,
-                      int totalAnimationFrame) {
-        super("PROJECTILE", image_path, playing, Constants.Screen.TILE_SIZE, Constants.Screen.TILE_SIZE);
-        this.name = name;
-        this.worldX = worldX;
-        this.worldY = worldY;
-        this.direction = direction;
-        this.speed = speed;
-        this.attackPoints = attackPoints;
-        this.attack = new Attack(this, totalAnimationFrame, 5);
+    public Projectile(Playing playing, String name, Sprite entity) {
+        super(name, playing, Constants.Screen.TILE_SIZE, Constants.Screen.TILE_SIZE);
+        this.worldX = entity.worldX;
+        this.worldY = entity.worldY;
+        this.direction = entity.direction;
+        this.currentState = ATTACK;
+
+        if (entity instanceof Monster) {
+            this.speed = Constants.Monster.Projectile.SPEED;
+            this.attackPoints = Constants.Monster.Projectile.ATTACK_POINTS;
+            this.attack = new Attack(this, Constants.Monster.Projectile.TOTAL_FRAME, Constants.Monster.Projectile.FRAME_DURATION);
+            this.death = new Death(this, Constants.Monster.Projectile.EXPLOSION_TOTAL_FRAME, Constants.Monster.Projectile.EXPLOSION_FRAME_DURATION);
+        }
     }
 
     public void move() {
@@ -69,8 +74,13 @@ public class Projectile extends Sprite {
     }
 
     public void update() {
-        move();
-        this.image = attack.getImage();
+        if (currentState == ATTACK) {
+            move();
+            System.out.println("UPDATEEEEEEEEEEE");
+            this.image = attack.getImage();
+        } else {
+            this.image = death.getImage();
+        }
     }
 
     public void draw(Graphics2D g2) {
@@ -85,9 +95,9 @@ public class Projectile extends Sprite {
 
             g2.drawImage(image, screenX, screenY, width, height, null);
             // Draw solid area for debugging purposes
-//            g2.setColor(Color.WHITE);
-//            g2.setStroke(new BasicStroke(3));
-//            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+            g2.setColor(Color.WHITE);
+            g2.setStroke(new BasicStroke(3));
+            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
         }
     }
 

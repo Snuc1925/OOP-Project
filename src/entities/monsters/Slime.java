@@ -37,7 +37,7 @@ public class Slime extends Monster {
 
     int frameCounter = 0;
     public void attack() {
-        direction = getDirectionForAttacking(playing.getPlayer());
+        getDirectionForAttacking();
         speed = 4;
         move();
         frameCounter++;
@@ -64,7 +64,7 @@ public class Slime extends Monster {
         }
 
         // Draw auto LockOn
-        super.drawLockOn(g2, TILE_SIZE * 5 / 2, TILE_SIZE * 5 / 2);
+        super.drawLockOn(g2, TILE_SIZE * 5 / 2, TILE_SIZE * 5 / 2, 0, 0);
     }
 
     @Override
@@ -76,5 +76,7 @@ public class Slime extends Monster {
     public int getWorldY() {
         return worldY + TILE_SIZE * 3 / 2;
     }
+
+
 
 }

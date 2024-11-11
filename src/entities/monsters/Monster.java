@@ -68,12 +68,15 @@ public class Monster extends Sprite {
         super.draw(g2);
 
         // Draw hitBox
-//        g2.setColor(Color.GREEN);
-//        g2.drawRect(hitBox.x + getScreenX(), hitBox.y + getScreenY(), hitBox.width, hitBox.height);
+        if (playing.getGame().getKeyboardInputs().enterPressed) {
+            g2.setColor(Color.GREEN);
+            g2.drawRect(hitBox.x + getScreenX(), hitBox.y + getScreenY(), hitBox.width, hitBox.height);
 
-//        g2.drawRect(visionBox.x + getScreenX(),visionBox.y + getScreenY(),visionBox.width,visionBox.height);
-
-//        g2.drawRect(attackBox.x + getScreenX(), attackBox.y + getScreenY(), attackBox.width, attackBox.height);
+            g2.setColor(Color.YELLOW);
+            g2.drawRect(solidArea.x + getScreenX(), solidArea.y + getScreenY(), solidArea.width, solidArea.height);
+            g2.drawRect(visionBox.x + getScreenX(), visionBox.y + getScreenY(), visionBox.width, visionBox.height);
+            g2.drawRect(attackBox.x + getScreenX(), attackBox.y + getScreenY(), attackBox.width, attackBox.height);
+        }
     }
 
 
@@ -182,7 +185,7 @@ public class Monster extends Sprite {
         return result;
     }
 
-    public void drawLockOn(Graphics2D g2, int effectWidth, int effectHeight) {
+    public void drawLockOn(Graphics2D g2, int effectWidth, int effectHeight, int xDiff, int yDiff) {
         // Draw auto lockOn effect
         if (isBeingLockOn && currentState != EntityState.DEATH) {
             effectCounter++;
@@ -190,8 +193,8 @@ public class Monster extends Sprite {
             int playerWorldX = player.worldX;
             int playerWorldY = player.worldY;
 
-            int screenX = getWorldX() - playerWorldX + PLAYER_SCREEN_X - effectWidth / 2;
-            int screenY = getWorldY() - playerWorldY + PLAYER_SCREEN_Y - effectHeight / 2;
+            int screenX = getWorldX() + xDiff - playerWorldX + PLAYER_SCREEN_X - effectWidth / 2;
+            int screenY = getWorldY() + yDiff - playerWorldY + PLAYER_SCREEN_Y - effectHeight / 2;
 
             if (effectCounter > 2) {
                 numEffectFrame = (numEffectFrame + 1) % 8;
@@ -201,14 +204,23 @@ public class Monster extends Sprite {
         }
     }
 
-    public void attackLongRange() {
-        String projectileDirection = getDirectionForAttacking(playing.getPlayer());
-        int speed = 4;
-        int attackPoints = 1;
-        int numAnimationFrame = 3;
-        String image_path = "projectile/monster/slime/1/" + projectileDirection;
-        String name = "MONSTER_SLIME";
-        Projectile projectile = new Projectile(playing, name, image_path, worldX, worldY, projectileDirection, speed, attackPoints, numAnimationFrame);
-        playing.getProjectileManager().addProjectile(projectile);
+    // Attack: projectile animation, Death: explosion animation
+//    public void attackLongRange(Attack attack, Death death) {
+//        getDirectionForAttacking();
+//        String projectileDirection = this.direction;
+//        int speed = 4;
+//        int attackPoints = 1;
+//        int numAnimationFrame = 3;
+//        String name = "MONSTER_SLIME";
+//        Projectile projectile = new Projectile(playing, name, worldX, worldY, projectileDirection, speed, attackPoints, numAnimationFrame);
+//        playing.getProjectileManager().addProjectile(projectile);
+//    }
+
+    public void getHurt(int damage) {
+        currentHealth -= damage;
+        if (currentHealth <= 0) {
+            currentHealth = 0;
+            currentState = EntityState.DEATH;
+        }
     }
 }

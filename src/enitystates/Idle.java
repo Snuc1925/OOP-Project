@@ -1,8 +1,6 @@
 package enitystates;
 
-import entities.monsters.Demon;
-import entities.monsters.PlantMelee;
-import entities.monsters.Slime;
+import entities.monsters.*;
 import entities.Sprite;
 import inputs.KeyboardInputs;
 import entities.Player;
@@ -11,6 +9,12 @@ import static java.lang.Math.abs;
 import static utils.Constants.Screen.TILE_SIZE;
 
 public class Idle extends EntityStateMethods{
+
+    // This constructor used for customization idle transformations
+    public Idle(Sprite entity, int totalAnimationFrames, int frameDuration, String state) {
+        super(entity, totalAnimationFrames, frameDuration);
+        this.state = state;
+    }
 
     public Idle(Sprite entity, int totalAnimationFrames, int frameDuration) {
         super(entity, totalAnimationFrames, frameDuration);
@@ -39,6 +43,18 @@ public class Idle extends EntityStateMethods{
             demon.getDirectionForAttacking();
             if (demon.canSeePlayer()) {
                 demon.currentState = EntityState.WALK;
+            }
+        }
+        if (entity instanceof BringerOfDeath bringerOfDeath) {
+            bringerOfDeath.getDirectionForAttacking();
+            if (bringerOfDeath.canSeePlayer()) {
+                bringerOfDeath.currentState = EntityState.WALK;
+            }
+        }
+        if (entity instanceof Samurai samurai) {
+            samurai.getDirectionForAttacking();
+            if (samurai.canSeePlayer()) {
+                samurai.currentState = EntityState.WALK;
             }
         }
     }

@@ -73,7 +73,7 @@ public class ImageManager {
                     BufferedImage image = ImageIO.read(file);
                     image = HelpMethods.scaleImage(image, Constants.Screen.SCALE);
                     images.put(key, image);
-                    System.out.println(key);
+//                    System.out.println(key);
                 } catch (IOException e) {
                     System.err.println("Failed to load image: " + file.getPath());
                     e.printStackTrace();
@@ -89,8 +89,8 @@ public class ImageManager {
         }
         key += direction.toUpperCase() + "_";
         key += numAnimationFrame;
-        if (state.equals("DEATH"))
-            System.out.println(key);
+//        if (state.equals("DEATH"))
+//            System.out.println(key);
         return playerImages.get(key);  // Trả về ảnh từ bộ nhớ
     }
 
@@ -101,7 +101,7 @@ public class ImageManager {
 
     public BufferedImage getMonsterImage(String name, String state, String direction, int numAnimationFrame) {
         String key = "MONSTER_" + name.toUpperCase() + "_" + state.toUpperCase() + "_" + direction.toUpperCase() + "_" + numAnimationFrame;
-        System.out.println(key);
+//        System.out.println(key);
         return monsterImages.get(key);
     }
 
@@ -110,8 +110,15 @@ public class ImageManager {
         return effectImages.get(key);
     }
 
-    public BufferedImage getProjectileImage(String name, int numAnimationFrame, String direction) {
-        String key = "PROJECTILE_" + name + "_" + numAnimationFrame + "_" + direction;
+    public BufferedImage getProjectileImage(String name, String state, String direction, int numAnimationFrame) {
+        String key = "PROJECTILE_" + name.toUpperCase() + "_" + state + "_" + numAnimationFrame + "_" + direction.toUpperCase();
+        System.out.println(key);
+        BufferedImage img = projectileImages.get(key);
+        if (img == null) {
+            System.out.println("null");
+        } else {
+            System.out.println("not null");
+        }
         return projectileImages.get(key);
     }
 }

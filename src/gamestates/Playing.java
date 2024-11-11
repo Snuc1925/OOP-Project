@@ -1,17 +1,15 @@
 package gamestates;
 
+import effect.CameraShake;
 import enitystates.EntityState;
 import entities.*;
 
+import entities.monsters.*;
 import entities.projectile.ProjectileManager;
 import main.Game;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
-import entities.monsters.Demon;
-import entities.monsters.Monster;
-import entities.monsters.PlantMelee;
-import entities.monsters.Slime;
 import main.Game;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -24,10 +22,12 @@ import utils.HelpMethods;
 import utils.ImageLoader;
 import utils.ImageManager;
 
+import system.MonsterAttackSystem;
+
+import static utils.Constants.Screen.SCREEN_X;
 import static utils.Constants.Screen.TILE_SIZE;
 
 public class Playing extends State implements Statemethods {
-
     private final Player player;
     private final TileManager tileManager;
 
@@ -39,29 +39,33 @@ public class Playing extends State implements Statemethods {
     public Entity[] entityArray;
 
     private ProjectileManager projectileManager;
+    public CameraShake cameraShake;
 
+    private MonsterAttackSystem monsterAttackSystem;
     public Playing(Game game) {
         super(game);
         player = new Player(this);
         tileManager = new TileManager(player);
         projectileManager = new ProjectileManager(this);
 
-        monsters = new Monster[7];
+        monsters = new Monster[8];
         monsters[1] = new Slime(this,  9 * TILE_SIZE, 25 * TILE_SIZE);
         monsters[2] = new Slime(this, 11 * TILE_SIZE, 25 * TILE_SIZE);
         monsters[3] = new Slime(this, 7 * TILE_SIZE, 26 * TILE_SIZE);
         monsters[4] = new Slime(this, 10 * TILE_SIZE, 24 * TILE_SIZE);
         monsters[5] = new Slime(this, 13 * TILE_SIZE, 26 * TILE_SIZE);
-
         monsters[6] = new PlantMelee(this, 7 * TILE_SIZE, 2 * TILE_SIZE);
-
-        monsters[0] = new Demon(this, 9 * TILE_SIZE, 30 * TILE_SIZE);
+        monsters[7] = new Samurai(this, 8 * TILE_SIZE, 30 * TILE_SIZE);
+        monsters[0] = new BringerOfDeath(this, 33 * TILE_SIZE, 23 * TILE_SIZE);
 
         entityList = new ArrayList<>();
         entityList.add(player);
         entityList.addAll(Arrays.asList(monsters));
 
         entityArray = entityList.toArray(new Entity[0]);
+
+        cameraShake = new CameraShake(20);
+        monsterAttackSystem = new MonsterAttackSystem(this);
     }
 
     public Game getGame() {
@@ -77,9 +81,10 @@ public class Playing extends State implements Statemethods {
         return tileManager;
     }
 
-    int frameCounter = 0;
     @Override
     public void update() {
+        cameraShake.update();
+
         for (Entity entity : entityArray) {
             if (entity != null){
                 entity.update();
@@ -88,17 +93,8 @@ public class Playing extends State implements Statemethods {
         if (player.currentState != EntityState.DEATH)
             player.lockOn();
 
+        monsterAttackSystem.update();
         projectileManager.update();
-
-        frameCounter++;
-        if (frameCounter == 60) {
-            frameCounter = 0;
-            Random random = new Random();
-            int id = random.nextInt(monsters.length);
-            int ok = random.nextInt(3);
-            monsters[id].attackLongRange();
-            System.out.println("add projectile");
-        }
     }
 
     @Override
@@ -109,6 +105,8 @@ public class Playing extends State implements Statemethods {
         for (Entity entity : entityList) {
             entity.draw(g2);
         }
+        projectileManager.draw(g2);
+
 
         // Draw player status GUI
         ImageLoader.initialize();
@@ -151,7 +149,6 @@ public class Playing extends State implements Statemethods {
         text = player.currentMana + "/" + player.maxMana;
         g2.drawString(text, 90, 93);
 
-        projectileManager.draw(g2);
     }
 
 

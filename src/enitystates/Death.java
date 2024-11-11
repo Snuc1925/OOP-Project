@@ -1,15 +1,23 @@
 package enitystates;
 
+import entities.monsters.BringerOfDeath;
 import entities.monsters.Demon;
 import entities.monsters.PlantMelee;
 import entities.monsters.Slime;
 import entities.Sprite;
+import entities.projectile.Projectile;
 import utils.ImageLoader;
 import entities.Player;
 
 import java.awt.image.BufferedImage;
 
 public class Death extends EntityStateMethods {
+
+    public Death(Sprite entity, int totalAnimationFrames, int frameDuration, String state) {
+        super(entity, totalAnimationFrames, frameDuration);
+        this.state = state;
+    }
+
     public Death(Sprite entity, int totalAnimationFrames, int frameDuration) {
         super(entity, totalAnimationFrames, frameDuration);
         state = "DEATH";
@@ -47,10 +55,11 @@ public class Death extends EntityStateMethods {
             return imageManager.getMonsterImage(entity.name, state, "ALL", animationIndex + 1);
         }
 
+
         if (entity instanceof Player player) {
             return imageManager.getPlayerImage(state, player.currentWeapon, player.direction, animationIndex + 1);
         }
-        if (entity instanceof Demon) {
+        else {
             switch (entity.direction) {
                 case "up", "left_up", "left", "left_down":
                     return imageManager.getMonsterImage(entity.name, state, "left", animationIndex + 1);

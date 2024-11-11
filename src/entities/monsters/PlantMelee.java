@@ -29,6 +29,7 @@ public class PlantMelee extends Monster {
         attackBox = new Rectangle(0, 0, width, height);
         solidArea = new Rectangle(2 * TILE_SIZE, 2 * TILE_SIZE, 2 * TILE_SIZE, 2 * TILE_SIZE);
         hitBox = (Rectangle) solidArea.clone();
+        visionBox = (Rectangle) attackBox.clone();
 
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
@@ -48,21 +49,28 @@ public class PlantMelee extends Monster {
     }
 
     int frameCounter = 0;
+    boolean attackSuccess = false;
     public void attack() {
         Player player = playing.getPlayer();
+
         frameCounter++;
         int totalFrame = attack.totalAnimationFrames * attack.frameDuration;
         if (frameCounter >= totalFrame - knockbackDuration) {
             getDirectionForAttacking();
-            if (player.dash == null) {
-                player.knock_back(10, direction);
+            if (player.dash == null && canAttack(false)) {
+                player.knock_back(20, direction);
+                attackSuccess = true;
+            }
+            if (frameCounter == 9 * attack.frameDuration && attackSuccess) {
+                player.getHurt(attackPoints);
+                attackSuccess = false;
             }
             if (frameCounter == totalFrame) {
-                player.getHurt(attackPoints);
                 currentState = EntityState.IDLE;
                 frameCounter = 0;
             }
         }
+
     }
 
     @Override
@@ -75,7 +83,7 @@ public class PlantMelee extends Monster {
             g2.fillRect(getScreenX() + 2 * TILE_SIZE, getScreenY() + TILE_SIZE, healthBarWidth, 4 * 3);
         }
 
-        super.drawLockOn(g2, TILE_SIZE * 5 / 2, TILE_SIZE * 5 / 2);
+        super.drawLockOn(g2, TILE_SIZE * 5 / 2, TILE_SIZE * 5 / 2, 0, 0);
 
     }
 

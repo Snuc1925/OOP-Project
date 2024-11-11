@@ -11,6 +11,9 @@ public class Sprite extends Entity{
     public String direction = "down";
     public boolean isIdling = true;
 
+    public Sprite(String name, Playing playing, int width, int height) {
+        super(name, playing, width, height);
+    }
     public Sprite(String name, String image_path, Playing playing, int width, int height) {
         super(name, image_path, playing, width, height);
     }
@@ -52,19 +55,6 @@ public class Sprite extends Entity{
         }
     }
 
-    public String getDirectionForAttacking(Entity target) {
-        int dx = target.getWorldX() - worldX;
-        int dy = target.getWorldY() - worldY;
-        double angle = (Math.atan2(dy, dx) * 180 / Math.PI);
-        if (angle >= -22 && angle < 22)  return "right";
-        else if (angle >= 22 && angle < 67) return "right_down";
-        else if (angle >= 67 && angle < 112) return "down";
-        else if (angle >= 112 && angle < 157) return "left_down";
-        else if (angle >= 157 || angle < -157) return "left";
-        else if (angle >= -157 && angle < -112) return "left_up";
-        else if (angle >= -112 && angle < -67) return "up";
-        else return "right_up";
-    }
     public void knock_back(int speed, String direction) {
         String temp = this.direction;
         int tempSpeed = this.speed;

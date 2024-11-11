@@ -1,9 +1,6 @@
 package enitystates;
 
-import entities.monsters.Demon;
-import entities.monsters.Monster;
-import entities.monsters.PlantMelee;
-import entities.monsters.Slime;
+import entities.monsters.*;
 import entities.Sprite;
 import inputs.KeyboardInputs;
 import entities.Player;
@@ -15,6 +12,12 @@ public class Attack extends EntityStateMethods{
     public Attack(Sprite entity,int totalAnimationFrames, int frameDuration) {
         super(entity, totalAnimationFrames, frameDuration);
         state = "ATTACK";
+    }
+
+    // This constructor used for multiple attack types
+    public Attack(Sprite entity, int totalAnimationFrames, int frameDuration, String customAttackState) {
+        super(entity, totalAnimationFrames, frameDuration);
+        state = customAttackState;
     }
 
     public Attack(Sprite entity) {
@@ -33,9 +36,8 @@ public class Attack extends EntityStateMethods{
             plantMelee.attack();
         }
 
-        if (entity instanceof Demon demon) {
-            demon.attack();
-        }
+
+
     }
 
     public void update(Player player, KeyboardInputs keyboardInputs) {
@@ -47,18 +49,16 @@ public class Attack extends EntityStateMethods{
                 if (monster != null) {
                     if (monster.isBeingLockOn) {
                         if (player.currentWeapon.equals("SPEAR"))
-                            monster.currentHealth -= player.attackPointSpear;
+                            monster.getHurt(player.attackPointSpear);
                         else if (player.currentMana - player.manaCostPerShot < 0) {
                             player.currentState = lastState;
                             return;
                         }
                         else if (player.currentWeapon.equals("GUN")) {
-                            monster.currentHealth -= player.attackPointGun;
+                            monster.getHurt(player.attackPointGun);
                             player.currentMana -= player.manaCostPerShot;
                         }
-                        if (monster.currentHealth <= 0) {
-                            monster.currentState = EntityState.DEATH;
-                        }
+
                     }
                 }
             }

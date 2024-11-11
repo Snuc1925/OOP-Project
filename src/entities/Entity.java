@@ -47,6 +47,16 @@ public class Entity {
     }
 
     // For player, npc and monster
+    public Entity(String name, Playing playing, int width, int height) {
+        this.name = name;
+        this.playing = playing;
+        this.width = width;
+        this.height = height;
+
+        solidArea = new Rectangle(0, 0, Constants.Screen.TILE_SIZE, Constants.Screen.TILE_SIZE);
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
+    }
     public Entity(String name, String image_path, Playing playing, int width, int height) {
         this.playing = playing;
         this.name = name;
@@ -92,10 +102,10 @@ public class Entity {
     }
 
     public int getScreenX() {
-        return worldX - playing.getPlayer().worldX + PLAYER_SCREEN_X;
+        return HelpMethods.getScreenX(worldX, playing.getPlayer());
     }
     public int getScreenY() {
-        return worldY - playing.getPlayer().worldY + PLAYER_SCREEN_Y;
+        return HelpMethods.getScreenY(worldY, playing.getPlayer());
     }
     public boolean isOnTheScreen() {
         Player player = playing.getPlayer();

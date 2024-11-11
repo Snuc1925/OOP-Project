@@ -2,7 +2,9 @@ package enitystates;
 
 import effect.Dash;
 import entities.Player;
+import entities.monsters.BringerOfDeath;
 import entities.monsters.Demon;
+import entities.monsters.Samurai;
 import entities.monsters.Slime;
 import entities.Sprite;
 import inputs.KeyboardInputs;
@@ -11,6 +13,12 @@ import static java.lang.Math.abs;
 import static utils.Constants.Screen.TILE_SIZE;
 
 public class Walk extends EntityStateMethods{
+
+    public Walk(Sprite entity, int totalAnimationFrames, int frameDuration, String state) {
+        super(entity, totalAnimationFrames, frameDuration);
+        this.state = state;
+    }
+
     public Walk(Sprite entity, int totalAnimationFrames, int frameDuration) {
         super(entity, totalAnimationFrames, frameDuration);
         state = "WALK";
@@ -41,6 +49,25 @@ public class Walk extends EntityStateMethods{
                 else demon.move();
             }
         }
+        if (entity instanceof BringerOfDeath bringerOfDeath) {
+            if (!bringerOfDeath.canSeePlayer()) {
+                bringerOfDeath.currentState = EntityState.IDLE;
+            }
+            else {
+                if (bringerOfDeath.canAttack(true)) bringerOfDeath.currentState = EntityState.ATTACK;
+                else bringerOfDeath.move();
+            }
+        }
+        if (entity instanceof Samurai samurai) {
+            if (!samurai.canSeePlayer()) {
+                samurai.currentState = EntityState.IDLE;
+            }
+            else {
+                if (samurai.canAttack(true)) samurai.currentState = EntityState.ATTACK;
+                else samurai.move();
+            }
+        }
+
     }
 
     public void update(Player player, KeyboardInputs keyboardInputs) {

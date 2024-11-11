@@ -28,6 +28,7 @@ public class ProjectileManager {
         while (iterator.hasNext()) {
             Projectile projectile = iterator.next();
             playing.getGame().getCollisionChecker().checkPlayer(projectile);
+            playing.getGame().getCollisionChecker().checkTile(projectile);
             if (projectile.collisionOn == true) {
                 playing.getPlayer().currentHealth -= projectile.attackPoints;
                 if (playing.getPlayer().currentHealth <= 0) {
@@ -36,7 +37,6 @@ public class ProjectileManager {
                 iterator.remove();
                 continue;
             }
-            playing.getGame().getCollisionChecker().checkTile(projectile);
             if (projectile.collisionOn == true) {
                 iterator.remove();
             } else {
@@ -47,6 +47,7 @@ public class ProjectileManager {
 
     public void addProjectile(Projectile projectile) {
         projectileList.add(projectile);
+        System.out.println(projectileList.size());
     }
 
     public void draw(Graphics2D g2) {
