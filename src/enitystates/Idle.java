@@ -39,6 +39,13 @@ public class Idle extends EntityStateMethods{
                 plantMelee.currentState = EntityState.ATTACK;
             }
         }
+        if (entity instanceof SwordKnight swordKnight) {
+            if (swordKnight.canSeePlayer()) {
+                swordKnight.currentState = EntityState.WALK;
+            }
+        }
+
+
         if (entity instanceof Demon demon) {
             demon.getDirectionForAttacking();
             if (demon.canSeePlayer()) {

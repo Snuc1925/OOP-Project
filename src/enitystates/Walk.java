@@ -2,10 +2,7 @@ package enitystates;
 
 import effect.Dash;
 import entities.Player;
-import entities.monsters.BringerOfDeath;
-import entities.monsters.Demon;
-import entities.monsters.Samurai;
-import entities.monsters.Slime;
+import entities.monsters.*;
 import entities.Sprite;
 import inputs.KeyboardInputs;
 
@@ -40,6 +37,17 @@ public class Walk extends EntityStateMethods{
             }
             else slime.stateChanger();
         }
+
+        if (entity instanceof SwordKnight sw) {
+            if (!sw.canSeePlayer()) {
+                sw.currentState = EntityState.IDLE;
+            }
+            else {
+                if (sw.canAttack(true)) sw.currentState = EntityState.ATTACK;
+                else sw.move();
+            }
+        }
+
         if (entity instanceof Demon demon) {
             if (!demon.canSeePlayer()) {
                 demon.currentState = EntityState.IDLE;

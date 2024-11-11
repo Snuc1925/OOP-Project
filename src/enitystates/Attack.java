@@ -36,6 +36,10 @@ public class Attack extends EntityStateMethods{
             plantMelee.attack();
         }
 
+        if (entity instanceof SwordKnight swordKnight) {
+            swordKnight.attack();
+        }
+
 
 
     }
