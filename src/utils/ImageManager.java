@@ -87,8 +87,6 @@ public class ImageManager {
         }
         key += direction.toUpperCase() + "_";
         key += numAnimationFrame;
-        if (state.equals("DEATH"))
-            System.out.println(key);
         return playerImages.get(key);  // Trả về ảnh từ bộ nhớ
     }
 

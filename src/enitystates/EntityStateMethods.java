@@ -25,6 +25,8 @@ public abstract class EntityStateMethods {
         this.totalAnimationFrames = totalAnimationFrames;
         this.frameDuration = frameDuration;
         this.entity = entity;
+        ImageLoader.initialize();
+
     }
     public EntityStateMethods(Sprite entity) {
         this.entity = entity;
@@ -36,7 +38,7 @@ public abstract class EntityStateMethods {
             frameCounter = 0;
             numAnimationFrames = (numAnimationFrames + 1) % totalAnimationFrames;
         }
-        ImageLoader.initialize();
+
         imageManager = ImageLoader.imageManager;
         if (entity instanceof Player player) {
             if (state.equals("ATTACK") && player.currentWeapon.equals("SPEAR"))
