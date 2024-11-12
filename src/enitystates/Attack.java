@@ -40,7 +40,13 @@ public class Attack extends EntityStateMethods{
             swordKnight.attack();
         }
 
+        if (entity instanceof Sickle sickle) {
+            sickle.attack();
+        }
 
+        if (entity instanceof Morph morph) {
+            morph.attack();
+        }
 
     }
 

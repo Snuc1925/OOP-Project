@@ -44,6 +44,16 @@ public class Idle extends EntityStateMethods{
                 swordKnight.currentState = EntityState.WALK;
             }
         }
+        if (entity instanceof Sickle sickle) {
+            if (sickle.canSeePlayer()) {
+                sickle.currentState = EntityState.WALK;
+            }
+        }
+        if (entity instanceof Morph morph) {
+            if (morph.canSeePlayer()) {
+                morph.currentState = EntityState.WALK;
+            }
+        }
 
 
         if (entity instanceof Demon demon) {

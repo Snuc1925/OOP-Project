@@ -48,6 +48,25 @@ public class Walk extends EntityStateMethods{
             }
         }
 
+        if (entity instanceof Sickle sickle) {
+            if (!sickle.canSeePlayer()) {
+                sickle.currentState = EntityState.IDLE;
+            }
+            else {
+                if (sickle.canAttack(true)) sickle.currentState = EntityState.ATTACK;
+                else sickle.move();
+            }
+        }
+        if (entity instanceof Morph morph) {
+            if (!morph.canSeePlayer()) {
+                morph.currentState = EntityState.IDLE;
+            }
+            else {
+                if (morph.canAttack(true)) morph.currentState = EntityState.ATTACK;
+                else morph.move();
+            }
+        }
+
         if (entity instanceof Demon demon) {
             if (!demon.canSeePlayer()) {
                 demon.currentState = EntityState.IDLE;
@@ -77,6 +96,14 @@ public class Walk extends EntityStateMethods{
         }
 
     }
+//    public void update(Monster monster) {
+//        if (!monster.canSeePlayer()) {
+//            monster.currentState = EntityState.IDLE;
+//        } else {
+//            if (monster.canAttack(true)) monster.currentState = EntityState.ATTACK;
+//            else monster.move();
+//        }
+//    }
 
     public void update(Player player, KeyboardInputs keyboardInputs) {
         player.speed = player.getSpeed();

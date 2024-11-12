@@ -18,7 +18,7 @@ public abstract class EntityStateMethods {
     protected ImageManager imageManager;
     public int totalAnimationFrames = 8;
     public int frameDuration = 5;
-    protected int frameCounter = -1;
+    public int frameCounter = -1;
     public int numAnimationFrames = 0;
 
     public EntityStateMethods(Sprite entity, int totalAnimationFrames, int frameDuration) {
