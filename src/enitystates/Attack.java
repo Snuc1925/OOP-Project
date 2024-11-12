@@ -28,26 +28,11 @@ public class Attack extends EntityStateMethods{
     int frameCounter = 0;
     @Override
     public void update(Sprite entity) {
-        if (entity instanceof Slime slime) {
-            slime.attack();
-        }
 
-        if (entity instanceof PlantMelee plantMelee) {
-            plantMelee.attack();
-        }
+    }
 
-        if (entity instanceof SwordKnight swordKnight) {
-            swordKnight.attack();
-        }
-
-        if (entity instanceof Sickle sickle) {
-            sickle.attack();
-        }
-
-        if (entity instanceof Morph morph) {
-            morph.attack();
-        }
-
+    public void update(Monster monster) {
+        monster.attack();
     }
 
     public void update(Player player, KeyboardInputs keyboardInputs) {

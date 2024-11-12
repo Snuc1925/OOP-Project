@@ -210,4 +210,7 @@ public class Monster extends Sprite {
         }
     }
 
+    public void attack() {
+
+    }
 }

@@ -45,7 +45,7 @@ public class Playing extends State implements Statemethods {
         monsters[3] = new Slime(this, 7 * TILE_SIZE, 26 * TILE_SIZE);
         monsters[4] = new Slime(this, 10 * TILE_SIZE, 24 * TILE_SIZE);
         monsters[5] = new Slime(this, 13 * TILE_SIZE, 26 * TILE_SIZE);
-        monsters[6] = new Morph(this, 7 * TILE_SIZE, 2 * TILE_SIZE);
+        monsters[6] = new Mage(this, 7 * TILE_SIZE, 2 * TILE_SIZE);
         monsters[7] = new Samurai(this, 8 * TILE_SIZE, 30 * TILE_SIZE);
         monsters[0] = new BringerOfDeath(this, 33 * TILE_SIZE, 23 * TILE_SIZE);
 

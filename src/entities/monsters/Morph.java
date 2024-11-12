@@ -101,7 +101,8 @@ public class Morph extends Monster{
     Random random = new Random();
     @Override
     public void update() {
-        if (player.canAttackMonster(this) && playing.getGame().getKeyboardInputs().attackPressed) {
+        if (player.canAttackMonster(this) && playing.getGame().getKeyboardInputs().attackPressed &&
+        currentState != EntityState.ATTACK) {
 //            isWalkDash = true;
             int x = random.nextInt(3);
             isWalkDash = x == 1;

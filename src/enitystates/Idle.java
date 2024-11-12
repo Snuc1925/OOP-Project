@@ -28,51 +28,18 @@ public class Idle extends EntityStateMethods{
 
     @Override
     public void update(Sprite entity) {
-        Player player = entity.getPlaying().getPlayer();
-        if (entity instanceof Slime slime) {
+
+    }
+
+    public void update(Monster monster) {
+        if (monster instanceof Slime slime) {
             if (slime.canAttack(true)) {
-                entity.currentState = EntityState.ATTACK;
+                monster.currentState = EntityState.ATTACK;
             } else slime.stateChanger();
-        }
-        if (entity instanceof PlantMelee plantMelee) {
-            if (plantMelee.canAttack(true)) {
-                plantMelee.currentState = EntityState.ATTACK;
-            }
-        }
-        if (entity instanceof SwordKnight swordKnight) {
-            if (swordKnight.canSeePlayer()) {
-                swordKnight.currentState = EntityState.WALK;
-            }
-        }
-        if (entity instanceof Sickle sickle) {
-            if (sickle.canSeePlayer()) {
-                sickle.currentState = EntityState.WALK;
-            }
-        }
-        if (entity instanceof Morph morph) {
-            if (morph.canSeePlayer()) {
-                morph.currentState = EntityState.WALK;
-            }
-        }
-
-
-        if (entity instanceof Demon demon) {
-            demon.getDirectionForAttacking();
-            if (demon.canSeePlayer()) {
-                demon.currentState = EntityState.WALK;
-            }
-        }
-        if (entity instanceof BringerOfDeath bringerOfDeath) {
-            bringerOfDeath.getDirectionForAttacking();
-            if (bringerOfDeath.canSeePlayer()) {
-                bringerOfDeath.currentState = EntityState.WALK;
-            }
-        }
-        if (entity instanceof Samurai samurai) {
-            samurai.getDirectionForAttacking();
-            if (samurai.canSeePlayer()) {
-                samurai.currentState = EntityState.WALK;
-            }
+        } else {
+            monster.getDirectionForAttacking();
+            if (monster.canSeePlayer())
+                monster.currentState = EntityState.WALK;
         }
     }
 
