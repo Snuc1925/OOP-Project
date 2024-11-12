@@ -2,10 +2,7 @@ package enitystates;
 
 import effect.Dash;
 import entities.Player;
-import entities.monsters.BringerOfDeath;
-import entities.monsters.Demon;
-import entities.monsters.Samurai;
-import entities.monsters.Slime;
+import entities.monsters.*;
 import entities.Sprite;
 import inputs.KeyboardInputs;
 
@@ -31,43 +28,23 @@ public class Walk extends EntityStateMethods{
 
     @Override
     public void update(Sprite entity) {
-        Player player = entity.getPlaying().getPlayer();
 
-        if (entity instanceof Slime slime) {
-            entity.move();
+
+    }
+    public void update(Monster monster) {
+        if (monster instanceof Slime slime) {
+            slime.move();
             if (slime.canAttack(true)) {
-                entity.currentState = EntityState.ATTACK;
+                slime.currentState = EntityState.ATTACK;
             }
             else slime.stateChanger();
         }
-        if (entity instanceof Demon demon) {
-            if (!demon.canSeePlayer()) {
-                demon.currentState = EntityState.IDLE;
-            }
-            else {
-                if (demon.canAttack(true)) demon.currentState = EntityState.ATTACK;
-                else demon.move();
-            }
+        else if (!monster.canSeePlayer()) {
+            monster.currentState = EntityState.IDLE;
+        } else {
+            if (monster.canAttack(true)) monster.currentState = EntityState.ATTACK;
+            else monster.move();
         }
-        if (entity instanceof BringerOfDeath bringerOfDeath) {
-            if (!bringerOfDeath.canSeePlayer()) {
-                bringerOfDeath.currentState = EntityState.IDLE;
-            }
-            else {
-                if (bringerOfDeath.canAttack(true)) bringerOfDeath.currentState = EntityState.ATTACK;
-                else bringerOfDeath.move();
-            }
-        }
-        if (entity instanceof Samurai samurai) {
-            if (!samurai.canSeePlayer()) {
-                samurai.currentState = EntityState.IDLE;
-            }
-            else {
-                if (samurai.canAttack(true)) samurai.currentState = EntityState.ATTACK;
-                else samurai.move();
-            }
-        }
-
     }
 
     public void update(Player player, KeyboardInputs keyboardInputs) {

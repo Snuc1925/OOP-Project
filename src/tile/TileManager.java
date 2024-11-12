@@ -14,126 +14,17 @@ import utils.Constants;
 
 public class TileManager {
 
-    private Player player;
-    public Tile[] tile;
-    public int tileNum[][];
+    public Boolean[][] tile;
 
     public TileManager(Player player) {
-        this.player = player;
-        tile = new Tile[200];
-        tileNum = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
-        getTileImage();
-        loadMap("res/maps/dungeonMap");
-//        temp = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
+        tile = new Boolean[MAX_WORLD_ROW][MAX_WORLD_COL];
+        for (int i = 0; i < MAX_WORLD_ROW; i++)
+            for (int j = 0; j < MAX_WORLD_COL; j++)
+                tile[i][j] = false;
     }
 
-//    public int temp[][];
     public boolean isWall(int row, int col) {
-//        temp[row][col] = 1;
-        return tileNum[row][col] >= 0 && tile[tileNum[row][col]].collision;
-    }
-    public void getTileImage() {
-        String path = "res/dungeontiles/tileData";
-        try {
-            File file = new File(path);
-            FileInputStream ft = new FileInputStream(file);
-
-            DataInputStream in = new DataInputStream(ft);
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            String strline;
-
-            String imagePath = null;
-            boolean isSolid;
-            int cnt = 0;
-            while ((strline = br.readLine()) != null){
-                if (imagePath == null) imagePath = strline;
-                else {
-                    isSolid = Boolean.parseBoolean(strline);
-                    String indexStr = imagePath.substring(0, imagePath.indexOf("."));
-                    setUp(cnt, indexStr, isSolid);
-                    cnt++;
-                    imagePath = null;
-                }
-            }
-
-
-            in.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        return tile[row][col];
     }
 
-    public void setUp(int index, String imagePath, boolean collision) {
-        UtilityTool utilityTool = new UtilityTool();
-        try {
-            tile[index] = new Tile();
-            tile[index].image = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream(
-                    "dungeontiles/" + imagePath + ".png")));
-            tile[index].image = utilityTool.scaleImage(tile[index].image, TILE_SIZE, TILE_SIZE);
-            tile[index].collision = collision;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void loadMap(String path) {
-        try {
-            File file = new File(path);
-            FileInputStream ft = new FileInputStream(file);
-
-            DataInputStream in = new DataInputStream(ft);
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            String strline;
-
-            int row = 0;
-            while ((strline = br.readLine()) != null){
-                String[] numbers = strline.split(" ");
-                for (int i = 0; i < MAX_WORLD_COL; i++) {
-                    tileNum[row][i] = Integer.parseInt(numbers[i]);
-                }
-                row++;
-            }
-            in.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void draw(Graphics2D g2) {
-        int worldCol = 0;
-        int worldRow = 0;
-        
-        int playerWorldX = player.worldX;
-        int playerWorldY = player.worldY;
-
-        while (worldCol < MAX_WORLD_COL && worldRow < MAX_WORLD_ROW) {
-            int tileId = tileNum[worldRow][worldCol];
-//            if (temp[worldRow][worldCol] == 1)
-//                tileId = 99;
-            if (tileId >= 0) {
-                int worldX = worldCol*TILE_SIZE;
-                int worldY = worldRow*TILE_SIZE;
-
-                int screenX = worldX - playerWorldX + PLAYER_SCREEN_X;
-                int screenY = worldY - playerWorldY + PLAYER_SCREEN_Y;
-
-                if (worldX > (playerWorldX + TILE_SIZE) - (PLAYER_SCREEN_X + TILE_SIZE) - TILE_SIZE * 3
-                        && worldX < (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE) + TILE_SIZE * 3
-                        && worldY > (playerWorldY + TILE_SIZE) - (PLAYER_SCREEN_Y + TILE_SIZE) - TILE_SIZE * 3
-                        && worldY < (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE) + TILE_SIZE * 3)
-                    g2.drawImage(tile[tileId].image, screenX, screenY, TILE_SIZE, TILE_SIZE, null);
-            }
-            worldCol++;
-
-            if (worldCol == MAX_WORLD_COL) {
-                worldCol = 0;
-                worldRow++;
-            }
-        }
-
-//        for (int i = 0; i < MAX_WORLD_ROW; i++)
-//            for (int j = 0; j < MAX_WORLD_COL; j++)
-//                temp[i][j] = 0;
-    }
 }

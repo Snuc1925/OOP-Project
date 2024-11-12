@@ -19,68 +19,71 @@ public class CollisionChecker {
         this.game = game;
     }
 
+    int entityLeftWorldX;
+    int entityRightWorldX, entityTopWorldY, entityBottomWorldY, entityLeftCol, entityRightCol, entityTopRow, entityBottomRow;
     public void checkTile(Sprite entity) {
         tileManager = entity.getPlaying().getTileManager();
-        int entityLeftWorldX = entity.worldX + entity.solidArea.x;
-        int entityRightWorldX = entity.worldX + entity.solidArea.x + entity.solidArea.width;
-        int entityTopWorldY = entity.worldY + entity.solidArea.y;
-        int entityBottomWorldY = entity.worldY + entity.solidArea.y + entity.solidArea.height;
+        entityLeftWorldX = entity.worldX + entity.solidArea.x;
+        entityRightWorldX = entity.worldX + entity.solidArea.x + entity.solidArea.width;
+        entityTopWorldY = entity.worldY + entity.solidArea.y;
+        entityBottomWorldY = entity.worldY + entity.solidArea.y + entity.solidArea.height;
 
 
-        int entityLeftCol = entityLeftWorldX/TILE_SIZE;
-        int entityRightCol = entityRightWorldX/TILE_SIZE;
-        int entityTopRow = entityTopWorldY/TILE_SIZE;
-        int entityBottomRow = entityBottomWorldY/TILE_SIZE;
+        entityLeftCol = entityLeftWorldX/TILE_SIZE;
+        entityRightCol = entityRightWorldX/TILE_SIZE;
+        entityTopRow = entityTopWorldY/TILE_SIZE;
+        entityBottomRow = entityBottomWorldY/TILE_SIZE;
 
-        int tileNum1 = 0, tileNum2 = 0;
+
+        boolean tileNum1 = false, tileNum2 = false;
 
         switch (entity.direction) {
             case "up":
                 entityTopRow = (entityTopWorldY - entity.speed)/TILE_SIZE;
-                tileNum1 = tileManager.tileNum[entityTopRow][entityLeftCol];
-                tileNum2 = tileManager.tileNum[entityTopRow][entityRightCol];
+                tileNum1 = tileManager.tile[entityTopRow][entityLeftCol];
+                tileNum2 = tileManager.tile[entityTopRow][entityRightCol];
                 break;
             case "down":
                 entityBottomRow = (entityBottomWorldY + entity.speed)/TILE_SIZE;
-                tileNum1 = tileManager.tileNum[entityBottomRow][entityLeftCol];
-                tileNum2 = tileManager.tileNum[entityBottomRow][entityRightCol];
+                tileNum1 = tileManager.tile[entityBottomRow][entityLeftCol];
+                tileNum2 = tileManager.tile[entityBottomRow][entityRightCol];
                 break;
             case "left":
                 entityLeftCol = (entityLeftWorldX - entity.speed)/TILE_SIZE;
-                tileNum1 = tileManager.tileNum[entityTopRow][entityLeftCol];
-                tileNum2 = tileManager.tileNum[entityBottomRow][entityLeftCol];
+                tileNum1 = tileManager.tile[entityTopRow][entityLeftCol];
+                tileNum2 = tileManager.tile[entityBottomRow][entityLeftCol];
                 break;
             case "right":
                 entityRightCol = (entityRightWorldX + entity.speed)/TILE_SIZE;
-                tileNum1 = tileManager.tileNum[entityTopRow][entityRightCol];
-                tileNum2 = tileManager.tileNum[entityBottomRow][entityRightCol];
+                tileNum1 = tileManager.tile[entityTopRow][entityRightCol];
+                tileNum2 = tileManager.tile[entityBottomRow][entityRightCol];
                 break;
             case "left_up":
                 entityLeftCol = (entityLeftWorldX - (entity.speed))/TILE_SIZE;
                 entityTopRow = (entityTopWorldY - entity.speed)/TILE_SIZE;
-                tileNum1 = tileManager.tileNum[entityTopRow][entityLeftCol];
-                tileNum2 = tileManager.tileNum[entityTopRow][entityRightCol];
+                tileNum1 = tileManager.tile[entityTopRow][entityLeftCol];
+                tileNum2 = tileManager.tile[entityTopRow][entityRightCol];
                 break;
             case "right_up":
                 entityRightCol = (entityRightWorldX + entity.speed)/TILE_SIZE;
                 entityTopRow = (entityTopWorldY - entity.speed)/TILE_SIZE;
-                tileNum1 = tileManager.tileNum[entityTopRow][entityLeftCol];
-                tileNum2 = tileManager.tileNum[entityTopRow][entityRightCol];
+                tileNum1 = tileManager.tile[entityTopRow][entityLeftCol];
+                tileNum2 = tileManager.tile[entityTopRow][entityRightCol];
                 break;
             case "left_down":
                 entityLeftCol = (entityLeftWorldX - entity.speed)/TILE_SIZE;
                 entityBottomRow = (entityBottomWorldY + entity.speed)/TILE_SIZE;
-                tileNum1 = tileManager.tileNum[entityBottomRow][entityLeftCol];
-                tileNum2 = tileManager.tileNum[entityBottomRow][entityRightCol];
+                tileNum1 = tileManager.tile[entityBottomRow][entityLeftCol];
+                tileNum2 = tileManager.tile[entityBottomRow][entityRightCol];
                 break;
             case "right_down":
                 entityRightCol = (entityRightWorldX + entity.speed)/TILE_SIZE;
                 entityBottomRow = (entityBottomWorldY + entity.speed)/TILE_SIZE;
-                tileNum1 = tileManager.tileNum[entityBottomRow][entityLeftCol];
-                tileNum2 = tileManager.tileNum[entityBottomRow][entityRightCol];
+                tileNum1 = tileManager.tile[entityBottomRow][entityLeftCol];
+                tileNum2 = tileManager.tile[entityBottomRow][entityRightCol];
                 break;
         }
-        entity.collisionOn = tileManager.tile[tileNum1].collision || tileManager.tile[tileNum2].collision;
+        entity.collisionOn = tileNum1 || tileNum2;
 
     }
 //    public int checkObject(Sprite entity, boolean player) {
@@ -210,7 +213,6 @@ public class CollisionChecker {
     public boolean checkPlayer(Sprite entity) {
         Player player = game.getPlaying().getPlayer();
         
-        tileManager = entity.getPlaying().getTileManager();
         boolean contactPlayer = false;
 
         // Get entity solid area position
