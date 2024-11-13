@@ -94,6 +94,12 @@ public class Player extends Sprite {
                     spearAttackBox.y + PLAYER_SCREEN_Y,
                     spearAttackBox.width, spearAttackBox.height);
         }
+
+        int screenX = PLAYER_SCREEN_X;
+        int screenY = PLAYER_SCREEN_Y;
+//        g2.setColor(Color.WHITE);
+//        g2.setStroke(new BasicStroke(3));
+//        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
     }
 
     int frameCounter = 0;

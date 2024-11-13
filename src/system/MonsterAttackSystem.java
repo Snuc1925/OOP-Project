@@ -18,14 +18,14 @@ public class MonsterAttackSystem {
     private int frameCounter = 0;
     private void monsterAttackLongRange() {
         frameCounter++;
-        if (frameCounter < 20) return;
-        frameCounter = 1;
+        if (frameCounter < 120) return;
+        frameCounter = 0;
         ArrayList<Integer> monsterIds = new ArrayList<>();
         for (int id = 0; id < playing.monsters.length; id++) {
-            if (playing.monsters[id].canSeePlayer()) {
-                monsterIds.add(id);
-            }
+            monsterIds.add(id);
         }
+
+        System.out.println(monsterIds.size());
 
         if (monsterIds.size() != 0) {
             Random random = new Random();
@@ -36,6 +36,7 @@ public class MonsterAttackSystem {
             int monsterId = monsterIds.get(id);
             Monster monster = playing.monsters[monsterId];
 
+            monster.getDirectionForAttacking();
             Projectile projectile = new Projectile(playing,"MONSTER", monster);
             playing.getProjectileManager().addProjectile(projectile);
         }

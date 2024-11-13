@@ -31,6 +31,9 @@ public abstract class EntityStateMethods {
         this.entity = entity;
     }
 
+    public String getState() { return state; }
+    public void setState(String state) { this.state = state; }
+
     public BufferedImage getImage() {
         frameCounter++;
         if (frameCounter >= frameDuration) {

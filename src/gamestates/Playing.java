@@ -42,6 +42,7 @@ public class Playing extends State implements Statemethods {
     public CameraShake cameraShake;
 
     private MonsterAttackSystem monsterAttackSystem;
+    private ImageManager imageManager;
     public Playing(Game game) {
         super(game);
         player = new Player(this);
@@ -66,6 +67,9 @@ public class Playing extends State implements Statemethods {
 
         cameraShake = new CameraShake(20);
         monsterAttackSystem = new MonsterAttackSystem(this);
+
+        ImageLoader.initialize();
+        imageManager = ImageLoader.imageManager;
     }
 
     public Game getGame() {
@@ -73,6 +77,10 @@ public class Playing extends State implements Statemethods {
     }
     public Player getPlayer() {
         return player;
+    }
+
+    public ImageManager getImageManager() {
+        return imageManager;
     }
 
     public ProjectileManager getProjectileManager() { return projectileManager; }

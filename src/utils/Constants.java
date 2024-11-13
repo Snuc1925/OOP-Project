@@ -33,10 +33,12 @@ public class Constants {
     public class Monster {
         // --------------------- Projectile ----------------------------
         public class Projectile {
-            public static final int TOTAL_FRAME = 3;
-            public static final int FRAME_DURATION = 5;
-            public static final int SPEED = 2;
-            public static final int ATTACK_POINTS = 2;
+            public static final int WIDTH = Screen.TILE_SIZE;
+            public static final int HEIGHT = Screen.TILE_SIZE;
+            public static final int TOTAL_FRAME = 5;
+            public static final int FRAME_DURATION = 3;
+            public static final int SPEED = 5;
+            public static final int ATTACK_POINTS = 1;
             public static final int EXPLOSION_TOTAL_FRAME = 3;
             public static final int EXPLOSION_FRAME_DURATION = 5;
 

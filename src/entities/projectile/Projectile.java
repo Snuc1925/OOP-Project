@@ -24,25 +24,68 @@ import static utils.Constants.Player.PLAYER_SCREEN_Y;
 
 public class Projectile extends Sprite {
     public int attackPoints;
-    private Attack attack;
-    private Death death;
+
+    private String state; // Attack - Explode - Death
+
+    private int totalAnimationFrame;
+    private int frameDuration;
+    private int numAnimationFrame;
+    private int frameCounter;
 
     public Projectile(Playing playing, String name, Sprite entity) {
-        super(name, playing, Constants.Screen.TILE_SIZE, Constants.Screen.TILE_SIZE);
+        super(name, playing, Constants.Monster.Projectile.WIDTH, Constants.Monster.Projectile.HEIGHT);
         this.worldX = entity.worldX;
         this.worldY = entity.worldY;
         this.direction = entity.direction;
-        this.currentState = ATTACK;
 
         if (entity instanceof Monster) {
             this.speed = Constants.Monster.Projectile.SPEED;
             this.attackPoints = Constants.Monster.Projectile.ATTACK_POINTS;
-            this.attack = new Attack(this, Constants.Monster.Projectile.TOTAL_FRAME, Constants.Monster.Projectile.FRAME_DURATION);
-            this.death = new Death(this, Constants.Monster.Projectile.EXPLOSION_TOTAL_FRAME, Constants.Monster.Projectile.EXPLOSION_FRAME_DURATION);
+        }
+
+        setState("ATTACK");
+    }
+
+    public String getState() {  return this.state; }
+
+    public void setState(String state) {
+        this.state = state;
+        if (state.equals("ATTACK")) {
+            setAnimation(Constants.Monster.Projectile.TOTAL_FRAME,
+                         Constants.Monster.Projectile.FRAME_DURATION);
+        } else if (state.equals("EXPLOSION")){
+            setAnimation(Constants.Monster.Projectile.EXPLOSION_TOTAL_FRAME,
+                         Constants.Monster.Projectile.EXPLOSION_FRAME_DURATION);
         }
     }
 
-    public void move() {
+    private void setAnimation(int totalAnimationFrame, int frameDuration) {
+        this.totalAnimationFrame = totalAnimationFrame;
+        this.frameDuration = frameDuration;
+        this.numAnimationFrame = 1;
+        this.frameCounter = 0;
+    }
+
+
+    public boolean checkCompleteOneAnimation() {
+        if (frameCounter + 1 == frameDuration && numAnimationFrame == totalAnimationFrame) {
+            return true;
+        }
+        return false;
+    }
+    private void updateImage() {
+        frameCounter++;
+        if (frameCounter >= frameDuration) {
+            frameCounter = 0;
+            numAnimationFrame += 1;
+            if (numAnimationFrame > totalAnimationFrame) {
+                numAnimationFrame -= totalAnimationFrame;
+            }
+        }
+        image = playing.getImageManager().getProjectileImage(name, state, direction, numAnimationFrame);
+    }
+
+    private void updatePosition() {
         if (direction.equals("down")) {
             worldY += speed;
         }
@@ -74,13 +117,10 @@ public class Projectile extends Sprite {
     }
 
     public void update() {
-        if (currentState == ATTACK) {
-            move();
-            System.out.println("UPDATEEEEEEEEEEE");
-            this.image = attack.getImage();
-        } else {
-            this.image = death.getImage();
+        if (state == "ATTACK") {
+            updatePosition();
         }
+        updateImage();
     }
 
     public void draw(Graphics2D g2) {

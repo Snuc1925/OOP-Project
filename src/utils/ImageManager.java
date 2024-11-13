@@ -114,11 +114,6 @@ public class ImageManager {
         String key = "PROJECTILE_" + name.toUpperCase() + "_" + state + "_" + numAnimationFrame + "_" + direction.toUpperCase();
         System.out.println(key);
         BufferedImage img = projectileImages.get(key);
-        if (img == null) {
-            System.out.println("null");
-        } else {
-            System.out.println("not null");
-        }
-        return projectileImages.get(key);
+        return img;
     }
 }
