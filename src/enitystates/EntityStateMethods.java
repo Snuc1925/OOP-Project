@@ -19,13 +19,15 @@ public abstract class EntityStateMethods {
     protected ImageManager imageManager;
     public int totalAnimationFrames = 8;
     public int frameDuration = 5;
-    protected int frameCounter = -1;
+    public int frameCounter = -1;
     public int numAnimationFrames = 0;
 
     public EntityStateMethods(Sprite entity, int totalAnimationFrames, int frameDuration) {
         this.totalAnimationFrames = totalAnimationFrames;
         this.frameDuration = frameDuration;
         this.entity = entity;
+        ImageLoader.initialize();
+
     }
     public EntityStateMethods(Sprite entity) {
         this.entity = entity;
@@ -40,7 +42,7 @@ public abstract class EntityStateMethods {
             frameCounter = 0;
             numAnimationFrames = (numAnimationFrames + 1) % totalAnimationFrames;
         }
-        ImageLoader.initialize();
+
         imageManager = ImageLoader.imageManager;
         if (entity instanceof Projectile) {
             String state = (entity.currentState == EntityState.ATTACK ? "ATTACK" : "EXPLOSION");

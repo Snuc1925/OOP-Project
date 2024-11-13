@@ -204,23 +204,15 @@ public class Monster extends Sprite {
         }
     }
 
-    // Attack: projectile animation, Death: explosion animation
-//    public void attackLongRange(Attack attack, Death death) {
-//        getDirectionForAttacking();
-//        String projectileDirection = this.direction;
-//        int speed = 4;
-//        int attackPoints = 1;
-//        int numAnimationFrame = 3;
-//        String name = "MONSTER_SLIME";
-//        Projectile projectile = new Projectile(playing, name, worldX, worldY, projectileDirection, speed, attackPoints, numAnimationFrame);
-//        playing.getProjectileManager().addProjectile(projectile);
-//    }
-
     public void getHurt(int damage) {
         currentHealth -= damage;
         if (currentHealth <= 0) {
             currentHealth = 0;
             currentState = EntityState.DEATH;
         }
+    }
+
+    public void attack() {
+
     }
 }

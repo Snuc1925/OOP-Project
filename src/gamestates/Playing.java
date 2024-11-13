@@ -3,7 +3,6 @@ package gamestates;
 import effect.CameraShake;
 import enitystates.EntityState;
 import entities.*;
-
 import entities.monsters.*;
 import entities.projectile.ProjectileManager;
 import main.Game;
@@ -17,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import map.GameMap;
+import map.MapManager;
+import map.MapParser;
 import tile.TileManager;
 import utils.HelpMethods;
 import utils.ImageLoader;
@@ -43,6 +45,8 @@ public class Playing extends State implements Statemethods {
 
     private MonsterAttackSystem monsterAttackSystem;
     private ImageManager imageManager;
+    public static GameMap currentMap;
+
     public Playing(Game game) {
         super(game);
         player = new Player(this);
@@ -50,14 +54,14 @@ public class Playing extends State implements Statemethods {
         projectileManager = new ProjectileManager(this);
 
         monsters = new Monster[8];
-        monsters[1] = new Slime(this,  9 * TILE_SIZE, 25 * TILE_SIZE);
-        monsters[2] = new Slime(this, 11 * TILE_SIZE, 25 * TILE_SIZE);
-        monsters[3] = new Slime(this, 7 * TILE_SIZE, 26 * TILE_SIZE);
-        monsters[4] = new Slime(this, 10 * TILE_SIZE, 24 * TILE_SIZE);
-        monsters[5] = new Slime(this, 13 * TILE_SIZE, 26 * TILE_SIZE);
-        monsters[6] = new PlantMelee(this, 7 * TILE_SIZE, 2 * TILE_SIZE);
-        monsters[7] = new Samurai(this, 8 * TILE_SIZE, 30 * TILE_SIZE);
-        monsters[0] = new BringerOfDeath(this, 33 * TILE_SIZE, 23 * TILE_SIZE);
+        monsters[1] = new Slime(this,  9 * TILE_SIZE, 9 * TILE_SIZE);
+        monsters[2] = new Slime(this, 11 * TILE_SIZE, 9 * TILE_SIZE);
+        monsters[3] = new Slime(this, 7 * TILE_SIZE, 7 * TILE_SIZE);
+        monsters[4] = new Slime(this, 10 * TILE_SIZE, 13 * TILE_SIZE);
+        monsters[5] = new Slime(this, 13 * TILE_SIZE, 13 * TILE_SIZE);
+        monsters[6] = new Morph(this, 41 * TILE_SIZE, 44 * TILE_SIZE);
+        monsters[7] = new Samurai(this, 10 * TILE_SIZE, 41 * TILE_SIZE);
+        monsters[0] = new BringerOfDeath(this, 41 * TILE_SIZE, 9 * TILE_SIZE);
 
         entityList = new ArrayList<>();
         entityList.add(player);
@@ -70,6 +74,10 @@ public class Playing extends State implements Statemethods {
 
         ImageLoader.initialize();
         imageManager = ImageLoader.imageManager;
+
+        MapParser.loadMap( "map_test" ,"res/map/map2d_after_fixed.tmx");
+        currentMap = MapManager.getGameMap("map_test");
+        currentMap.buildTileManager(tileManager);
     }
 
     public Game getGame() {
@@ -94,7 +102,7 @@ public class Playing extends State implements Statemethods {
         cameraShake.update();
 
         for (Entity entity : entityArray) {
-            if (entity != null){
+            if (entity != null && entity.isOnTheScreen()){
                 entity.update();
             }
         }
@@ -107,10 +115,13 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void draw(Graphics2D g2) {
-        tileManager.draw(g2);
+
+        currentMap.render(g2, player);
+
+
         entityList.sort(Comparator.comparingDouble(Entity::getRenderOrder));
 
-        for (Entity entity : entityList) {
+        for (Entity entity : entityList) if (entity.isOnTheScreen()){
             entity.draw(g2);
         }
         projectileManager.draw(g2);
