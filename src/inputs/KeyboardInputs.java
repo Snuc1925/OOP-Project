@@ -117,5 +117,15 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
         return gamePanel.getMouseY();
     }
 
+    public static boolean previousResult = false;
+    public static boolean isPressedValid(boolean keyPressed) {
+        if (keyPressed) {
+            if (previousResult) return false;
+            previousResult = true;
+            return true;
+        }
+        previousResult = false;
+        return false;
+    }
 
 }

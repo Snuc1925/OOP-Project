@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 
+import static inputs.KeyboardInputs.isPressedValid;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static utils.Constants.Screen.*;
@@ -18,17 +19,6 @@ import static utils.HelpMethods.*;
 public class Menu extends State implements Statemethods {
     public Menu(Game game) {
         super(game);
-    }
-
-    boolean previousResult = false;
-    public boolean isPressedValid(boolean keyPressed) {
-        if (keyPressed) {
-            if (previousResult) return false;
-            previousResult = true;
-            return true;
-        } 
-        previousResult = false;
-        return false;
     }
 
     public void update() {
@@ -93,7 +83,7 @@ public class Menu extends State implements Statemethods {
 
         ImageLoader.initialize();
         ImageManager imageManager = ImageLoader.imageManager;
-        BufferedImage image = imageManager.getPlayerImage("WALK", "NORMAL", direction, animationIndex + 1);
+        BufferedImage image = imageManager.getPlayerImage("WALK", "NORMAL", direction, animationIndex, 3 * TILE_SIZE, 4 * TILE_SIZE);
         g2.drawImage(image, x - 16 * 4, y - 16 * 4, 48 * 5, 64 * 5, null);
 
         // Menu

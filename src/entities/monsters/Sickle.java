@@ -11,7 +11,7 @@ import static utils.Constants.Screen.TILE_SIZE;
 
 public class Sickle extends Monster{
     public Sickle(Playing playing, int worldX, int worldY) {
-        super("Sickle", "monster/Sickle/Idle/Right/1", playing, 8 * TILE_SIZE, 4 * TILE_SIZE);
+        super("Sickle", playing, 8 * TILE_SIZE, 4 * TILE_SIZE);
         this.worldX = worldX;
         this.worldY = worldY;
         solidArea = new Rectangle(3 * TILE_SIZE + TILE_SIZE / 2, 2 * TILE_SIZE, TILE_SIZE, TILE_SIZE);

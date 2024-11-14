@@ -15,7 +15,7 @@ public class Mage extends Monster {
     private Attack attack1, attack2;
     private Rectangle attack1Box, attack2Box;
     public Mage(Playing playing, int worldX, int worldY) {
-        super("Mage", "monster/Mage/Idle/Right/1", playing, 12 * TILE_SIZE, 4 * TILE_SIZE);
+        super("Mage", playing, 12 * TILE_SIZE, 4 * TILE_SIZE);
         this.worldX = worldX;
         this.worldY = worldY;
 

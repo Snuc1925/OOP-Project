@@ -22,21 +22,16 @@ public class Monster extends Sprite {
     public boolean isBeingLockOn = false;
     public int currentHealth, maxHealth, attackPoints;
 
-    public Rectangle attackBox;
-    public Rectangle visionBox;
-    public Rectangle hitBox;
-
 
 
     public int attackRate = 180; // Total frames between 2 attack
-    public Monster(String name, String image_path, Playing playing, int width, int height) {
-        super(name, image_path, playing, width, height);
+    public Monster(String name, Playing playing, int width, int height) {
+        super(name, playing, width, height);
         currentState = EntityState.IDLE;
     }
 
     public void update() {
 
-//        System.out.println(worldX + " " + worldY);
         switch (currentState) {
             case IDLE:
                 if (idle == null) return;
@@ -65,16 +60,7 @@ public class Monster extends Sprite {
     public void draw(Graphics2D g2) {
         super.draw(g2);
 
-        // Draw hitBox
-        if (playing.getGame().getKeyboardInputs().enterPressed) {
-            g2.setColor(Color.GREEN);
-            g2.drawRect(hitBox.x + getScreenX(), hitBox.y + getScreenY(), hitBox.width, hitBox.height);
 
-            g2.setColor(Color.YELLOW);
-            g2.drawRect(solidArea.x + getScreenX(), solidArea.y + getScreenY(), solidArea.width, solidArea.height);
-            g2.drawRect(visionBox.x + getScreenX(), visionBox.y + getScreenY(), visionBox.width, visionBox.height);
-            g2.drawRect(attackBox.x + getScreenX(), attackBox.y + getScreenY(), attackBox.width, attackBox.height);
-        }
     }
 
 
@@ -132,7 +118,7 @@ public class Monster extends Sprite {
     // Use needCooldown = false for changing other state to attack state
     int cooldown = 0;
     public boolean canAttack(boolean needCooldown) {
-        boolean result;
+        boolean result = false;
         Player player = playing.getPlayer();
         if (player.currentState == EntityState.DEATH) return false;
 
@@ -143,7 +129,8 @@ public class Monster extends Sprite {
         attackBox.x += worldX;
         attackBox.y += worldY;
 
-        result = player.solidArea.intersects(attackBox) && HelpMethods.canSeeEntity(playing, this, player);
+        if (player.solidArea.intersects(attackBox))
+            if (HelpMethods.canSeeEntity(playing, this, player)) result = true;
 
         player.solidArea.x = player.solidAreaDefaultX;
         player.solidArea.y = player.solidAreaDefaultY;
@@ -162,26 +149,6 @@ public class Monster extends Sprite {
         return false;
     }
 
-    public boolean canSeePlayer() {
-        Player player = playing.getPlayer();
-        if (player.currentState == EntityState.DEATH) return false;
-        int visionDefaultX = visionBox.x;
-        int visionDefaultY = visionBox.y;
-
-        player.solidArea.x += player.worldX;
-        player.solidArea.y += player.worldY;
-        visionBox.x += worldX;
-        visionBox.y += worldY;
-
-        boolean result = visionBox.intersects(player.solidArea);
-
-        player.solidArea.x = player.solidAreaDefaultX;
-        player.solidArea.y = player.solidAreaDefaultY;
-        visionBox.x = visionDefaultX;
-        visionBox.y = visionDefaultY;
-
-        return result;
-    }
 
     public void drawLockOn(Graphics2D g2, int effectWidth, int effectHeight, int xDiff, int yDiff) {
         // Draw auto lockOn effect
@@ -198,7 +165,7 @@ public class Monster extends Sprite {
                 numEffectFrame = (numEffectFrame + 1) % 8;
                 effectCounter = 0;
             }
-            g2.drawImage(ImageLoader.imageManager.getEffectImage("LockOn", numEffectFrame), screenX, screenY, effectWidth, effectHeight, null);
+            g2.drawImage(ImageLoader.imageManager.getEffectImage("LockOn", numEffectFrame, 4 * TILE_SIZE, 4 * TILE_SIZE), screenX, screenY, effectWidth, effectHeight, null);
         }
     }
 

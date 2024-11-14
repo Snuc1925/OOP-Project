@@ -17,7 +17,7 @@ public class Samurai extends Monster{
     public Death deathPhase2;
     int attackType = 2;
     public Samurai(Playing playing, int worldX, int worldY) {
-        super("Samurai", "monster/Samurai/Phase1/Idle/Right/1", playing, 8 * TILE_SIZE, 6 * TILE_SIZE);
+        super("Samurai", playing, 8 * TILE_SIZE, 6 * TILE_SIZE);
         this.worldX = worldX;
         this.worldY = worldY;
 

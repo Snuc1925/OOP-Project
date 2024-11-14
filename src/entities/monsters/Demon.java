@@ -23,7 +23,7 @@ public class Demon extends Monster{
 
 
     public Demon(Playing playing, int worldX, int worldY) {
-        super("Demon", "monster/Demon/Phase1/idle/left/1", playing, 288 * SCALE, 160 * SCALE);
+        super("Demon", playing, 288 * SCALE, 160 * SCALE);
 
         // Phase1's boxes
         solidArea = new Rectangle(8 * TILE_SIZE, 9 * TILE_SIZE, 2 * TILE_SIZE, TILE_SIZE);

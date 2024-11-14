@@ -37,7 +37,7 @@ public class Player extends Sprite {
     public Dash dash = null;
 
     public Player(Playing playing) {
-        super("Player", "player/Idle/Normal/down/1", playing, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT);
+        super("Player", playing, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT);
         setDefaultValues();
         attack = new Attack(this);
         idle = new Idle(this);
@@ -52,8 +52,8 @@ public class Player extends Sprite {
     public void setDefaultValues() {
         solidArea = new Rectangle();
         solidArea.setBounds(18 * SCALE, 32 * SCALE, 13 * SCALE, 12 * SCALE);
-        worldX = TILE_SIZE * 10 - TILE_SIZE * 3 / 2;
-        worldY = TILE_SIZE * 10;
+        worldX = TILE_SIZE * 23 - TILE_SIZE * 3 / 2;
+        worldY = TILE_SIZE * 6;
 //        worldX = 15 * TILE_SIZE;
 //        worldY = 34 * TILE_SIZE;
 
@@ -191,7 +191,7 @@ public class Player extends Sprite {
         Monster lockedMonster = null;
         Monster[] entities = this.getPlaying().monsters;
         for (Monster entity : entities)
-            if (entity != null) {
+            if (entity != null && entity.isOnTheScreen()) {
                 entity.isBeingLockOn = false;
                 if (entity.currentState != EntityState.DEATH && HelpMethods.canSeeEntity(playing, this, entity)) {
                     int newDistance = (this.getWorldY() - entity.getWorldY()) * (this.getWorldY() - entity.getWorldY()) +
@@ -268,7 +268,6 @@ public class Player extends Sprite {
         monster.hitBox.y += monster.worldY;
 
         boolean result = false;
-
         if (currentWeapon.equals("SPEAR")) {
             if (monster.hitBox.intersects(spearAttackBox)) result = true;
         } else if (currentWeapon.equals("GUN")) {

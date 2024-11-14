@@ -5,6 +5,7 @@ import entities.monsters.BringerOfDeath;
 import entities.monsters.Demon;
 import entities.monsters.PlantMelee;
 import entities.monsters.Slime;
+import entities.npc.WhiteSamurai;
 import utils.ImageLoader;
 import utils.ImageManager;
 
@@ -42,22 +43,27 @@ public abstract class EntityStateMethods {
         imageManager = ImageLoader.imageManager;
         if (entity instanceof Player player) {
             if (state.equals("ATTACK") && player.currentWeapon.equals("SPEAR"))
-                return imageManager.getPlayerImage(state, player.currentWeapon, "VFX_" + entity.direction, numAnimationFrames + 1);
-            return imageManager.getPlayerImage(state, player.currentWeapon, entity.direction, numAnimationFrames + 1);
+                return imageManager.getPlayerImage(state, player.currentWeapon, "VFX_" + entity.direction, numAnimationFrames, entity.width, entity.height);
+            return imageManager.getPlayerImage(state, player.currentWeapon, entity.direction, numAnimationFrames, entity.width, entity.height);
         }
-        if (entity instanceof Slime) {
-            return imageManager.getMonsterImage(entity.name, state, entity.direction, numAnimationFrames + 1);
+        if (entity instanceof WhiteSamurai) {
+            switch (entity.direction) {
+                case "left", "up", "left_down", "left_up":
+                    return imageManager.getNPCImage(entity.name, state, "left", numAnimationFrames, entity.width, entity.height);
+                case "right", "down", "right_down", "right_up":
+                    return imageManager.getNPCImage(entity.name, state, "right", numAnimationFrames, entity.width, entity.height);
+            }
         }
         else if (entity instanceof PlantMelee) {
-            return imageManager.getMonsterImage("PlantMelee", state, "ALL", numAnimationFrames + 1);
+            return imageManager.getMonsterImage("PlantMelee", state, "ALL", numAnimationFrames, entity.width, entity.height);
         }
         else {
             // Add more cases for other directions if needed
             switch (entity.direction) {
                 case "left", "up", "left_down", "left_up":
-                    return imageManager.getMonsterImage(entity.name, state, "left", numAnimationFrames + 1);
+                    return imageManager.getMonsterImage(entity.name, state, "left", numAnimationFrames, entity.width, entity.height);
                 case "right", "down", "right_down", "right_up":
-                    return imageManager.getMonsterImage(entity.name, state, "right", numAnimationFrames + 1);
+                    return imageManager.getMonsterImage(entity.name, state, "right", numAnimationFrames, entity.width, entity.height);
             }
         }
 

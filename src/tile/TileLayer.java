@@ -13,7 +13,7 @@ import static utils.Constants.Screen.*;
 
 public class TileLayer {
 
-    private Tile[][] tileLayerData;
+    public Tile[][] tileLayerData;
     private int[][] data;
     final private ArrayList<TileSet> tileSetList;
 

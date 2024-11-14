@@ -7,11 +7,13 @@ import entities.monsters.Monster;
 import java.awt.*;
 
 import static utils.Constants.Screen.SCALE;
+import static utils.Constants.Screen.TILE_SIZE;
 
 public class MagicCircle extends EffectMethod{
     Mage mage;
     public MagicCircle(Mage mage, int worldX, int worldY, int index) {
-        super("MagicCircle", 10, mage, mage.getPlaying().getPlayer(), worldX, worldY, index);
+        super("MagicCircle", 10, mage, mage.getPlaying().getPlayer(), worldX, worldY,
+                8 * TILE_SIZE, 4 * TILE_SIZE, index);
         this.mage = mage;
 
         effectRect = new Rectangle(26 * SCALE * 2, 22 * SCALE * 2, 74 * SCALE * 2, 27 * SCALE * 2);

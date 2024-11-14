@@ -46,23 +46,20 @@ public class Death extends EntityStateMethods {
                 animationIndex = totalAnimationFrames - 1;
             frameCounter = 0;
         }
-        if (entity instanceof Slime) {
-            return imageManager.getMonsterImage(entity.name, state, entity.direction, animationIndex + 1);
-        }
 
         if (entity instanceof PlantMelee) {
-            return imageManager.getMonsterImage(entity.name, state, "ALL", animationIndex + 1);
+            return imageManager.getMonsterImage(entity.name, state, "ALL", animationIndex, entity.width, entity.height);
         }
 
         if (entity instanceof Player player) {
-            return imageManager.getPlayerImage(state, player.currentWeapon, player.direction, animationIndex + 1);
+            return imageManager.getPlayerImage(state, player.currentWeapon, player.direction, animationIndex, entity.width, entity.height);
         }
         else {
             switch (entity.direction) {
                 case "up", "left_up", "left", "left_down":
-                    return imageManager.getMonsterImage(entity.name, state, "left", animationIndex + 1);
+                    return imageManager.getMonsterImage(entity.name, state, "left", animationIndex, entity.width, entity.height);
                 case "down", "right_down", "right", "right_up":
-                    return imageManager.getMonsterImage(entity.name, state, "right", animationIndex + 1);
+                    return imageManager.getMonsterImage(entity.name, state, "right", animationIndex, entity.width, entity.height);
             }
         }
 

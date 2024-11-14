@@ -15,6 +15,7 @@ public class ImageManager {
     Map<String, BufferedImage> guiImages;
     Map<String, BufferedImage> monsterImages;
     Map<String, BufferedImage> effectImages;
+    Map<String, BufferedImage> npcImages;
 
     public static ImageManager getInstance() {
         if (instance == null) {
@@ -28,11 +29,15 @@ public class ImageManager {
     }
 
 
+    public static int test = 0;
     private ImageManager() {
+        test++;
+        System.out.println(test);
         playerImages = loadAllImages("PLAYER");
         guiImages = loadAllImages("GUI");
         monsterImages = loadAllImages("MONSTER");
         effectImages = loadAllImages("EFFECT");
+        npcImages = loadAllImages("NPC");
     }
 
     private static Map<String, BufferedImage> loadAllImages(String imagePath) {
@@ -80,14 +85,13 @@ public class ImageManager {
         }
     }
 
-    public BufferedImage getPlayerImage(String state, String weapon, String direction, int numAnimationFrame) {
+    public BufferedImage getPlayerImage(String state, String weapon, String direction, int numAnimationFrame, int width, int height) {
         String key = "PLAYER_" + state + "_";
         if (!state.equals("RELOADING")) {
             key += weapon + "_";
         }
-        key += direction.toUpperCase() + "_";
-        key += numAnimationFrame;
-        return playerImages.get(key);  // Trả về ảnh từ bộ nhớ
+        key += direction.toUpperCase() + "_1-SHEET";;
+        return playerImages.get(key).getSubimage(width * numAnimationFrame, 0, width, height);  // Trả về ảnh từ bộ nhớ
     }
 
     public BufferedImage getGuiImage(String name) {
@@ -95,13 +99,17 @@ public class ImageManager {
         return guiImages.get(key);
     }
 
-    public BufferedImage getMonsterImage(String name, String state, String direction, int numAnimationFrame) {
-        String key = "MONSTER_" + name.toUpperCase() + "_" + state.toUpperCase() + "_" + direction.toUpperCase() + "_" + numAnimationFrame;
-        return monsterImages.get(key);
+    public BufferedImage getMonsterImage(String name, String state, String direction, int numAnimationFrame, int width, int height) {
+        String key = "MONSTER_" + name.toUpperCase() + "_" + state.toUpperCase() + "_" + direction.toUpperCase() + "_1-SHEET";
+        return monsterImages.get(key).getSubimage(width * numAnimationFrame, 0, width, height);
     }
 
-    public BufferedImage getEffectImage(String name, int numAnimationFrame) {
-        String key = "EFFECT_" + name.toUpperCase() + "_" + numAnimationFrame;
-        return effectImages.get(key);
+    public BufferedImage getEffectImage(String name, int numAnimationFrame, int width, int height) {
+        String key = "EFFECT_" + name.toUpperCase()  + "_1-SHEET";
+        return effectImages.get(key).getSubimage(width * numAnimationFrame, 0, width, height);
+    }
+    public BufferedImage getNPCImage(String name, String state, String direction, int numAnimationFrame, int width, int height) {
+        String key = "NPC_" + name.toUpperCase() + "_" + state.toUpperCase() + "_" + direction.toUpperCase() + "_1-SHEET";
+        return npcImages.get(key).getSubimage(width * numAnimationFrame, 0, width, height);
     }
 }
