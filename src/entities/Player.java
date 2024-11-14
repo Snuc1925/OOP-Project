@@ -52,7 +52,7 @@ public class Player extends Sprite {
     public void setDefaultValues() {
         solidArea = new Rectangle();
         solidArea.setBounds(18 * SCALE, 32 * SCALE, 13 * SCALE, 12 * SCALE);
-        worldX = TILE_SIZE * 23 - TILE_SIZE * 3 / 2;
+        worldX = TILE_SIZE * 15 - TILE_SIZE * 3 / 2;
         worldY = TILE_SIZE * 6;
 //        worldX = 15 * TILE_SIZE;
 //        worldY = 34 * TILE_SIZE;

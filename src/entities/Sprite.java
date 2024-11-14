@@ -139,4 +139,19 @@ public class Sprite extends Entity{
 
         return result && HelpMethods.canSeeEntity(playing, this, player);
     }
+
+    public void getDirectionForAttacking() {
+        int dx = playing.getPlayer().getWorldX() - getWorldX();
+        int dy = playing.getPlayer().getWorldY() - getWorldY();
+
+        double angle = (Math.atan2(dy, dx) * 180 / Math.PI);
+        if (angle >= -22 && angle < 22) direction = "right";
+        else if (angle >= 22 && angle < 67) direction = "right_down";
+        else if (angle >= 67 && angle < 112) direction = "down";
+        else if (angle >= 112 && angle < 157) direction = "left_down";
+        else if (angle >= 157 || angle < -157) direction = "left";
+        else if (angle >= -157 && angle < -112) direction = "left_up";
+        else if (angle >= -112 && angle < -67) direction = "up";
+        else direction = "right_up";
+    }
 }

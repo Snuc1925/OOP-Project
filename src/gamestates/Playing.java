@@ -8,19 +8,16 @@ import entities.npc.Npc;
 import entities.npc.WhiteSamurai;
 import main.Game;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
 import main.UI;
+import main.Sound;
 import map.GameMap;
 import map.MapManager;
 import map.MapParser;
 import tile.TileManager;
-import utils.HelpMethods;
-import utils.ImageLoader;
-import utils.ImageManager;
 
 import static utils.Constants.Screen.TILE_SIZE;
 
@@ -51,6 +48,8 @@ public class Playing extends State implements Statemethods {
     // Npc
     public Npc[] npcArray;
 
+    private Sound theme;
+
     public Playing(Game game) {
         super(game);
         player = new Player(this);
@@ -74,6 +73,12 @@ public class Playing extends State implements Statemethods {
         currentMap.buildTileManager(tileManager);
 
         ui = new UI(this);
+
+        theme = new Sound();
+        theme.setTheme(1);
+        theme.play();
+        theme.loop();
+        theme.setVolume(0.15f);
     }
 
     public Game getGame() {
@@ -92,6 +97,8 @@ public class Playing extends State implements Statemethods {
         // NPC talk, other entity stop update
         if (npcTalking != null) {
             npcTalking.update();
+            player.currentState = EntityState.IDLE;
+            player.update();
             return;
         }
 
