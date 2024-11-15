@@ -5,6 +5,7 @@ import entities.monsters.Demon;
 import entities.monsters.PlantMelee;
 import entities.monsters.Slime;
 import entities.Sprite;
+import entities.projectile.Projectile;
 import utils.ImageLoader;
 import entities.Player;
 
@@ -50,6 +51,7 @@ public class Death extends EntityStateMethods {
         if (entity instanceof PlantMelee) {
             return imageManager.getMonsterImage(entity.name, state, "ALL", animationIndex, entity.width, entity.height);
         }
+
 
         if (entity instanceof Player player) {
             return imageManager.getPlayerImage(state, player.currentWeapon, player.direction, animationIndex, entity.width, entity.height);

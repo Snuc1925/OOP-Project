@@ -1,5 +1,7 @@
 package utils;
 
+import entities.projectile.Projectile;
+
 public class Constants {
     public static class Screen {
         public static final int ORIGINAL_TILE_SIZE = 16; // 16x16 pixels
@@ -26,5 +28,23 @@ public class Constants {
         public static int PLAYER_SCREEN_Y = Screen.SCREEN_HEIGHT/2 - Screen.TILE_SIZE/2 - 16 * Screen.SCALE;
         public static final int PLAYER_IMAGE_WIDTH = Screen.TILE_SIZE*3;
         public static final int PLAYER_IMAGE_HEIGHT = Screen.TILE_SIZE*4;
+    }
+
+    public class Monster {
+        // --------------------- Projectile ----------------------------
+        public class Projectile {
+            public static final int WIDTH = Screen.TILE_SIZE;
+            public static final int HEIGHT = Screen.TILE_SIZE;
+            public static final int TOTAL_FRAME = 5;
+            public static final int FRAME_DURATION = 3;
+            public static final int SPEED = 5;
+            public static final int ATTACK_POINTS = 1;
+            public static final int EXPLOSION_TOTAL_FRAME = 3;
+            public static final int EXPLOSION_FRAME_DURATION = 5;
+
+        }
+
+        // --------------------------------------------------------------
+
     }
 }

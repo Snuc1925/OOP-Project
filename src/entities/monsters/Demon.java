@@ -2,6 +2,7 @@ package entities.monsters;
 
 import effect.Explosion;
 import enitystates.*;
+import static enitystates.EntityState.*;
 import gamestates.Playing;
 import entities.Player;
 

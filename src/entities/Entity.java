@@ -20,6 +20,7 @@ public class Entity {
     public BufferedImage image;
 
     public int width, height;
+    protected String image_path;
     protected boolean collision;
     public boolean collisionOn = false;
     public Rectangle solidArea;

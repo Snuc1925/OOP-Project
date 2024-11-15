@@ -1,6 +1,7 @@
 package entities.monsters;
 
 import enitystates.*;
+import static enitystates.EntityState.*;
 import entities.Player;
 import gamestates.Playing;
 
