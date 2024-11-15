@@ -258,6 +258,16 @@ public class Player extends Sprite {
         }
     }
 
+    public void increaseHealth(int health) {
+        currentHealth += health;
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
+    }
+
+    public void increaseMana(int mana) {
+        currentMana += mana;
+        if (currentMana > maxMana) currentMana = maxMana;
+    }
+
     public boolean canAttackMonster(Monster monster) {
         int currentHitBoxX = monster.hitBox.x;
         int currentHitBoxY = monster.hitBox.y;
