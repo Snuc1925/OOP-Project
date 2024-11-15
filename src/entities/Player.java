@@ -52,7 +52,7 @@ public class Player extends Sprite {
     public void setDefaultValues() {
         solidArea = new Rectangle();
         solidArea.setBounds(18 * SCALE, 32 * SCALE, 13 * SCALE, 12 * SCALE);
-        worldX = TILE_SIZE * 23 - TILE_SIZE * 3 / 2;
+        worldX = TILE_SIZE * 18 - TILE_SIZE * 3 / 2;
         worldY = TILE_SIZE * 6;
 //        worldX = 15 * TILE_SIZE;
 //        worldY = 34 * TILE_SIZE;
@@ -94,6 +94,12 @@ public class Player extends Sprite {
                     spearAttackBox.y + PLAYER_SCREEN_Y,
                     spearAttackBox.width, spearAttackBox.height);
         }
+
+        int screenX = PLAYER_SCREEN_X;
+        int screenY = PLAYER_SCREEN_Y;
+//        g2.setColor(Color.WHITE);
+//        g2.setStroke(new BasicStroke(3));
+//        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
     }
 
     int frameCounter = 0;
@@ -250,6 +256,16 @@ public class Player extends Sprite {
             currentHealth = 0;
             currentState = EntityState.DEATH;
         }
+    }
+
+    public void increaseHealth(int health) {
+        currentHealth += health;
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
+    }
+
+    public void increaseMana(int mana) {
+        currentMana += mana;
+        if (currentMana > maxMana) currentMana = maxMana;
     }
 
     public boolean canAttackMonster(Monster monster) {

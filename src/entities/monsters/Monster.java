@@ -3,11 +3,13 @@ package entities.monsters;
 import enitystates.*;
 import entities.Player;
 import entities.Sprite;
+import entities.projectile.Projectile;
 import gamestates.Playing;
 import utils.HelpMethods;
 import utils.ImageLoader;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import static utils.Constants.Player.PLAYER_SCREEN_X;

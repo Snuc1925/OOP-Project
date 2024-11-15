@@ -16,6 +16,7 @@ public class ImageManager {
     Map<String, BufferedImage> monsterImages;
     Map<String, BufferedImage> effectImages;
     Map<String, BufferedImage> npcImages;
+    Map<String, BufferedImage> projectileImages;
 
     public static ImageManager getInstance() {
         if (instance == null) {
@@ -29,15 +30,13 @@ public class ImageManager {
     }
 
 
-    public static int test = 0;
     private ImageManager() {
-        test++;
-        System.out.println(test);
         playerImages = loadAllImages("PLAYER");
         guiImages = loadAllImages("GUI");
         monsterImages = loadAllImages("MONSTER");
         effectImages = loadAllImages("EFFECT");
         npcImages = loadAllImages("NPC");
+        projectileImages = loadAllImages("PROJECTILE");
     }
 
     private static Map<String, BufferedImage> loadAllImages(String imagePath) {
@@ -111,5 +110,12 @@ public class ImageManager {
     public BufferedImage getNPCImage(String name, String state, String direction, int numAnimationFrame, int width, int height) {
         String key = "NPC_" + name.toUpperCase() + "_" + state.toUpperCase() + "_" + direction.toUpperCase() + "_1-SHEET";
         return npcImages.get(key).getSubimage(width * numAnimationFrame, 0, width, height);
+    }
+
+    public BufferedImage getProjectileImage(String name, String state, String direction, int numAnimationFrame) {
+        String key = "PROJECTILE_" + name.toUpperCase() + "_" + state + "_" + numAnimationFrame + "_" + direction.toUpperCase();
+        System.out.println(key);
+        BufferedImage img = projectileImages.get(key);
+        return img;
     }
 }

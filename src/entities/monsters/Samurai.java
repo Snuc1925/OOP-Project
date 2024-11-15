@@ -1,6 +1,7 @@
 package entities.monsters;
 
 import enitystates.*;
+import static enitystates.EntityState.*;
 import entities.Player;
 import gamestates.Playing;
 
@@ -53,15 +54,15 @@ public class Samurai extends Monster{
 //        System.out.println(currentState);
         if (currentPhase == 1) {
             switch (currentState) {
-                case EntityState.IDLE:
+                case IDLE:
                     idlePhase1.update(this);
                     image = idlePhase1.getImage();
                     break;
-                case EntityState.WALK:
+                case WALK:
                     walkPhase1.update(this);
                     image = walkPhase1.getImage();
                     break;
-                case EntityState.ATTACK:
+                case ATTACK:
                     if (attackType == 1) {
                         attack1();
                         image = attack1Phase1.getImage();
@@ -70,7 +71,7 @@ public class Samurai extends Monster{
                         image = attack2Phase1.getImage();
                     }
                     break;
-                case EntityState.DEATH:
+                case DEATH:
                     image = transform.getImage();
                     if (transform.numAnimationFrames + 1 == transform.totalAnimationFrames) {
                         switchPhase();
@@ -79,15 +80,15 @@ public class Samurai extends Monster{
             }
         } else {
             switch (currentState) {
-                case EntityState.IDLE:
+                case IDLE:
                     idlePhase2.update(this);
                     image = idlePhase2.getImage();
                     break;
-                case EntityState.WALK:
+                case WALK:
                     walkPhase2.update(this);
                     image = walkPhase2.getImage();
                     break;
-                case EntityState.ATTACK:
+                case ATTACK:
                     if (attackType == 1) {
                         attack1();
                         image = attack1Phase2.getImage();
@@ -96,7 +97,7 @@ public class Samurai extends Monster{
                         image = attack2Phase2.getImage();
                     }
                     break;
-                case EntityState.DEATH:
+                case DEATH:
                     image = deathPhase2.getImage();
                     break;
             }
@@ -129,7 +130,7 @@ public class Samurai extends Monster{
         }
         if (frameCounter == totalFrame) {
             changeAttackType();
-            currentState = EntityState.IDLE;
+            currentState = IDLE;
             frameCounter = 0;
         }
     }
@@ -153,7 +154,7 @@ public class Samurai extends Monster{
         }
         if (frameCounter2 == totalFrame) {
             attackType = 1;
-            currentState = EntityState.IDLE;
+            currentState = IDLE;
             frameCounter2 = 0;
         }
     }
@@ -165,7 +166,7 @@ public class Samurai extends Monster{
         attackPoints = 3;
 
         currentPhase = 2;
-        currentState = EntityState.IDLE;
+        currentState = IDLE;
         frameCounter = 0;
     }
 

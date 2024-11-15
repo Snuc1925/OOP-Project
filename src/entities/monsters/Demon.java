@@ -2,12 +2,14 @@ package entities.monsters;
 
 import effect.Explosion;
 import enitystates.*;
+import static enitystates.EntityState.*;
 import gamestates.Playing;
 import entities.Player;
 
 import java.awt.*;
 import java.util.Random;
 
+import static enitystates.EntityState.*;
 import static utils.Constants.Screen.*;
 
 public class Demon extends Monster{
@@ -65,19 +67,19 @@ public class Demon extends Monster{
     public void update() {
         if (currentPhase == 1) {
             switch (currentState) {
-                case EntityState.IDLE:
+                case IDLE:
                     idlePhase1.update(this);
                     image = idlePhase1.getImage();
                     break;
-                case EntityState.WALK:
+                case WALK:
                     walkPhase1.update(this);
                     image = walkPhase1.getImage();
                     break;
-                case EntityState.ATTACK:
+                case ATTACK:
                     attackPhase1();
                     image = attackPhase1.getImage();
                     break;
-                case EntityState.DEATH:
+                case DEATH:
                     image = transform.getImage();
                     if (transform.numAnimationFrames + 1 == transform.totalAnimationFrames) {
                         switchPhase();
@@ -86,15 +88,15 @@ public class Demon extends Monster{
             }
         } else {
             switch (currentState) {
-                case EntityState.IDLE:
+                case IDLE:
                     idlePhase2.update(this);
                     image = idlePhase2.getImage();
                     break;
-                case EntityState.WALK:
+                case WALK:
                     walkPhase2.update(this);
                     image = walkPhase2.getImage();
                     break;
-                case EntityState.ATTACK:
+                case ATTACK:
                     switch (attackPhase2Type) {
                         case "NORMAL":
                             attackPhase2();
@@ -110,7 +112,7 @@ public class Demon extends Monster{
                             break;
                     }
                     break;
-                case EntityState.DEATH:
+                case DEATH:
                     image = deathPhase2.getImage();
                     break;
             }
@@ -129,7 +131,7 @@ public class Demon extends Monster{
 
         if (frameCounter == totalFrame) {
             if (canAttack(false)) player.getHurt(attackPoints);
-            currentState = EntityState.IDLE;
+            currentState = IDLE;
             frameCounter = 0;
         }
     }
@@ -144,7 +146,7 @@ public class Demon extends Monster{
             if (canAttack(false)) player.getHurt(attackPoints);
         }
         if (frameCounter == totalFrame) {
-            currentState = EntityState.IDLE;
+            currentState = IDLE;
             frameCounter = 0;
             changeAttackType();
         }
@@ -163,7 +165,7 @@ public class Demon extends Monster{
             }
         }
         if (frameCounter == totalFrame) {
-            currentState = EntityState.IDLE;
+            currentState = IDLE;
             frameCounter = 0;
             attackPhase2Type = "NORMAL";
         }
@@ -183,7 +185,7 @@ public class Demon extends Monster{
             explosion[2] = new Explosion(this, playerWorldX - 5 * TILE_SIZE, playerWorldY + 5 * TILE_SIZE, 2);
             explosion[3] = new Explosion(this, playerWorldX + 5 * TILE_SIZE, playerWorldY + 5 * TILE_SIZE, 3);
             explosion[4] = new Explosion(this, playerWorldX, playerWorldY, 4);
-            currentState = EntityState.IDLE;
+            currentState = IDLE;
             frameCounter = 0;
             attackPhase2Type = "NORMAL";
         }
@@ -241,7 +243,7 @@ public class Demon extends Monster{
 
     private void switchPhase() {
         currentPhase = 2;
-        currentState = EntityState.IDLE;
+        currentState = IDLE;
 
         // Phase 2's attributes
         maxHealth = 100;

@@ -4,6 +4,11 @@ import effect.CameraShake;
 import enitystates.EntityState;
 import entities.*;
 import entities.monsters.*;
+import entities.projectile.ProjectileManager;
+import main.Game;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.*;
 import entities.npc.Npc;
 import entities.npc.WhiteSamurai;
 import main.Game;
@@ -17,15 +22,19 @@ import main.UI;
 import map.GameMap;
 import map.MapManager;
 import map.MapParser;
+import system.CollectibleSystem;
+import system.RenderSystem;
 import tile.TileManager;
 import utils.HelpMethods;
 import utils.ImageLoader;
 import utils.ImageManager;
 
+import system.MonsterAttackSystem;
+
+import static utils.Constants.Screen.SCREEN_X;
 import static utils.Constants.Screen.TILE_SIZE;
 
 public class Playing extends State implements Statemethods {
-
     private final Player player;
     private final TileManager tileManager;
 
@@ -36,10 +45,17 @@ public class Playing extends State implements Statemethods {
     public ArrayList<Sprite> entityList;
     public Entity[] entityArray;
 
-    // Screen shake
+    private ProjectileManager projectileManager;
     public CameraShake cameraShake;
 
     // Game map
+    private CollectibleSystem collectibleSystem;
+
+    private MonsterAttackSystem monsterAttackSystem;
+
+    private RenderSystem renderSystem;
+
+    private ImageManager imageManager;
     public static GameMap currentMap;
 
     // Npc
@@ -55,6 +71,9 @@ public class Playing extends State implements Statemethods {
         super(game);
         player = new Player(this);
         tileManager = new TileManager(player);
+        projectileManager = new ProjectileManager(this);
+        collectibleSystem = new CollectibleSystem(this);
+        renderSystem = new RenderSystem(this);
 
         monsters = new Monster[1];
         monsters[0] = new PlantMelee(this, 8 * TILE_SIZE, 12 * TILE_SIZE);
@@ -68,6 +87,10 @@ public class Playing extends State implements Statemethods {
         entityArray = entityList.toArray(new Entity[0]);
 
         cameraShake = new CameraShake(20);
+        monsterAttackSystem = new MonsterAttackSystem(this);
+
+        ImageLoader.initialize();
+        imageManager = ImageLoader.imageManager;
 
         MapParser.loadMap( "level1" ,"res/map/map_level1.tmx");
         currentMap = MapManager.getGameMap("level1");
@@ -82,6 +105,14 @@ public class Playing extends State implements Statemethods {
     public Player getPlayer() {
         return player;
     }
+
+    public ImageManager getImageManager() {
+        return imageManager;
+    }
+
+    public RenderSystem getRenderSystem() { return renderSystem; }
+
+    public ProjectileManager getProjectileManager() { return projectileManager; }
 
     public TileManager getTileManager() {
         return tileManager;
@@ -104,7 +135,9 @@ public class Playing extends State implements Statemethods {
         if (player.currentState != EntityState.DEATH)
             player.lockOn();
 
-        System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
+        monsterAttackSystem.update();
+        projectileManager.update();
+        // System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
     }
 
     @Override
@@ -116,6 +149,7 @@ public class Playing extends State implements Statemethods {
             entity.draw(g2);
             currentMap.render2(g2, entity, player);
         }
+        projectileManager.draw(g2);
 
         ui.drawPlayerUI(g2);
 

@@ -1,5 +1,6 @@
 package main;
 
+import components.HitboxComponent;
 import enitystates.EntityState;
 import entities.Entity;
 import entities.monsters.Monster;
@@ -283,4 +284,5 @@ public class CollisionChecker {
 
         return contactPlayer;
     }
+
 }
