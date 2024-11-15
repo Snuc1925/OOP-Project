@@ -26,22 +26,6 @@ public class ProjectileManager {
         Iterator<Projectile> iterator = projectileList.iterator();
 
         while (iterator.hasNext()) {
-//            Projectile projectile = iterator.next();
-//            playing.getGame().getCollisionChecker().checkPlayer(projectile);
-//            if (projectile.collisionOn == true) {
-//                playing.getPlayer().currentHealth -= projectile.attackPoints;
-//                if (playing.getPlayer().currentHealth <= 0) {
-//                    playing.getPlayer().currentState = EntityState.DEATH;
-//                }
-//                iterator.remove();
-//                continue;
-//            }
-//            playing.getGame().getCollisionChecker().checkTile(projectile);
-//            if (projectile.collisionOn == true) {
-//                iterator.remove();
-//            } else {
-//                projectile.update();
-//            }
                 Projectile projectile = iterator.next();
                 if (projectile.getState().equals("ATTACK")) {
                     playing.getGame().getCollisionChecker().checkPlayer(projectile);

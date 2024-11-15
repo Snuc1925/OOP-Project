@@ -22,6 +22,8 @@ import main.Sound;
 import map.GameMap;
 import map.MapManager;
 import map.MapParser;
+import system.CollectibleSystem;
+import system.RenderSystem;
 import tile.TileManager;
 import utils.HelpMethods;
 import utils.ImageLoader;
@@ -46,7 +48,12 @@ public class Playing extends State implements Statemethods {
     private ProjectileManager projectileManager;
     public CameraShake cameraShake;
 
+    private CollectibleSystem collectibleSystem;
+
     private MonsterAttackSystem monsterAttackSystem;
+
+    private RenderSystem renderSystem;
+
     private ImageManager imageManager;
 
     // Game map
@@ -68,6 +75,8 @@ public class Playing extends State implements Statemethods {
         player = new Player(this);
         tileManager = new TileManager(player);
         projectileManager = new ProjectileManager(this);
+        collectibleSystem = new CollectibleSystem(this);
+        renderSystem = new RenderSystem(this);
 
         monsters = new Monster[1];
         monsters[0] = new PlantMelee(this, 8 * TILE_SIZE, 12 * TILE_SIZE);
@@ -109,6 +118,8 @@ public class Playing extends State implements Statemethods {
     public ImageManager getImageManager() {
         return imageManager;
     }
+
+    public RenderSystem getRenderSystem() { return renderSystem; }
 
     public ProjectileManager getProjectileManager() { return projectileManager; }
 
