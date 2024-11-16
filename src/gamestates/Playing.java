@@ -1,5 +1,6 @@
 package gamestates;
 
+import data.SaveLoad;
 import effect.CameraShake;
 import enitystates.EntityState;
 import entities.*;
@@ -12,32 +13,26 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 import entities.npc.Npc;
 import entities.npc.WhiteSamurai;
-import main.Game;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import main.UI;
 import map.GameMap;
 import map.MapManager;
 import map.MapParser;
 import system.CollectibleSystem;
 import system.RenderSystem;
 import tile.TileManager;
-import utils.HelpMethods;
 import utils.ImageLoader;
 import utils.ImageManager;
 
 import system.MonsterAttackSystem;
 
-import static utils.Constants.Screen.SCREEN_X;
 import static utils.Constants.Screen.TILE_SIZE;
 
 public class Playing extends State implements Statemethods {
-    private final Player player;
-    private final TileManager tileManager;
+    private Player player;
+    private TileManager tileManager;
 
     // Array of monsters
     public Monster[] monsters;
@@ -46,44 +41,36 @@ public class Playing extends State implements Statemethods {
     public ArrayList<Sprite> entityList;
     public Entity[] entityArray;
 
-    private ProjectileManager projectileManager;
+    // Camera shake
     public CameraShake cameraShake;
 
-    // Game map
+    private ProjectileManager projectileManager;
     private CollectibleSystem collectibleSystem;
-
     private MonsterAttackSystem monsterAttackSystem;
-
     private RenderSystem renderSystem;
 
-    private ImageManager imageManager;
+    // Game map
+    private final ImageManager imageManager;
     public static GameMap currentMap;
 
     // Npc
     public Npc npcTalking = null;
 
-
     // Npc
     public Npc[] npcArray;
 
+    // Save load
+    SaveLoad saveLoad = new SaveLoad(this);
+
+    // Level
+    public String currentLevel = "level1";
+
     public Playing(Game game) {
         super(game);
-        player = new Player(this);
-        tileManager = new TileManager(player);
+
         projectileManager = new ProjectileManager(this);
         collectibleSystem = new CollectibleSystem(this);
         renderSystem = new RenderSystem(this);
-
-        monsters = new Monster[1];
-        monsters[0] = new PlantMelee(this, 8 * TILE_SIZE, 12 * TILE_SIZE);
-        npcArray = new Npc[1];
-        npcArray[0] = new WhiteSamurai(this, 13 * TILE_SIZE, 5 * TILE_SIZE);
-
-        entityList = new ArrayList<>();
-        entityList.add(player);
-        entityList.addAll(Arrays.asList(monsters));
-        entityList.addAll(Arrays.asList(npcArray));
-        entityArray = entityList.toArray(new Entity[0]);
 
         cameraShake = new CameraShake(20);
         monsterAttackSystem = new MonsterAttackSystem(this);
@@ -91,10 +78,32 @@ public class Playing extends State implements Statemethods {
         ImageLoader.initialize();
         imageManager = ImageLoader.imageManager;
 
-        MapParser.loadMap( "level1" ,"res/map/map_level1.tmx");
+        setDefaultValues();
+
+    }
+
+    public void setDefaultValues() {
+        player = new Player(this);
+        tileManager = new TileManager(player);
+
+        MapParser.loadMap( "level1" ,"res/map/map_" + currentLevel + ".tmx");
         currentMap = MapManager.getGameMap("level1");
         currentMap.buildTileManager(tileManager);
 
+        monsters = new Monster[1];
+        monsters[0] = new SwordKnight(this, 8 * TILE_SIZE, 12 * TILE_SIZE);
+        npcArray = new Npc[1];
+        npcArray[0] = new WhiteSamurai(this, 13 * TILE_SIZE, 5 * TILE_SIZE);
+
+        setUpList();
+    }
+
+    public void setUpList() {
+        entityList = new ArrayList<>();
+        entityList.add(player);
+        entityList.addAll(Arrays.asList(monsters));
+        entityList.addAll(Arrays.asList(npcArray));
+        entityArray = entityList.toArray(new Entity[0]);
     }
 
     public Game getGame() {
@@ -133,12 +142,17 @@ public class Playing extends State implements Statemethods {
         if (player.currentState != EntityState.DEATH)
             player.lockOn();
 
-        monsterAttackSystem.update();
-        projectileManager.update();
+//        monsterAttackSystem.update();
+//        projectileManager.update();
+
         // System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
 
         if (KeyboardInputs.isPressedValid("pause", game.getKeyboardInputs().pausePressed)) {
             Gamestate.state = Gamestate.PAUSE;
+        }
+
+        if (player.currentState == EntityState.DEATH) {
+            Gamestate.state = Gamestate.GAME_OVER;
         }
     }
 
@@ -149,7 +163,7 @@ public class Playing extends State implements Statemethods {
         entityList.sort(Comparator.comparingDouble(Entity::getRenderOrder));
         for (Sprite entity : entityList) if (entity.isOnTheScreen()){
             entity.draw(g2);
-            currentMap.render2(g2, entity, player);
+//            currentMap.render2(g2, entity, player);
         }
         projectileManager.draw(g2);
 

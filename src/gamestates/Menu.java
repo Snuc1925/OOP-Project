@@ -30,7 +30,11 @@ public class Menu extends State implements Statemethods {
             else if (keyboardInputs.upPressed) commandNumber--;
             else if (keyboardInputs.enterPressed) {
                 switch (commandNumber) {
-                    case 0, 1:
+                    case 0:
+                        Gamestate.state = Gamestate.PLAYING;
+                        break;
+                    case 1:
+                        game.getPlaying().saveLoad.loadGame();
                         Gamestate.state = Gamestate.PLAYING;
                         break;
                     case 2:

@@ -8,6 +8,7 @@ import utils.HelpMethods;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 import static enitystates.EntityState.DEATH;
 import static enitystates.EntityState.IDLE;

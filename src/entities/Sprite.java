@@ -6,10 +6,11 @@ import gamestates.Playing;
 import utils.HelpMethods;
 
 import java.awt.*;
+import java.io.Serializable;
 
 import static enitystates.EntityState.*;
 
-public class Sprite extends Entity{
+public class Sprite extends Entity {
     public int speed;
     public String direction = "down";
     public boolean isIdling = true;

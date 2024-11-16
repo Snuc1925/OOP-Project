@@ -2,10 +2,8 @@ package main;
 
 import java.awt.*;
 
-import gamestates.Gamestate;
+import gamestates.*;
 import gamestates.Menu;
-import gamestates.Pause;
-import gamestates.Playing;
 import inputs.KeyboardInputs;
 import utils.ImageManager;
 
@@ -19,6 +17,7 @@ public class Game implements Runnable {
     private GameWindow gameWindow;
     private Playing playing;
     private Menu menu;
+    private GameOver gameOver;
     private final CollisionChecker collisionChecker;
     private Pause pause;
     private UI ui;
@@ -35,6 +34,7 @@ public class Game implements Runnable {
     public Menu getMenu() {
         return menu;
     }
+
     public Pause getPause() {
         return pause;
     }
@@ -64,6 +64,7 @@ public class Game implements Runnable {
         menu = new Menu(this);
         playing = new Playing(this);
         pause = new Pause(this);
+        gameOver = new GameOver(this);
     }
 
     private void startGameLoop() {
@@ -126,6 +127,9 @@ public class Game implements Runnable {
             case PAUSE:
                 pause.update();
                 break;
+            case GAME_OVER:
+                gameOver.update();
+                break;
             default:
                 System.exit(0);
                 break;
@@ -143,9 +147,15 @@ public class Game implements Runnable {
             case PAUSE:
                 pause.draw(g);
                 break;
+            case GAME_OVER:
+                gameOver.draw(g);
+                break;
             default:
                 break;
         }
     }
 
+    public GameOver getGameOver() {
+        return gameOver;
+    }
 }

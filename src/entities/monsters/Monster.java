@@ -10,23 +10,23 @@ import utils.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.Random;
 
 import static utils.Constants.Player.PLAYER_SCREEN_X;
 import static utils.Constants.Player.PLAYER_SCREEN_Y;
 import static utils.Constants.Screen.TILE_SIZE;
 
-public class Monster extends Sprite {
+public class Monster extends Sprite{
     protected Attack attack;
     protected Idle idle;
     protected Walk walk;
     protected Death death;
     public boolean isBeingLockOn = false;
+
     public int currentHealth, maxHealth, attackPoints;
-
-
-
     public int attackRate = 180; // Total frames between 2 attack
+
     public Monster(String name, Playing playing, int width, int height) {
         super(name, playing, width, height);
         currentState = EntityState.IDLE;
@@ -181,5 +181,15 @@ public class Monster extends Sprite {
 
     public void attack() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "{name: "+ name +
+                ", currentState: " + currentState +
+                ", currentHealth: " + currentHealth +
+                ", worldX: " + worldX +
+                ", worldY: " + worldY +
+                ", direction: " + direction + "}";
     }
 }

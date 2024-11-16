@@ -40,28 +40,28 @@ public class GameMap {
 
         }
     }
-    int startRow, startCol, endRow, endCol;
-    public void render2(Graphics2D g2, Sprite entity, Player player) {
-        TileLayer layer = map.get(1);
-        startCol = (entity.worldX + entity.solidArea.x) / TILE_SIZE;
-        endCol = (entity.worldX + entity.solidArea.x + entity.solidArea.width) / TILE_SIZE;
-        startRow = (entity.worldY + entity.solidArea.y) / TILE_SIZE;
-        endRow = (entity.worldY + entity.solidArea.y + entity.solidArea.height) / TILE_SIZE;
-
-        int worldX, worldY, screenX, screenY;
-        for (int i = startRow; i <= endRow; i++) for (int j = startCol; j <= endCol; j++) {
-            if (i >= 0 && i < MAX_WORLD_ROW && j >= 0 && j < MAX_WORLD_COL) {
-                if (layer.tileLayerData[i][j] == null) continue;
-                worldX = j * TILE_SIZE;
-                worldY = i * TILE_SIZE;
-                screenX = (worldX - player.worldX + PLAYER_SCREEN_X);
-                screenY = (worldY - player.worldY + PLAYER_SCREEN_Y);
-                if (worldY > entity.getWorldY())
-                    g2.drawImage(layer.tileLayerData[i][j].image , screenX  , screenY , TILE_SIZE , TILE_SIZE , null);
-            }
-        }
-
-    }
+//    int startRow, startCol, endRow, endCol;
+//    public void render2(Graphics2D g2, Sprite entity, Player player) {
+//        TileLayer layer = map.get(1);
+//        startCol = (entity.worldX + entity.solidArea.x) / TILE_SIZE;
+//        endCol = (entity.worldX + entity.solidArea.x + entity.solidArea.width) / TILE_SIZE;
+//        startRow = (entity.worldY + entity.solidArea.y) / TILE_SIZE;
+//        endRow = (entity.worldY + entity.solidArea.y + entity.solidArea.height) / TILE_SIZE;
+//
+//        int worldX, worldY, screenX, screenY;
+//        for (int i = startRow; i <= endRow; i++) for (int j = startCol; j <= endCol; j++) {
+//            if (i >= 0 && i < MAX_WORLD_ROW && j >= 0 && j < MAX_WORLD_COL) {
+//                if (layer.tileLayerData[i][j] == null) continue;
+//                worldX = j * TILE_SIZE;
+//                worldY = i * TILE_SIZE;
+//                screenX = (worldX - player.worldX + PLAYER_SCREEN_X);
+//                screenY = (worldY - player.worldY + PLAYER_SCREEN_Y);
+//                if (worldY > entity.getWorldY())
+//                    g2.drawImage(layer.tileLayerData[i][j].image , screenX  , screenY , TILE_SIZE , TILE_SIZE , null);
+//            }
+//        }
+//
+//    }
 
     public void buildTileManager(TileManager tileManager) {
         TileLayer layer = map.get(1);
@@ -69,7 +69,7 @@ public class GameMap {
             for (int j = 0; j < MAX_WORLD_COL; j++) {
                 if (layer.getTileData(i, j) != 0) {
                     tileManager.tile[i][j] = true;
-                    tileManager.solidArea[i][j] = new Rectangle(j * TILE_SIZE, TILE_SIZE / 2 + i * TILE_SIZE, TILE_SIZE, TILE_SIZE / 2);
+                    tileManager.solidArea[i][j] = new Rectangle(j * TILE_SIZE, i * TILE_SIZE, TILE_SIZE, TILE_SIZE);
                 }
                 else {
                     tileManager.tile[i][j] = false;

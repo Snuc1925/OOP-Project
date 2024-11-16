@@ -48,18 +48,15 @@ public class Player extends Sprite {
 
         spearAttackBox = new Rectangle(0, 0, 3 * TILE_SIZE, 4 * TILE_SIZE);
         gunAttackBox = new Rectangle(-7 * TILE_SIZE / 2, -3 * TILE_SIZE, 10 * TILE_SIZE, 10 * TILE_SIZE);
+        solidArea = new Rectangle();
+        solidArea.setBounds(18 * SCALE, 32 * SCALE, 13 * SCALE, 12 * SCALE);
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
     }
 
     public void setDefaultValues() {
-        solidArea = new Rectangle();
-        solidArea.setBounds(18 * SCALE, 32 * SCALE, 13 * SCALE, 12 * SCALE);
-        worldX = TILE_SIZE * 18 - TILE_SIZE * 3 / 2;
+        worldX = TILE_SIZE * 13 - TILE_SIZE * 3 / 2;
         worldY = TILE_SIZE * 6;
-//        worldX = 15 * TILE_SIZE;
-//        worldY = 34 * TILE_SIZE;
-
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
 
         speed = 4;
         maxArmor = 10;
@@ -96,11 +93,12 @@ public class Player extends Sprite {
                     spearAttackBox.width, spearAttackBox.height);
         }
 
-        int screenX = PLAYER_SCREEN_X;
-        int screenY = PLAYER_SCREEN_Y;
-//        g2.setColor(Color.WHITE);
-//        g2.setStroke(new BasicStroke(3));
-//        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+        if (playing.getGame().getKeyboardInputs().enterPressed) {
+            int screenX = PLAYER_SCREEN_X;
+            int screenY = PLAYER_SCREEN_Y;
+            g2.setColor(Color.WHITE);
+            g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+        }
     }
 
     int frameCounter = 0;

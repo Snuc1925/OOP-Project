@@ -9,6 +9,7 @@ import entities.Player;
 import inputs.KeyboardInputs;
 
 import java.awt.*;
+import java.io.Serializable;
 
 import static inputs.KeyboardInputs.isPressedValid;
 import static utils.Constants.Screen.TILE_SIZE;
