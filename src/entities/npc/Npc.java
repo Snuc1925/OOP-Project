@@ -3,7 +3,6 @@ package entities.npc;
 import enitystates.EntityState;
 import enitystates.Idle;
 import entities.Sprite;
-import entities.monsters.Monster;
 import gamestates.Playing;
 import entities.Player;
 import inputs.KeyboardInputs;
@@ -12,7 +11,6 @@ import java.awt.*;
 import java.io.Serializable;
 
 import static inputs.KeyboardInputs.isPressedValid;
-import static utils.Constants.Screen.TILE_SIZE;
 
 public class Npc extends Sprite {
     public String[] dialogues;
@@ -37,6 +35,7 @@ public class Npc extends Sprite {
 
     @Override
     public void update() {
+        getDirectionForAttacking();
         if (currentState == EntityState.IDLE && idle != null) {
             idle.update(this);
             image = idle.getImage();

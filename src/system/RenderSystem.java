@@ -1,5 +1,6 @@
 package system;
 
+import components.HitboxComponent;
 import components.PositionComponent;
 import components.RenderComponent;
 import entities.Player;
@@ -21,10 +22,33 @@ public class RenderSystem {
     public void draw(Graphics2D g2, PositionComponent position, RenderComponent render) {
         int width = render.width, height = render.height;
         int worldX = position.worldX, worldY = position.worldY;
+        Player player = playing.getPlayer();
+        int playerWorldX = player.worldX;
+        int playerWorldY = player.worldY;
+        int screenX = worldX - playerWorldX + PLAYER_SCREEN_X;
+        int screenY = worldY - playerWorldY + PLAYER_SCREEN_Y;
         if (isOnTheScreen(width, height, worldX, worldY)) {
-            g2.drawImage(render.image, getScreenX(worldX), getScreenY(worldY), render.width, render.height, null);
+            g2.drawImage(render.image, screenX, screenY, render.width, render.height, null);
         }
     }
+
+    public void draw(Graphics2D g2, PositionComponent position, RenderComponent render, HitboxComponent hitbox) {
+        int width = render.width, height = render.height;
+        int worldX = position.worldX, worldY = position.worldY;
+        Player player = playing.getPlayer();
+        int playerWorldX = player.worldX;
+        int playerWorldY = player.worldY;
+        int screenX = worldX - playerWorldX + PLAYER_SCREEN_X;
+        int screenY = worldY - playerWorldY + PLAYER_SCREEN_Y;
+        if (isOnTheScreen(width, height, worldX, worldY)) {
+            g2.drawImage(render.image, screenX, screenY, width, height, null);
+            g2.setColor(Color.WHITE);
+            g2.setStroke(new BasicStroke(3));
+            g2.drawRect(screenX , screenY, hitbox.area.width, hitbox.area.height);
+        }
+    }
+
+
 
     public int getWorldY(int worldY, int height) {
         return worldY + height / 2;
@@ -33,12 +57,6 @@ public class RenderSystem {
         return worldX + width / 2;
     }
 
-    public int getScreenX(int worldX) {
-        return HelpMethods.getScreenX(worldX, playing.getPlayer());
-    }
-    public int getScreenY(int worldY) {
-        return HelpMethods.getScreenY(worldY, playing.getPlayer());
-    }
     public boolean isOnTheScreen(int worldX, int worldY, int width, int height) {
         Player player = playing.getPlayer();
         int playerWorldX = player.worldX;

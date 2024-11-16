@@ -1,29 +1,24 @@
 package objects;
 
-import components.AnimationComponent;
-import entities.Entity;
-import gamestates.Playing;
+import components.*;
 
-import java.awt.*;
+import static utils.Constants.Screen.TILE_SIZE;
 
-public class Door extends Entity {
-    AnimationComponent animation;
-
-    private boolean closing;
-    public Door(String name, Playing playing, int worldX, int worldY, int width, int height) {
-        super(name, playing, width, height);
-        this.worldX = worldX;
-        this.worldY = worldY;
-        closing = true;
-        animation = new AnimationComponent(5, 3);
+public class Door {
+    public String name;
+    public AnimationComponent animation;
+    public PositionComponent position;
+    public RenderComponent render;
+    public HitboxComponent hitbox;
+    public boolean isOpen;
+    public Door(String name, int worldX, int worldY, int width, int height) {
+        this.name = "Object_Door_" + name;
+        position = new PositionComponent(worldX, worldY);
+        render = new RenderComponent(width, height);
+        hitbox = new HitboxComponent(width, height);
+        animation = new AnimationComponent(8, 10);
+        isOpen = false;
+//        animation.numAnimationFrame = animation.totalAnimationFrame;
     }
 
-    public void openDoor() {
-        closing = false;
-        
-    }
-
-    public void closeDoor() {
-        if (!animation.checkCompleteAnimation()) animation.updateAnimation();
-    }
 }

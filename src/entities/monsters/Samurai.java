@@ -8,6 +8,7 @@ import gamestates.Playing;
 import java.awt.*;
 import java.util.Random;
 
+import static enitystates.EntityState.*;
 import static utils.Constants.Screen.TILE_SIZE;
 
 public class Samurai extends Monster{

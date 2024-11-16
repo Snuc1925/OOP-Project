@@ -45,11 +45,6 @@ public abstract class EntityStateMethods {
         }
 
         imageManager = ImageLoader.imageManager;
-        if (entity instanceof Projectile) {
-            String state = (entity.currentState == EntityState.ATTACK ? "ATTACK" : "EXPLOSION");
-//            System.out.println(state);
-            return imageManager.getProjectileImage(entity.name, state, entity.direction, numAnimationFrames + 1);
-        }
         if (entity instanceof Player player) {
             if (state.equals("ATTACK") && player.currentWeapon.equals("SPEAR"))
                 return imageManager.getPlayerImage(state, player.currentWeapon, "VFX_" + entity.direction, numAnimationFrames, entity.width, entity.height);

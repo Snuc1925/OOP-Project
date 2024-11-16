@@ -4,19 +4,15 @@ import components.*;
 import entities.Player;
 
 public class Collectible {
+    public String name;
     public RenderComponent render;
     public PositionComponent position;
     public HitboxComponent hitbox;
     public ItemComponent item;
+    public AnimationComponent animation;
 
-    public Collectible(PositionComponent position,
-                       RenderComponent render,
-                       HitboxComponent hitbox,
-                       ItemComponent item) {
-        this.position = position;
-        this.render = render;
-        this.hitbox = hitbox;
-        this.item = item;
+    public Collectible() {
+        this.name = "OBJECT";
     }
 
     public void update() {}

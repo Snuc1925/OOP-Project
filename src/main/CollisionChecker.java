@@ -1,12 +1,14 @@
 package main;
 
 import components.HitboxComponent;
+import components.PositionComponent;
 import enitystates.EntityState;
 import entities.Entity;
 import entities.monsters.Monster;
 import entities.Sprite;
 import entities.Player;
 import tile.TileManager;
+import utils.Constants;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -285,4 +287,31 @@ public class CollisionChecker {
         return contactPlayer;
     }
 
+    public boolean checkPlayer(HitboxComponent hitbox, PositionComponent position) {
+        Player player = game.getPlaying().getPlayer();
+
+        boolean contactPlayer = false;
+
+        int hitboxX = hitbox.area.x;
+        int hitboxY = hitbox.area.y;
+
+        // Get entity solid area position
+        hitbox.area.x = position.worldX + hitbox.area.x;
+        hitbox.area.y = position.worldY + hitbox.area.y;
+
+        // Get the target solid area position
+        player.solidArea.x = player.solidArea.x + player.worldX;
+        player.solidArea.y = player.solidArea.y + player.worldY;
+
+        if (hitbox.area.intersects(player.solidArea)){
+            contactPlayer = true;
+        }
+
+        player.solidArea.x = player.solidAreaDefaultX;
+        player.solidArea.y = player.solidAreaDefaultY;
+        hitbox.area.x = hitboxX;
+        hitbox.area.y = hitboxY;
+
+        return contactPlayer;
+    }
 }
