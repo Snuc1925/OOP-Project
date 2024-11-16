@@ -4,13 +4,14 @@ import effect.CameraShake;
 import enitystates.EntityState;
 import entities.*;
 import entities.monsters.*;
-import entities.npc.Npc;
-import entities.npc.WhiteSamurai;
 import entities.projectile.ProjectileManager;
+import inputs.KeyboardInputs;
 import main.Game;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
+import entities.npc.Npc;
+import entities.npc.WhiteSamurai;
 import main.Game;
 import java.awt.*;
 import java.util.ArrayList;
@@ -18,7 +19,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import main.UI;
-import main.Sound;
 import map.GameMap;
 import map.MapManager;
 import map.MapParser;
@@ -49,6 +49,7 @@ public class Playing extends State implements Statemethods {
     private ProjectileManager projectileManager;
     public CameraShake cameraShake;
 
+    // Game map
     private CollectibleSystem collectibleSystem;
     private DoorSystem doorSystem;
 
@@ -64,13 +65,9 @@ public class Playing extends State implements Statemethods {
     // Npc
     public Npc npcTalking = null;
 
-    // UI
-    public UI ui;
 
     // Npc
     public Npc[] npcArray;
-
-    private Sound theme;
 
     public Playing(Game game) {
         super(game);
@@ -102,13 +99,6 @@ public class Playing extends State implements Statemethods {
         currentMap = MapManager.getGameMap("level1");
         currentMap.buildTileManager(tileManager);
 
-        ui = new UI(this);
-
-        theme = new Sound();
-        theme.setTheme(1);
-        theme.play();
-        theme.loop();
-        theme.setVolume(0.15f);
     }
 
     public Game getGame() {
@@ -135,8 +125,6 @@ public class Playing extends State implements Statemethods {
         // NPC talk, other entity stop update
         if (npcTalking != null) {
             npcTalking.update();
-            player.currentState = EntityState.IDLE;
-            player.update();
             return;
         }
 
@@ -154,6 +142,11 @@ public class Playing extends State implements Statemethods {
         collectibleSystem.update();
         doorSystem.update();
         System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
+        // System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
+
+        if (KeyboardInputs.isPressedValid("pause", game.getKeyboardInputs().pausePressed)) {
+            Gamestate.state = Gamestate.PAUSE;
+        }
     }
 
     @Override
@@ -169,24 +162,10 @@ public class Playing extends State implements Statemethods {
         collectibleSystem.draw(g2);
         doorSystem.draw(g2);
 
-        // Draw player status GUI
-        ImageLoader.initialize();
-        ImageManager imageManager = ImageLoader.imageManager;
-        BufferedImage ui_bar_decor = imageManager.getGuiImage("UI_BAR_DECORATION");
-        ui_bar_decor = HelpMethods.scaleImage(ui_bar_decor, 0.25);
-        g2.drawImage(ui_bar_decor, 0, 0, null);
-
-        if (player.currentHealth > 0) {
-            BufferedImage player_health_bar = imageManager.getGuiImage("HEALTH_BAR");
-            player_health_bar = HelpMethods.scaleImage(player_health_bar, 0.25);
-            player_health_bar = HelpMethods.getBarImage(player_health_bar, 1.0 * player.currentHealth / player.maxHealth);
-            g2.drawImage(player_health_bar, 49, 10, null);
-        }
-
-        ui.drawPlayerUI(g2);
+        game.getUI().drawPlayerUI(g2);
 
         if (npcTalking != null) {
-            ui.drawDialogueScreen(npcTalking.talk(), g2);
+            game.getUI().drawDialogueScreen(npcTalking.talk(), g2);
         }
     }
 

@@ -31,14 +31,12 @@ public class ImageManager {
     }
 
 
-    public static int test = 0;
     private ImageManager() {
-        test++;
-        System.out.println(test);
         playerImages = loadAllImages("PLAYER");
         guiImages = loadAllImages("GUI");
         monsterImages = loadAllImages("MONSTER");
         effectImages = loadAllImages("EFFECT");
+        npcImages = loadAllImages("NPC");
         projectileImages = loadAllImages("PROJECTILE");
         npcImages = loadAllImages("NPC");
         objectImages = loadAllImages("OBJECT");
@@ -80,7 +78,7 @@ public class ImageManager {
                     BufferedImage image = ImageIO.read(file);
                     image = HelpMethods.scaleImage(image, Constants.Screen.SCALE);
                     images.put(key, image);
-//                    System.out.println(key);
+                    System.out.println(key);
                 } catch (IOException e) {
                     System.err.println("Failed to load image: " + file.getPath());
                     e.printStackTrace();
@@ -119,7 +117,7 @@ public class ImageManager {
 
     public BufferedImage getProjectileImage(String name, String state, String direction, int numAnimationFrame) {
         String key = "PROJECTILE_" + name.toUpperCase() + "_" + state + "_" + numAnimationFrame + "_" + direction.toUpperCase();
-//        System.out.println(key);
+        System.out.println(key);
         BufferedImage img = projectileImages.get(key);
         return img;
     }

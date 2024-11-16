@@ -5,6 +5,7 @@ import enitystates.*;
 import entities.monsters.Monster;
 import gamestates.Playing;
 import inputs.KeyboardInputs;
+import main.CollisionChecker;
 import utils.HelpMethods;
 
 import java.awt.*;
@@ -52,7 +53,7 @@ public class Player extends Sprite {
     public void setDefaultValues() {
         solidArea = new Rectangle();
         solidArea.setBounds(18 * SCALE, 32 * SCALE, 13 * SCALE, 12 * SCALE);
-        worldX = TILE_SIZE * 15 - TILE_SIZE * 3 / 2;
+        worldX = TILE_SIZE * 18 - TILE_SIZE * 3 / 2;
         worldY = TILE_SIZE * 6;
 //        worldX = 15 * TILE_SIZE;
 //        worldY = 34 * TILE_SIZE;
@@ -296,5 +297,21 @@ public class Player extends Sprite {
         gunAttackBox.x = gunX;
         gunAttackBox.y = gunY;
         return result;
+    }
+
+    @Override
+    public void move() {
+        CollisionChecker cc = playing.getGame().getCollisionChecker();
+        if (dash != null) {
+            cc.checkTile(this);
+            if (collisionOn) return;
+            goAlongDirection();
+            return;
+        }
+        cc.checkTile(this);
+        cc.checkEntity(this, playing.entityList);
+        if (collisionOn) return;
+        goAlongDirection();
+
     }
 }

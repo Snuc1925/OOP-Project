@@ -30,10 +30,7 @@ public class ProjectileManager {
                 if (projectile.getState().equals("ATTACK")) {
                     playing.getGame().getCollisionChecker().checkPlayer(projectile);
                     if (projectile.collisionOn) {
-                        playing.getPlayer().currentHealth -= projectile.attackPoints;
-                        if (playing.getPlayer().currentHealth <= 0) {
-                            playing.getPlayer().currentState = EntityState.DEATH;
-                        }
+                        playing.getPlayer().getHurt(projectile.attackPoints);
                         projectile.setState("EXPLOSION");
                     } else {
                         playing.getGame().getCollisionChecker().checkTile(projectile);

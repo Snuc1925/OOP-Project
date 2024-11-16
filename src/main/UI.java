@@ -6,6 +6,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
+import gamestates.Menu;
+import gamestates.Pause;
 import gamestates.Playing;
 import utils.HelpMethods;
 import utils.ImageLoader;
@@ -16,13 +18,15 @@ import static utils.Constants.Screen.*;
 
 public class UI {
     Playing playing;
-    Player player;
+    Menu menu;
+    Pause pause;
     Font arial_40, arial_80B;
     Font maruMonica, purisaBold;
 
-    public UI(Playing playing) {
-        this.playing = playing;
-        player = playing.getPlayer();
+    public UI(Game game) {
+        this.playing = game.getPlaying();
+        this.menu = game.getMenu();
+        this.pause = game.getPause();
 
         try {
             InputStream is = getClass().getResourceAsStream("/font/MaruMonica.ttf");
@@ -38,9 +42,6 @@ public class UI {
     }
 
 
-    int frameCounter = 0;
-    String previousText = null;
-    int lineCounter = 0;
     public void drawDialogueScreen(String currentDialogue, Graphics2D g2) {
         // Window
         int x = TILE_SIZE * 2, y = TILE_SIZE / 2;
@@ -56,34 +57,15 @@ public class UI {
             playing.npcTalking = null;
             return;
         }
-        if (!currentDialogue.equals(previousText)) {
-            lineCounter = 0;
-            previousText = currentDialogue;
-            frameCounter = 0;
+
+        for (String line : currentDialogue.split("\n")) {
+            g2.drawString(line, x, y);
+            y += 40;
         }
-
-        frameCounter++;
-        String[] lines = currentDialogue.split(("\n"));
-
-        for (int i = 0; i < lineCounter; i++) {
-            g2.drawString(lines[i], x, y + 40 * i);
-        }
-
-        for (int j = lines[lineCounter].length(); j >= 0; j--) {
-            if (j * 1.75 < frameCounter) {
-                g2.drawString(lines[lineCounter].substring(0, j), x, y + 40 * lineCounter);
-                if (j == lines[lineCounter].length() && lineCounter != lines.length - 1) {
-                    lineCounter++;
-                    frameCounter = 0;
-                }
-                break;
-            }
-        }
-
 
     }
 
-    private void drawSubWindow(int x, int y, int width, int height, Graphics2D g2) {
+    public void drawSubWindow(int x, int y, int width, int height, Graphics2D g2) {
         Color c = new Color(0, 0, 0, 200);
         g2.setColor(c);
         g2.fillRoundRect(x, y, width, height, 35, 35);
@@ -96,6 +78,7 @@ public class UI {
 
 
     public void drawPlayerUI(Graphics2D g2) {
+        Player player = playing.getPlayer();
         // Draw player status GUI
         ImageLoader.initialize();
         ImageManager imageManager = ImageLoader.imageManager;
@@ -136,6 +119,155 @@ public class UI {
 
         text = player.currentMana + "/" + player.maxMana;
         g2.drawString(text, 90, 93);
+    }
+
+    public void drawPauseScreen(Graphics2D g2) {
+        playing.draw(g2);
+        switch (pause.currentPanel) {
+            case Pause.mainPanel:
+                drawPauseOptionsPanel(g2, pause.commandIndex);
+                break;
+            case Pause.controlPanel:
+                drawKeyControlsPanel(g2);
+                break;
+            case Pause.savePanel:
+                drawSavePanel(g2);
+                break;
+            case Pause.volumeControlPanel:
+                drawVolumeOptionsPanel(g2, pause.commandIndex);
+                break;
+            default:
+        }
+    }
+
+    private void drawSavePanel(Graphics2D g2) {
+        int x = TILE_SIZE * 4, y = 9 * TILE_SIZE / 2;
+        int width = SCREEN_WIDTH - 2 * x, height = SCREEN_HEIGHT - 2 * y;
+
+        drawSubWindow(x, y, width, height, g2);
+
+        String text = "Progress saved!";
+        g2.setFont(maruMonica);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
+        g2.drawString(text,
+                HelpMethods.getXForCenterText(text, g2),
+                HelpMethods.getYForCenterText(text, g2) + 3 * TILE_SIZE / 4);
+    }
+
+    private void drawPauseOptionsPanel(Graphics2D g2, int currentCommand) {
+        int x = TILE_SIZE * 4, y = 5 * TILE_SIZE / 2;
+        int width = SCREEN_WIDTH - 2 * x, height = SCREEN_HEIGHT - 2 * y;
+
+        drawSubWindow(x, y, width, height, g2);
+        drawPauseOptions(g2, x, y, currentCommand);
+    }
+    private void drawPauseOptions(Graphics2D g2, int boxX, int boxY, int currentCommand) {
+        int width = SCREEN_WIDTH - 2 * boxX, height = SCREEN_HEIGHT - 2 * boxY;
+        String text = "PAUSED";
+        g2.setFont(maruMonica);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
+        g2.setColor(Color.WHITE);
+        int x = HelpMethods.getXForCenterText(text, g2), y = boxY + 3 * TILE_SIZE / 2;
+        g2.drawString(text, x, y);
+
+        String[] leftStr = {"Key controls", "Save game", "Volume options", "Return to menu"};
+        x = boxX + TILE_SIZE;
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 30F));
+        for (int i = 0; i < leftStr.length; i++) {
+            y += TILE_SIZE / 2 + HelpMethods.getTextHeight(leftStr[i], g2);
+            g2.drawString(leftStr[i], x, y);
+            if (i == currentCommand) {
+                g2.drawString("<--", boxX + width - TILE_SIZE * 2, y);
+            }
+        }
+
+    }
+
+    public void drawKeyControlsPanel(Graphics2D g2) {
+        int x = TILE_SIZE * 3, y = 3 * TILE_SIZE / 2;
+        int width = SCREEN_WIDTH - 2 * x, height = SCREEN_HEIGHT - 2 * y;
+        drawSubWindow(x, y, width, height, g2);
+        drawKeyControls(g2, x, y);
+    }
+
+    private void drawKeyControls(Graphics2D g2, int boxX, int boxY) {
+        int boxWidth = SCREEN_WIDTH - 2 * boxX, boxHeight = SCREEN_HEIGHT - 2 * boxY;
+        String text = "Controls";
+        g2.setFont(maruMonica);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
+        g2.setColor(Color.WHITE);
+
+        int x = HelpMethods.getXForCenterText(text, g2), y = boxY + 3 * TILE_SIZE / 2;
+        g2.drawString(text, x, y);
+
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,30f));
+
+        String[] leftStr = {"W, A, S, D", "J", "K", "L", "Shift", "Enter", "P"};
+        String[] rightStr = {"Moving", "Attack", "Dash", "Change weapon", "Run", "Show entity box", "Pause/Unpause"};
+
+        for (String str : leftStr) {
+            x = boxX + TILE_SIZE;
+            y += TILE_SIZE / 4 + HelpMethods.getTextHeight(str, g2);
+            g2.drawString(str, x, y);
+        }
+
+        y = boxY + 3 * TILE_SIZE / 2;
+        for (String str : rightStr) {
+            x = boxX + boxWidth - HelpMethods.getTextWidth(str, g2) - TILE_SIZE;
+            y += TILE_SIZE / 4 + HelpMethods.getTextHeight(str, g2);
+            g2.drawString(str, x, y);
+        }
+    }
+
+    private void drawVolumeOptionsPanel(Graphics2D g2, int commandIndex) {
+        int x = TILE_SIZE * 2, y = 6 * TILE_SIZE / 2;
+        int width = SCREEN_WIDTH - 2 * x, height = SCREEN_HEIGHT - 2 * y;
+        drawSubWindow(x, y, width, height, g2);
+
+        drawVolumeOptions(g2, x, y, commandIndex);
+    }
+
+    private void drawVolumeOptions(Graphics2D g2, int boxX, int boxY, int commandIndex) {
+        int boxWidth = SCREEN_WIDTH - 2 * boxX, boxHeight = SCREEN_HEIGHT - 2 * boxY;
+        String text = "Volume options";
+        g2.setFont(maruMonica);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
+        g2.setColor(Color.WHITE);
+        int x = HelpMethods.getXForCenterText(text, g2), y = boxY + 3 * TILE_SIZE / 2;
+        g2.drawString(text, x, y);
+
+        String[] leftText = {"Volume", "Sound effect", "Soundtrack"};
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 30f));
+        x = boxX + TILE_SIZE;
+        y += TILE_SIZE / 2;
+        int rectX = x + HelpMethods.getTextWidth(leftText[0], g2) + TILE_SIZE * 2, rectY;
+        for (int i = 0; i < leftText.length; i++) {
+            y += TILE_SIZE / 4 + HelpMethods.getTextHeight(leftText[i], g2);
+            g2.drawString(leftText[i], x, y);
+            if (i == commandIndex) {
+                g2.drawString("<--", boxX + boxWidth - TILE_SIZE * 2, y);
+            }
+            switch (i) {
+                case 0:
+                    rectY = y - 4 * 4 + 2;
+                    g2.setStroke(new BasicStroke(1));
+                    g2.drawRect(rectX, rectY, 4 * TILE_SIZE, 4 * 3);
+                    g2.fillRect(rectX, rectY, 4 * TILE_SIZE * pause.currentVolume/pause.maxVolume, 4 * 3 );
+                    break;
+                case 1:
+                    rectY = y - 4 * 4 + 2;
+                    g2.drawRect(rectX, rectY, 4 * 3, 4 * 3);
+                    if (pause.isSoundEffectOn)
+                        g2.fillRect(rectX, rectY, 4 * 3, 4 * 3);
+                    break;
+                case 2:
+                    rectY = y - 4 * 4 + 2;
+                    g2.drawRect(rectX, rectY, 4 * 3, 4 * 3);
+                    if (pause.isSoundtrackOn)
+                        g2.fillRect(rectX, rectY, 4 * 3, 4 * 3);
+                    break;
+            }
+        }
     }
 
 }

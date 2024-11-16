@@ -25,7 +25,7 @@ public class MonsterAttackSystem {
             monsterIds.add(id);
         }
 
-        System.out.println(monsterIds.size());
+//        System.out.println(monsterIds.size());
 
         if (monsterIds.size() != 0) {
             Random random = new Random();

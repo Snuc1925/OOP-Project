@@ -29,7 +29,7 @@ public class Npc extends Sprite {
 
     public boolean canTalk() {
         KeyboardInputs kb = playing.getGame().getKeyboardInputs();
-        return canSeePlayer() && isPressedValid(kb.enterPressed);
+        return canSeePlayer() && isPressedValid("enter", kb.enterPressed);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class Npc extends Sprite {
         // Make player idle
         player.currentState = EntityState.IDLE;
 
-        if (isPressedValid(kb.enterPressed)) {
+        if (isPressedValid("enter", kb.enterPressed)) {
             dialogueCounter++;
             if (dialogueCounter >= dialogues.length) {
                 dialogueCounter = 0;

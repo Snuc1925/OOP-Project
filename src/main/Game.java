@@ -4,6 +4,7 @@ import java.awt.*;
 
 import gamestates.Gamestate;
 import gamestates.Menu;
+import gamestates.Pause;
 import gamestates.Playing;
 import inputs.KeyboardInputs;
 import utils.ImageManager;
@@ -19,24 +20,41 @@ public class Game implements Runnable {
     private Playing playing;
     private Menu menu;
     private final CollisionChecker collisionChecker;
-
+    private Pause pause;
+    private UI ui;
 
     public CollisionChecker getCollisionChecker() {
         return collisionChecker;
     }
 
 
-    public Playing getPlaying() { return playing; }
-    public Menu getMenu() { return menu; }
-    public KeyboardInputs getKeyboardInputs() { return gamePanel.getKeyboardInputs(); }
+    public Playing getPlaying() {
+        return playing;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+    public Pause getPause() {
+        return pause;
+    }
+
+    public KeyboardInputs getKeyboardInputs() {
+        return gamePanel.getKeyboardInputs();
+    }
+
+    public UI getUI() {
+        return ui;
+    }
 
     public Game() {
+
         initClasses();
+        ui = new UI(this);
         imageManager = ImageManager.getInstance();
         gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         collisionChecker = new CollisionChecker(this);
-
 
         startGameLoop();
 
@@ -45,6 +63,7 @@ public class Game implements Runnable {
     private void initClasses() {
         menu = new Menu(this);
         playing = new Playing(this);
+        pause = new Pause(this);
     }
 
     private void startGameLoop() {
@@ -66,7 +85,7 @@ public class Game implements Runnable {
         double deltaU = 0;
         double deltaF = 0;
 
-        while(true) {
+        while (true) {
             long currentTime = System.nanoTime();
 
             deltaU += (currentTime - previousTime) / timePerUpdate;
@@ -97,12 +116,15 @@ public class Game implements Runnable {
     }
 
     public void update() {
-        switch(Gamestate.state) {
+        switch (Gamestate.state) {
             case MENU:
                 menu.update();
                 break;
             case PLAYING:
                 playing.update();
+                break;
+            case PAUSE:
+                pause.update();
                 break;
             default:
                 System.exit(0);
@@ -111,12 +133,15 @@ public class Game implements Runnable {
     }
 
     public void render(Graphics2D g) {
-        switch(Gamestate.state) {
+        switch (Gamestate.state) {
             case MENU:
                 menu.draw(g);
                 break;
             case PLAYING:
                 playing.draw(g);
+                break;
+            case PAUSE:
+                pause.draw(g);
                 break;
             default:
                 break;
