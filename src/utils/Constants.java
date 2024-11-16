@@ -47,4 +47,16 @@ public class Constants {
         // --------------------------------------------------------------
     }
 
+    public class Object {
+        public class ObjHeart {
+            public static final int WIDTH = Screen.TILE_SIZE;
+            public static final int HEIGHT = Screen.TILE_SIZE * 2;
+        }
+
+        public class ObjMana {
+            public static final int WIDTH = Screen.TILE_SIZE;
+            public static final int HEIGHT = Screen.TILE_SIZE * 2;
+        }
+    }
+
 }

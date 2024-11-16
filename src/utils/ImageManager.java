@@ -17,6 +17,7 @@ public class ImageManager {
     Map<String, BufferedImage> effectImages;
     Map<String, BufferedImage> npcImages;
     Map<String, BufferedImage> projectileImages;
+    Map<String, BufferedImage> objectImages;
 
     public static ImageManager getInstance() {
         if (instance == null) {
@@ -40,6 +41,7 @@ public class ImageManager {
         effectImages = loadAllImages("EFFECT");
         projectileImages = loadAllImages("PROJECTILE");
         npcImages = loadAllImages("NPC");
+        objectImages = loadAllImages("OBJECT");
     }
 
     private static Map<String, BufferedImage> loadAllImages(String imagePath) {
@@ -78,7 +80,7 @@ public class ImageManager {
                     BufferedImage image = ImageIO.read(file);
                     image = HelpMethods.scaleImage(image, Constants.Screen.SCALE);
                     images.put(key, image);
-                    System.out.println(key);
+//                    System.out.println(key);
                 } catch (IOException e) {
                     System.err.println("Failed to load image: " + file.getPath());
                     e.printStackTrace();
@@ -117,8 +119,14 @@ public class ImageManager {
 
     public BufferedImage getProjectileImage(String name, String state, String direction, int numAnimationFrame) {
         String key = "PROJECTILE_" + name.toUpperCase() + "_" + state + "_" + numAnimationFrame + "_" + direction.toUpperCase();
-        System.out.println(key);
+//        System.out.println(key);
         BufferedImage img = projectileImages.get(key);
         return img;
+    }
+
+    public BufferedImage getObjectImage(String key, int numAnimationFrame, int width, int height) {
+        key = key.toUpperCase();
+        System.out.println(key);
+        return objectImages.get(key).getSubimage(width * numAnimationFrame, 0, width, height);
     }
 }

@@ -23,6 +23,7 @@ import map.GameMap;
 import map.MapManager;
 import map.MapParser;
 import system.CollectibleSystem;
+import system.DoorSystem;
 import system.RenderSystem;
 import tile.TileManager;
 import utils.HelpMethods;
@@ -49,6 +50,7 @@ public class Playing extends State implements Statemethods {
     public CameraShake cameraShake;
 
     private CollectibleSystem collectibleSystem;
+    private DoorSystem doorSystem;
 
     private MonsterAttackSystem monsterAttackSystem;
 
@@ -76,6 +78,7 @@ public class Playing extends State implements Statemethods {
         tileManager = new TileManager(player);
         projectileManager = new ProjectileManager(this);
         collectibleSystem = new CollectibleSystem(this);
+        doorSystem = new DoorSystem(this);
         renderSystem = new RenderSystem(this);
 
         monsters = new Monster[1];
@@ -148,6 +151,8 @@ public class Playing extends State implements Statemethods {
 
         monsterAttackSystem.update();
         projectileManager.update();
+        collectibleSystem.update();
+        doorSystem.update();
         System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
     }
 
@@ -161,7 +166,8 @@ public class Playing extends State implements Statemethods {
             currentMap.render2(g2, entity, player);
         }
         projectileManager.draw(g2);
-
+        collectibleSystem.draw(g2);
+        doorSystem.draw(g2);
 
         // Draw player status GUI
         ImageLoader.initialize();
