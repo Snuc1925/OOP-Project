@@ -5,6 +5,7 @@ import enitystates.*;
 import entities.monsters.Monster;
 import gamestates.Playing;
 import inputs.KeyboardInputs;
+import main.CollisionChecker;
 import utils.HelpMethods;
 
 import java.awt.*;
@@ -296,5 +297,21 @@ public class Player extends Sprite {
         gunAttackBox.x = gunX;
         gunAttackBox.y = gunY;
         return result;
+    }
+
+    @Override
+    public void move() {
+        CollisionChecker cc = playing.getGame().getCollisionChecker();
+        if (dash != null) {
+            cc.checkTile(this);
+            if (collisionOn) return;
+            goAlongDirection();
+            return;
+        }
+        cc.checkTile(this);
+        cc.checkEntity(this, playing.entityList);
+        if (collisionOn) return;
+        goAlongDirection();
+
     }
 }

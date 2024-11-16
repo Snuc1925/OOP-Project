@@ -114,7 +114,7 @@ public class ImageManager {
 
     public BufferedImage getProjectileImage(String name, String state, String direction, int numAnimationFrame) {
         String key = "PROJECTILE_" + name.toUpperCase() + "_" + state + "_" + numAnimationFrame + "_" + direction.toUpperCase();
-        System.out.println(key);
+//        System.out.println(key);
         BufferedImage img = projectileImages.get(key);
         return img;
     }

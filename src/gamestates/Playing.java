@@ -5,6 +5,7 @@ import enitystates.EntityState;
 import entities.*;
 import entities.monsters.*;
 import entities.projectile.ProjectileManager;
+import inputs.KeyboardInputs;
 import main.Game;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -61,8 +62,6 @@ public class Playing extends State implements Statemethods {
     // Npc
     public Npc npcTalking = null;
 
-    // UI
-    public UI ui;
 
     // Npc
     public Npc[] npcArray;
@@ -96,7 +95,6 @@ public class Playing extends State implements Statemethods {
         currentMap = MapManager.getGameMap("level1");
         currentMap.buildTileManager(tileManager);
 
-        ui = new UI(this);
     }
 
     public Game getGame() {
@@ -138,6 +136,10 @@ public class Playing extends State implements Statemethods {
         monsterAttackSystem.update();
         projectileManager.update();
         // System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
+
+        if (KeyboardInputs.isPressedValid("pause", game.getKeyboardInputs().pausePressed)) {
+            Gamestate.state = Gamestate.PAUSE;
+        }
     }
 
     @Override
@@ -151,10 +153,10 @@ public class Playing extends State implements Statemethods {
         }
         projectileManager.draw(g2);
 
-        ui.drawPlayerUI(g2);
+        game.getUI().drawPlayerUI(g2);
 
         if (npcTalking != null) {
-            ui.drawDialogueScreen(npcTalking.talk(), g2);
+            game.getUI().drawDialogueScreen(npcTalking.talk(), g2);
         }
     }
 

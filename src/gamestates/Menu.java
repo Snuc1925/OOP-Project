@@ -23,7 +23,9 @@ public class Menu extends State implements Statemethods {
 
     public void update() {
         KeyboardInputs keyboardInputs = game.getKeyboardInputs();
-        if (isPressedValid(keyboardInputs.upPressed || keyboardInputs.downPressed || keyboardInputs.enterPressed)) {
+        if (isPressedValid("up", keyboardInputs.upPressed) ||
+                isPressedValid("down", keyboardInputs.downPressed) ||
+                isPressedValid("enter", keyboardInputs.enterPressed)) {
             if (keyboardInputs.downPressed) commandNumber++;
             else if (keyboardInputs.upPressed) commandNumber--;
             else if (keyboardInputs.enterPressed) {

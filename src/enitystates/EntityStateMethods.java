@@ -47,7 +47,7 @@ public abstract class EntityStateMethods {
         imageManager = ImageLoader.imageManager;
         if (entity instanceof Projectile) {
             String state = (entity.currentState == EntityState.ATTACK ? "ATTACK" : "EXPLOSION");
-            System.out.println(state);
+//            System.out.println(state);
             return imageManager.getProjectileImage(entity.name, state, entity.direction, numAnimationFrames + 1);
         }
         if (entity instanceof Player player) {

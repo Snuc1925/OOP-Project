@@ -27,6 +27,13 @@ public class HelpMethods {
         return SCREEN_HEIGHT/2 - length/2;
     }
 
+    public static int getTextHeight(String text, Graphics2D g2) {
+        return (int)g2.getFontMetrics().getStringBounds(text, g2).getHeight();
+    }
+    public static int getTextWidth(String text, Graphics2D g2) {
+        return (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
+    }
+
     public static Font loadFont(String fontName) {
         Font font = null;
         try {

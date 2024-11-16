@@ -200,10 +200,7 @@ public class Demon extends Monster{
 
     @Override
     public int getWorldY() {
-        if (currentPhase == 1) {
-            return worldY + height - TILE_SIZE / 2;
-        }
-        return worldY + height / 3 * 2;
+        return worldY + solidArea.y + solidArea.height / 2;
     }
 
 
