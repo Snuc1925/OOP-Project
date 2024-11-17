@@ -1,12 +1,17 @@
 package data;
 
 import entities.monsters.*;
+import entities.monsters.bosses.BringerOfDeath;
+import entities.monsters.bosses.Demon;
+import entities.monsters.bosses.Samurai;
 import entities.npc.Npc;
 import entities.npc.WhiteSamurai;
 import gamestates.Playing;
 
 import java.io.*;
 import entities.Player;
+
+import static java.lang.Math.min;
 
 public class SaveLoad {
     Playing playing;
@@ -76,7 +81,7 @@ public class SaveLoad {
             default -> null;
         };
         assert monster != null;
-        monster.currentHealth = currentHealth;
+        monster.currentHealth = min(currentHealth, monster.maxHealth);
         return monster;
     }
     public Npc createNpc(String name, int worldX, int worldY) {

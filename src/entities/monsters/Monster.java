@@ -169,13 +169,4 @@ public class Monster extends Sprite{
 
     }
 
-    @Override
-    public String toString() {
-        return "{name: "+ name +
-                ", currentState: " + currentState +
-                ", currentHealth: " + currentHealth +
-                ", worldX: " + worldX +
-                ", worldY: " + worldY +
-                ", direction: " + direction + "}";
-    }
 }

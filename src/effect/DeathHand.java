@@ -1,6 +1,6 @@
 package effect;
 
-import entities.monsters.BringerOfDeath;
+import entities.monsters.bosses.BringerOfDeath;
 
 import java.awt.*;
 

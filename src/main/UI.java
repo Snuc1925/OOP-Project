@@ -22,7 +22,7 @@ public class UI {
     Menu menu;
     Pause pause;
     GameOver gameOver;
-    Font maruMonica, purisaBold;
+    public Font maruMonica, purisaBold;
 
     public UI(Game game) {
         this.playing = game.getPlaying();
@@ -43,6 +43,9 @@ public class UI {
         }
     }
 
+    int frameCounter = 0;
+    String previousText = null;
+    int lineCounter = 0;
     public void drawDialogueScreen(String currentDialogue, Graphics2D g2) {
         // Window
         int x = TILE_SIZE * 2, y = TILE_SIZE / 2;
@@ -58,11 +61,30 @@ public class UI {
             playing.npcTalking = null;
             return;
         }
-
-        for (String line : currentDialogue.split("\n")) {
-            g2.drawString(line, x, y);
-            y += 40;
+        if (!currentDialogue.equals(previousText)) {
+            lineCounter = 0;
+            previousText = currentDialogue;
+            frameCounter = 0;
         }
+
+        frameCounter++;
+        String[] lines = currentDialogue.split(("\n"));
+
+        for (int i = 0; i < lineCounter; i++) {
+            g2.drawString(lines[i], x, y + 40 * i);
+        }
+
+        for (int j = lines[lineCounter].length(); j >= 0; j--) {
+            if (j * 1.75 < frameCounter) {
+                g2.drawString(lines[lineCounter].substring(0, j), x, y + 40 * lineCounter);
+                if (j == lines[lineCounter].length() && lineCounter != lines.length - 1) {
+                    lineCounter++;
+                    frameCounter = 0;
+                }
+                break;
+            }
+        }
+
 
     }
 

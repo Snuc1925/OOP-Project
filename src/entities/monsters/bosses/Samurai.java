@@ -1,17 +1,19 @@
-package entities.monsters;
+package entities.monsters.bosses;
 
 import enitystates.*;
 import static enitystates.EntityState.*;
+import static utils.Constants.Screen.*;
+
 import entities.Player;
+import entities.monsters.Monster;
 import gamestates.Playing;
+import utils.HelpMethods;
+import utils.ImageLoader;
 
 import java.awt.*;
 import java.util.Random;
 
-import static enitystates.EntityState.*;
-import static utils.Constants.Screen.TILE_SIZE;
-
-public class Samurai extends Monster{
+public class Samurai extends Boss {
     int currentPhase = 1;
     public Idle transform, idlePhase1, idlePhase2;
     public Walk walkPhase1, walkPhase2;
@@ -183,6 +185,19 @@ public class Samurai extends Monster{
             g2.fillRect(getScreenX() + 3 * TILE_SIZE, getScreenY() + 5 * TILE_SIZE / 2, healthBarWidth, 4 * 3);
         }
 
+    }
+
+    @Override
+    public void drawBossIntro(Graphics2D g2) {
+        if (bossImage == null) {
+            bossImage = ImageLoader.imageManager.getMonsterImage(
+                    "Samurai", "Phase2_IDLE", "Left", 4, width, height);
+            bossImage = HelpMethods.scaleImage(bossImage, 1296f/width);
+            imageY = SCREEN_HEIGHT / 2 - bossImage.getHeight() / 2 - TILE_SIZE  * 3;
+            imageX = SCREEN_WIDTH - bossImage.getWidth() + TILE_SIZE * 10;
+        }
+
+        bossIntro(g2, "The Samurai", bossImage);
     }
 
     @Override

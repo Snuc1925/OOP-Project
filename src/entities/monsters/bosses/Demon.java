@@ -1,18 +1,22 @@
-package entities.monsters;
+package entities.monsters.bosses;
 
 import effect.Explosion;
 import enitystates.*;
 import static enitystates.EntityState.*;
+
+import entities.monsters.Monster;
 import gamestates.Playing;
 import entities.Player;
+import utils.HelpMethods;
+import utils.ImageLoader;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
-import static enitystates.EntityState.*;
 import static utils.Constants.Screen.*;
 
-public class Demon extends Monster{
+public class Demon extends Boss {
     int currentPhase = 1;
     public Idle transform, idlePhase1, idlePhase2;
     public Walk walkPhase1, walkPhase2;
@@ -228,13 +232,21 @@ public class Demon extends Monster{
         if (currentPhase == 1) {
             super.drawLockOn(g2, 7 * TILE_SIZE / 2, 7 * TILE_SIZE / 2, 0, - TILE_SIZE / 4);
         }
-        else super.drawLockOn(g2, 8 * TILE_SIZE, 10 * TILE_SIZE, 0, 0);
+        else super.drawLockOn(g2, 8 * TILE_SIZE, 8 * TILE_SIZE, 0,  - TILE_SIZE);
 
         // Draw explosions
         for (Explosion value : explosion) {
             if (value != null) {
                 value.draw(g2);
             }
+        }
+    }
+
+    @Override
+    public void drawBossIntro(Graphics2D g2) {
+        if (currentPhase == 2) {
+            bossIntro(g2, "Demon Slime",
+                    HelpMethods.scaleImage(ImageLoader.imageManager.getMonsterImage("Demon", "Phase2_Idle", "left", 1, width, height), 1.5f));
         }
     }
 
@@ -278,4 +290,6 @@ public class Demon extends Monster{
                 break;
         }
     }
+
+
 }

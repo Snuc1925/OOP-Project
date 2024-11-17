@@ -1,16 +1,19 @@
-package entities.monsters;
+package entities.monsters.bosses;
 
 import effect.DeathHand;
 import enitystates.*;
 import entities.Player;
+import entities.monsters.Monster;
 import gamestates.Playing;
+import utils.HelpMethods;
+import utils.ImageLoader;
 
 import java.awt.*;
 import java.util.Random;
 
 import static utils.Constants.Screen.*;
 
-public class BringerOfDeath extends Monster{
+public class BringerOfDeath extends Boss {
     Attack normalAttack, castAttack;
     String currentAttackType = "NORMAl";
     DeathHand[] deathHand;
@@ -144,6 +147,23 @@ public class BringerOfDeath extends Monster{
         for (DeathHand hand : deathHand)
             if (hand != null)
                 hand.draw(g2);
+
+
+    }
+
+    @Override
+    public void drawBossIntro(Graphics2D g2) {
+        if (bossImage == null) {
+            bossImage = ImageLoader.imageManager.getMonsterImage(name, "Cast", "left", 4, width, height);
+            bossImage = HelpMethods.scaleImage(bossImage,
+                    1296f/width * 1.5);
+            imageY = SCREEN_HEIGHT / 2 - bossImage.getHeight() / 2 - TILE_SIZE * 2;
+            imageX = SCREEN_WIDTH - bossImage.getWidth() + TILE_SIZE * 18;
+            textSize = 80f;
+
+        }
+
+        bossIntro(g2, "BringerOfDeath", bossImage);
     }
 
     public void removeEffect(int index) {

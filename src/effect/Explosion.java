@@ -1,14 +1,8 @@
 package effect;
 
-import entities.Player;
-import entities.monsters.BringerOfDeath;
-import entities.monsters.Demon;
-import utils.HelpMethods;
-import utils.ImageLoader;
-import utils.ImageManager;
+import entities.monsters.bosses.Demon;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 import static utils.Constants.Screen.TILE_SIZE;
 

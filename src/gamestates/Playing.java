@@ -5,20 +5,19 @@ import effect.CameraShake;
 import enitystates.EntityState;
 import entities.*;
 import entities.monsters.*;
+import entities.monsters.bosses.Boss;
+import entities.monsters.bosses.BringerOfDeath;
+import entities.monsters.bosses.Demon;
+import entities.monsters.bosses.Samurai;
 import entities.projectile.ProjectileManager;
 import inputs.KeyboardInputs;
 import main.Game;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.*;
 import entities.npc.Npc;
 import entities.npc.WhiteSamurai;
-import main.Game;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-
 import map.GameMap;
 import map.MapManager;
 import map.MapParser;
@@ -31,7 +30,6 @@ import utils.ImageManager;
 
 import system.MonsterAttackSystem;
 
-import static utils.Constants.Screen.SCREEN_X;
 import static utils.Constants.Screen.TILE_SIZE;
 
 public class Playing extends State implements Statemethods {
@@ -51,11 +49,9 @@ public class Playing extends State implements Statemethods {
     private ProjectileManager projectileManager;
     private CollectibleSystem collectibleSystem;
     private DoorSystem doorSystem;
-
     private MonsterAttackSystem monsterAttackSystem;
     private RenderSystem renderSystem;
 
-    // Game map
     private final ImageManager imageManager;
 
     // Game map
@@ -63,8 +59,6 @@ public class Playing extends State implements Statemethods {
 
     // Npc
     public Npc npcTalking = null;
-
-    // Npc
     public Npc[] npcArray;
 
     // Save load
@@ -76,19 +70,17 @@ public class Playing extends State implements Statemethods {
     public Playing(Game game) {
         super(game);
 
-        projectileManager = new ProjectileManager(this);
-        collectibleSystem = new CollectibleSystem(this);
-        doorSystem = new DoorSystem(this);
-        renderSystem = new RenderSystem(this);
+//        projectileManager = new ProjectileManager(this);
+//        collectibleSystem = new CollectibleSystem(this);
+//        doorSystem = new DoorSystem(this);
+//        renderSystem = new RenderSystem(this);
 
         cameraShake = new CameraShake(20);
-        monsterAttackSystem = new MonsterAttackSystem(this);
+//        monsterAttackSystem = new MonsterAttackSystem(this);
 
         ImageLoader.initialize();
         imageManager = ImageLoader.imageManager;
-
         setDefaultValues();
-
     }
 
     public void setDefaultValues() {
@@ -99,8 +91,10 @@ public class Playing extends State implements Statemethods {
         currentMap = MapManager.getGameMap("level1");
         currentMap.buildTileManager(tileManager);
 
-        monsters = new Monster[1];
-        monsters[0] = new SwordKnight(this, 8 * TILE_SIZE, 12 * TILE_SIZE);
+        monsters = new Monster[3];
+        monsters[0] = new Demon(this, 3 * TILE_SIZE, TILE_SIZE);
+        monsters[1] = new Samurai(this, 34 * TILE_SIZE, 4 * TILE_SIZE);
+        monsters[2] = new BringerOfDeath(this, 36 * TILE_SIZE, 40 * TILE_SIZE);
         npcArray = new Npc[1];
         npcArray[0] = new WhiteSamurai(this, 13 * TILE_SIZE, 5 * TILE_SIZE);
 
@@ -151,11 +145,11 @@ public class Playing extends State implements Statemethods {
         if (player.currentState != EntityState.DEATH)
             player.lockOn();
 
-        monsterAttackSystem.update();
-        projectileManager.update();
-        collectibleSystem.update();
-        doorSystem.update();
-        // System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
+//        monsterAttackSystem.update();
+//        projectileManager.update();
+//        collectibleSystem.update();
+//        doorSystem.update();
+         System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
 
         if (KeyboardInputs.isPressedValid("pause", game.getKeyboardInputs().pausePressed)) {
             Gamestate.state = Gamestate.PAUSE;
@@ -168,21 +162,28 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void draw(Graphics2D g2) {
-
         currentMap.render(g2, player);
+
+//        projectileManager.draw(g2);
+//        collectibleSystem.draw(g2);
+//        doorSystem.draw(g2);
+
         entityList.sort(Comparator.comparingDouble(Entity::getRenderOrder));
         for (Sprite entity : entityList) if (entity.isOnTheScreen()){
             entity.draw(g2);
 //            currentMap.render2(g2, entity, player);
         }
-        projectileManager.draw(g2);
-        collectibleSystem.draw(g2);
-        doorSystem.draw(g2);
 
         game.getUI().drawPlayerUI(g2);
 
-        if (npcTalking != null) {
-            game.getUI().drawDialogueScreen(npcTalking.talk(), g2);
+        if (npcTalking != null) game.getUI().drawDialogueScreen(npcTalking.talk(), g2);
+
+
+        for (Monster monster : monsters) {
+            if (monster instanceof Demon || monster instanceof BringerOfDeath || monster instanceof Samurai) {
+                Boss boss = (Boss) monster;
+                boss.drawBossIntro(g2);
+            }
         }
     }
 
