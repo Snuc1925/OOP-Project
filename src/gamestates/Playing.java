@@ -27,6 +27,7 @@ import system.RenderSystem;
 import tile.TileManager;
 import utils.ImageLoader;
 import utils.ImageManager;
+import main.Sound;
 
 import system.MonsterAttackSystem;
 
@@ -67,6 +68,8 @@ public class Playing extends State implements Statemethods {
     // Level
     public String currentLevel = "level1";
 
+    public Sound soundtrack;
+
     public Playing(Game game) {
         super(game);
 
@@ -81,6 +84,12 @@ public class Playing extends State implements Statemethods {
         ImageLoader.initialize();
         imageManager = ImageLoader.imageManager;
         setDefaultValues();
+
+        soundtrack = new Sound();
+        soundtrack.setTheme(0);
+        soundtrack.play();
+        soundtrack.loop();
+        soundtrack.setVolume(0.15f);
     }
 
     public void setDefaultValues() {

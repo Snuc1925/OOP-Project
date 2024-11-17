@@ -245,6 +245,9 @@ public class Demon extends Boss {
     @Override
     public void drawBossIntro(Graphics2D g2) {
         if (currentPhase == 2) {
+            if (bossImage == null) {
+                textSize = 90f;
+            }
             bossIntro(g2, "Demon Slime",
                     HelpMethods.scaleImage(ImageLoader.imageManager.getMonsterImage("Demon", "Phase2_Idle", "left", 1, width, height), 1.5f));
         }
