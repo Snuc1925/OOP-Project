@@ -15,6 +15,9 @@ public class ImageManager {
     Map<String, BufferedImage> guiImages;
     Map<String, BufferedImage> monsterImages;
     Map<String, BufferedImage> effectImages;
+    Map<String, BufferedImage> npcImages;
+    Map<String, BufferedImage> projectileImages;
+    Map<String, BufferedImage> objectImages;
 
     public static ImageManager getInstance() {
         if (instance == null) {
@@ -33,6 +36,10 @@ public class ImageManager {
         guiImages = loadAllImages("GUI");
         monsterImages = loadAllImages("MONSTER");
         effectImages = loadAllImages("EFFECT");
+        npcImages = loadAllImages("NPC");
+        projectileImages = loadAllImages("PROJECTILE");
+        npcImages = loadAllImages("NPC");
+        objectImages = loadAllImages("OBJECT");
     }
 
     private static Map<String, BufferedImage> loadAllImages(String imagePath) {
@@ -80,14 +87,13 @@ public class ImageManager {
         }
     }
 
-    public BufferedImage getPlayerImage(String state, String weapon, String direction, int numAnimationFrame) {
+    public BufferedImage getPlayerImage(String state, String weapon, String direction, int numAnimationFrame, int width, int height) {
         String key = "PLAYER_" + state + "_";
         if (!state.equals("RELOADING")) {
             key += weapon + "_";
         }
-        key += direction.toUpperCase() + "_";
-        key += numAnimationFrame;
-        return playerImages.get(key);  // Trả về ảnh từ bộ nhớ
+        key += direction.toUpperCase() + "_1-SHEET";;
+        return playerImages.get(key).getSubimage(width * numAnimationFrame, 0, width, height);  // Trả về ảnh từ bộ nhớ
     }
 
     public BufferedImage getGuiImage(String name) {
@@ -95,13 +101,30 @@ public class ImageManager {
         return guiImages.get(key);
     }
 
-    public BufferedImage getMonsterImage(String name, String state, String direction, int numAnimationFrame) {
-        String key = "MONSTER_" + name.toUpperCase() + "_" + state.toUpperCase() + "_" + direction.toUpperCase() + "_" + numAnimationFrame;
-        return monsterImages.get(key);
+    public BufferedImage getMonsterImage(String name, String state, String direction, int numAnimationFrame, int width, int height) {
+        String key = "MONSTER_" + name.toUpperCase() + "_" + state.toUpperCase() + "_" + direction.toUpperCase() + "_1-SHEET";
+        return monsterImages.get(key).getSubimage(width * numAnimationFrame, 0, width, height);
     }
 
-    public BufferedImage getEffectImage(String name, int numAnimationFrame) {
-        String key = "EFFECT_" + name.toUpperCase() + "_" + numAnimationFrame;
-        return effectImages.get(key);
+    public BufferedImage getEffectImage(String name, int numAnimationFrame, int width, int height) {
+        String key = "EFFECT_" + name.toUpperCase()  + "_1-SHEET";
+        return effectImages.get(key).getSubimage(width * numAnimationFrame, 0, width, height);
+    }
+    public BufferedImage getNPCImage(String name, String state, String direction, int numAnimationFrame, int width, int height) {
+        String key = "NPC_" + name.toUpperCase() + "_" + state.toUpperCase() + "_" + direction.toUpperCase() + "_1-SHEET";
+        return npcImages.get(key).getSubimage(width * numAnimationFrame, 0, width, height);
+    }
+
+    public BufferedImage getProjectileImage(String name, String state, String direction, int numAnimationFrame) {
+        String key = "PROJECTILE_" + name.toUpperCase() + "_" + state + "_" + numAnimationFrame + "_" + direction.toUpperCase();
+        System.out.println(key);
+        BufferedImage img = projectileImages.get(key);
+        return img;
+    }
+
+    public BufferedImage getObjectImage(String key, int numAnimationFrame, int width, int height) {
+        key = key.toUpperCase();
+        System.out.println(key);
+        return objectImages.get(key).getSubimage(width * numAnimationFrame, 0, width, height);
     }
 }

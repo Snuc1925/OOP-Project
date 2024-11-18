@@ -4,19 +4,102 @@ import inputs.KeyboardInputs;
 import main.Game;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
+
 
 public class Pause extends State implements Statemethods {
+    Playing playing;
+    public int commandIndex = 0;
+    public int currentVolume = 100, maxVolume = 100;
+    public boolean isSoundEffectOn = true;
+    public boolean isSoundtrackOn = true;
+
     public Pause(Game game) {
         super(game);
+        playing = game.getPlaying();
     }
 
-    public void update(Game game) {
+    public static final int mainPanel = 0;
+    public static final int controlPanel = 1;
+    public static final int savePanel = 2;
+    public static final int volumeControlPanel = 3;
+    public int currentPanel = 0;
+
+    @Override
+    public void update() {
+        KeyboardInputs keyboardInputs = playing.getGame().getKeyboardInputs();
+        switch (currentPanel) {
+            case mainPanel:
+                if (KeyboardInputs.isPressedValid("pause", keyboardInputs.pausePressed)) {
+                    Gamestate.state = Gamestate.PLAYING;
+                } else if (KeyboardInputs.isPressedValid("up", keyboardInputs.upPressed)) {
+                    commandIndex--;
+                    if (commandIndex < 0) commandIndex = 0;
+                } else if (KeyboardInputs.isPressedValid("down", keyboardInputs.downPressed)) {
+                    commandIndex++;
+                    if (commandIndex > 3) commandIndex = 3;
+                } else if (KeyboardInputs.isPressedValid("enter", keyboardInputs.enterPressed)) {
+                    switch (commandIndex) {
+                        case 0:
+                            currentPanel = controlPanel;
+                            break;
+                        case 1:
+                            currentPanel = savePanel;
+                            break;
+                        case 2:
+                            currentPanel = volumeControlPanel;
+                            break;
+                        case 3:
+                            Gamestate.state = Gamestate.MENU;
+                            break;
+                    }
+                    commandIndex = 0;
+                }
+                break;
+            case controlPanel, savePanel:
+                if (KeyboardInputs.isPressedValid("pause", keyboardInputs.pausePressed)) {
+                    currentPanel = mainPanel;
+                    Gamestate.state = Gamestate.PLAYING;
+                }
+                break;
+            case volumeControlPanel:
+                if (KeyboardInputs.isPressedValid("up", keyboardInputs.upPressed)) {
+                    if (commandIndex > 0) commandIndex--;
+                }
+                else if (KeyboardInputs.isPressedValid("down", keyboardInputs.downPressed)) {
+                    if (commandIndex < 2) commandIndex++;
+                }
+                else if (KeyboardInputs.isPressedValid("pause", keyboardInputs.pausePressed)) {
+                    currentPanel = mainPanel;
+                    commandIndex = 0;
+                    Gamestate.state = Gamestate.PLAYING;
+                }
+                else if (KeyboardInputs.isPressedValid("left", keyboardInputs.leftPressed)) {
+                    if (currentVolume >= 20 && commandIndex == 0)
+                        currentVolume -= 20;
+                }
+                else if (KeyboardInputs.isPressedValid("right", keyboardInputs.rightPressed)) {
+                    if (currentVolume <= 80 && commandIndex == 0)
+                        currentVolume += 20;
+                }
+                else if (KeyboardInputs.isPressedValid("enter", keyboardInputs.enterPressed)) {
+                    switch (commandIndex) {
+                        case 1:
+                            isSoundEffectOn =!isSoundEffectOn;
+                            break;
+                        case 2:
+                            isSoundtrackOn =!isSoundtrackOn;
+                            break;
+                    }
+                }
+
+
+        }
 
     }
 
-    public void draw(Graphics2D g) {
-
+    public void draw(Graphics2D g2) {
+        game.getUI().drawPauseScreen(g2);
     }
+
 
 }

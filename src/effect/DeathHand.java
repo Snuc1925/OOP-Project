@@ -1,24 +1,16 @@
 package effect;
 
-import entities.Player;
 import entities.monsters.BringerOfDeath;
-import entities.monsters.Demon;
-import entities.monsters.PlantMelee;
-import entities.monsters.Slime;
-import gamestates.Playing;
-import utils.HelpMethods;
-import utils.ImageLoader;
-import utils.ImageManager;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 import static utils.Constants.Screen.TILE_SIZE;
 
 public class DeathHand extends EffectMethod {
     BringerOfDeath bringerOfDeath;
     public DeathHand(BringerOfDeath bringerOfDeath, int worldX, int worldY, int index) {
-        super("DeathHand",15,  bringerOfDeath, bringerOfDeath.getPlaying().getPlayer(), worldX, worldY, index);
+        super("DeathHand",15,  bringerOfDeath, bringerOfDeath.getPlaying().getPlayer(), worldX, worldY,
+                4 * TILE_SIZE, 4 * TILE_SIZE, index);
 
         frameDuration = 5;
         effectRect = new Rectangle(worldX + 5 * TILE_SIZE / 2, worldY + 5 * TILE_SIZE, 4 * TILE_SIZE, 4 * TILE_SIZE);

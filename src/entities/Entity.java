@@ -13,7 +13,7 @@ import static enitystates.EntityState.DEATH;
 import static enitystates.EntityState.IDLE;
 import static utils.Constants.Player.PLAYER_SCREEN_X;
 import static utils.Constants.Player.PLAYER_SCREEN_Y;
-import static utils.Constants.Screen.TILE_SIZE;
+import static utils.Constants.Screen.*;
 
 public class Entity {
     public String name;
@@ -33,24 +33,22 @@ public class Entity {
     public Playing getPlaying() {return playing;}
 
     // For wall and super objects
-    public Entity(String name, String image_path, Playing Playing) {
+    public Entity(String name, Playing Playing) {
         this.name = name;
         this.playing = Playing;
-        this.image_path = image_path;
 
         width = Constants.Screen.TILE_SIZE;
         height = Constants.Screen.TILE_SIZE;
-        image = HelpMethods.setUp(image_path, width, height);
+        image = null;
         solidArea = new Rectangle(0, 0, Constants.Screen.TILE_SIZE, Constants.Screen.TILE_SIZE);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
     }
 
     // For player, npc and monster
-    public Entity(String name, String image_path, Playing playing, int width, int height) {
+    public Entity(String name, Playing playing, int width, int height) {
         this.playing = playing;
         this.name = name;
-        this.image_path = image_path;
         this.width = width;
         this.height = height;
 
@@ -58,25 +56,16 @@ public class Entity {
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
 
-        image = HelpMethods.setUp(image_path, width, height);
+        image = null;
     }
 
     public void setSolidArea(int x, int y, int width, int height) {
         solidArea = new Rectangle(x, y, width, height);
     }
-    public void setImageSize(int width, int height) {
-        this.width = width;
-        this.height = height;
-        image = HelpMethods.setUp(image_path, width, height);
-    }
 
     public void draw(Graphics2D g2) {
         if (isOnTheScreen()) {
             g2.drawImage(image, getScreenX(), getScreenY(), width, height, null);
-            // Draw solid area for debugging purposes
-//            g2.setColor(Color.WHITE);
-//            g2.setStroke(new BasicStroke(3));
-//            g2.drawRect(getScreenX() + solidArea.x, getScreenY() + solidArea.y, solidArea.width, solidArea.height);
         }
     }
 
@@ -101,10 +90,11 @@ public class Entity {
         Player player = playing.getPlayer();
         int playerWorldX = player.worldX;
         int playerWorldY = player.worldY;
-        return getWorldX() > (playerWorldX + TILE_SIZE) - (PLAYER_SCREEN_X + TILE_SIZE) - TILE_SIZE * 3
-                && getWorldX() < (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE) + TILE_SIZE * 3
-                && getWorldY() > (playerWorldY + TILE_SIZE) - (PLAYER_SCREEN_Y + TILE_SIZE) - TILE_SIZE * 3
-                && getWorldY() < (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE) + TILE_SIZE * 3;
+        int diff = 3 * TILE_SIZE;
+        return getWorldX() > playerWorldX - PLAYER_SCREEN_X - diff &&
+                getWorldX() < playerWorldX - PLAYER_SCREEN_X + SCREEN_WIDTH  + diff &&
+                getWorldY() > playerWorldY - PLAYER_SCREEN_Y - diff &&
+                getWorldY() < playerWorldY - PLAYER_SCREEN_Y + SCREEN_HEIGHT + diff;
     }
 
     public int getRenderOrder() {

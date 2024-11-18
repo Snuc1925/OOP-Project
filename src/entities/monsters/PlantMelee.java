@@ -15,7 +15,7 @@ import static utils.Constants.Screen.TILE_SIZE;
 public class PlantMelee extends Monster {
     public int knockbackDuration = 15;
     public PlantMelee(Playing playing, int worldX, int worldY) {
-        super("PlantMelee", "monster/PlantMelee/Idle/All/1", playing, 96 * SCALE, 96 * SCALE);
+        super("PlantMelee", playing, 96 * SCALE, 96 * SCALE);
 
         maxHealth = 30;
         currentHealth = maxHealth;

@@ -24,7 +24,7 @@ public abstract class EffectMethod {
     ImageManager imageManager;
     public EffectMethod(String name, int totalAnimationFrames, Monster entity,
                         Player player,
-                        int worldX, int worldY,
+                        int worldX, int worldY, int width, int height,
                         int index) {
         this.totalAnimationFrames = totalAnimationFrames;
         this.name = name;
@@ -36,8 +36,8 @@ public abstract class EffectMethod {
 
         ImageLoader.initialize();
         imageManager = ImageLoader.imageManager;
-        width = imageManager.getEffectImage(name, 1).getWidth();
-        height = imageManager.getEffectImage(name, 1).getHeight();
+        this.width = width;
+        this.height = height;
         effectRect = new Rectangle(worldX - width / 2, worldY - height / 2, width, height);
     }
 
@@ -48,7 +48,7 @@ public abstract class EffectMethod {
         }
         ImageLoader.initialize();
         ImageManager imageManager = ImageLoader.imageManager;
-        BufferedImage image = imageManager.getEffectImage(name, numAnimationFrames + 1);
+        BufferedImage image = imageManager.getEffectImage(name, numAnimationFrames, width, height);
         image = HelpMethods.scaleImage(image, scaleFactor);
         return image;
     }

@@ -1,349 +1,273 @@
 package main;
 
-//import entity.Entity;
-//import obj.Heart;
-//import obj.Mana;
-//import obj.StatusPanel;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import utils.Constants.Screen.*;
+
+import gamestates.Menu;
+import gamestates.Pause;
+import gamestates.Playing;
+import utils.HelpMethods;
+import utils.ImageLoader;
+import utils.ImageManager;
+import entities.Player;
+
+import static utils.Constants.Screen.*;
 
 public class UI {
-//    GamePanel gp;
-//    Graphics2D g2;
-//    Font arial_40, arial_80B;
-//    public boolean messageOn = false;
-//    public String message = "";
-//    public String currentDialogue = "";
-//    public int dialogueIndex = 0;
-//    public int commandNumber = 0;
-//
-//    BufferedImage heart_full, heart_half, heart_blank, health_bar, health_bar_decoration;
-//    BufferedImage mana_bar, mana_bar_decoration;
-//
-//    BufferedImage statusPanel;
-//    BufferedImage manaBar;
-//    BufferedImage healthBar;
-//    BufferedImage armorBar;
-//
-//    StatusPanel sp;
-//    Entity heart, mana;
-//
-//    // smaller state of title
-//    public int titleScreenState = 0;
-//    Font maruMonica, purisaBold;
-//    public UI(GamePanel gp) {
-//        this.gp = gp;
-//
-//        try {
-//            InputStream is = getClass().getResourceAsStream("/font/x12y16pxMaruMonica.ttf");
-//            assert is != null;
-//            maruMonica = Font.createFont(Font.TRUETYPE_FONT, is);
-//
-//            is = getClass().getResourceAsStream("/font/Purisa Bold.ttf");
-//            assert is != null;
-//            purisaBold = Font.createFont(Font.TRUETYPE_FONT, is);
-//        } catch (FontFormatException | IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        // Create hub object
-//        heart = new Heart(gp);
-//        heart_full = heart.imageArray[0];
-//        heart_half = heart.imageArray[1];
-//        heart_blank = heart.imageArray[2];
-//        health_bar = heart.imageArray[3];
-//        health_bar_decoration = heart.imageArray[4];
-//
-//        mana = new Mana(gp);
-//        mana_bar = mana.imageArray[2];
-//        mana_bar_decoration = mana.imageArray[3];
-//
-//        sp = new StatusPanel(gp);
-//        statusPanel = sp.image;
-//        healthBar = sp.imageArray[0];
-//        armorBar = sp.imageArray[1];
-//        manaBar = sp.imageArray[2];
-//
-//    }
-//
-//    public void draw(Graphics2D g2) {
-//        this.g2 = g2;
-//
-//        g2.setFont(maruMonica);
-//        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 80F));
-//        g2.setColor(Color.WHITE);
-//
-//        // Title screen
-//        if (gp.gameState == gp.titleState) {
-//            drawTitleScreen();
-//        }
-//
-//        else if (gp.gameState == gp.playState) {
-//            // Do play state
-//            drawPlayerStatus();
-//        }
-//        else if (gp.gameState == gp.pauseState) {
-//            drawPlayerStatus();
-//            drawPauseScreen();
-//        }
-//
-//        // Dialog state
-//        else if (gp.gameState == gp.dialogueState) {
-//            drawPlayerStatus();
-//            drawDialogueScreen();
-//        }
-//    }
-//
-//    public void drawPlayerStatus() {
-//        int x = gp.TILE_SIZE/4;
-//        int y = gp.TILE_SIZE/4;
-//
-//        g2.drawImage(statusPanel, x, y, null);
-//
-//        // Scale healthBar, armorBar, manaBar to precisely match the current state
-//        int width = (int)(sp.barWidth * (1.0 * gp.player.currentLife / gp.player.maxLife));
-//        if (width > 0) healthBar = sp.getObjectImage("health_bar_new", width, sp.barHeight);
-//        else healthBar = null;
-//
-//        width = (int)(sp.barWidth * (1.0 * gp.player.currentArmor / gp.player.maxArmor));
-//        if (width > 0) armorBar = sp.getObjectImage("armor_bar_new", width, sp.barHeight);
-//        else armorBar = null;
-//
-//        width = (int)(sp.barWidth * (1.0 * gp.player.currentMana / gp.player.maxMana));
-//        if (width > 0) manaBar = sp.getObjectImage("mana_bar_new", width, sp.barHeight);
-//        else manaBar = null;
-//
-//        // Draw health bar, armor bar, mana bar
-//        if (healthBar != null) g2.drawImage(healthBar, x + 65 / 3 * 2 + 1, y + 14 / 3 * 2 + 1, null);
-//        if (armorBar != null) g2.drawImage(armorBar, x + 65 / 3 * 2 + 1, y + 14 / 3 * 2 + 1 + 29, null);
-//        if (manaBar != null) g2.drawImage(manaBar, x + 65 / 3 * 2 + 1, y + 14 / 3 * 2 + 1 + 56, null);
-//
-//        // Draw text to show number
-//        String text = gp.player.currentLife + "/" + gp.player.maxLife;
-//        g2.setFont(purisaBold);
-//        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20F));
-//        g2.drawString(text, x + 65 / 3 * 2 + 15, y + 25);
-//
-//        text = gp.player.currentArmor + "/" + gp.player.maxArmor;
-//        g2.drawString(text, x + 65 / 3 * 2 + 15, y + 25 + 28);
-//
-//        text = gp.player.currentMana + "/" + gp.player.maxMana;
-//        g2.drawString(text, x + 65 / 3 * 2 + 15, y + 25 + 55);
-//    }
-//
-//    public void drawPlayerMana() {
-//        int x = gp.TILE_SIZE/4;
-//        int y = gp.TILE_SIZE/4 + gp.TILE_SIZE;
-//        g2.drawImage(mana_bar_decoration, x, y, null);
-//
-//        int mana_bar_width = (int) (46 * 3 * ((double) gp.player.currentMana / gp.player.maxMana));
-//        if (mana_bar_width > 0) {
-//            mana_bar = mana.getObjectImage("mana_bar", mana_bar_width, 7 * 3);
-//            g2.drawImage(mana_bar, x + 17 * 3, y + 5 * 3, null);
-//        }
-//
-//        // Draw text to show player health as number
-//        String text = gp.player.currentMana + "/" + gp.player.maxMana;
-//        g2.setFont(purisaBold);
-//        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20F));
-//        g2.drawString(text, x + 23 * 3, y + 32);
-//    }
-//
-//    public void drawPlayerLife() {
-//        int x = gp.TILE_SIZE/4;
-//        int y = gp.TILE_SIZE/4;
-//        g2.drawImage(health_bar_decoration, x, y, null);
-//
-//        int health_bar_width = (int) (46 * 3 * ((double) gp.player.currentLife / gp.player.maxLife));
-//        if (health_bar_width > 0) {
-//            health_bar = heart.getObjectImage("health_bar", health_bar_width, 7 * 3);
-//            g2.drawImage(health_bar, x + 17 * 3, y + 5 * 3, null);
-//        }
-//
-//        // Draw text to show player health as number
-//        String text = gp.player.currentLife + "/" + gp.player.maxLife;
-//        g2.setFont(purisaBold);
-//        g2.setFont(g2.getFont().deriveFont(Font.BOLD, 20F));
-//        g2.drawString(text, x + 23 * 3, y + 32);
-//    }
-//
-//
-//
-//    String[] directionArray = {"down", "left_down", "left", "left_up", "up", "right_up", "right", "right_down"};
-//    int frameCounter = 0;
-//    int directionIndex = 0;
-//    private void drawTitleScreen() {
-//        if (titleScreenState == 0) {
-//
-//            // Configure background color
-//            g2.setColor(Color.BLACK);
-//            g2.fillRect(0, 0, gp.SCREEN_WIDTH, gp.SCREEN_HEIGHT);
-//
-//            // Create shadow for
-//            g2.setColor(Color.GRAY);
-//            String gameTitle = "Dungeon Game";
-//            int x = getXForCenterText(gameTitle);
-//            int y = getYForCenterText(gameTitle) - gp.TILE_SIZE * 3;
-//            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 80F));
-//            g2.drawString(gameTitle, x + 5, y + 3);
-//
-//            // Title name
-//            g2.setColor(Color.WHITE);
-//            g2.drawString(gameTitle, x, y);
-//
-//            // Display main character
-//            x = gp.SCREEN_WIDTH / 2 - gp.TILE_SIZE;
-//            y += gp.TILE_SIZE / 2;
-//            String direction;
-//            frameCounter++;
-//            if (frameCounter >= 60) {
-//                directionIndex = (directionIndex + 1) % 8;
-//                frameCounter = 0;
-//            }
-//            direction = directionArray[directionIndex];
-//            BufferedImage image = switch (direction) {
-//                case "up" -> gp.player.getImage("up");
-//                case "down" -> gp.player.getImage("down");
-//                case "left" -> gp.player.getImage("left");
-//                case "right" -> gp.player.getImage("right");
-//                case "left_up" -> gp.player.getImage("left_up");
-//                case "right_up" -> gp.player.getImage("right_up");
-//                case "left_down" -> gp.player.getImage("left_down");
-//                case "right_down" -> gp.player.getImage("right_down");
-//                default -> null;
-//            };
-//            g2.drawImage(image, x - 16 * 4, y - 16 * 4, 48 * 5, 64 * 5, null);
-//
-//            // Menu
-//            g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
-//            String text = "New game";
-//            x = getXForCenterText(text);
-//            y = getYForCenterText(text) + gp.TILE_SIZE * 3 / 2;
-//            g2.drawString(text, x, y);
-//            if (commandNumber == 0) {
-//                g2.drawString("->", x - gp.TILE_SIZE, y);
-//            }
-//
-//            text = "Load game";
-//            x = getXForCenterText(text);
-//            y += gp.TILE_SIZE;
-//            g2.drawString(text, x, y);
-//            if (commandNumber == 1) {
-//                g2.drawString("->", x - gp.TILE_SIZE, y);
-//            }
-//
-//            text = "Quit";
-//            x = getXForCenterText(text);
-//            y += gp.TILE_SIZE;
-//            g2.drawString(text, x, y);
-//            if (commandNumber == 2) {
-//                g2.drawString("->", x - gp.TILE_SIZE, y);
-//            }
-//        }
-//        else if (titleScreenState == 1) {
-//            // Class selection screen
-//            g2.setColor(Color.WHITE);
-//            g2.setFont(g2.getFont().deriveFont(42F));
-//
-//            String text = "Select your class:";
-//            int x = getXForCenterText(text);
-//            int y = getYForCenterText(text);
-////            y -= gp.TILE_SIZE*3;
-//            g2.drawString(text, x, y);
-//
-//            text = "Warrior";
-//            x = getXForCenterText(text);
-//            y += gp.TILE_SIZE;
-//            g2.drawString(text, x, y);
-//            if (commandNumber == 0) {
-//                g2.drawString("->", x - gp.TILE_SIZE, y);
-//            }
-//
-//            text = "Fighter";
-//            x = getXForCenterText(text);
-//            y += gp.TILE_SIZE;
-//            g2.drawString(text, x, y);
-//            if (commandNumber == 1) {
-//                g2.drawString("->", x - gp.TILE_SIZE, y);
-//            }
-//
-//            text = "Wizard";
-//            x = getXForCenterText(text);
-//            y += gp.TILE_SIZE;
-//            g2.drawString(text, x, y);
-//            if (commandNumber == 2) {
-//                g2.drawString("->", x - gp.TILE_SIZE, y);
-//            }
-//
-//            text = "Go back";
-//            x = getXForCenterText(text);
-//            y += gp.TILE_SIZE*2;
-//            g2.drawString(text, x, y);
-//            if (commandNumber == 3) {
-//                g2.drawString("->", x - gp.TILE_SIZE, y);
-//            }
-//
-//        }
-//    }
-//
-//    private void drawDialogueScreen() {
-//        // Window
-//        int x = gp.TILE_SIZE * 2, y = gp.TILE_SIZE / 2;
-//        int width = gp.SCREEN_WIDTH - gp.TILE_SIZE*4 , height = gp.TILE_SIZE * 4;
-//
-//        drawSubWindow(x, y, width, height);
-//
-//        x += gp.TILE_SIZE;
-//        y += gp.TILE_SIZE;
-//        g2.setFont(maruMonica);
-//        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
-//        if (currentDialogue == null) {
-//            gp.ui.dialogueIndex = 0;
-//            gp.gameState = gp.playState;
-//            gp.player.doneInteractingNPC = true;
-//            return;
-//        }
-//        for (String line : currentDialogue.split("\n")) {
-//            g2.drawString(line, x, y);
-//            y += 40;
-//        }
-//
-//    }
-//    private void drawSubWindow(int x, int y, int width, int height) {
-//        Color c = new Color(0, 0, 0, 200);
-//        g2.setColor(c);
-//        g2.fillRoundRect(x, y, width, height, 35, 35);
-//
-//        c = new Color(255, 255, 255);
-//        g2.setColor(c);
-//        g2.setStroke(new BasicStroke(5));
-//        g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
-//    }
-//
-//    public void drawPauseScreen() {
-//        String text = "PAUSED";
-//        int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-//        int x = getXForCenterText(text);
-//        int y = getYForCenterText(text);
-//
-//        g2.drawString(text, x, y);
-//    }
-//
-//    public int getXForCenterText(String text) {
-//        int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getWidth();
-//        return gp.SCREEN_WIDTH/2 - length/2;
-//    }
-//    public int getYForCenterText(String text) {
-//        int length = (int)g2.getFontMetrics().getStringBounds(text, g2).getHeight();
-//        return gp.SCREEN_HEIGHT/2 - length/2;
-//    }
-//
-//    public void showMessage(String text) {
-//        message = text;
-//        messageOn = true;
-//    }
+    Playing playing;
+    Menu menu;
+    Pause pause;
+    Font arial_40, arial_80B;
+    Font maruMonica, purisaBold;
+
+    public UI(Game game) {
+        this.playing = game.getPlaying();
+        this.menu = game.getMenu();
+        this.pause = game.getPause();
+
+        try {
+            InputStream is = getClass().getResourceAsStream("/font/MaruMonica.ttf");
+            assert is != null;
+            maruMonica = Font.createFont(Font.TRUETYPE_FONT, is);
+
+            is = getClass().getResourceAsStream("/font/PurisaBold.ttf");
+            assert is != null;
+            purisaBold = Font.createFont(Font.TRUETYPE_FONT, is);
+        } catch (FontFormatException | IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public void drawDialogueScreen(String currentDialogue, Graphics2D g2) {
+        // Window
+        int x = TILE_SIZE * 2, y = TILE_SIZE / 2;
+        int width = SCREEN_WIDTH - TILE_SIZE * 4, height = TILE_SIZE * 4;
+
+        drawSubWindow(x, y, width, height, g2);
+
+        x += TILE_SIZE;
+        y += TILE_SIZE;
+        g2.setFont(maruMonica);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 32F));
+        if (currentDialogue == null) {
+            playing.npcTalking = null;
+            return;
+        }
+
+        for (String line : currentDialogue.split("\n")) {
+            g2.drawString(line, x, y);
+            y += 40;
+        }
+
+    }
+
+    public void drawSubWindow(int x, int y, int width, int height, Graphics2D g2) {
+        Color c = new Color(0, 0, 0, 200);
+        g2.setColor(c);
+        g2.fillRoundRect(x, y, width, height, 35, 35);
+
+        c = new Color(255, 255, 255);
+        g2.setColor(c);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
+    }
+
+
+    public void drawPlayerUI(Graphics2D g2) {
+        Player player = playing.getPlayer();
+        // Draw player status GUI
+        ImageLoader.initialize();
+        ImageManager imageManager = ImageLoader.imageManager;
+        BufferedImage ui_bar_decor = imageManager.getGuiImage("UI_BAR_DECORATION");
+        ui_bar_decor = HelpMethods.scaleImage(ui_bar_decor, 0.25);
+        g2.drawImage(ui_bar_decor, 0, 0, null);
+
+        if (player.currentHealth > 0) {
+            BufferedImage player_health_bar = imageManager.getGuiImage("HEALTH_BAR");
+            player_health_bar = HelpMethods.scaleImage(player_health_bar, 0.25);
+            player_health_bar = HelpMethods.getBarImage(player_health_bar, 1.0 * player.currentHealth / player.maxHealth);
+            g2.drawImage(player_health_bar, 49, 10, null);
+        }
+
+        if (player.currentArmor > 0) {
+            BufferedImage player_armor_bar = imageManager.getGuiImage("ARMOR_BAR");
+            player_armor_bar = HelpMethods.scaleImage(player_armor_bar, 0.25);
+            player_armor_bar = HelpMethods.getBarImage(player_armor_bar, 1.0 * player.currentArmor / player.maxArmor);
+            g2.drawImage(player_armor_bar, 49, 43, null);
+        }
+
+        if (player.currentMana > 0) {
+            BufferedImage player_mana_bar = imageManager.getGuiImage("MANA_BAR");
+            player_mana_bar = HelpMethods.scaleImage(player_mana_bar, 0.25);
+            player_mana_bar = HelpMethods.getBarImage(player_mana_bar, 1.0 * player.currentMana / player.maxMana);
+            g2.drawImage(player_mana_bar, 49, 75, null);
+        }
+
+        Font pixelFont = HelpMethods.loadFont("PixelFont");
+        String text = player.currentHealth + "/" + player.maxHealth;
+        g2.setFont(pixelFont);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 20F));
+        g2.setColor(Color.WHITE);
+        g2.drawString(text, 107, 27);
+
+        text = player.currentArmor + "/" + player.maxArmor;
+        g2.drawString(text, 107, 60);
+
+        text = player.currentMana + "/" + player.maxMana;
+        g2.drawString(text, 90, 93);
+    }
+
+    public void drawPauseScreen(Graphics2D g2) {
+        playing.draw(g2);
+        switch (pause.currentPanel) {
+            case Pause.mainPanel:
+                drawPauseOptionsPanel(g2, pause.commandIndex);
+                break;
+            case Pause.controlPanel:
+                drawKeyControlsPanel(g2);
+                break;
+            case Pause.savePanel:
+                drawSavePanel(g2);
+                break;
+            case Pause.volumeControlPanel:
+                drawVolumeOptionsPanel(g2, pause.commandIndex);
+                break;
+            default:
+        }
+    }
+
+    private void drawSavePanel(Graphics2D g2) {
+        int x = TILE_SIZE * 4, y = 9 * TILE_SIZE / 2;
+        int width = SCREEN_WIDTH - 2 * x, height = SCREEN_HEIGHT - 2 * y;
+
+        drawSubWindow(x, y, width, height, g2);
+
+        String text = "Progress saved!";
+        g2.setFont(maruMonica);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
+        g2.drawString(text,
+                HelpMethods.getXForCenterText(text, g2),
+                HelpMethods.getYForCenterText(text, g2) + 3 * TILE_SIZE / 4);
+    }
+
+    private void drawPauseOptionsPanel(Graphics2D g2, int currentCommand) {
+        int x = TILE_SIZE * 4, y = 5 * TILE_SIZE / 2;
+        int width = SCREEN_WIDTH - 2 * x, height = SCREEN_HEIGHT - 2 * y;
+
+        drawSubWindow(x, y, width, height, g2);
+        drawPauseOptions(g2, x, y, currentCommand);
+    }
+    private void drawPauseOptions(Graphics2D g2, int boxX, int boxY, int currentCommand) {
+        int width = SCREEN_WIDTH - 2 * boxX, height = SCREEN_HEIGHT - 2 * boxY;
+        String text = "PAUSED";
+        g2.setFont(maruMonica);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
+        g2.setColor(Color.WHITE);
+        int x = HelpMethods.getXForCenterText(text, g2), y = boxY + 3 * TILE_SIZE / 2;
+        g2.drawString(text, x, y);
+
+        String[] leftStr = {"Key controls", "Save game", "Volume options", "Return to menu"};
+        x = boxX + TILE_SIZE;
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 30F));
+        for (int i = 0; i < leftStr.length; i++) {
+            y += TILE_SIZE / 2 + HelpMethods.getTextHeight(leftStr[i], g2);
+            g2.drawString(leftStr[i], x, y);
+            if (i == currentCommand) {
+                g2.drawString("<--", boxX + width - TILE_SIZE * 2, y);
+            }
+        }
+
+    }
+
+    public void drawKeyControlsPanel(Graphics2D g2) {
+        int x = TILE_SIZE * 3, y = 3 * TILE_SIZE / 2;
+        int width = SCREEN_WIDTH - 2 * x, height = SCREEN_HEIGHT - 2 * y;
+        drawSubWindow(x, y, width, height, g2);
+        drawKeyControls(g2, x, y);
+    }
+
+    private void drawKeyControls(Graphics2D g2, int boxX, int boxY) {
+        int boxWidth = SCREEN_WIDTH - 2 * boxX, boxHeight = SCREEN_HEIGHT - 2 * boxY;
+        String text = "Controls";
+        g2.setFont(maruMonica);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
+        g2.setColor(Color.WHITE);
+
+        int x = HelpMethods.getXForCenterText(text, g2), y = boxY + 3 * TILE_SIZE / 2;
+        g2.drawString(text, x, y);
+
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN,30f));
+
+        String[] leftStr = {"W, A, S, D", "J", "K", "L", "Shift", "Enter", "P"};
+        String[] rightStr = {"Moving", "Attack", "Dash", "Change weapon", "Run", "Show entity box", "Pause/Unpause"};
+
+        for (String str : leftStr) {
+            x = boxX + TILE_SIZE;
+            y += TILE_SIZE / 4 + HelpMethods.getTextHeight(str, g2);
+            g2.drawString(str, x, y);
+        }
+
+        y = boxY + 3 * TILE_SIZE / 2;
+        for (String str : rightStr) {
+            x = boxX + boxWidth - HelpMethods.getTextWidth(str, g2) - TILE_SIZE;
+            y += TILE_SIZE / 4 + HelpMethods.getTextHeight(str, g2);
+            g2.drawString(str, x, y);
+        }
+    }
+
+    private void drawVolumeOptionsPanel(Graphics2D g2, int commandIndex) {
+        int x = TILE_SIZE * 2, y = 6 * TILE_SIZE / 2;
+        int width = SCREEN_WIDTH - 2 * x, height = SCREEN_HEIGHT - 2 * y;
+        drawSubWindow(x, y, width, height, g2);
+
+        drawVolumeOptions(g2, x, y, commandIndex);
+    }
+
+    private void drawVolumeOptions(Graphics2D g2, int boxX, int boxY, int commandIndex) {
+        int boxWidth = SCREEN_WIDTH - 2 * boxX, boxHeight = SCREEN_HEIGHT - 2 * boxY;
+        String text = "Volume options";
+        g2.setFont(maruMonica);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 48F));
+        g2.setColor(Color.WHITE);
+        int x = HelpMethods.getXForCenterText(text, g2), y = boxY + 3 * TILE_SIZE / 2;
+        g2.drawString(text, x, y);
+
+        String[] leftText = {"Volume", "Sound effect", "Soundtrack"};
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 30f));
+        x = boxX + TILE_SIZE;
+        y += TILE_SIZE / 2;
+        int rectX = x + HelpMethods.getTextWidth(leftText[0], g2) + TILE_SIZE * 2, rectY;
+        for (int i = 0; i < leftText.length; i++) {
+            y += TILE_SIZE / 4 + HelpMethods.getTextHeight(leftText[i], g2);
+            g2.drawString(leftText[i], x, y);
+            if (i == commandIndex) {
+                g2.drawString("<--", boxX + boxWidth - TILE_SIZE * 2, y);
+            }
+            switch (i) {
+                case 0:
+                    rectY = y - 4 * 4 + 2;
+                    g2.setStroke(new BasicStroke(1));
+                    g2.drawRect(rectX, rectY, 4 * TILE_SIZE, 4 * 3);
+                    g2.fillRect(rectX, rectY, 4 * TILE_SIZE * pause.currentVolume/pause.maxVolume, 4 * 3 );
+                    break;
+                case 1:
+                    rectY = y - 4 * 4 + 2;
+                    g2.drawRect(rectX, rectY, 4 * 3, 4 * 3);
+                    if (pause.isSoundEffectOn)
+                        g2.fillRect(rectX, rectY, 4 * 3, 4 * 3);
+                    break;
+                case 2:
+                    rectY = y - 4 * 4 + 2;
+                    g2.drawRect(rectX, rectY, 4 * 3, 4 * 3);
+                    if (pause.isSoundtrackOn)
+                        g2.fillRect(rectX, rectY, 4 * 3, 4 * 3);
+                    break;
+            }
+        }
+    }
+
 }

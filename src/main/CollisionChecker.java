@@ -1,12 +1,16 @@
 package main;
 
+import components.HitboxComponent;
+import components.PositionComponent;
 import enitystates.EntityState;
 import entities.Entity;
 import entities.monsters.Monster;
 import entities.Sprite;
 import entities.Player;
 import tile.TileManager;
+import utils.Constants;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import static utils.Constants.Screen.*;
@@ -22,12 +26,12 @@ public class CollisionChecker {
     int entityLeftWorldX;
     int entityRightWorldX, entityTopWorldY, entityBottomWorldY, entityLeftCol, entityRightCol, entityTopRow, entityBottomRow;
     public void checkTile(Sprite entity) {
+        entity.goAlongDirection();
         tileManager = entity.getPlaying().getTileManager();
         entityLeftWorldX = entity.worldX + entity.solidArea.x;
         entityRightWorldX = entity.worldX + entity.solidArea.x + entity.solidArea.width;
         entityTopWorldY = entity.worldY + entity.solidArea.y;
         entityBottomWorldY = entity.worldY + entity.solidArea.y + entity.solidArea.height;
-
 
         entityLeftCol = entityLeftWorldX/TILE_SIZE;
         entityRightCol = entityRightWorldX/TILE_SIZE;
@@ -35,57 +39,74 @@ public class CollisionChecker {
         entityBottomRow = entityBottomWorldY/TILE_SIZE;
 
 
-        boolean tileNum1 = false, tileNum2 = false;
+        Rectangle tileNum1 = null, tileNum2 = null;
 
         switch (entity.direction) {
             case "up":
                 entityTopRow = (entityTopWorldY - entity.speed)/TILE_SIZE;
-                tileNum1 = tileManager.tile[entityTopRow][entityLeftCol];
-                tileNum2 = tileManager.tile[entityTopRow][entityRightCol];
+                tileNum1 = tileManager.solidArea[entityTopRow][entityLeftCol];
+                tileNum2 = tileManager.solidArea[entityTopRow][entityRightCol];
                 break;
             case "down":
                 entityBottomRow = (entityBottomWorldY + entity.speed)/TILE_SIZE;
-                tileNum1 = tileManager.tile[entityBottomRow][entityLeftCol];
-                tileNum2 = tileManager.tile[entityBottomRow][entityRightCol];
+                tileNum1 = tileManager.solidArea[entityBottomRow][entityLeftCol];
+                tileNum2 = tileManager.solidArea[entityBottomRow][entityRightCol];
                 break;
             case "left":
                 entityLeftCol = (entityLeftWorldX - entity.speed)/TILE_SIZE;
-                tileNum1 = tileManager.tile[entityTopRow][entityLeftCol];
-                tileNum2 = tileManager.tile[entityBottomRow][entityLeftCol];
+                tileNum1 = tileManager.solidArea[entityTopRow][entityLeftCol];
+                tileNum2 = tileManager.solidArea[entityBottomRow][entityLeftCol];
                 break;
             case "right":
                 entityRightCol = (entityRightWorldX + entity.speed)/TILE_SIZE;
-                tileNum1 = tileManager.tile[entityTopRow][entityRightCol];
-                tileNum2 = tileManager.tile[entityBottomRow][entityRightCol];
+                tileNum1 = tileManager.solidArea[entityTopRow][entityRightCol];
+                tileNum2 = tileManager.solidArea[entityBottomRow][entityRightCol];
                 break;
             case "left_up":
                 entityLeftCol = (entityLeftWorldX - (entity.speed))/TILE_SIZE;
                 entityTopRow = (entityTopWorldY - entity.speed)/TILE_SIZE;
-                tileNum1 = tileManager.tile[entityTopRow][entityLeftCol];
-                tileNum2 = tileManager.tile[entityTopRow][entityRightCol];
+                tileNum1 = tileManager.solidArea[entityTopRow][entityLeftCol];
+                tileNum2 = tileManager.solidArea[entityTopRow][entityRightCol];
                 break;
             case "right_up":
                 entityRightCol = (entityRightWorldX + entity.speed)/TILE_SIZE;
                 entityTopRow = (entityTopWorldY - entity.speed)/TILE_SIZE;
-                tileNum1 = tileManager.tile[entityTopRow][entityLeftCol];
-                tileNum2 = tileManager.tile[entityTopRow][entityRightCol];
+                tileNum1 = tileManager.solidArea[entityTopRow][entityLeftCol];
+                tileNum2 = tileManager.solidArea[entityTopRow][entityRightCol];
                 break;
             case "left_down":
                 entityLeftCol = (entityLeftWorldX - entity.speed)/TILE_SIZE;
                 entityBottomRow = (entityBottomWorldY + entity.speed)/TILE_SIZE;
-                tileNum1 = tileManager.tile[entityBottomRow][entityLeftCol];
-                tileNum2 = tileManager.tile[entityBottomRow][entityRightCol];
+                tileNum1 = tileManager.solidArea[entityBottomRow][entityLeftCol];
+                tileNum2 = tileManager.solidArea[entityBottomRow][entityRightCol];
                 break;
             case "right_down":
                 entityRightCol = (entityRightWorldX + entity.speed)/TILE_SIZE;
                 entityBottomRow = (entityBottomWorldY + entity.speed)/TILE_SIZE;
-                tileNum1 = tileManager.tile[entityBottomRow][entityLeftCol];
-                tileNum2 = tileManager.tile[entityBottomRow][entityRightCol];
+                tileNum1 = tileManager.solidArea[entityBottomRow][entityLeftCol];
+                tileNum2 = tileManager.solidArea[entityBottomRow][entityRightCol];
                 break;
         }
-        entity.collisionOn = tileNum1 || tileNum2;
+        entity.solidArea.x += entity.worldX;
+        entity.solidArea.y += entity.worldY;
+        entity.collisionOn = false;
+        if (tileNum1 != null) {
+            if (tileNum1.intersects(entity.solidArea)) {
+                entity.collisionOn = true;
+            }
+        }
+        if (tileNum2!= null) {
+            if (tileNum2.intersects(entity.solidArea)) {
+                entity.collisionOn = true;
+            }
+        }
+        entity.solidArea.x = entity.solidAreaDefaultX;
+        entity.solidArea.y = entity.solidAreaDefaultY;
+        entity.goOppositeDirection();
+
 
     }
+
 //    public int checkObject(Sprite entity, boolean player) {
 //        int index = 999;
 //        for (int i = 0; i < gp.superObject.length; i++) {
@@ -149,12 +170,12 @@ public class CollisionChecker {
 //    }
 
     // NPC and monster collision
-    public int checkEntity(Sprite entity, ArrayList<Entity> entityArrayList) {
+    public int checkEntity(Sprite entity, ArrayList<Sprite> entityArrayList) {
         int index = -1;
         for (int i = 0; i < entityArrayList.size(); i++) {
             Entity target = entityArrayList.get(i);
             if (target instanceof Monster) {
-                if (((Monster)(target)).currentState == EntityState.DEATH) continue;
+                if (target.currentState == EntityState.DEATH) continue;
             }
             if (target != null) {
                 // Get entity solid area position
@@ -255,7 +276,6 @@ public class CollisionChecker {
         }
         if (entity.solidArea.intersects(player.solidArea)){
             entity.collisionOn = true;
-
             contactPlayer = true;
         }
 
@@ -263,6 +283,34 @@ public class CollisionChecker {
         player.solidArea.y = player.solidAreaDefaultY;
         entity.solidArea.x = entity.solidAreaDefaultX;
         entity.solidArea.y = entity.solidAreaDefaultY;
+
+        return contactPlayer;
+    }
+
+    public boolean checkPlayer(HitboxComponent hitbox, PositionComponent position) {
+        Player player = game.getPlaying().getPlayer();
+
+        boolean contactPlayer = false;
+
+        int hitboxX = hitbox.area.x;
+        int hitboxY = hitbox.area.y;
+
+        // Get entity solid area position
+        hitbox.area.x = position.worldX + hitbox.area.x;
+        hitbox.area.y = position.worldY + hitbox.area.y;
+
+        // Get the target solid area position
+        player.solidArea.x = player.solidArea.x + player.worldX;
+        player.solidArea.y = player.solidArea.y + player.worldY;
+
+        if (hitbox.area.intersects(player.solidArea)){
+            contactPlayer = true;
+        }
+
+        player.solidArea.x = player.solidAreaDefaultX;
+        player.solidArea.y = player.solidAreaDefaultY;
+        hitbox.area.x = hitboxX;
+        hitbox.area.y = hitboxY;
 
         return contactPlayer;
     }

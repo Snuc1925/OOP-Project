@@ -16,11 +16,11 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
     public boolean skillActivePressed; // K pressed
     public boolean attackPressed; // J pressed
     public boolean changWeaponPressed; // L pressed
+    public boolean pausePressed; // P pressed
 
     public KeyboardInputs(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         gamePanel.addMouseListener(new MouseAdapter() {
-
             @Override
             public void mousePressed(MouseEvent e) {
                 mousePressed = true;
@@ -58,22 +58,14 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
         if (code == KeyEvent.VK_ENTER) {
             enterPressed = false;
         }
-        if (code == KeyEvent.VK_SHIFT) {
-            shiftPressed = false;
+        if (code == KeyEvent.VK_SHIFT) shiftPressed = false;
+        if (code == KeyEvent.VK_SPACE) spacePressed = false;
+        if (code == KeyEvent.VK_K) skillActivePressed = false;
+        if (code == KeyEvent.VK_J) attackPressed = false;
+        if (code == KeyEvent.VK_L) changWeaponPressed = false;
+        if (code == KeyEvent.VK_P) {
+            pausePressed = false;
         }
-        if (code == KeyEvent.VK_SPACE) {
-            spacePressed = false;
-        }
-        if (code == KeyEvent.VK_K) {
-            skillActivePressed = false;
-        }
-        if (code == KeyEvent.VK_J) {
-            attackPressed = false;
-        }
-        if (code == KeyEvent.VK_L) {
-            changWeaponPressed = false;
-        }
-
     }
 
     @Override
@@ -94,21 +86,15 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
         if (code == KeyEvent.VK_ENTER) {
             enterPressed = true;
         }
-        if (code == KeyEvent.VK_SHIFT) {
-            shiftPressed = true;
+        if (code == KeyEvent.VK_SHIFT) shiftPressed = true;
+        if (code == KeyEvent.VK_SPACE) spacePressed = true;
+        if (code == KeyEvent.VK_K) skillActivePressed = true;
+        if (code == KeyEvent.VK_J) attackPressed = true;
+        if (code == KeyEvent.VK_L) changWeaponPressed = true;
+        if (code == KeyEvent.VK_P) {
+            pausePressed = true;
         }
-        if (code == KeyEvent.VK_SPACE) {
-            spacePressed = true;
-        }
-        if (code == KeyEvent.VK_K) {
-            skillActivePressed = true;
-        }
-        if (code == KeyEvent.VK_J) {
-            attackPressed = true;
-        }
-        if (code == KeyEvent.VK_L) {
-            changWeaponPressed = true;
-        }
+
     }
     public int getMouseX() {
         return gamePanel.getMouseX();
@@ -118,4 +104,66 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
     }
 
 
+
+    public static boolean prevUp = false, prevDown = false, prevLeft = false, prevRight = false;
+    public static boolean prevPause = false, prevEnter = false;
+    public static boolean isPressedValid(String code, boolean keyPressed) {
+        switch (code) {
+            case "pause" -> {
+                if (keyPressed) {
+                    if (prevPause) return false;
+                    prevPause = true;
+                    return true;
+                }
+                prevPause = false;
+                return false;
+            }
+            case "enter" -> {
+                if (keyPressed) {
+                    if (prevEnter) return false;
+                    prevEnter = true;
+                    return true;
+                }
+                prevEnter = false;
+                return false;
+            }
+            case "up" -> {
+                if (keyPressed) {
+                    if (prevUp) return false;
+                    prevUp = true;
+                    return true;
+                }
+                prevUp = false;
+                return false;
+            }
+            case "down" -> {
+                if (keyPressed) {
+                    if (prevDown) return false;
+                    prevDown = true;
+                    return true;
+                }
+                prevDown = false;
+                return false;
+            }
+            case "left" -> {
+                if (keyPressed) {
+                    if (prevLeft) return false;
+                    prevLeft = true;
+                    return true;
+                }
+                prevLeft = false;
+                return false;
+            }
+            case "right" -> {
+                if (keyPressed) {
+                    if (prevRight) return false;
+                    prevRight = true;
+                    return true;
+                }
+                prevRight = false;
+                return false;
+            }
+        }
+        return false;
+    }
 }

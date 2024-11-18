@@ -16,7 +16,7 @@ public class Morph extends Monster{
     private Walk dash;
     private boolean isWalkDash = false;
     public Morph(Playing playing, int worldX, int worldY) {
-        super("Morph", "monster/Morph/Idle/Right/1", playing, 10 * TILE_SIZE, 8 * TILE_SIZE);
+        super("Morph", playing, 10 * TILE_SIZE, 8 * TILE_SIZE);
         this.worldX = worldX;
         this.worldY = worldY;
         solidArea = new Rectangle(4 * TILE_SIZE + TILE_SIZE / 2, 4 * TILE_SIZE, TILE_SIZE, TILE_SIZE);

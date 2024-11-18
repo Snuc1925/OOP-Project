@@ -16,7 +16,7 @@ public class BringerOfDeath extends Monster{
     DeathHand[] deathHand;
 
     public BringerOfDeath(Playing playing, int worldX, int worldY) {
-        super("BringerOfDeath", "monster/BringerOfDeath/Idle/left/1", playing, 13 * TILE_SIZE, 6 * TILE_SIZE);
+        super("BringerOfDeath", playing, 13 * TILE_SIZE, 6 * TILE_SIZE);
         this.worldX = worldX;
         this.worldY = worldY;
 

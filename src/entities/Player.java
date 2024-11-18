@@ -5,6 +5,7 @@ import enitystates.*;
 import entities.monsters.Monster;
 import gamestates.Playing;
 import inputs.KeyboardInputs;
+import main.CollisionChecker;
 import utils.HelpMethods;
 
 import java.awt.*;
@@ -37,7 +38,7 @@ public class Player extends Sprite {
     public Dash dash = null;
 
     public Player(Playing playing) {
-        super("Player", "player/Idle/Normal/down/1", playing, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT);
+        super("Player", playing, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT);
         setDefaultValues();
         attack = new Attack(this);
         idle = new Idle(this);
@@ -52,8 +53,8 @@ public class Player extends Sprite {
     public void setDefaultValues() {
         solidArea = new Rectangle();
         solidArea.setBounds(18 * SCALE, 32 * SCALE, 13 * SCALE, 12 * SCALE);
-        worldX = TILE_SIZE * 10 - TILE_SIZE * 3 / 2;
-        worldY = TILE_SIZE * 10;
+        worldX = TILE_SIZE * 18 - TILE_SIZE * 3 / 2;
+        worldY = TILE_SIZE * 6;
 //        worldX = 15 * TILE_SIZE;
 //        worldY = 34 * TILE_SIZE;
 
@@ -94,6 +95,12 @@ public class Player extends Sprite {
                     spearAttackBox.y + PLAYER_SCREEN_Y,
                     spearAttackBox.width, spearAttackBox.height);
         }
+
+        int screenX = PLAYER_SCREEN_X;
+        int screenY = PLAYER_SCREEN_Y;
+//        g2.setColor(Color.WHITE);
+//        g2.setStroke(new BasicStroke(3));
+//        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
     }
 
     int frameCounter = 0;
@@ -191,7 +198,7 @@ public class Player extends Sprite {
         Monster lockedMonster = null;
         Monster[] entities = this.getPlaying().monsters;
         for (Monster entity : entities)
-            if (entity != null) {
+            if (entity != null && entity.isOnTheScreen()) {
                 entity.isBeingLockOn = false;
                 if (entity.currentState != EntityState.DEATH && HelpMethods.canSeeEntity(playing, this, entity)) {
                     int newDistance = (this.getWorldY() - entity.getWorldY()) * (this.getWorldY() - entity.getWorldY()) +
@@ -252,6 +259,16 @@ public class Player extends Sprite {
         }
     }
 
+    public void increaseHealth(int health) {
+        currentHealth += health;
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
+    }
+
+    public void increaseMana(int mana) {
+        currentMana += mana;
+        if (currentMana > maxMana) currentMana = maxMana;
+    }
+
     public boolean canAttackMonster(Monster monster) {
         int currentHitBoxX = monster.hitBox.x;
         int currentHitBoxY = monster.hitBox.y;
@@ -268,7 +285,6 @@ public class Player extends Sprite {
         monster.hitBox.y += monster.worldY;
 
         boolean result = false;
-
         if (currentWeapon.equals("SPEAR")) {
             if (monster.hitBox.intersects(spearAttackBox)) result = true;
         } else if (currentWeapon.equals("GUN")) {
@@ -281,5 +297,21 @@ public class Player extends Sprite {
         gunAttackBox.x = gunX;
         gunAttackBox.y = gunY;
         return result;
+    }
+
+    @Override
+    public void move() {
+        CollisionChecker cc = playing.getGame().getCollisionChecker();
+        if (dash != null) {
+            cc.checkTile(this);
+            if (collisionOn) return;
+            goAlongDirection();
+            return;
+        }
+        cc.checkTile(this);
+        cc.checkEntity(this, playing.entityList);
+        if (collisionOn) return;
+        goAlongDirection();
+
     }
 }

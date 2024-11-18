@@ -14,7 +14,7 @@ public class SwordKnight extends Monster{
     Rectangle attack1Box, attack2Box;
     Attack attack1, attack2;
     public SwordKnight(Playing playing, int worldX, int worldY) {
-        super("Sword_Knight", "monster/Sword_knight/Idle/Right/1", playing, 12 * TILE_SIZE, 4 * TILE_SIZE);
+        super("Sword_Knight", playing, 12 * TILE_SIZE, 4 * TILE_SIZE);
         this.worldX = worldX;
         this.worldY = worldY;
         solidArea = new Rectangle(6 * TILE_SIZE - TILE_SIZE / 2, 2 * TILE_SIZE, TILE_SIZE, TILE_SIZE);

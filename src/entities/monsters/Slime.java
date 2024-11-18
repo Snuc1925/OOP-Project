@@ -11,7 +11,7 @@ import static utils.Constants.Screen.TILE_SIZE;
 public class Slime extends Monster {
 
     public Slime(Playing playing, int worldX, int worldY) {
-        super("Slime", "Monster/Slime/Idle/Down/1", playing, TILE_SIZE, TILE_SIZE * 2);
+        super("Slime", playing, TILE_SIZE, TILE_SIZE * 2);
         currentState = EntityState.WALK;
         attack = new Attack(this, 6, 10);
         idle = new Idle(this, 5, 10);
@@ -74,7 +74,7 @@ public class Slime extends Monster {
 
     @Override
     public int getWorldY() {
-        return worldY + TILE_SIZE * 3 / 2;
+        return worldY + solidArea.y - TILE_SIZE / 2;
     }
 
 

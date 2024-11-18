@@ -36,7 +36,11 @@ public class Idle extends EntityStateMethods{
             if (slime.canAttack(true)) {
                 monster.currentState = EntityState.ATTACK;
             } else slime.stateChanger();
-        } else {
+        } else if (monster instanceof PlantMelee plantMelee) {
+            if (plantMelee.canAttack(true)) {
+                monster.currentState = EntityState.ATTACK;
+            }
+        }else {
             monster.getDirectionForAttacking();
             if (monster.canSeePlayer())
                 monster.currentState = EntityState.WALK;
