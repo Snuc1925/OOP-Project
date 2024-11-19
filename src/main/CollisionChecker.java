@@ -295,11 +295,9 @@ public class CollisionChecker {
         int hitboxX = hitbox.area.x;
         int hitboxY = hitbox.area.y;
 
-        // Get entity solid area position
-        hitbox.area.x = position.worldX + hitbox.area.x;
-        hitbox.area.y = position.worldY + hitbox.area.y;
+        hitbox.area.x = position.worldX + hitbox.area.x - hitbox.area.width / 2;
+        hitbox.area.y = position.worldY + hitbox.area.y - hitbox.area.height / 2;
 
-        // Get the target solid area position
         player.solidArea.x = player.solidArea.x + player.worldX;
         player.solidArea.y = player.solidArea.y + player.worldY;
 

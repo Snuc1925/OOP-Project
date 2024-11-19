@@ -56,12 +56,21 @@ public class HelpMethods {
         BufferedImage scaledImage = null;
         try {
             scaledImage = ImageIO.read(Objects.requireNonNull(HelpMethods.class.getClassLoader().getResourceAsStream(imagePath + ".png")));
-            scaledImage = utilityTool.scaleImage(scaledImage, width, height);
+            scaledImage = scaleImage(scaledImage, width, height);
 
         } catch (IOException e) {
             System.out.println("Failed to load/scale image");
         }
         return scaledImage;
+    }
+
+    public static BufferedImage scaleImage(BufferedImage original, int width, int height) {
+        BufferedImage resizedImage = new BufferedImage(width, height, original.getType());
+        Graphics2D g2d = resizedImage.createGraphics();
+        g2d.drawImage(original, 0, 0, width, height, null);
+        g2d.dispose();
+
+        return resizedImage;
     }
     public static BufferedImage scaleImage(BufferedImage inputImage, double scaleFactor) {
         int width = (int) (inputImage.getWidth() * scaleFactor);

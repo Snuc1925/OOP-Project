@@ -15,7 +15,7 @@ public class CollectibleSystem {
     public CollectibleSystem(Playing playing) {
         this.playing = playing;
         collectibleList = new ArrayList<>();
-        initCollectibleObjects();
+        InitSystem.initCollectibleObjects(collectibleList);
     }
 
     public void initCollectibleObjects() {

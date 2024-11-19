@@ -1,12 +1,12 @@
 package system;
-import components.PositionComponent;
 import gamestates.Playing;
 import objects.Door;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.awt.*;
 
-import static utils.Constants.Screen.TILE_SIZE;
+import static utils.HelpMethods.scaleImage;
 
 public class DoorSystem {
     public ArrayList<Door> doors;
@@ -15,11 +15,7 @@ public class DoorSystem {
     public DoorSystem(Playing playing) {
         this.playing = playing;
         doors = new ArrayList<>();
-        initDoors();
-    }
-
-    public void initDoors() {
-        doors.add(new Door("side", 18 * TILE_SIZE, 11 * TILE_SIZE, TILE_SIZE * 3, TILE_SIZE * 3));
+        InitSystem.initDoors(doors);
     }
 
     public void update() {
@@ -39,15 +35,16 @@ public class DoorSystem {
 
             String key = door.name;
             int numAnimationFrame = door.animation.numAnimationFrame;
-//            int width = door.render.width;
-//            int height = door.render.height;
-            door.render.image = playing.getImageManager().getObjectImage(key, numAnimationFrame - 1, TILE_SIZE * 3, TILE_SIZE * 8);
+            int totalAnimationFrame = door.animation.totalAnimationFrame;
+            BufferedImage image = playing.getImageManager().getObjectImage(key, numAnimationFrame - 1, totalAnimationFrame);
+            door.render.image = scaleImage(image, door.render.width, door.render.height);
         }
     }
 
     public void draw(Graphics2D g2) {
         for (Door door : doors) {
             playing.getRenderSystem().draw(g2, door.position, door.render, door.hitbox);
+//            playing.getRenderSystem().draw(g2, door.position, door.render);
         }
     }
 }

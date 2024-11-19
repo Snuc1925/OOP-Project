@@ -55,8 +55,8 @@ public class Player extends Sprite {
         solidArea.setBounds(18 * SCALE, 32 * SCALE, 13 * SCALE, 12 * SCALE);
         worldX = TILE_SIZE * 18 - TILE_SIZE * 3 / 2;
         worldY = TILE_SIZE * 6;
-//        worldX = 15 * TILE_SIZE;
-//        worldY = 34 * TILE_SIZE;
+//        worldX = 30 * TILE_SIZE;
+//        worldY = 39 * TILE_SIZE;
 
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;

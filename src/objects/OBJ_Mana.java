@@ -2,18 +2,15 @@ package objects;
 
 import components.*;
 import entities.Player;
-import utils.Constants;
-import utils.ImageManager;
-
-import java.awt.image.BufferedImage;
+import static utils.Constants.Screen.TILE_SIZE;
 
 public class OBJ_Mana extends Collectible {
 
     public OBJ_Mana(String name, int worldX, int worldY, int itemValue) {
         this.name = super.name + "_" + name;
         position = new PositionComponent(worldX, worldY);
-        render = new RenderComponent(Constants.Object.ObjMana.WIDTH, Constants.Object.ObjMana.HEIGHT);
-        hitbox = new HitboxComponent(Constants.Screen.TILE_SIZE, Constants.Screen.TILE_SIZE * 2 - 30);
+        render = new RenderComponent(TILE_SIZE, TILE_SIZE * 2);
+        hitbox = new HitboxComponent(TILE_SIZE / 2, TILE_SIZE / 2);
         item = new ItemComponent("mana", itemValue);
         animation = new AnimationComponent(12, 5);
     }

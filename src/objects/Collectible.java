@@ -16,7 +16,6 @@ public class Collectible {
     }
 
     public void update() {}
-    public void draw() {}
 
     public void interact(Player player) {
 

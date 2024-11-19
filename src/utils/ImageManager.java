@@ -7,11 +7,14 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 public class ImageManager {
 
     private static ImageManager instance;
-    Map<String, BufferedImage> playerImages;
     Map<String, BufferedImage> guiImages;
     Map<String, BufferedImage> monsterImages;
     Map<String, BufferedImage> effectImages;
@@ -32,7 +35,6 @@ public class ImageManager {
 
 
     private ImageManager() {
-        playerImages = loadAllImages("PLAYER");
         guiImages = loadAllImages("GUI");
         monsterImages = loadAllImages("MONSTER");
         effectImages = loadAllImages("EFFECT");
@@ -78,7 +80,7 @@ public class ImageManager {
                     BufferedImage image = ImageIO.read(file);
                     image = HelpMethods.scaleImage(image, Constants.Screen.SCALE);
                     images.put(key, image);
-                    System.out.println(key);
+//                    System.out.println(key);
                 } catch (IOException e) {
                     System.err.println("Failed to load image: " + file.getPath());
                     e.printStackTrace();
@@ -87,14 +89,52 @@ public class ImageManager {
         }
     }
 
-    public BufferedImage getPlayerImage(String state, String weapon, String direction, int numAnimationFrame, int width, int height) {
-        String key = "PLAYER_" + state + "_";
-        if (!state.equals("RELOADING")) {
-            key += weapon + "_";
+//    public BufferedImage getPlayerImage(String state, String weapon, String direction, int numAnimationFrame, int width, int height) {
+//        String key = "PLAYER_" + state + "_";
+//        if (!state.equals("RELOADING")) {
+//            key += weapon + "_";
+//        }
+//        key += direction.toUpperCase() + "_1-SHEET";
+//        return playerImages.get(key).getSubimage(width * numAnimationFrame, 0, width, height);  // Trả về ảnh từ bộ nhớ
+//    }
+
+    public static BufferedImage loadBufferedImage(String resourcePath) {
+        try {
+            return ImageIO.read(Objects.requireNonNull(
+                    ImageManager.class.getResource(resourcePath)
+            ));
+        } catch (IOException | NullPointerException e) {
+            e.printStackTrace();
+            return null;
         }
-        key += direction.toUpperCase() + "_1-SHEET";;
-        return playerImages.get(key).getSubimage(width * numAnimationFrame, 0, width, height);  // Trả về ảnh từ bộ nhớ
     }
+
+    public BufferedImage getPlayerImage(String state, String weapon, String direction, int numAnimationFrame, int width, int height) {
+        String path = "/Player";
+        if (state.equals("ATTACK")) path += "/Attack";
+        else if (state.equals("RUN")) path += "/Run";
+        else if (state.equals("WALK")) path += "/Walk";
+        else if (state.equals("IDLE")) path += "/Idle";
+        else path += "/Death";
+//        if (!state.equals("RELOADING")) {
+//            path += weapon + "/";
+//        }
+        if (weapon.equals("NORMAL")) path += "/Normal";
+        else if (weapon.equals("SPEAR")) path += "/Spear/vfx";
+        else path += "/Gun";
+
+        path += "/" + direction + "/1-sheet.png";
+
+        BufferedImage image = loadBufferedImage(path);
+        System.out.println(path);
+
+        image = HelpMethods.scaleImage(image, Constants.Screen.SCALE);
+
+        if (image == null) return null;
+        return image.getSubimage(width * numAnimationFrame, 0, width, height);  // Trả về ảnh từ bộ nhớ
+
+    }
+
 
     public BufferedImage getGuiImage(String name) {
         String key = "GUI_" + name;
@@ -125,6 +165,14 @@ public class ImageManager {
     public BufferedImage getObjectImage(String key, int numAnimationFrame, int width, int height) {
         key = key.toUpperCase();
         System.out.println(key);
+        return objectImages.get(key).getSubimage(width * numAnimationFrame, 0, width, height);
+    }
+
+    public BufferedImage getObjectImage(String key, int numAnimationFrame, int totalAnimationFrame) {
+        key = key.toUpperCase();
+        System.out.println(key);
+        BufferedImage image = objectImages.get(key);
+        int width = image.getWidth() / totalAnimationFrame, height = image.getHeight();
         return objectImages.get(key).getSubimage(width * numAnimationFrame, 0, width, height);
     }
 }

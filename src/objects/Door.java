@@ -11,14 +11,15 @@ public class Door {
     public RenderComponent render;
     public HitboxComponent hitbox;
     public boolean isOpen;
-    public Door(String name, int worldX, int worldY, int width, int height) {
+    public Door(String name, int worldX, int worldY,
+                int renderWidth, int renderHeight,
+                int hitboxWidth, int hitboxHeight) {
         this.name = "Object_Door_" + name;
         position = new PositionComponent(worldX, worldY);
-        render = new RenderComponent(width, height);
-        hitbox = new HitboxComponent(width, height);
+        render = new RenderComponent(renderWidth, renderHeight);
+        hitbox = new HitboxComponent(hitboxWidth, hitboxHeight);
         animation = new AnimationComponent(8, 10);
         isOpen = false;
-//        animation.numAnimationFrame = animation.totalAnimationFrame;
     }
 
 }
