@@ -79,6 +79,7 @@ public class Pause extends State implements Statemethods {
                     currentPanel = mainPanel;
                     commandIndex = 0;
                     Gamestate.state = Gamestate.PLAYING;
+                    game.getSettings().saveSettings();
                 } else if (KeyboardInputs.isPressedValid("left", keyboardInputs.leftPressed)) {
                     if (currentVolume >= 10 && commandIndex == 0) {
                         currentVolume -= 10;
@@ -99,8 +100,6 @@ public class Pause extends State implements Statemethods {
                             break;
                     }
                 }
-
-
         }
 
     }

@@ -21,7 +21,6 @@ public class TileSet {
 
     private BufferedImage tileSetSprite;
 
-    HashMap<Integer , Rectangle> objects = new HashMap<>();
 
 
     public TileSet(int firstID , int lastID , int tileWidth ,
@@ -51,7 +50,6 @@ public class TileSet {
         this.numRows = numRows;
         this.numCols = numCols;
         this.numTiles = lastID - firstID + 1;
-        this.objects = objects;
         this.imgPath = imgPath;
 
         loadTileSheet(imgPath);

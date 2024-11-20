@@ -2,6 +2,7 @@ package main;
 
 import java.awt.*;
 
+import data.SaveLoad;
 import gamestates.*;
 import gamestates.Menu;
 import inputs.KeyboardInputs;
@@ -22,6 +23,10 @@ public class Game implements Runnable {
     private Pause pause;
     private UI ui;
 
+    private SaveLoad settings = new SaveLoad(this);
+    public SaveLoad getSettings() {
+        return settings;
+    }
     public CollisionChecker getCollisionChecker() {
         return collisionChecker;
     }
@@ -50,6 +55,7 @@ public class Game implements Runnable {
     public Game() {
 
         initClasses();
+        settings.loadSettings();
         ui = new UI(this);
         imageManager = ImageManager.getInstance();
         gamePanel = new GamePanel(this);

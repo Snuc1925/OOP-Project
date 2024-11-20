@@ -26,6 +26,4 @@ public class DataStorage implements Serializable {
     int[] npcWorldX;
     int[] npcWorldY;
 
-
-
 }

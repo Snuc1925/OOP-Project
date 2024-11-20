@@ -5,10 +5,7 @@ import effect.CameraShake;
 import enitystates.EntityState;
 import entities.*;
 import entities.monsters.*;
-import entities.monsters.bosses.Boss;
-import entities.monsters.bosses.BringerOfDeath;
-import entities.monsters.bosses.Demon;
-import entities.monsters.bosses.Samurai;
+import entities.monsters.bosses.*;
 import entities.projectile.ProjectileManager;
 import inputs.KeyboardInputs;
 import main.Game;
@@ -101,7 +98,7 @@ public class Playing extends State implements Statemethods {
         currentMap.buildTileManager(tileManager);
 
         monsters = new Monster[3];
-        monsters[0] = new Demon(this, 3 * TILE_SIZE, TILE_SIZE);
+        monsters[0] = new SkeletonReaper(this, 3 * TILE_SIZE, TILE_SIZE);
         monsters[1] = new Samurai(this, 34 * TILE_SIZE, 4 * TILE_SIZE);
         monsters[2] = new BringerOfDeath(this, 36 * TILE_SIZE, 40 * TILE_SIZE);
         npcArray = new Npc[1];
@@ -189,7 +186,8 @@ public class Playing extends State implements Statemethods {
 
 
         for (Monster monster : monsters) {
-            if (monster instanceof Demon || monster instanceof BringerOfDeath || monster instanceof Samurai) {
+            if (monster instanceof Demon || monster instanceof BringerOfDeath || monster instanceof Samurai ||
+                monster instanceof SkeletonReaper) {
                 Boss boss = (Boss) monster;
                 boss.drawBossIntro(g2);
             }

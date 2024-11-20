@@ -10,13 +10,48 @@ import gamestates.Playing;
 
 import java.io.*;
 import entities.Player;
+import main.Game;
 
 import static java.lang.Math.min;
 
 public class SaveLoad {
     Playing playing;
+    Game game;
+
     public SaveLoad(Playing playing) {
         this.playing = playing;
+    }
+    public SaveLoad(Game game) {
+        this.game = game;
+    }
+    public void saveSettings() {
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(new File("settings.dat")));
+
+            // Store data
+            Settings settings = new Settings();
+            settings.volume = game.getPause().currentVolume;
+            settings.isSoundtrackOn = game.getPause().isSoundtrackOn;
+            settings.isSoundEffectOn = game.getPause().isSoundEffectOn;
+
+            oos.writeObject(settings);
+        } catch (IOException e) {
+            System.out.println("Failed to save settings!");
+        }
+    }
+    public void loadSettings() {
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("settings.dat")));
+
+            // Load data
+            Settings settings = (Settings) ois.readObject();
+
+            game.getPause().currentVolume = settings.volume;
+            game.getPause().isSoundtrackOn = settings.isSoundtrackOn;
+            game.getPause().isSoundEffectOn = settings.isSoundEffectOn;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
     public void saveGame()  {
         try {

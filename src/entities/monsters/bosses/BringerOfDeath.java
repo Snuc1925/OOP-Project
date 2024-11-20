@@ -59,7 +59,6 @@ public class BringerOfDeath extends Boss {
                 image = walk.getImage();
                 break;
             case ATTACK:
-
                 if (currentAttackType.equals("CAST")) {
                     castAttack();
                     image = castAttack.getImage();
@@ -85,7 +84,7 @@ public class BringerOfDeath extends Boss {
         frameCounter++;
         getDirectionForAttacking();
         int totalFrame = normalAttack.totalAnimationFrames * normalAttack.frameDuration;
-        if (frameCounter == 5 * normalAttack.frameDuration && player.dash == null) {
+        if (frameCounter == 5 * normalAttack.frameDuration) {
             if (canAttack(false))
                 player.getHurt(attackPoints);
         }
