@@ -25,7 +25,7 @@ public class CollisionChecker {
 
     int entityLeftWorldX;
     int entityRightWorldX, entityTopWorldY, entityBottomWorldY, entityLeftCol, entityRightCol, entityTopRow, entityBottomRow;
-    public void checkTile(Sprite entity) {
+    public boolean checkTile(Sprite entity) {
         entity.goAlongDirection();
         tileManager = entity.getPlaying().getTileManager();
         entityLeftWorldX = entity.worldX + entity.solidArea.x;
@@ -104,70 +104,9 @@ public class CollisionChecker {
         entity.solidArea.y = entity.solidAreaDefaultY;
         entity.goOppositeDirection();
 
+        return entity.collisionOn;
 
     }
-
-//    public int checkObject(Sprite entity, boolean player) {
-//        int index = 999;
-//        for (int i = 0; i < gp.superObject.length; i++) {
-//            if (gp.superObject[i] != null) {
-//
-//                // Get entity solid area position
-//                entity.solidArea.x = entity.worldX + entity.solidArea.x;
-//                entity.solidArea.y = entity.worldY + entity.solidArea.y;
-//                // Get the object solid area position
-//                gp.superObject[i].solidArea.x = gp.superObject[i].solidArea.x + gp.superObject[i].worldX;
-//                gp.superObject[i].solidArea.y = gp.superObject[i].solidArea.y + gp.superObject[i].worldY;
-//
-//                switch (entity.direction) {
-//                    case "up":
-//                        entity.solidArea.y -= entity.speed;
-//                        break;
-//                    case "down":
-//                        entity.solidArea.y += entity.speed;
-//
-//                        break;
-//                    case "left":
-//                        entity.solidArea.x -= entity.speed;
-//
-//                        break;
-//                    case "right":
-//                        entity.solidArea.x += entity.speed;
-//                        break;
-//                    case "left_up":
-//                        entity.solidArea.x -= entity.speed;
-//                        entity.solidArea.y -= entity.speed;
-//                        break;
-//                    case "right_up":
-//                        entity.solidArea.x += entity.speed;
-//                        entity.solidArea.y -= entity.speed;
-//                        break;
-//                    case "left_down":
-//                        entity.solidArea.x -= entity.speed;
-//                        entity.solidArea.y += entity.speed;
-//                        break;
-//                    case "right_down":
-//                        entity.solidArea.x += entity.speed;
-//                        entity.solidArea.y += entity.speed;
-//                        break;
-//                }
-//                if (entity.solidArea.intersects(gp.superObject[i].solidArea)){
-//                    if (gp.superObject[i].collision)
-//                        entity.collisionOn = true;
-//                    if (player) {
-//                        index = i;
-//                    }
-//                }
-//
-//                gp.superObject[i].solidArea.x = gp.superObject[i].solidAreaDefaultX;
-//                gp.superObject[i].solidArea.y = gp.superObject[i].solidAreaDefaultY;
-//            }
-//            entity.solidArea.x = entity.solidAreaDefaultX;
-//            entity.solidArea.y = entity.solidAreaDefaultY;
-//        }
-//
-//        return index;
-//    }
 
     // NPC and monster collision
     public int checkEntity(Sprite entity, ArrayList<Sprite> entityArrayList) {

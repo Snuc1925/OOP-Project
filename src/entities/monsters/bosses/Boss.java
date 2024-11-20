@@ -45,6 +45,20 @@ public abstract class Boss extends Monster {
         if (imageX == 0) imageX = SCREEN_WIDTH - bossImage.getWidth() + TILE_SIZE * 9;
         if (imageY == 0) imageY = SCREEN_HEIGHT / 2 - bossImage.getHeight() / 2 - TILE_SIZE  * 2;
     }
+
+    Rectangle rect = new Rectangle(SCREEN_WIDTH / 2 - TILE_SIZE * 3, 0,
+            TILE_SIZE * 6, TILE_SIZE / 2);
+    public void drawBossHealthBar(Graphics2D g2, int yDiff) {
+        g2.setStroke(new BasicStroke(3));
+        g2.setColor(Color.BLACK);
+        g2.drawRect(SCREEN_WIDTH / 2 - TILE_SIZE * 3, yDiff,
+                TILE_SIZE * 6, TILE_SIZE / 2);
+        g2.setColor(Color.BLACK);
+        g2.fillRect(rect.x + 3, rect.y + 3 + yDiff, rect.width - 6, rect.height - 6);
+        g2.setColor(Color.RED);
+        if (currentHealth > 0)
+            g2.fillRect(rect.x + 3, rect.y + 3 + yDiff, (int) ((rect.width - 6) * (1.0f * currentHealth / maxHealth)), rect.height - 6);
+    }
     public void bossIntro(Graphics2D g2, String bossName, BufferedImage bossImage) {
         if (isFirstTime) {
             if (canSeePlayer()) {
@@ -53,9 +67,11 @@ public abstract class Boss extends Monster {
             }
         }
 
-        if (isBossIntroDrew) return;
-
-
+        if (isBossIntroDrew) {
+            if (isOnTheScreen() && currentState != EntityState.DEATH  && !isFirstTime)
+                drawBossHealthBar(g2, TILE_SIZE);
+            return;
+        }
         initializeBossIntro(g2, bossName, bossImage);
         frameCnt++;
         if (frameCnt <= 30) {
@@ -97,6 +113,9 @@ public abstract class Boss extends Monster {
                     SCREEN_WIDTH, rectangleHeight);
         } else if (frameCnt <= 240) {
             rectangleMoveOut(30, g2);
+        } else if (frameCnt <= 270) {
+            double easeProgress = easeInOut((frameCnt - 240) / 30f);
+            drawBossHealthBar(g2, (int) (easeProgress * TILE_SIZE));
         }
         else {
             isBossIntroDrew = true;
@@ -171,22 +190,34 @@ public abstract class Boss extends Monster {
         if (cnt6 >= duration) cnt6 = 0;
     }
 
+    public double easeInOut(float t) {
+        if (t < 0.5) {
+            return 2 * Math.pow(t, 2);
+        } else {
+            return 1 - 2 * Math.pow(1 - t, 2);
+        }
+    }
+
     int cnt1 = 0;
     public void textAnimationMoveLeft(Graphics2D g2, int duration, int x, int y, int imageX, int imageY,
                                       int xStartText, int xStartImage) {
         String text = bossName;
         cnt1++;
         int distance = xStartText - x;
-        int diff = distance / duration;
+
+        float t = (float) cnt1 / duration; // Normalize time (0 to 1)
+        double easedProgress = easeInOut(t); // Use the desired easing function
+        int currentX = (int) (xStartText + easedProgress * (x - xStartText)); // Compute position
+
         g2.setFont(playing.getGame().getUI().maruMonica);
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, textSize));
         g2.setColor(Color.GRAY);
-        g2.drawString(text, xStartText - diff * cnt1 + 5, y + 3);
+        g2.drawString(text, currentX + 5, y + 3);
         g2.setColor(Color.WHITE);
-        g2.drawString(text, xStartText - diff * cnt1, y);
+        g2.drawString(text, currentX, y);
 
         distance = xStartImage - imageX;
-        diff = distance / duration;
+        int diff = distance / duration;
         g2.drawImage(bossImage, xStartImage - cnt1 * diff, imageY, null);
 
         if (cnt1 >= duration) cnt1 = 0;

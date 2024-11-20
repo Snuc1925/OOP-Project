@@ -15,6 +15,8 @@ import entities.npc.WhiteSamurai;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Objects;
+
 import map.GameMap;
 import map.MapManager;
 import map.MapParser;
@@ -97,10 +99,10 @@ public class Playing extends State implements Statemethods {
         currentMap = MapManager.getGameMap("level1");
         currentMap.buildTileManager(tileManager);
 
-        monsters = new Monster[3];
-        monsters[0] = new SkeletonReaper(this, 2*  TILE_SIZE, TILE_SIZE);
-        monsters[1] = new Samurai(this, 34 * TILE_SIZE, 4 * TILE_SIZE);
-        monsters[2] = new BringerOfDeath(this, 36 * TILE_SIZE, 40 * TILE_SIZE);
+        monsters = new Monster[6];
+        monsters[0] = new SkeletonReaper(this, 26 *  TILE_SIZE, 19 * TILE_SIZE);
+        monsters[1] = new Sickle(this, 34 * TILE_SIZE, 4 * TILE_SIZE);
+        monsters[2] = new Mage(this, 36 * TILE_SIZE, 40 * TILE_SIZE);
         npcArray = new Npc[1];
         npcArray[0] = new WhiteSamurai(this, 13 * TILE_SIZE, 5 * TILE_SIZE);
 
@@ -136,6 +138,13 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void update() {
+        for (int i = 0; i < entityArray.length; i++)
+            if (entityArray[i] != null){
+                if (entityArray[i].image == null && entityArray[i].currentState == EntityState.DEATH) {
+                    entityArray[i] = null;
+                }
+            }
+
         // NPC talk, other entity stop update
         if (npcTalking != null) {
             npcTalking.update();
@@ -174,11 +183,17 @@ public class Playing extends State implements Statemethods {
 //        collectibleSystem.draw(g2);
 //        doorSystem.draw(g2);
 
-        entityList.sort(Comparator.comparingDouble(Entity::getRenderOrder));
-        for (Sprite entity : entityList) if (entity.isOnTheScreen()){
-            entity.draw(g2);
-//            currentMap.render2(g2, entity, player);
-        }
+        entityList.removeIf(Objects::isNull);
+        entityList.removeIf(entity -> entity.image == null && entity.currentState == EntityState.DEATH);
+        entityList.stream()
+                .sorted(Comparator.comparingDouble(Entity::getRenderOrder))
+                .forEach(entity -> {
+                    if (entity.isOnTheScreen() && entity.image != null) {
+                        entity.draw(g2);
+                        // currentMap.render2(g2, entity, player);
+                    }
+                });
+
 
         game.getUI().drawPlayerUI(g2);
 

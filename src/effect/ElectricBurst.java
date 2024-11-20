@@ -1,6 +1,5 @@
 package effect;
 
-import entities.Player;
 import entities.monsters.Monster;
 import entities.monsters.bosses.SkeletonReaper;
 
@@ -33,7 +32,6 @@ public class ElectricBurst extends EffectMethod{
 
     public void update() {
         frameCounter++;
-        System.out.println(numAnimationFrames);
         if (frameCounter >= frameDuration * totalAnimationFrames) {
             removeEffect(index);
             return;

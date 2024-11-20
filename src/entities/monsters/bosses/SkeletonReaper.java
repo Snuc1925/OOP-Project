@@ -3,6 +3,7 @@ package entities.monsters.bosses;
 import effect.Brushed;
 import effect.ElectricBurst;
 import effect.Explosion;
+import effect.Portal;
 import enitystates.*;
 import gamestates.Playing;
 import entities.Player;
@@ -16,11 +17,14 @@ import static utils.Constants.Screen.*;
 public class SkeletonReaper extends Boss {
     Attack normalAttack, castAttack;
     Brushed brushed;
-    public ElectricBurst electricBurst = null;
+    Portal[] portals;
+    ElectricBurst electricBurst = null;
 
     public SkeletonReaper(Playing playing, int worldX, int worldY) {
         super("SkeletonReaper", playing, 11 * TILE_SIZE + TILE_SIZE / 2, 5 * TILE_SIZE);
 
+        this.worldX = worldX;
+        this.worldY = worldY;
         solidArea = new Rectangle(5 * TILE_SIZE, 3 * TILE_SIZE + TILE_SIZE / 2, TILE_SIZE, 3 * TILE_SIZE / 2);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
@@ -42,6 +46,7 @@ public class SkeletonReaper extends Boss {
         attack = normalAttack;
 
         brushed = new Brushed(this, worldX + 58 * SCALE, worldY + 62 * SCALE);
+        portals = new Portal[3];
     }
 
     @Override
@@ -52,6 +57,7 @@ public class SkeletonReaper extends Boss {
         }
     }
 
+    boolean isSummoned = false;
     private void castAttack() {
         Player player = playing.getPlayer();
         frameCounter++;
@@ -59,6 +65,12 @@ public class SkeletonReaper extends Boss {
         int totalFrame = castAttack.totalAnimationFrames * castAttack.frameDuration;
         if (frameCounter == totalFrame) {
             frameCounter = 0;
+            if (currentHealth < 3 * maxHealth / 4 && attack1Counter % 10 == 0 && !isSummoned) {
+                isSummoned = true;
+                portals[0] = new Portal(this, getWorldX() - TILE_SIZE * 2, getWorldY(), 0);
+                portals[1] = new Portal(this, getWorldX() + TILE_SIZE * 2, getWorldY(), 1);
+                portals[2] = new Portal(this, getWorldX(), getWorldY() + TILE_SIZE * 2, 2);
+            }
             if (electricBurst == null)
                 electricBurst = new ElectricBurst(this, player.getWorldX(), player.getWorldY(), 0);
             attack = normalAttack;
@@ -66,7 +78,7 @@ public class SkeletonReaper extends Boss {
         }
     }
 
-    int frameCounter = 0, attack1Counter = 0;
+    int frameCounter = 0, attack1Counter = 0, numAttackToCast = 2;
     private void normalAttack() {
         Player player = playing.getPlayer();
         frameCounter++;
@@ -78,9 +90,8 @@ public class SkeletonReaper extends Boss {
         }
         if (frameCounter == totalFrame) {
             attack1Counter++;
-            if (attack1Counter == 3) {
+            if (attack1Counter % numAttackToCast == 0) {
                 attack = castAttack;
-                attack1Counter = 0;
             }
             currentState = EntityState.IDLE;
             frameCounter = 0;
@@ -109,6 +120,9 @@ public class SkeletonReaper extends Boss {
         super.update();
 
         if (electricBurst != null) electricBurst.update();
+        for (Portal portal : portals)
+            if (portal != null) portal.update();
+
     }
 
     @Override
@@ -125,6 +139,8 @@ public class SkeletonReaper extends Boss {
         }
 
         if (electricBurst != null) electricBurst.draw(g2);
+        for (Portal portal : portals)
+            if (portal != null) portal.draw(g2);
 
     }
 
@@ -142,5 +158,8 @@ public class SkeletonReaper extends Boss {
 
     public void removeElectricBurst(int index) {
         electricBurst = null;
+    }
+    public void removePortal(int index) {
+        portals[index] = null;
     }
 }
