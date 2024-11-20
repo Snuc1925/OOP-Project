@@ -1,6 +1,8 @@
 package entities.monsters.bosses;
 
 import effect.Brushed;
+import effect.ElectricBurst;
+import effect.Explosion;
 import enitystates.*;
 import gamestates.Playing;
 import entities.Player;
@@ -13,8 +15,8 @@ import static utils.Constants.Screen.*;
 
 public class SkeletonReaper extends Boss {
     Attack normalAttack, castAttack;
-    String currentAttackType = "NORMAL";
     Brushed brushed;
+    public ElectricBurst electricBurst = null;
 
     public SkeletonReaper(Playing playing, int worldX, int worldY) {
         super("SkeletonReaper", playing, 11 * TILE_SIZE + TILE_SIZE / 2, 5 * TILE_SIZE);
@@ -51,11 +53,20 @@ public class SkeletonReaper extends Boss {
     }
 
     private void castAttack() {
-
+        Player player = playing.getPlayer();
+        frameCounter++;
+        getDirectionForAttacking();
+        int totalFrame = castAttack.totalAnimationFrames * castAttack.frameDuration;
+        if (frameCounter == totalFrame) {
+            frameCounter = 0;
+            if (electricBurst == null)
+                electricBurst = new ElectricBurst(this, player.getWorldX(), player.getWorldY(), 0);
+            attack = normalAttack;
+            currentState = EntityState.IDLE;
+        }
     }
 
-
-    int frameCounter = 0;
+    int frameCounter = 0, attack1Counter = 0;
     private void normalAttack() {
         Player player = playing.getPlayer();
         frameCounter++;
@@ -66,6 +77,11 @@ public class SkeletonReaper extends Boss {
                 player.getHurt(attackPoints);
         }
         if (frameCounter == totalFrame) {
+            attack1Counter++;
+            if (attack1Counter == 3) {
+                attack = castAttack;
+                attack1Counter = 0;
+            }
             currentState = EntityState.IDLE;
             frameCounter = 0;
         }
@@ -91,6 +107,8 @@ public class SkeletonReaper extends Boss {
     public void update() {
         brushed.update();
         super.update();
+
+        if (electricBurst != null) electricBurst.update();
     }
 
     @Override
@@ -106,6 +124,8 @@ public class SkeletonReaper extends Boss {
             g2.fillRect(getScreenX() + 5 * TILE_SIZE - 5, getScreenY() + TILE_SIZE, healthBarWidth, 4 * 3);
         }
 
+        if (electricBurst != null) electricBurst.draw(g2);
+
     }
 
     @Override
@@ -120,4 +140,7 @@ public class SkeletonReaper extends Boss {
         bossIntro(g2, "The Reaper", bossImage);
     }
 
+    public void removeElectricBurst(int index) {
+        electricBurst = null;
+    }
 }

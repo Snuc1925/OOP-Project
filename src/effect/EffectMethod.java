@@ -41,8 +41,7 @@ public abstract class EffectMethod {
         effectRect = new Rectangle(worldX - width / 2, worldY - height / 2, width, height);
     }
 
-    public BufferedImage getImage(int scaleFactor) {
-        frameCounter++;
+    public BufferedImage getImage(float scaleFactor) {
         if (frameCounter % frameDuration == 0) {
             numAnimationFrames = (numAnimationFrames + 1) % totalAnimationFrames;
         }
@@ -52,7 +51,7 @@ public abstract class EffectMethod {
         image = HelpMethods.scaleImage(image, scaleFactor);
         return image;
     }
-    public void draw(Graphics2D g2, int scaleFactor) {
+    public void draw(Graphics2D g2, float scaleFactor) {
         int screenX = HelpMethods.getScreenX(worldX, player);
         int screenY = HelpMethods.getScreenY(worldY, player);
         BufferedImage image = getImage(scaleFactor);
@@ -65,22 +64,29 @@ public abstract class EffectMethod {
 
     // Decrease player's health when keyFrame is on the screen
     public void update(int keyFrame, boolean needScreenShake) {
+        frameCounter++;
+        if (frameCounter > frameDuration * totalAnimationFrames) {
+            removeEffect(index);
+            return;
+        }
         if (frameCounter == keyFrame * frameDuration) {
             if (needScreenShake) player.getPlaying().cameraShake.startShake();
 
-            player.solidArea.x += player.worldX;
-            player.solidArea.y += player.worldY;
-            if (player.solidArea.intersects(effectRect)) {
-                player.getHurt(entity.attackPoints);
-            }
-            player.solidArea.x = player.solidAreaDefaultX;
-            player.solidArea.y = player.solidAreaDefaultY;
-        }
-        if (frameCounter > frameDuration * totalAnimationFrames) {
-            removeEffect(index);
+            if (isIntersect()) player.getHurt(entity.attackPoints);
         }
     }
 
     public abstract void removeEffect(int index);
 
+    public boolean isIntersect() {
+        boolean result = false;
+        player.solidArea.x += player.worldX;
+        player.solidArea.y += player.worldY;
+        if (player.solidArea.intersects(effectRect)) {
+            result = true;
+        }
+        player.solidArea.x = player.solidAreaDefaultX;
+        player.solidArea.y = player.solidAreaDefaultY;
+        return result;
+    }
 }

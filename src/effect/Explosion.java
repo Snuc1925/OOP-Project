@@ -1,5 +1,6 @@
 package effect;
 
+import entities.monsters.Monster;
 import entities.monsters.bosses.Demon;
 
 import java.awt.*;
@@ -7,8 +8,8 @@ import java.awt.*;
 import static utils.Constants.Screen.TILE_SIZE;
 
 public class Explosion extends EffectMethod{
-    Demon demon;
-    public Explosion(Demon demon, int worldX, int worldY, int index) {
+    Monster demon;
+    public Explosion(Monster demon, int worldX, int worldY, int index) {
         super("Explosion", 12, demon, demon.getPlaying().getPlayer(), worldX, worldY,
                 8 * TILE_SIZE, 8 * TILE_SIZE, index);
         this.demon = demon;

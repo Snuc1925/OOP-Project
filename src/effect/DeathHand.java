@@ -1,5 +1,6 @@
 package effect;
 
+import entities.monsters.Monster;
 import entities.monsters.bosses.BringerOfDeath;
 
 import java.awt.*;
@@ -7,8 +8,8 @@ import java.awt.*;
 import static utils.Constants.Screen.TILE_SIZE;
 
 public class DeathHand extends EffectMethod {
-    BringerOfDeath bringerOfDeath;
-    public DeathHand(BringerOfDeath bringerOfDeath, int worldX, int worldY, int index) {
+    Monster bringerOfDeath;
+    public DeathHand(Monster bringerOfDeath, int worldX, int worldY, int index) {
         super("DeathHand",15,  bringerOfDeath, bringerOfDeath.getPlaying().getPlayer(), worldX, worldY,
                 4 * TILE_SIZE, 4 * TILE_SIZE, index);
 

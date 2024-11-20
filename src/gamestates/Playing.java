@@ -63,7 +63,7 @@ public class Playing extends State implements Statemethods {
     SaveLoad saveLoad = new SaveLoad(this);
 
     // Level
-    public String currentLevel = "level1";
+    public String currentLevel = "level3";
 
     public Sound soundtrack;
 
@@ -98,7 +98,7 @@ public class Playing extends State implements Statemethods {
         currentMap.buildTileManager(tileManager);
 
         monsters = new Monster[3];
-        monsters[0] = new SkeletonReaper(this, 3 * TILE_SIZE, TILE_SIZE);
+        monsters[0] = new SkeletonReaper(this, 2*  TILE_SIZE, TILE_SIZE);
         monsters[1] = new Samurai(this, 34 * TILE_SIZE, 4 * TILE_SIZE);
         monsters[2] = new BringerOfDeath(this, 36 * TILE_SIZE, 40 * TILE_SIZE);
         npcArray = new Npc[1];

@@ -23,6 +23,7 @@ public class Brushed extends EffectMethod{
     }
 
     public void update() {
+        frameCounter++;
         this.worldX = skeletonReaper.worldX + 58 * SCALE;
         this.worldY = skeletonReaper.worldY + 62 * SCALE;
         effectRect.x = worldX;

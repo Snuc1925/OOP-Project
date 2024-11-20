@@ -1,5 +1,6 @@
 package entities.monsters.bosses;
 
+import enitystates.EntityState;
 import entities.monsters.Monster;
 import gamestates.Playing;
 import utils.HelpMethods;
@@ -14,6 +15,12 @@ import static utils.Constants.Screen.SCREEN_WIDTH;
 public abstract class Boss extends Monster {
     public Boss(String name, Playing playing, int width, int height) {
         super(name, playing, width, height);
+    }
+
+    @Override
+    public void update() {
+        if (!isBossIntroDrew) currentState = EntityState.IDLE;
+        super.update();
     }
 
     // Boss intro attributes
@@ -47,6 +54,7 @@ public abstract class Boss extends Monster {
         }
 
         if (isBossIntroDrew) return;
+
 
         initializeBossIntro(g2, bossName, bossImage);
         frameCnt++;

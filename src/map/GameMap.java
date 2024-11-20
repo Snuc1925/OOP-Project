@@ -1,6 +1,5 @@
 package map;
 
-import entities.Sprite;
 import tile.TileLayer;
 import tile.TileManager;
 import tile.TileSet;
@@ -10,9 +9,6 @@ import java.util.ArrayList;
 
 import entities.Player;
 
-import static java.lang.Math.min;
-import static utils.Constants.Player.PLAYER_SCREEN_X;
-import static utils.Constants.Player.PLAYER_SCREEN_Y;
 import static utils.Constants.Screen.*;
 
 public class GameMap {
@@ -34,7 +30,7 @@ public class GameMap {
 
     public void render(Graphics2D g2, Player player)
     {
-        for (int i = 0; i < map.size(); i++) {
+        for (int i = 0; i < map.size() - 1; i++) {
             TileLayer layer = map.get(i);
             layer.render(g2, player);
 
@@ -64,7 +60,7 @@ public class GameMap {
 //    }
 
     public void buildTileManager(TileManager tileManager) {
-        TileLayer layer = map.get(1);
+        TileLayer layer = map.getLast();
         for (int i = 0; i < MAX_WORLD_ROW; i++)
             for (int j = 0; j < MAX_WORLD_COL; j++) {
                 if (layer.getTileData(i, j) != 0) {
