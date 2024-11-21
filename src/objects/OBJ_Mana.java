@@ -7,7 +7,7 @@ import static utils.Constants.Screen.TILE_SIZE;
 public class OBJ_Mana extends Collectible {
 
     public OBJ_Mana(String name, int worldX, int worldY, int itemValue) {
-        this.name = super.name + "_" + name;
+        this.name = super.name + "/" + name;
         position = new PositionComponent(worldX, worldY);
         render = new RenderComponent(TILE_SIZE, TILE_SIZE * 2);
         hitbox = new HitboxComponent(TILE_SIZE / 2, TILE_SIZE / 2);

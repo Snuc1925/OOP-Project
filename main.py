@@ -1,30 +1,24 @@
 import os
 from PIL import Image
 
-# Hàm tính bộ nhớ của một ảnh
-def calculate_image_memory(image_path):
-    with Image.open(image_path) as img:
-        width, height = img.size
-        bit_depth = 32  # Giả sử ảnh có 32 bits (4 bytes) mỗi pixel (ARGB hoặc RGB)
-        memory_usage = width * height * (bit_depth // 8)  # Bytes
-        return memory_usage
+def check_bit_depth(file_path):
+    """Kiểm tra độ sâu màu của file PNG."""
+    try:
+        with Image.open(file_path) as img:
+            if img.mode == "RGB":  # 32 bit
+                return True
+    except Exception as e:
+        print(f"Không thể mở file {file_path}: {e}")
+    return False
 
-# Hàm duyệt qua tất cả các thư mục và tệp trong thư mục res
-def calculate_total_memory(res_dir):
-    total_memory = 0
-    for root, dirs, files in os.walk(res_dir):  # Duyệt đệ quy qua các thư mục con
+def find_png_with_bit_depth(folder):
+    """Duyệt qua thư mục và in các file PNG có bit depth = 32."""
+    for root, dirs, files in os.walk(folder):
         for file in files:
-            # Kiểm tra tệp có phải là ảnh không
-            if file.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif', '.tiff')):
-                image_path = os.path.join(root, file)
-                total_memory += calculate_image_memory(image_path)
-    return total_memory
+            if file.lower().endswith(".png"):
+                file_path = os.path.join(root, file)
+                if check_bit_depth(file_path):
+                    print(f"File PNG với bit depth 32: {file_path}")
 
-# Thư mục res
-res_dir = 'res'
-
-# Tính tổng bộ nhớ cho tất cả các ảnh trong thư mục res
-total_memory = calculate_total_memory(res_dir)
-
-# In kết quả
-print(f'Total memory usage for images in RAM: {total_memory / (1024 * 1024):.2f} MB')
+# Thay 'your_folder_path' bằng đường dẫn tới thư mục cần duyệt.
+find_png_with_bit_depth("res")

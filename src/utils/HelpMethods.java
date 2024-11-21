@@ -77,10 +77,13 @@ public class HelpMethods {
         int height = (int) (inputImage.getHeight() * scaleFactor);
 
         BufferedImage scaledImage = new BufferedImage(width, height, inputImage.getType());
-        Graphics2D g = scaledImage.createGraphics();
-        AffineTransform at = AffineTransform.getScaleInstance(scaleFactor, scaleFactor);
-        g.drawRenderedImage(inputImage, at);
-        g.dispose();
+        Graphics2D g2d = scaledImage.createGraphics();
+//        AffineTransform at = AffineTransform.getScaleInstance(scaleFactor, scaleFactor);
+//        g.drawRenderedImage(inputImage, at);
+//        g.dispose();
+
+        g2d.drawImage(inputImage, 0, 0, width, height, null);
+        g2d.dispose();
 
         return scaledImage;
     }

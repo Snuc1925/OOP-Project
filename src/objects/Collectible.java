@@ -12,7 +12,7 @@ public class Collectible {
     public AnimationComponent animation;
 
     public Collectible() {
-        this.name = "OBJECT";
+        this.name = "object";
     }
 
     public void update() {}

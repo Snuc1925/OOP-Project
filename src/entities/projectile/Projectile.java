@@ -82,7 +82,7 @@ public class Projectile extends Sprite {
                 numAnimationFrame -= totalAnimationFrame;
             }
         }
-        image = playing.getImageManager().getProjectileImage(name, state, direction, numAnimationFrame);
+        image = playing.getImageManager().getProjectileImage(name, state, direction, numAnimationFrame, totalAnimationFrame);
     }
 
     private void updatePosition() {
