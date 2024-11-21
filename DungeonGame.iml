@@ -11,5 +11,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="jackson-core-2.9.9" level="project" />
     <orderEntry type="library" name="jackson-databind-2.17.0" level="project" />
+    <orderEntry type="library" name="google.code.gson" level="project" />
   </component>
 </module>

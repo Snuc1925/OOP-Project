@@ -6,10 +6,11 @@ import gamestates.Playing;
 import utils.HelpMethods;
 
 import java.awt.*;
+import java.io.Serializable;
 
 import static enitystates.EntityState.*;
 
-public class Sprite extends Entity{
+public class Sprite extends Entity {
     public int speed;
     public String direction = "down";
     public boolean isIdling = true;
@@ -153,5 +154,8 @@ public class Sprite extends Entity{
         else if (angle >= -157 && angle < -112) direction = "left_up";
         else if (angle >= -112 && angle < -67) direction = "up";
         else direction = "right_up";
+    }
+
+    public void removeDash() {
     }
 }

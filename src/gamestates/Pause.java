@@ -9,6 +9,8 @@ import java.awt.*;
 public class Pause extends State implements Statemethods {
     Playing playing;
     public int commandIndex = 0;
+
+    // Sound properties, need to be linked with other classes in the future
     public int currentVolume = 100, maxVolume = 100;
     public boolean isSoundEffectOn = true;
     public boolean isSoundtrackOn = true;
@@ -55,7 +57,14 @@ public class Pause extends State implements Statemethods {
                     commandIndex = 0;
                 }
                 break;
-            case controlPanel, savePanel:
+            case controlPanel:
+                if (KeyboardInputs.isPressedValid("pause", keyboardInputs.pausePressed)) {
+                    currentPanel = mainPanel;
+                    Gamestate.state = Gamestate.PLAYING;
+                }
+                break;
+            case savePanel:
+                playing.saveLoad.saveGame();
                 if (KeyboardInputs.isPressedValid("pause", keyboardInputs.pausePressed)) {
                     currentPanel = mainPanel;
                     Gamestate.state = Gamestate.PLAYING;
@@ -64,35 +73,33 @@ public class Pause extends State implements Statemethods {
             case volumeControlPanel:
                 if (KeyboardInputs.isPressedValid("up", keyboardInputs.upPressed)) {
                     if (commandIndex > 0) commandIndex--;
-                }
-                else if (KeyboardInputs.isPressedValid("down", keyboardInputs.downPressed)) {
+                } else if (KeyboardInputs.isPressedValid("down", keyboardInputs.downPressed)) {
                     if (commandIndex < 2) commandIndex++;
-                }
-                else if (KeyboardInputs.isPressedValid("pause", keyboardInputs.pausePressed)) {
+                } else if (KeyboardInputs.isPressedValid("pause", keyboardInputs.pausePressed)) {
                     currentPanel = mainPanel;
                     commandIndex = 0;
                     Gamestate.state = Gamestate.PLAYING;
-                }
-                else if (KeyboardInputs.isPressedValid("left", keyboardInputs.leftPressed)) {
-                    if (currentVolume >= 20 && commandIndex == 0)
-                        currentVolume -= 20;
-                }
-                else if (KeyboardInputs.isPressedValid("right", keyboardInputs.rightPressed)) {
-                    if (currentVolume <= 80 && commandIndex == 0)
-                        currentVolume += 20;
-                }
-                else if (KeyboardInputs.isPressedValid("enter", keyboardInputs.enterPressed)) {
+                    game.getSettings().saveSettings();
+                } else if (KeyboardInputs.isPressedValid("left", keyboardInputs.leftPressed)) {
+                    if (currentVolume >= 10 && commandIndex == 0) {
+                        currentVolume -= 10;
+                        playing.soundtrack.setVolume(currentVolume / 100f);
+                    }
+                } else if (KeyboardInputs.isPressedValid("right", keyboardInputs.rightPressed)) {
+                    if (currentVolume <= 90 && commandIndex == 0) {
+                        currentVolume += 10;
+                        playing.soundtrack.setVolume(currentVolume / 100f);
+                    }
+                } else if (KeyboardInputs.isPressedValid("enter", keyboardInputs.enterPressed)) {
                     switch (commandIndex) {
                         case 1:
-                            isSoundEffectOn =!isSoundEffectOn;
+                            isSoundEffectOn = !isSoundEffectOn;
                             break;
                         case 2:
-                            isSoundtrackOn =!isSoundtrackOn;
+                            isSoundtrackOn = !isSoundtrackOn;
                             break;
                     }
                 }
-
-
         }
 
     }

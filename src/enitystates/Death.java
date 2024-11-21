@@ -1,11 +1,7 @@
 package enitystates;
 
-import entities.monsters.BringerOfDeath;
-import entities.monsters.Demon;
 import entities.monsters.PlantMelee;
-import entities.monsters.Slime;
 import entities.Sprite;
-import entities.projectile.Projectile;
 import utils.ImageLoader;
 import entities.Player;
 
@@ -44,7 +40,7 @@ public class Death extends EntityStateMethods {
         if (frameCounter >= frameDuration) {
             animationIndex++;
             if (animationIndex + 1 > totalAnimationFrames)
-                animationIndex = totalAnimationFrames - 1;
+                return null;
             frameCounter = 0;
         }
 

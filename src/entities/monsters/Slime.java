@@ -20,13 +20,9 @@ public class Slime extends Monster {
         this.worldX = worldX;
         this.worldY = worldY;
 
-        speed = 2;
-        attackPoints = 1;
-        maxHealth = 10;
-        currentHealth = maxHealth;
-        attackRate = 30;
+        setDefaultValues();
 
-        solidArea = new Rectangle(0, TILE_SIZE*3/2, TILE_SIZE, TILE_SIZE/2);
+        solidArea = new Rectangle(0, TILE_SIZE * 3 / 2, TILE_SIZE, TILE_SIZE / 2);
         visionBox = new Rectangle(-TILE_SIZE, 0, 3 * TILE_SIZE, 3 * TILE_SIZE);
         hitBox = new Rectangle(0, TILE_SIZE, TILE_SIZE, TILE_SIZE);
         attackBox = (Rectangle) visionBox.clone();
@@ -35,7 +31,17 @@ public class Slime extends Monster {
         solidAreaDefaultY = solidArea.y;
     }
 
+    public void setDefaultValues() {
+        speed = 2;
+        attackPoints = 1;
+        maxHealth = 10;
+        currentHealth = maxHealth;
+        attackRate = 30;
+    }
+
+
     int frameCounter = 0;
+
     public void attack() {
         getDirectionForAttacking();
         speed = 4;
@@ -76,7 +82,6 @@ public class Slime extends Monster {
     public int getWorldY() {
         return worldY + solidArea.y - TILE_SIZE / 2;
     }
-
 
 
 }

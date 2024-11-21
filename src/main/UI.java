@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
+import gamestates.GameOver;
 import gamestates.Menu;
 import gamestates.Pause;
 import gamestates.Playing;
@@ -20,13 +21,14 @@ public class UI {
     Playing playing;
     Menu menu;
     Pause pause;
-    Font arial_40, arial_80B;
-    Font maruMonica, purisaBold;
+    GameOver gameOver;
+    public Font maruMonica, purisaBold;
 
     public UI(Game game) {
         this.playing = game.getPlaying();
         this.menu = game.getMenu();
         this.pause = game.getPause();
+        this.gameOver = game.getGameOver();
 
         try {
             InputStream is = getClass().getResourceAsStream("/font/MaruMonica.ttf");
@@ -41,7 +43,9 @@ public class UI {
         }
     }
 
-
+    int frameCounter = 0;
+    String previousText = null;
+    int lineCounter = 0;
     public void drawDialogueScreen(String currentDialogue, Graphics2D g2) {
         // Window
         int x = TILE_SIZE * 2, y = TILE_SIZE / 2;
@@ -57,11 +61,30 @@ public class UI {
             playing.npcTalking = null;
             return;
         }
-
-        for (String line : currentDialogue.split("\n")) {
-            g2.drawString(line, x, y);
-            y += 40;
+        if (!currentDialogue.equals(previousText)) {
+            lineCounter = 0;
+            previousText = currentDialogue;
+            frameCounter = 0;
         }
+
+        frameCounter++;
+        String[] lines = currentDialogue.split(("\n"));
+
+        for (int i = 0; i < lineCounter; i++) {
+            g2.drawString(lines[i], x, y + 40 * i);
+        }
+
+        for (int j = lines[lineCounter].length(); j >= 0; j--) {
+            if (j * 1.75 < frameCounter) {
+                g2.drawString(lines[lineCounter].substring(0, j), x, y + 40 * lineCounter);
+                if (j == lines[lineCounter].length() && lineCounter != lines.length - 1) {
+                    lineCounter++;
+                    frameCounter = 0;
+                }
+                break;
+            }
+        }
+
 
     }
 
@@ -75,7 +98,6 @@ public class UI {
         g2.setStroke(new BasicStroke(5));
         g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
     }
-
 
     public void drawPlayerUI(Graphics2D g2) {
         Player player = playing.getPlayer();
@@ -161,6 +183,7 @@ public class UI {
         drawSubWindow(x, y, width, height, g2);
         drawPauseOptions(g2, x, y, currentCommand);
     }
+
     private void drawPauseOptions(Graphics2D g2, int boxX, int boxY, int currentCommand) {
         int width = SCREEN_WIDTH - 2 * boxX, height = SCREEN_HEIGHT - 2 * boxY;
         String text = "PAUSED";
@@ -270,4 +293,26 @@ public class UI {
         }
     }
 
+    public void drawGameOverScreen(Graphics2D g2) {
+        playing.draw(g2);
+        Color c = new Color(0, 0, 0, 200);
+        g2.setColor(c);
+        g2.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        g2.setFont(maruMonica);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 60F));
+        g2.setColor(Color.WHITE);
+        int x = HelpMethods.getXForCenterText("Game Over", g2), y = SCREEN_HEIGHT / 2 - 48;
+        g2.drawString("Game Over", x, y);
+
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 30f));
+        String[] str = {"Restart", "Menu"};
+        for (int i = 0; i < str.length; i++) {
+            x = HelpMethods.getXForCenterText(str[i], g2);
+            y += TILE_SIZE / 2 + HelpMethods.getTextHeight(str[i], g2);
+            if (i == gameOver.commandIndex) {
+                g2.drawString( "<--", SCREEN_WIDTH - 6 * TILE_SIZE, y);
+            }
+            g2.drawString(str[i], x, y);
+        }
+    }
 }

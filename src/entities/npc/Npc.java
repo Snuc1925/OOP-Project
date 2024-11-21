@@ -8,6 +8,7 @@ import entities.Player;
 import inputs.KeyboardInputs;
 
 import java.awt.*;
+import java.io.Serializable;
 
 import static inputs.KeyboardInputs.isPressedValid;
 
