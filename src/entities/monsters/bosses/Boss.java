@@ -4,7 +4,6 @@ import enitystates.EntityState;
 import entities.monsters.Monster;
 import gamestates.Playing;
 import utils.HelpMethods;
-import utils.ImageLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -171,8 +170,11 @@ public abstract class Boss extends Monster {
         g2.setColor(Color.BLACK);
         g2.fillRect(0, 0, SCREEN_WIDTH, cnt5 * (rectangleHeight / duration));
 
-        g2.fillRect(0, SCREEN_HEIGHT - cnt5 * (rectangleHeight / duration),
-                SCREEN_WIDTH, cnt5 * (rectangleHeight / duration));
+        float t = (float) (1.0 * cnt5 / duration);
+        double easedProgress = easeInOut(t);
+
+        g2.fillRect(0, (int) (SCREEN_HEIGHT - easedProgress * rectangleHeight),
+                SCREEN_WIDTH, (int) (easedProgress * rectangleHeight));
         if (cnt5 >= duration) cnt5 = 0;
     }
 
@@ -184,8 +186,11 @@ public abstract class Boss extends Monster {
         g2.setColor(Color.BLACK);
         g2.fillRect(0, 0, SCREEN_WIDTH, duration * 6 - cnt6 * 6);
 
-        g2.fillRect(0, SCREEN_HEIGHT - rectangleHeight + cnt6 * (rectangleHeight / duration),
-                SCREEN_WIDTH, rectangleHeight - cnt6 * (rectangleHeight / duration));
+        float t = (float) (1.0 * cnt6 / duration);
+        double easedProgress = easeInOut(t);
+
+        g2.fillRect(0, SCREEN_HEIGHT - rectangleHeight + (int) (easedProgress * rectangleHeight),
+                SCREEN_WIDTH, rectangleHeight - (int) (easedProgress * rectangleHeight));
 
         if (cnt6 >= duration) cnt6 = 0;
     }
@@ -203,7 +208,7 @@ public abstract class Boss extends Monster {
                                       int xStartText, int xStartImage) {
         String text = bossName;
         cnt1++;
-        int distance = xStartText - x;
+        int distance;
 
         float t = (float) cnt1 / duration; // Normalize time (0 to 1)
         double easedProgress = easeInOut(t); // Use the desired easing function

@@ -95,14 +95,12 @@ public class Playing extends State implements Statemethods {
         player = new Player(this);
         tileManager = new TileManager(player);
 
-        MapParser.loadMap( "level1" ,"res/map/map_" + currentLevel + ".tmx");
+        MapParser.loadMap( "level1" ,"res/map/test" + ".tmx");
         currentMap = MapManager.getGameMap("level1");
         currentMap.buildTileManager(tileManager);
 
         monsters = new Monster[6];
-        monsters[0] = new SkeletonReaper(this, 26 *  TILE_SIZE, 19 * TILE_SIZE);
-        monsters[1] = new Sickle(this, 34 * TILE_SIZE, 4 * TILE_SIZE);
-        monsters[2] = new Mage(this, 36 * TILE_SIZE, 40 * TILE_SIZE);
+        monsters[0] = new SkeletonReaper(this, 23 *  TILE_SIZE, 6 * TILE_SIZE);
         npcArray = new Npc[1];
         npcArray[0] = new WhiteSamurai(this, 13 * TILE_SIZE, 5 * TILE_SIZE);
 
@@ -205,6 +203,9 @@ public class Playing extends State implements Statemethods {
                 monster instanceof SkeletonReaper) {
                 Boss boss = (Boss) monster;
                 boss.drawBossIntro(g2);
+            }
+            if (monster instanceof  SkeletonReaper) {
+                ((SkeletonReaper) monster).drawDialogue(g2);
             }
         }
     }

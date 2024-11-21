@@ -55,8 +55,8 @@ public class Player extends Sprite {
     }
 
     public void setDefaultValues() {
-        worldX = TILE_SIZE * 13 - TILE_SIZE * 3 / 2;
-        worldY = TILE_SIZE * 6;
+        worldX = TILE_SIZE * 24;
+        worldY = TILE_SIZE * 37;
 
         speed = 4;
         maxArmor = 10;
@@ -311,5 +311,9 @@ public class Player extends Sprite {
         if (collisionOn) return;
         goAlongDirection();
 
+    }
+    @Override
+    public void removeDash() {
+        dash = null;
     }
 }

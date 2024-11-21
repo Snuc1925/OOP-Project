@@ -106,9 +106,18 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
 
 
     public static boolean prevUp = false, prevDown = false, prevLeft = false, prevRight = false;
-    public static boolean prevPause = false, prevEnter = false;
+    public static boolean prevPause = false, prevEnter = false, prevAttack;
     public static boolean isPressedValid(String code, boolean keyPressed) {
         switch (code) {
+            case "attack" -> {
+                if (keyPressed) {
+                    if (prevAttack) return false;
+                    prevAttack = true;
+                    return true;
+                }
+                prevAttack = false;
+                return false;
+            }
             case "pause" -> {
                 if (keyPressed) {
                     if (prevPause) return false;

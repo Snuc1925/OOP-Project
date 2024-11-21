@@ -1,17 +1,17 @@
 package entities.monsters.bosses;
 
-import effect.Brushed;
-import effect.ElectricBurst;
-import effect.Explosion;
-import effect.Portal;
+import effect.*;
 import enitystates.*;
 import gamestates.Playing;
 import entities.Player;
+import inputs.KeyboardInputs;
 import utils.HelpMethods;
 import utils.ImageLoader;
 
 import java.awt.*;
+import java.util.Random;
 
+import static inputs.KeyboardInputs.isPressedValid;
 import static utils.Constants.Screen.*;
 
 public class SkeletonReaper extends Boss {
@@ -19,6 +19,7 @@ public class SkeletonReaper extends Boss {
     Brushed brushed;
     Portal[] portals;
     ElectricBurst electricBurst = null;
+    Dash dash = null;
 
     public SkeletonReaper(Playing playing, int worldX, int worldY) {
         super("SkeletonReaper", playing, 11 * TILE_SIZE + TILE_SIZE / 2, 5 * TILE_SIZE);
@@ -31,7 +32,7 @@ public class SkeletonReaper extends Boss {
         attackBox = new Rectangle(0, 3 * TILE_SIZE, width, 3 * TILE_SIZE + TILE_SIZE / 2);
         visionBox = new Rectangle(- 5 * TILE_SIZE, - 4 * TILE_SIZE, width + 10 * TILE_SIZE, height + 8 * TILE_SIZE);
         hitBox = new Rectangle(4 * TILE_SIZE, 3 * TILE_SIZE, 3 * TILE_SIZE, 2 * TILE_SIZE);
-        attackRate = 100;
+        attackRate = 110;
 
         maxHealth = 100;
         currentHealth = maxHealth;
@@ -57,7 +58,7 @@ public class SkeletonReaper extends Boss {
         }
     }
 
-    boolean isSummoned = false;
+    int smCnt = 0;
     private void castAttack() {
         Player player = playing.getPlayer();
         frameCounter++;
@@ -65,11 +66,11 @@ public class SkeletonReaper extends Boss {
         int totalFrame = castAttack.totalAnimationFrames * castAttack.frameDuration;
         if (frameCounter == totalFrame) {
             frameCounter = 0;
-            if (currentHealth < 3 * maxHealth / 4 && attack1Counter % 10 == 0 && !isSummoned) {
-                isSummoned = true;
+            if (currentHealth < maxHealth / 2 && smCnt < 2) {
+                smCnt++;
                 portals[0] = new Portal(this, getWorldX() - TILE_SIZE * 2, getWorldY(), 0);
                 portals[1] = new Portal(this, getWorldX() + TILE_SIZE * 2, getWorldY(), 1);
-                portals[2] = new Portal(this, getWorldX(), getWorldY() + TILE_SIZE * 2, 2);
+//                portals[2] = new Portal(this, getWorldX(), getWorldY() + TILE_SIZE * 2, 2);
             }
             if (electricBurst == null)
                 electricBurst = new ElectricBurst(this, player.getWorldX(), player.getWorldY(), 0);
@@ -114,15 +115,32 @@ public class SkeletonReaper extends Boss {
         return worldX + solidArea.x + solidArea.width / 2;
     }
 
+    Random random = new Random();
+    boolean isDialogueDraw = false;
     @Override
     public void update() {
         brushed.update();
+        if (currentHealth < maxHealth / 2) {
+            if (!isDialogueDraw) {
+                currentState = EntityState.IDLE;
+            }
+            else if (currentState == EntityState.WALK && dash == null) {
+                KeyboardInputs kb = playing.getGame().getKeyboardInputs();
+                if (KeyboardInputs.isPressedValid("attack", kb.attackPressed) && random.nextInt(3) == 1)
+                    dash = new Dash(this, 20);
+            }
+        }
         super.update();
 
         if (electricBurst != null) electricBurst.update();
         for (Portal portal : portals)
             if (portal != null) portal.update();
 
+        if (dash != null) {
+            speed = 5;
+            dash.update();
+        }
+        else speed = 4;
     }
 
     @Override
@@ -142,6 +160,7 @@ public class SkeletonReaper extends Boss {
         for (Portal portal : portals)
             if (portal != null) portal.draw(g2);
 
+        if (dash != null) dash.draw(g2);
     }
 
     @Override
@@ -161,5 +180,54 @@ public class SkeletonReaper extends Boss {
     }
     public void removePortal(int index) {
         portals[index] = null;
+    }
+
+    @Override
+    public void removeDash() {
+        dash = null;
+    }
+
+    @Override
+    public void getHurt(int damage) {
+        if (dash == null) super.getHurt(damage);
+    }
+
+    String[] dialogues = {
+         "Ugh...",
+         "You are really strong",
+         "But that is not enough to defeat me!!",
+         "Pay attention, this is my REAL POWER!"
+    };
+
+    public void drawDialogue(Graphics2D g2) {
+        if (currentHealth < maxHealth / 2) {
+            if (!isDialogueDraw) {
+                playing.getGame().getUI().drawDialogueScreen(talk(2), g2);
+            }
+        }
+//        else if (currentHealth == maxHealth && canSeePlayer()) {
+//            if (!isDialogueDraw) {
+//                playing.getGame().getUI().drawDialogueScreen(talk(1), g2);
+//            }
+//        }
+    }
+
+    int dialogueCounter = 0;
+    public String talk(int dialogueTpe) {
+        KeyboardInputs kb = playing.getGame().getKeyboardInputs();
+        Player player = playing.getPlayer();
+
+        // Make player idle
+        player.currentState = EntityState.IDLE;
+
+        if (isPressedValid("enter", kb.enterPressed)) {
+            dialogueCounter++;
+            if (dialogueCounter >= dialogues.length) {
+                isDialogueDraw = true;
+                dialogueCounter = 0;
+                return null;
+            }
+        }
+        return dialogues[dialogueCounter];
     }
 }

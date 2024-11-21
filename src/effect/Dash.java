@@ -3,6 +3,7 @@ package effect;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import entities.Player;
+import entities.Sprite;
 import utils.HelpMethods;
 
 import static utils.Constants.Player.*;
@@ -11,15 +12,15 @@ public class Dash {
     BufferedImage[] dashImages;
     int[] dashImageX, dashImageY;
     int[] dashAlpha;
-    Player player;
+    Sprite entity;
     int dashImagesSize;
     int duration;
-    public boolean isSpeeding = false;
 
-    public Dash(Player player, int duration) {
-        this.player = player;
+    public Dash(Sprite entity, int duration) {
+        this.entity = entity;
         this.duration = duration;
-        dashImagesSize = duration/player.run.frameDuration;
+        dashImagesSize = duration/5;
+
         alphaDiff = 255 / (duration / dashImagesSize);
         dashImages = new BufferedImage[dashImagesSize];
         dashImageX = new int[dashImagesSize];
@@ -33,13 +34,11 @@ public class Dash {
     int alphaDiff;
     int frameCounter = 0;
     public void update() {
-        isSpeeding = false;
         for (int i = 0; i < dashImages.length; i++) {
             if (frameCounter == i * duration / dashImagesSize) {
-                isSpeeding = true;
-                dashImages[i] = HelpMethods.makeWhiteExceptTransparent(player.image);
-                dashImageX[i] = player.worldX;
-                dashImageY[i] = player.worldY;
+                dashImages[i] = HelpMethods.makeWhiteExceptTransparent(entity.image);
+                dashImageX[i] = entity.worldX;
+                dashImageY[i] = entity.worldY;
             }
         }
         frameCounter++;
@@ -53,7 +52,7 @@ public class Dash {
         }
 
         if (dashAlpha[dashImagesSize - 1] < alphaDiff) {
-            player.dash = null;
+            entity.removeDash();
         }
 
     }
@@ -61,8 +60,8 @@ public class Dash {
     public void draw(Graphics2D g2) {
         for (int i = 0; i < dashImages.length; i++) {
             if (dashImages[i] != null) {
-                int screenX = dashImageX[i] - player.worldX + PLAYER_SCREEN_X;
-                int screenY = dashImageY[i] - player.worldY + PLAYER_SCREEN_Y;
+                int screenX = HelpMethods.getScreenX(dashImageX[i], entity.getPlaying().getPlayer());
+                int screenY = HelpMethods.getScreenY(dashImageY[i], entity.getPlaying().getPlayer());
                 g2.drawImage(dashImages[i], screenX, screenY, null);
             }
         }

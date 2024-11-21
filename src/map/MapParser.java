@@ -94,11 +94,16 @@ public class MapParser {
 
     private static TileSet getTileSet(Element eElement)
     {
+        try {
             return parsePNGfile(eElement);
+        }
+        catch (NullPointerException e) {
+            return parseTSXfile(eElement);
+        }
     }
 
 
-    private static TileSet parsePNGfile(Element eElement)
+    private static TileSet parsePNGfile(Element eElement) throws NullPointerException
     {
         NodeList imageSourceList = eElement.getElementsByTagName("image");
         Element e = (Element) imageSourceList.item(0);
@@ -121,7 +126,7 @@ public class MapParser {
     private static TileSet parseTSXfile(Element eElement)
     {
         String tmp_file = eElement.getAttribute("source");
-        String filepath = "res" + tmp_file.substring(2);
+        String filepath = "res_tile" + tmp_file.substring(2);
 
         TileSet tileSet = null;
         try {

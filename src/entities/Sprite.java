@@ -155,4 +155,7 @@ public class Sprite extends Entity {
         else if (angle >= -112 && angle < -67) direction = "up";
         else direction = "right_up";
     }
+
+    public void removeDash() {
+    }
 }
