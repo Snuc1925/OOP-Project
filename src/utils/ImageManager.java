@@ -39,12 +39,13 @@ public class ImageManager {
         else sb.append("/Death");
 
         if (weapon.equals("NORMAL")) sb.append("/Normal");
-        else if (weapon.equals("SPEAR")) sb.append("/Spear/vfx");
+        else if (weapon.equals("SPEAR")) sb.append("/Spear");
         else sb.append("/Gun");
+
 
         sb.append("/").append(direction).append("/1-sheet.png");
         String path = sb.toString();
-
+        System.out.println(path);
         BufferedImage image = imageCache.getImage(path);
 
         if (image == null) return null;
@@ -75,7 +76,7 @@ public class ImageManager {
                 .append("/1-sheet.png");
 
         String path = pathBuilder.toString();
-        // System.out.println(path);
+         System.out.println(path);
 
         BufferedImage image = imageCache.getImage(path);
 
@@ -88,7 +89,7 @@ public class ImageManager {
         StringBuilder pathBuilder = new StringBuilder("/Effect/");
         pathBuilder.append(name)
                 .append("/")
-                .append("_1-sheet.png");
+                .append("1-sheet.png");
 
         String path = pathBuilder.toString();
         System.out.println(path);

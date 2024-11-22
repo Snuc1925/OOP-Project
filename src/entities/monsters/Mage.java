@@ -34,7 +34,7 @@ public class Mage extends Monster {
 
         idle = new Idle(this, 7, 5);
         walk = new Walk(this, 6, 5);
-        death = new Death(this, 12, 10);
+        death = new Death(this, 10, 10);
 
         player = playing.getPlayer();
 

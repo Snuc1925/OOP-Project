@@ -27,7 +27,7 @@ public abstract class Boss extends Monster {
     public boolean isFirstTime = true;
     int frameCnt = 0;
     float textSize = 100f;
-    int rectangleHeight = 150;
+    public int rectangleHeight = 150;
     int bossNameX = 0, bossNameY = 0, imageX = 0, imageY = 0;
     String bossName;
     BufferedImage bossImage; // 1296 x 720
@@ -160,7 +160,7 @@ public abstract class Boss extends Monster {
         if (cnt4 >= duration) cnt4 = 0;
     }
 
-    int cnt5 = 0;
+    public int cnt5 = 0;
     public void rectangleMoveIn(int duration, Graphics2D g2) {
         cnt5++;
         Color c = new Color(147, 114, 15, 180);
@@ -178,7 +178,7 @@ public abstract class Boss extends Monster {
         if (cnt5 >= duration) cnt5 = 0;
     }
 
-    int cnt6 = 0;
+    public int cnt6 = 0;
     public void rectangleMoveOut(int duration, Graphics2D g2) {
         cnt6++;
         unFillScreen(duration, g2);

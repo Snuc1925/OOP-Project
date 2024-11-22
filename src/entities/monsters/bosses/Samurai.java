@@ -29,7 +29,7 @@ public class Samurai extends Boss {
         solidArea = new Rectangle(3 * TILE_SIZE + TILE_SIZE/2, 4 * TILE_SIZE + TILE_SIZE/2, TILE_SIZE,3 * TILE_SIZE/2);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        visionBox = new Rectangle(-4 * TILE_SIZE, 0, 16 * TILE_SIZE, 10 * TILE_SIZE);
+        visionBox = new Rectangle(-8 * TILE_SIZE, -8 * TILE_SIZE, 20 * TILE_SIZE, 20 * TILE_SIZE);
         hitBox = new Rectangle(3 * TILE_SIZE, 3 * TILE_SIZE, 2 * TILE_SIZE,3 * TILE_SIZE);
         attackBox = new Rectangle(TILE_SIZE, 3 * TILE_SIZE, 6 * TILE_SIZE, 4 * TILE_SIZE);
 
@@ -163,7 +163,7 @@ public class Samurai extends Boss {
     }
 
     public void switchPhase() {
-        maxHealth = 100;
+        maxHealth = 50;
         currentHealth = maxHealth;
         attackRate = 60;
         attackPoints = 3;

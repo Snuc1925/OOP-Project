@@ -15,10 +15,11 @@ import static inputs.KeyboardInputs.isPressedValid;
 import static utils.Constants.Screen.*;
 
 public class SkeletonReaper extends Boss {
-    Attack normalAttack, castAttack;
+    Attack normalAttack;
+    public Attack castAttack;
     Brushed brushed;
-    Portal[] portals;
-    ElectricBurst electricBurst = null;
+    public Portal[] portals;
+    public ElectricBurst electricBurst = null;
     Dash dash = null;
 
     public SkeletonReaper(Playing playing, int worldX, int worldY) {
@@ -30,8 +31,8 @@ public class SkeletonReaper extends Boss {
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
         attackBox = new Rectangle(0, 3 * TILE_SIZE, width, 3 * TILE_SIZE + TILE_SIZE / 2);
-        visionBox = new Rectangle(- 5 * TILE_SIZE, - 4 * TILE_SIZE, width + 10 * TILE_SIZE, height + 8 * TILE_SIZE);
         hitBox = new Rectangle(4 * TILE_SIZE, 3 * TILE_SIZE, 3 * TILE_SIZE, 2 * TILE_SIZE);
+        visionBox = new Rectangle(- TILE_SIZE, - 2 * TILE_SIZE, width + 2 * TILE_SIZE, 5 * TILE_SIZE * 2 + attackBox.height);
         attackRate = 110;
 
         maxHealth = 100;
@@ -66,11 +67,11 @@ public class SkeletonReaper extends Boss {
         int totalFrame = castAttack.totalAnimationFrames * castAttack.frameDuration;
         if (frameCounter == totalFrame) {
             frameCounter = 0;
-            if (currentHealth < maxHealth / 2 && smCnt < 2) {
+            if (currentHealth < maxHealth / 2 && smCnt < 1) {
                 smCnt++;
                 portals[0] = new Portal(this, getWorldX() - TILE_SIZE * 2, getWorldY(), 0);
                 portals[1] = new Portal(this, getWorldX() + TILE_SIZE * 2, getWorldY(), 1);
-//                portals[2] = new Portal(this, getWorldX(), getWorldY() + TILE_SIZE * 2, 2);
+                portals[2] = new Portal(this, getWorldX(), getWorldY() + TILE_SIZE * 2, 2);
             }
             if (electricBurst == null)
                 electricBurst = new ElectricBurst(this, player.getWorldX(), player.getWorldY(), 0);
@@ -116,7 +117,7 @@ public class SkeletonReaper extends Boss {
     }
 
     Random random = new Random();
-    boolean isDialogueDraw = false;
+    public boolean isDialogueDraw = false;
     @Override
     public void update() {
         brushed.update();
@@ -205,11 +206,6 @@ public class SkeletonReaper extends Boss {
                 playing.getGame().getUI().drawDialogueScreen(talk(2), g2);
             }
         }
-//        else if (currentHealth == maxHealth && canSeePlayer()) {
-//            if (!isDialogueDraw) {
-//                playing.getGame().getUI().drawDialogueScreen(talk(1), g2);
-//            }
-//        }
     }
 
     int dialogueCounter = 0;

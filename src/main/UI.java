@@ -226,7 +226,7 @@ public class UI {
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,30f));
 
         String[] leftStr = {"W, A, S, D", "J", "K", "L", "Shift", "Enter", "P"};
-        String[] rightStr = {"Moving", "Attack", "Dash", "Change weapon", "Run", "Show entity box", "Pause/Unpause"};
+        String[] rightStr = {"Moving", "Attack", "Dash", "Change weapon", "Run", "Show entity box/Interact", "Pause/Unpause"};
 
         for (String str : leftStr) {
             x = boxX + TILE_SIZE;

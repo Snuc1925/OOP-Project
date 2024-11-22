@@ -13,4 +13,6 @@ public class LevelData implements Serializable {
     int[] npcWorldX;
     int[] npcWorldY;
 
+    String currentLevel;
+
 }

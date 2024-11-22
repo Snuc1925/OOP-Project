@@ -65,7 +65,7 @@ public class Playing extends State implements Statemethods {
     SaveLoad saveLoad = new SaveLoad(this);
 
     // Level
-    public String currentLevel = "level3";
+    public String currentLevel = "level4";
 
     public Sound soundtrack;
 
@@ -95,9 +95,7 @@ public class Playing extends State implements Statemethods {
         player = new Player(this);
         tileManager = new TileManager(player);
 
-        MapParser.loadMap( "level1" ,"res/map/test" + ".tmx");
-        currentMap = MapManager.getGameMap("level1");
-        currentMap.buildTileManager(tileManager);
+        loadMap();
 
         monsters = new Monster[6];
         monsters[0] = new SkeletonReaper(this, 23 *  TILE_SIZE, 6 * TILE_SIZE);
@@ -105,6 +103,12 @@ public class Playing extends State implements Statemethods {
         npcArray[0] = new WhiteSamurai(this, 13 * TILE_SIZE, 5 * TILE_SIZE);
 
         setUpList();
+    }
+
+    public void loadMap() {
+        MapParser.loadMap( currentLevel ,"res/map/map_" + currentLevel + ".tmx");
+        currentMap = MapManager.getGameMap(currentLevel);
+        currentMap.buildTileManager(tileManager);
     }
 
     public void setUpList() {
@@ -162,7 +166,7 @@ public class Playing extends State implements Statemethods {
 //        projectileManager.update();
 //        collectibleSystem.update();
 //        doorSystem.update();
-         System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
+          System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
 
         if (KeyboardInputs.isPressedValid("pause", game.getKeyboardInputs().pausePressed)) {
             Gamestate.state = Gamestate.PAUSE;

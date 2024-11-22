@@ -18,7 +18,7 @@ import static utils.Constants.Player.PLAYER_SCREEN_Y;
 import static utils.Constants.Screen.TILE_SIZE;
 
 public class Monster extends Sprite{
-    protected Attack attack;
+    public Attack attack;
     protected Idle idle;
     protected Walk walk;
     protected Death death;

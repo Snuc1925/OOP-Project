@@ -4,6 +4,7 @@ import entities.monsters.*;
 import entities.monsters.bosses.BringerOfDeath;
 import entities.monsters.bosses.Demon;
 import entities.monsters.bosses.Samurai;
+import entities.monsters.bosses.SkeletonReaper;
 import entities.npc.Npc;
 import entities.npc.WhiteSamurai;
 import gamestates.Playing;
@@ -73,6 +74,8 @@ public class SaveLoad {
             ds.worldX = player.worldX;
             ds.worldY = player.worldY;
 
+            ds.currentLevel = playing.currentLevel;
+
             ds.monstersName = new String[playing.monsters.length];
             ds.monstersWorldX = new int[playing.monsters.length];
             ds.monstersWorldY = new int[playing.monsters.length];
@@ -80,6 +83,7 @@ public class SaveLoad {
 
             for (int i = 0; i < playing.monsters.length; i++) {
                 Monster monster = playing.monsters[i];
+                if (monster == null) continue;
                 ds.monstersName[i] = monster.name;
                 ds.monstersWorldX[i] = monster.worldX;
                 ds.monstersWorldY[i] = monster.worldY;
@@ -103,6 +107,7 @@ public class SaveLoad {
     }
     public Monster createMonster(String name,
                                  int worldX, int worldY, int currentHealth) {
+        if (name == null) return null;
         Monster monster = switch (name) {
             case "Slime" -> new Slime(playing, worldX, worldY);
             case "BringerOfDeath" -> new BringerOfDeath(playing, worldX, worldY);
@@ -113,6 +118,7 @@ public class SaveLoad {
             case "Samurai" -> new Samurai(playing, worldX, worldY);
             case "Sickle" -> new Sickle(playing, worldX, worldY);
             case "Sword_Knight" -> new SwordKnight(playing, worldX, worldY);
+            case "SkeletonReaper" -> new SkeletonReaper(playing, worldX, worldY);
             default -> null;
         };
         assert monster != null;
@@ -159,10 +165,14 @@ public class SaveLoad {
                 playing.npcArray[i] = npc;
             }
 
+            playing.currentLevel = ds.currentLevel;
+
             playing.setUpList();
+            playing.loadMap();
 
         } catch (Exception e) {
             System.out.println("Error loading save file");
+            e.printStackTrace();
         }
     }
 }

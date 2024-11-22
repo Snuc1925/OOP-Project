@@ -21,6 +21,7 @@ public class Menu extends State implements Statemethods {
         super(game);
     }
 
+    private boolean needDisplayContinuePlaying = false;
     public void update() {
         KeyboardInputs keyboardInputs = game.getKeyboardInputs();
         if (isPressedValid("up", keyboardInputs.upPressed) ||
@@ -32,6 +33,7 @@ public class Menu extends State implements Statemethods {
                 switch (commandNumber) {
                     case 0:
                         Gamestate.state = Gamestate.PLAYING;
+                        needDisplayContinuePlaying = true;
                         break;
                     case 1:
                         game.getPlaying().saveLoad.loadGame();
@@ -95,6 +97,8 @@ public class Menu extends State implements Statemethods {
         // Menu
         g2.setFont(g2.getFont().deriveFont(Font.BOLD, 32F));
         String text = "New game";
+        if (needDisplayContinuePlaying)
+            text = "Continue game";
         x = getXForCenterText(text, g2);
         y = getYForCenterText(text, g2) + TILE_SIZE * 3 / 2;
         g2.drawString(text, x, y);

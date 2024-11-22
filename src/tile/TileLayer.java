@@ -4,6 +4,7 @@ package tile;
 import java.awt.*;
 import java.util.ArrayList;
 import entities.Player;
+import gamestates.Gamestate;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -42,11 +43,18 @@ public class TileLayer {
 
     int startRow, startCol, endRow, endCol;
     public void render(Graphics2D g2, Player player) {
-        startRow = max(player.getWorldY() / TILE_SIZE - MAX_SCREEN_ROW / 2 - 1, 0);
-        endRow = min(player.getWorldY() / TILE_SIZE + MAX_WORLD_ROW / 2 + 1, MAX_WORLD_ROW);
-        startCol = max(player.getWorldX() / TILE_SIZE - MAX_SCREEN_COL / 2 - 1, 0);
-        endCol = min(player.getWorldX() / TILE_SIZE + MAX_SCREEN_COL / 2 + 1, MAX_WORLD_COL);
-
+        if (Gamestate.state != Gamestate.CUTSCENE) {
+            startRow = max(player.getWorldY() / TILE_SIZE - MAX_SCREEN_ROW / 2 - 1, 0);
+            endRow = min(player.getWorldY() / TILE_SIZE + MAX_WORLD_ROW / 2 + 1, MAX_WORLD_ROW);
+            startCol = max(player.getWorldX() / TILE_SIZE - MAX_SCREEN_COL / 2 - 1, 0);
+            endCol = min(player.getWorldX() / TILE_SIZE + MAX_SCREEN_COL / 2 + 1, MAX_WORLD_COL);
+        }
+        else {
+            startRow = 0;
+            endRow = MAX_WORLD_ROW;
+            startCol = 0;
+            endCol = MAX_WORLD_COL;
+        }
         for(int i = startRow ; i < endRow ; i++)
         {
             for(int j = startCol ; j < endCol ; j++)

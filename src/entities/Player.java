@@ -3,6 +3,7 @@ package entities;
 import effect.Dash;
 import enitystates.*;
 import entities.monsters.Monster;
+import gamestates.Gamestate;
 import gamestates.Playing;
 import inputs.KeyboardInputs;
 import main.CollisionChecker;
@@ -56,12 +57,12 @@ public class Player extends Sprite {
 
     public void setDefaultValues() {
         worldX = TILE_SIZE * 24;
-        worldY = TILE_SIZE * 37;
+        worldY = TILE_SIZE * 8;
 
         speed = 4;
         maxArmor = 10;
         maxHealth = 12;
-        maxMana = 50;
+        maxMana = 200;
         armorGenTime = 90; // 1.5 seconds between increasing 1 armor point
         outOfCombatTime = 360 - armorGenTime; // After 6 seconds out of combat, armor will be generated
         currentArmor = maxArmor;
@@ -104,7 +105,7 @@ public class Player extends Sprite {
     int frameCounter = 0;
     int weaponSwitchDelayed = 60;
     int cooldownCounter = 0;
-    int skillCooldown = 120;
+    int skillCooldown = 60;
 
     @Override
     public void update() {
@@ -199,6 +200,7 @@ public class Player extends Sprite {
             if (entity != null && entity.isOnTheScreen()) {
                 entity.isBeingLockOn = false;
                 if (entity.currentState != EntityState.DEATH && HelpMethods.canSeeEntity(playing, this, entity)) {
+
                     int newDistance = (this.getWorldY() - entity.getWorldY()) * (this.getWorldY() - entity.getWorldY()) +
                             (this.getWorldX() - entity.getWorldX()) * (this.getWorldX() - entity.getWorldX());
                     if (!canAttackMonster(entity)) continue;
@@ -306,7 +308,7 @@ public class Player extends Sprite {
             goAlongDirection();
             return;
         }
-        cc.checkTile(this);
+//        cc.checkTile(this);
         cc.checkEntity(this, playing.entityList);
         if (collisionOn) return;
         goAlongDirection();

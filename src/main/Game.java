@@ -18,6 +18,7 @@ public class Game implements Runnable {
     private GameWindow gameWindow;
     private Playing playing;
     private Menu menu;
+    private CutScene cutScene;
     private GameOver gameOver;
     private final CollisionChecker collisionChecker;
     private Pause pause;
@@ -63,14 +64,14 @@ public class Game implements Runnable {
         collisionChecker = new CollisionChecker(this);
 
         startGameLoop();
-
     }
 
-    private void initClasses() {
+    public void initClasses() {
         menu = new Menu(this);
         playing = new Playing(this);
         pause = new Pause(this);
         gameOver = new GameOver(this);
+        cutScene = new CutScene(this);
     }
 
     private void startGameLoop() {
@@ -119,7 +120,6 @@ public class Game implements Runnable {
             }
 
         }
-
     }
 
     public void update() {
@@ -135,6 +135,9 @@ public class Game implements Runnable {
                 break;
             case GAME_OVER:
                 gameOver.update();
+                break;
+            case CUTSCENE:
+                cutScene.update();
                 break;
             default:
                 System.exit(0);
@@ -155,6 +158,9 @@ public class Game implements Runnable {
                 break;
             case GAME_OVER:
                 gameOver.draw(g);
+                break;
+            case CUTSCENE:
+                cutScene.draw(g);
                 break;
             default:
                 break;
