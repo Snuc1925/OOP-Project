@@ -23,6 +23,9 @@ public class CutScene implements Statemethods {
     public CutScene(Game game) {
         this.game = game;
         playing = game.getPlaying();
+    }
+
+    public void initialize() {
         playing.currentLevel = "level4";
 
         playing.loadMap();
@@ -53,17 +56,38 @@ public class CutScene implements Statemethods {
         ebs = new ElectricBurst[4];
     }
 
-    public int currentStage = 0;
+    public int currentStage = -2;
     public int dialogueCounter = 0;
 
     public ElectricBurst[] ebs;
-    int frameCnt = 0;
+    int frameCnt = 0, transparentCounter = 1;
     boolean changeScene = false;
     @Override
     public void update() {
+        if (player == null) initialize();
+
         KeyboardInputs kb = playing.getGame().getKeyboardInputs();
 
-        if (currentStage == 0) {
+        if (currentStage == -2) {
+            player.worldX = TILE_SIZE * 23 + TILE_SIZE / 2;
+            player.worldY = 10 * TILE_SIZE;
+            skeletonReaper.currentState = EntityState.IDLE;
+            frameCnt++;
+            if (frameCnt >= 30) {
+                currentStage++;
+                frameCnt = 0;
+            }
+        }
+        else if (currentStage == -1) {
+            player.worldX = TILE_SIZE * 23 + TILE_SIZE / 2;
+            player.worldY = 10 * TILE_SIZE;
+            skeletonReaper.currentState = EntityState.IDLE;
+            transparentCounter++;
+            if (transparentCounter > 50) {
+                currentStage++;
+            }
+        }
+        else if (currentStage == 0) {
             player.worldX = TILE_SIZE * 23 + TILE_SIZE / 2;
             player.worldY = 10 * TILE_SIZE;
             skeletonReaper.currentState = EntityState.IDLE;
@@ -135,7 +159,7 @@ public class CutScene implements Statemethods {
         }
 
         if (skeletonReaper.currentState == EntityState.ATTACK) {
-            for (ElectricBurst eb : ebs) {
+            for (ElectricBurst eb : ebs) if (eb != null){
                 eb.update();
             }
         }
@@ -149,6 +173,15 @@ public class CutScene implements Statemethods {
         Playing.currentMap.render(g2, player);
 
         switch (currentStage) {
+            case -2:
+                g2.setColor(new Color(255, 255, 255));
+                g2.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+                break;
+            case -1:
+                skeletonReaper.draw(g2);
+                g2.setColor(new Color(255, 255, 255, 250 - transparentCounter * (250 / 50)));
+                g2.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+                break;
             case 0:
                 skeletonReaper.draw(g2);
                 game.getUI().drawDialogueScreen(dialogues[0][dialogueCounter], g2);

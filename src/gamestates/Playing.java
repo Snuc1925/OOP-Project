@@ -2,6 +2,7 @@ package gamestates;
 
 import data.SaveLoad;
 import effect.CameraShake;
+import effect.EnergyOrb;
 import enitystates.EntityState;
 import entities.*;
 import entities.monsters.*;
@@ -66,6 +67,7 @@ public class Playing extends State implements Statemethods {
 
     // Level
     public String currentLevel = "level4";
+    public EnergyOrb energyOrb = null;
 
     public Sound soundtrack;
 
@@ -96,6 +98,8 @@ public class Playing extends State implements Statemethods {
         tileManager = new TileManager(player);
 
         loadMap();
+
+//        energyOrb = new EnergyOrb(this, 23 * TILE_SIZE, 6 * TILE_SIZE);
 
         monsters = new Monster[6];
         monsters[0] = new SkeletonReaper(this, 23 *  TILE_SIZE, 6 * TILE_SIZE);
@@ -175,6 +179,8 @@ public class Playing extends State implements Statemethods {
         if (player.currentState == EntityState.DEATH) {
             Gamestate.state = Gamestate.GAME_OVER;
         }
+
+        if (energyOrb != null) energyOrb.update();
     }
 
     @Override
@@ -184,6 +190,12 @@ public class Playing extends State implements Statemethods {
 //        projectileManager.draw(g2);
 //        collectibleSystem.draw(g2);
 //        doorSystem.draw(g2);
+
+        for (Entity entity : entityList) {
+            if (entity instanceof SkeletonReaper && entity.image == null && entity.currentState == EntityState.DEATH) {
+                energyOrb = new EnergyOrb(this, entity.getWorldX(), entity.getWorldY());
+            }
+        }
 
         entityList.removeIf(Objects::isNull);
         entityList.removeIf(entity -> entity.image == null && entity.currentState == EntityState.DEATH);
@@ -212,6 +224,8 @@ public class Playing extends State implements Statemethods {
                 ((SkeletonReaper) monster).drawDialogue(g2);
             }
         }
+
+        if (energyOrb != null) energyOrb.draw(g2);
     }
 
 
