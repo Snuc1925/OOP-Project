@@ -56,8 +56,9 @@ public class Player extends Sprite {
     }
 
     public void setDefaultValues() {
-        worldX = TILE_SIZE * 24;
-        worldY = TILE_SIZE * 8;
+        worldX = 1302;
+        worldY = 1387;
+
 
         speed = 4;
         maxArmor = 10;

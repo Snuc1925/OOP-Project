@@ -54,6 +54,13 @@ public class CutScene implements Statemethods {
         };
 
         ebs = new ElectricBurst[4];
+
+        frameCnt2 = 0;
+        currentStage = -2;
+        dialogueCounter = 0;
+        frameCnt = 0;
+        transparentCounter = 1;
+        changeScene = false;
     }
 
     public int currentStage = -2;
@@ -221,8 +228,10 @@ public class CutScene implements Statemethods {
                 else {
                     g2.setColor(Color.BLACK);
                     g2.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-                    if (frameCnt2 >= 240)
+                    if (frameCnt2 >= 240) {
                         Gamestate.state = Gamestate.MENU;
+                        player = null;
+                    }
                 }
             }
         }

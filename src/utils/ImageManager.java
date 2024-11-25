@@ -45,7 +45,7 @@ public class ImageManager {
 
         sb.append("/").append(direction).append("/1-sheet.png");
         String path = sb.toString();
-        System.out.println(path);
+//        System.out.println(path);
         BufferedImage image = imageCache.getImage(path);
 
         if (image == null) return null;
@@ -59,7 +59,7 @@ public class ImageManager {
         pathBuilder.append(name.toLowerCase()).append(".png");
 
         String path = pathBuilder.toString();
-        System.out.println(path);
+//        System.out.println(path);
 
         BufferedImage image = imageCache.getImage(path);
 
@@ -76,7 +76,7 @@ public class ImageManager {
                 .append("/1-sheet.png");
 
         String path = pathBuilder.toString();
-         System.out.println(path);
+//         System.out.println(path);
 
         BufferedImage image = imageCache.getImage(path);
 
@@ -92,7 +92,7 @@ public class ImageManager {
                 .append("1-sheet.png");
 
         String path = pathBuilder.toString();
-        System.out.println(path);
+//        System.out.println(path);
         BufferedImage image = imageCache.getImage(path);
         if (image == null) return null;
         return image.getSubimage(width * numAnimationFrame, 0, width, height);
@@ -134,7 +134,7 @@ public class ImageManager {
         StringBuilder pathBuilder = new StringBuilder("/");
         pathBuilder.append(key).append(".png");
         String path = pathBuilder.toString();
-        System.out.println(path);
+//        System.out.println(path);
         return imageCache.getImage(pathBuilder.toString()).getSubimage(width * numAnimationFrame, 0, width, height);
     }
 

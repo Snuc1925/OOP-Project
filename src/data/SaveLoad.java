@@ -50,6 +50,9 @@ public class SaveLoad {
             game.getPause().currentVolume = settings.volume;
             game.getPause().isSoundtrackOn = settings.isSoundtrackOn;
             game.getPause().isSoundEffectOn = settings.isSoundEffectOn;
+
+            game.getPlaying().soundtrack.setVolume(settings.volume / 100f);
+
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -132,9 +135,13 @@ public class SaveLoad {
         }
         return npc;
     }
+
     public void loadGame() {
+        loadGame("save");
+    }
+    public void loadGame(String levelName) {
         try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File("save.dat")));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(new File(levelName + ".dat")));
             // Load data
             DataStorage ds = (DataStorage) ois.readObject();
 

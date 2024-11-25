@@ -58,7 +58,7 @@ public class PlantMelee extends Monster {
         if (frameCounter >= totalFrame - knockbackDuration) {
             getDirectionForAttacking();
             if (player.dash == null && canAttack(false)) {
-                player.knock_back(20, direction);
+                player.knock_back(5, direction);
                 attackSuccess = true;
             }
             if (frameCounter == 9 * attack.frameDuration && attackSuccess) {

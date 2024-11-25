@@ -66,7 +66,7 @@ public class Playing extends State implements Statemethods {
     SaveLoad saveLoad = new SaveLoad(this);
 
     // Level
-    public String currentLevel = "level4";
+    public String currentLevel = "level3";
     public EnergyOrb energyOrb = null;
 
     public Sound soundtrack;
@@ -91,6 +91,8 @@ public class Playing extends State implements Statemethods {
         soundtrack.play();
         soundtrack.loop();
         soundtrack.setVolume(0.15f);
+
+//        saveLoad.loadGame(currentLevel);
     }
 
     public void setDefaultValues() {
@@ -99,10 +101,17 @@ public class Playing extends State implements Statemethods {
 
         loadMap();
 
-//        energyOrb = new EnergyOrb(this, 23 * TILE_SIZE, 6 * TILE_SIZE);
 
-        monsters = new Monster[6];
-        monsters[0] = new SkeletonReaper(this, 23 *  TILE_SIZE, 6 * TILE_SIZE);
+        monsters = new Monster[20];
+//        monsters[0] = new Samurai(this, 1898 - TILE_SIZE, 1073 - TILE_SIZE * 2);
+        monsters[1] = new Morph(this, 295, 931);
+        monsters[2] = new Morph(this, 228, 1074);
+
+        monsters[3] = new PlantMelee(this, 202, 2013);
+        monsters[4] = new Mage(this, 260 - TILE_SIZE * 2, 2013 - TILE_SIZE * 2);
+        monsters[5] = new SwordKnight(this, 292, 1786);
+
+
         npcArray = new Npc[1];
         npcArray[0] = new WhiteSamurai(this, 13 * TILE_SIZE, 5 * TILE_SIZE);
 
@@ -170,8 +179,8 @@ public class Playing extends State implements Statemethods {
 //        projectileManager.update();
 //        collectibleSystem.update();
 //        doorSystem.update();
-          System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
-
+//          System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
+        System.out.println(player.worldX + " " + player.worldY);
         if (KeyboardInputs.isPressedValid("pause", game.getKeyboardInputs().pausePressed)) {
             Gamestate.state = Gamestate.PAUSE;
         }
