@@ -3,6 +3,7 @@ package gamestates;
 import data.SaveLoad;
 import effect.CameraShake;
 import effect.EnergyOrb;
+import effect.NextLevel;
 import enitystates.EntityState;
 import entities.*;
 import entities.monsters.*;
@@ -63,11 +64,12 @@ public class Playing extends State implements Statemethods {
     public Npc[] npcArray;
 
     // Save load
-    SaveLoad saveLoad = new SaveLoad(this);
+    public SaveLoad saveLoad = new SaveLoad(this);
 
     // Level
-    public String currentLevel = "level3";
+    public String currentLevel = "level1";
     public EnergyOrb energyOrb = null;
+    public NextLevel nextLevel = null;
 
     public Sound soundtrack;
 
@@ -92,30 +94,19 @@ public class Playing extends State implements Statemethods {
         soundtrack.loop();
         soundtrack.setVolume(0.15f);
 
-//        saveLoad.loadGame(currentLevel);
+        saveLoad.loadGame(currentLevel);
     }
 
     public void setDefaultValues() {
         player = new Player(this);
         tileManager = new TileManager(player);
 
-        loadMap();
 
-
-        monsters = new Monster[20];
-//        monsters[0] = new Samurai(this, 1898 - TILE_SIZE, 1073 - TILE_SIZE * 2);
-        monsters[1] = new Morph(this, 295, 931);
-        monsters[2] = new Morph(this, 228, 1074);
-
-        monsters[3] = new PlantMelee(this, 202, 2013);
-        monsters[4] = new Mage(this, 260 - TILE_SIZE * 2, 2013 - TILE_SIZE * 2);
-        monsters[5] = new SwordKnight(this, 292, 1786);
-
-
-        npcArray = new Npc[1];
-        npcArray[0] = new WhiteSamurai(this, 13 * TILE_SIZE, 5 * TILE_SIZE);
-
-        setUpList();
+//        loadMap();
+//        monsters = new Monster[3];
+//        monsters[0] = new Mage(this, 1125 - 4 * TILE_SIZE, 377 + 10 * TILE_SIZE);
+//        npcArray = new Npc[0];
+//        setUpList();
     }
 
     public void loadMap() {
@@ -159,6 +150,22 @@ public class Playing extends State implements Statemethods {
                     entityArray[i] = null;
                 }
             }
+        if (!currentLevel.equals("level4") && nextLevel == null) {
+            boolean allMonstersNull = true;
+            for (Monster monster : monsters) {
+                if (monster == null || (monster.image == null && monster.currentState == EntityState.DEATH)) continue;
+
+                if (monster.currentState != EntityState.DEATH ||
+                        (monster instanceof Demon && ((Demon) monster).currentPhase == 1) ||
+                        (monster instanceof Samurai && ((Samurai) monster).currentPhase == 1)) {
+                    allMonstersNull = false;
+                    break;
+                }
+            }
+            if (allMonstersNull) {
+                nextLevel = new NextLevel(this, player.getWorldX(), player.getWorldY());
+            }
+        }
 
         // NPC talk, other entity stop update
         if (npcTalking != null) {
@@ -190,6 +197,7 @@ public class Playing extends State implements Statemethods {
         }
 
         if (energyOrb != null) energyOrb.update();
+        if (nextLevel != null) nextLevel.update();
     }
 
     @Override
@@ -235,6 +243,7 @@ public class Playing extends State implements Statemethods {
         }
 
         if (energyOrb != null) energyOrb.draw(g2);
+        if (nextLevel != null) nextLevel.draw(g2);
     }
 
 

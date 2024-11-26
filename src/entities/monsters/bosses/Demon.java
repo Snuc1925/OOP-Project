@@ -17,7 +17,7 @@ import java.util.Random;
 import static utils.Constants.Screen.*;
 
 public class Demon extends Boss {
-    int currentPhase = 1;
+    public int currentPhase = 1;
     public Idle transform, idlePhase1, idlePhase2;
     public Walk walkPhase1, walkPhase2;
     public Attack attackPhase1, attackPhase2;

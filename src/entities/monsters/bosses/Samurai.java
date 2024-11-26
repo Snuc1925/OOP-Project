@@ -14,7 +14,7 @@ import java.awt.*;
 import java.util.Random;
 
 public class Samurai extends Boss {
-    int currentPhase = 1;
+    public int currentPhase = 1;
     public Idle transform, idlePhase1, idlePhase2;
     public Walk walkPhase1, walkPhase2;
     public Attack attack1Phase1, attack2Phase1, attack1Phase2, attack2Phase2;

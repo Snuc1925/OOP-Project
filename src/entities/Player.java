@@ -56,8 +56,8 @@ public class Player extends Sprite {
     }
 
     public void setDefaultValues() {
-        worldX = 1302;
-        worldY = 1387;
+        worldX = 1136;
+        worldY = 1693;
 
 
         speed = 4;
@@ -69,7 +69,7 @@ public class Player extends Sprite {
         currentArmor = maxArmor;
         currentHealth = maxHealth;
         currentMana = maxMana;
-        attackPointSpear = 3;
+        attackPointSpear = 30;
         attackPointGun = 2;
         spearAttackRange = 3 * TILE_SIZE;
         gunAttackRange = 10 * TILE_SIZE;
