@@ -14,6 +14,7 @@ import entities.Player;
 import main.Game;
 
 import static java.lang.Math.min;
+import static utils.Constants.Screen.TILE_SIZE;
 
 public class SaveLoad {
     Playing playing;

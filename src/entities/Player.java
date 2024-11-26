@@ -69,8 +69,8 @@ public class Player extends Sprite {
         currentArmor = maxArmor;
         currentHealth = maxHealth;
         currentMana = maxMana;
-        attackPointSpear = 30;
-        attackPointGun = 2;
+        attackPointSpear = 6;
+        attackPointGun = 5;
         spearAttackRange = 3 * TILE_SIZE;
         gunAttackRange = 10 * TILE_SIZE;
         manaCostPerShot = 1;

@@ -177,6 +177,8 @@ public class CutScene implements Statemethods {
     int frameCnt2 = 0;
     @Override
     public void draw(Graphics2D g2) {
+        if (player == null)
+            initialize();
         Playing.currentMap.render(g2, player);
 
         switch (currentStage) {
