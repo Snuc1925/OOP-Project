@@ -47,7 +47,6 @@ public class Sound {
         }
     }
 
-
     public void setTheme(int index) {
         try {
             AudioInputStream ais = AudioSystem.getAudioInputStream(themeURL[index]);
@@ -81,7 +80,8 @@ public class Sound {
 
     public void playMusic(int index) {
         System.out.println(index);
-        if (clip != null && clip.isOpen()) {
+        if (clip != null && clip.isRunning()) {
+            System.out.println("Stopping current theme");
             clip.stop();
         }
         setTheme(index);

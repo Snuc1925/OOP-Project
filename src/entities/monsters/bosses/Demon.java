@@ -70,13 +70,13 @@ public class Demon extends Boss {
 
     @Override
     public void update() {
-        if (canSeePlayer() && !isSoundtrackPlayed) {
-            playing.soundtrack.playMusic(1);
-            isSoundtrackPlayed = true;
-        } else if (!canSeePlayer() && isSoundtrackPlayed) {
-            isSoundtrackPlayed = false;
-            playing.soundtrack.playMusic(0);
-        }
+//        if (canSeePlayer() && !isSoundtrackPlayed && currentPhase == 2 && currentState != DEATH) {
+//            playing.soundtrack.playMusic(1);
+//            isSoundtrackPlayed = true;
+//        } else if ((!canSeePlayer() || currentState == EntityState.DEATH) && isSoundtrackPlayed) {
+//            isSoundtrackPlayed = false;
+//            playing.soundtrack.playMusic(0);
+//        }
         if (currentPhase == 1) {
             switch (currentState) {
                 case IDLE:

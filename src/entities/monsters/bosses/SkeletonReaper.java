@@ -35,7 +35,7 @@ public class SkeletonReaper extends Boss {
         visionBox = new Rectangle(- TILE_SIZE, - 2 * TILE_SIZE, width + 2 * TILE_SIZE, 5 * TILE_SIZE * 2 + attackBox.height);
         attackRate = 110;
 
-        maxHealth = 10;
+        maxHealth = 100;
         currentHealth = maxHealth;
         attackPoints = 4;
         speed = 4;

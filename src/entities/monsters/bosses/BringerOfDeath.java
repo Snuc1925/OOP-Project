@@ -88,6 +88,10 @@ public class BringerOfDeath extends Boss {
             if (canAttack(false))
                 player.getHurt(attackPoints);
         }
+
+        if (frameCounter == 2 * normalAttack.frameDuration) {
+            playing.soundtrack.playSE(8);
+        }
         if (frameCounter == totalFrame) {
             if (currentHealth < maxHealth * 3 / 4) {
                 Random random = new Random();

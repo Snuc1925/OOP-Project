@@ -23,6 +23,9 @@ public class DeathHand extends EffectMethod {
     }
     public void update() {
         super.update(8, true);
+        if (frameCounter == 2 * frameDuration) {
+            entity.getPlaying().soundtrack.playSE(9);
+        }
     }
 
     @Override

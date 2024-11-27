@@ -127,6 +127,9 @@ public class Samurai extends Boss {
         }
         totalFrame = totalAnimationFrames * frameDuration;
 
+        if (frameCounter == 2 * frameDuration) {
+            playing.soundtrack.playSE(6);
+        }
         if (frameCounter == 4 * frameDuration || frameCounter == 10 * frameDuration || frameCounter == 16 * frameDuration) {
             if (canAttack(false))
                 player.getHurt(attackPoints);
@@ -151,6 +154,9 @@ public class Samurai extends Boss {
             frameDuration = attack2Phase2.frameDuration;
         }
         totalFrame = totalAnimationFrames * frameDuration;
+        if (frameCounter2 == 2 * frameDuration) {
+            playing.soundtrack.playSE(7);
+        }
         if (frameCounter2 == 4 * frameDuration) {
             if (canAttack(false))
                 playing.getPlayer().getHurt(attackPoints * 2);

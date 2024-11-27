@@ -67,7 +67,7 @@ public class Playing extends State implements Statemethods {
     public SaveLoad saveLoad = new SaveLoad(this);
 
     // Level
-    public String currentLevel = "level1";
+    public String currentLevel = "level2";
     public EnergyOrb energyOrb = null;
     public NextLevel nextLevel = null;
 
@@ -187,7 +187,7 @@ public class Playing extends State implements Statemethods {
 //        collectibleSystem.update();
 //        doorSystem.update();
 //          System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
-        System.out.println(player.worldX + " " + player.worldY);
+//        System.out.println(player.worldX + " " + player.worldY);
         if (KeyboardInputs.isPressedValid("pause", game.getKeyboardInputs().pausePressed)) {
             Gamestate.state = Gamestate.PAUSE;
         }

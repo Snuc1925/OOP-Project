@@ -29,6 +29,9 @@ public class Explosion extends EffectMethod{
 
     public void update() {
         super.update(6, true);
+        if (frameCounter == frameDuration * 2) {
+            entity.getPlaying().soundtrack.playSE(0);
+        }
     }
 
     @Override
