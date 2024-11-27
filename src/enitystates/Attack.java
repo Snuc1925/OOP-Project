@@ -25,7 +25,7 @@ public class Attack extends EntityStateMethods{
         state = "ATTACK";
     }
 
-    int frameCounter = 0;
+    public int frameCounter = 0;
     @Override
     public void update(Sprite entity) {
 
@@ -39,6 +39,12 @@ public class Attack extends EntityStateMethods{
         // focus at the position of the mouse
         player.lockOn();
         frameCounter++;
+        if (player.currentWeapon.equals("SPEAR") && frameCounter == 2 * frameDuration) {
+            player.getPlaying().soundtrack.playSE(5);
+        }
+        if (player.currentWeapon.equals("GUN") && frameCounter == 2 * frameDuration) {
+            player.getPlaying().soundtrack.playSE(4);
+        }
         if (frameCounter >= totalAnimationFrames * frameDuration) {
             for (Monster monster : player.getPlaying().monsters) {
                 if (monster != null) {

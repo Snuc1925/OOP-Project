@@ -29,8 +29,8 @@ public class Death extends EntityStateMethods {
     }
 
 
-    int frameCounter = 0;
-    int animationIndex = 0;
+    public int frameCounter = 0;
+    public int animationIndex = 0;
 
     @Override
     public BufferedImage getImage() {

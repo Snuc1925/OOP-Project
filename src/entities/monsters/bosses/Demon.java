@@ -27,6 +27,7 @@ public class Demon extends Boss {
 
     private final Explosion[] explosion;
 
+    private boolean isSoundtrackPlayed = false;
 
     public Demon(Playing playing, int worldX, int worldY) {
         super("Demon", playing, 288 * SCALE, 160 * SCALE);
@@ -69,6 +70,13 @@ public class Demon extends Boss {
 
     @Override
     public void update() {
+        if (canSeePlayer() && !isSoundtrackPlayed) {
+            playing.soundtrack.playMusic(1);
+            isSoundtrackPlayed = true;
+        } else if (!canSeePlayer() && isSoundtrackPlayed) {
+            isSoundtrackPlayed = false;
+            playing.soundtrack.playMusic(0);
+        }
         if (currentPhase == 1) {
             switch (currentState) {
                 case IDLE:
@@ -85,6 +93,9 @@ public class Demon extends Boss {
                     break;
                 case DEATH:
                     image = transform.getImage();
+                    if (transform.frameCounter == 0 && transform.numAnimationFrames == 1) {
+                        playing.soundtrack.playSE(3);
+                    }
                     if (transform.numAnimationFrames + 1 == transform.totalAnimationFrames) {
                         switchPhase();
                     }
@@ -118,6 +129,15 @@ public class Demon extends Boss {
                     break;
                 case DEATH:
                     image = deathPhase2.getImage();
+                    if (deathPhase2.frameCounter == 0 && deathPhase2.animationIndex == 2) {
+                        playing.soundtrack.playSE(3);
+                    }
+//                    System.out.println(deathPhase2.animationIndex + " " + deathPhase2.frameCounter);
+//                    if (deathPhase2.animationIndex == 23 &&
+//                            deathPhase2.frameCounter == 10) {
+//                        playing.soundtrack.playMusic(0);
+//                        isSoundtrackPlayed = true;
+//                    }
                     break;
             }
         }
@@ -148,6 +168,7 @@ public class Demon extends Boss {
         if (frameCounter == attackPhase2.frameDuration * 10) {
             playing.cameraShake.startShake();
             if (canAttack(false)) player.getHurt(attackPoints);
+            playing.soundtrack.playSE(2);
         }
         if (frameCounter == totalFrame) {
             currentState = IDLE;
@@ -163,6 +184,9 @@ public class Demon extends Boss {
         int totalFrame = fire_breath.totalAnimationFrames * fire_breath.frameDuration;
         int attackFrameMin = fire_breath.frameDuration * 9;
         int attackFrameMax = fire_breath.frameDuration * 16;
+        if (frameCounter == attackFrameMin) {
+            playing.soundtrack.playSE(1);
+        }
         if (frameCounter >= attackFrameMin && frameCounter <= attackFrameMax) {
             if (canAttack(false) && frameCounter % fire_breath.frameDuration == 0) {
                 player.getHurt(1);
@@ -258,7 +282,7 @@ public class Demon extends Boss {
         currentState = IDLE;
 
         // Phase 2's attributes
-        maxHealth = 100;
+        maxHealth = 10;
         currentHealth = maxHealth;
 
         solidArea = new Rectangle(7 * TILE_SIZE, 7 * TILE_SIZE, 4 * TILE_SIZE, 3 * TILE_SIZE);

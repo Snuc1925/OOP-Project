@@ -71,7 +71,7 @@ public class Playing extends State implements Statemethods {
     public EnergyOrb energyOrb = null;
     public NextLevel nextLevel = null;
 
-    public Sound soundtrack;
+
 
     public Playing(Game game) {
         super(game);
@@ -89,10 +89,10 @@ public class Playing extends State implements Statemethods {
         setDefaultValues();
 
         soundtrack = new Sound();
-        soundtrack.setTheme(0);
-        soundtrack.play();
-        soundtrack.loop();
-        soundtrack.setVolume(0.15f);
+
+        soundtrack.playMusic(0);
+
+        soundtrack.setVolume("theme");
 
         saveLoad.loadGame(currentLevel);
     }
@@ -102,11 +102,11 @@ public class Playing extends State implements Statemethods {
         tileManager = new TileManager(player);
 
 
-//        loadMap();
-//        monsters = new Monster[3];
-//        monsters[0] = new Mage(this, 1125 - 4 * TILE_SIZE, 377 + 10 * TILE_SIZE);
-//        npcArray = new Npc[0];
-//        setUpList();
+        loadMap();
+        monsters = new Monster[3];
+//        monsters[0] = new Shadow(this, 1125 - 4 * TILE_SIZE, 377 + 13 * TILE_SIZE);
+        npcArray = new Npc[0];
+        setUpList();
     }
 
     public void loadMap() {
@@ -246,5 +246,6 @@ public class Playing extends State implements Statemethods {
         if (nextLevel != null) nextLevel.draw(g2);
     }
 
-
+    // Sound
+    public Sound soundtrack;
 }

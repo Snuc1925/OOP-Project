@@ -52,7 +52,8 @@ public class SaveLoad {
             game.getPause().isSoundtrackOn = settings.isSoundtrackOn;
             game.getPause().isSoundEffectOn = settings.isSoundEffectOn;
 
-            game.getPlaying().soundtrack.setVolume(settings.volume / 100f);
+            game.getPlaying().soundtrack.themeVolume = settings.volume / 100f;
+            game.getPlaying().soundtrack.setVolume("theme");
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

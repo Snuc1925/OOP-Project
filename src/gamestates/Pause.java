@@ -83,12 +83,16 @@ public class Pause extends State implements Statemethods {
                 } else if (KeyboardInputs.isPressedValid("left", keyboardInputs.leftPressed)) {
                     if (currentVolume >= 10 && commandIndex == 0) {
                         currentVolume -= 10;
-                        playing.soundtrack.setVolume(currentVolume / 100f);
+                        playing.soundtrack.soundEffectVolume = currentVolume / 100f;
+                        playing.soundtrack.themeVolume = currentVolume / 100f;
+                        playing.soundtrack.setVolume("theme");
                     }
                 } else if (KeyboardInputs.isPressedValid("right", keyboardInputs.rightPressed)) {
                     if (currentVolume <= 90 && commandIndex == 0) {
                         currentVolume += 10;
-                        playing.soundtrack.setVolume(currentVolume / 100f);
+                        playing.soundtrack.soundEffectVolume = currentVolume / 100f;
+                        playing.soundtrack.themeVolume = currentVolume / 100f;
+                        playing.soundtrack.setVolume("theme");
                     }
                 } else if (KeyboardInputs.isPressedValid("enter", keyboardInputs.enterPressed)) {
                     switch (commandIndex) {
