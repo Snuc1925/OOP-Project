@@ -15,6 +15,7 @@ import main.Game;
 
 import static java.lang.Math.min;
 import static utils.Constants.Screen.TILE_SIZE;
+import main.Sound;
 
 public class SaveLoad {
     Playing playing;
@@ -52,8 +53,10 @@ public class SaveLoad {
             game.getPause().isSoundtrackOn = settings.isSoundtrackOn;
             game.getPause().isSoundEffectOn = settings.isSoundEffectOn;
 
-            game.getPlaying().soundtrack.themeVolume = settings.volume / 100f;
-            game.getPlaying().soundtrack.setVolume("theme");
+            game.getPlaying().soundtrack.setVolume(settings.volume / 100f);
+
+           if (!settings.isSoundEffectOn) game.getPlaying().soundtrack.toggleEffectMute();
+           if (!settings.isSoundtrackOn) game.getPlaying().soundtrack.toggleSongMute();
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -168,6 +171,8 @@ public class SaveLoad {
                 playing.monsters[i] = monster;
             }
 
+
+
             playing.npcArray = new Npc[ds.npcName.length];
             for (int i = 0; i < ds.npcName.length; i++) {
                 Npc npc = createNpc(ds.npcName[i], ds.npcWorldX[i], ds.npcWorldY[i]);
@@ -178,6 +183,8 @@ public class SaveLoad {
 
             playing.setUpList();
             playing.loadMap();
+            playing.setLevelTheme();
+            playing.nextLevel = null;
 
         } catch (Exception e) {
             System.out.println("Error loading save file");

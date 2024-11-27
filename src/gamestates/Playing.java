@@ -13,7 +13,6 @@ import inputs.KeyboardInputs;
 import main.Game;
 import java.awt.*;
 import entities.npc.Npc;
-import entities.npc.WhiteSamurai;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -67,7 +66,7 @@ public class Playing extends State implements Statemethods {
     public SaveLoad saveLoad = new SaveLoad(this);
 
     // Level
-    public String currentLevel = "level2";
+    public String currentLevel = "level3";
     public EnergyOrb energyOrb = null;
     public NextLevel nextLevel = null;
 
@@ -89,10 +88,7 @@ public class Playing extends State implements Statemethods {
         setDefaultValues();
 
         soundtrack = new Sound();
-
-        soundtrack.playMusic(0);
-
-        soundtrack.setVolume("theme");
+        setLevelTheme();
 
         saveLoad.loadGame(currentLevel);
     }
@@ -165,6 +161,8 @@ public class Playing extends State implements Statemethods {
             if (allMonstersNull) {
                 nextLevel = new NextLevel(this, player.getWorldX(), player.getWorldY());
             }
+            // For debugging
+            nextLevel = new NextLevel(this, player.getWorldX(), player.getWorldY());
         }
 
         // NPC talk, other entity stop update
@@ -248,4 +246,20 @@ public class Playing extends State implements Statemethods {
 
     // Sound
     public Sound soundtrack;
+    public void setLevelTheme() {
+        switch (currentLevel) {
+            case "level1":
+                soundtrack.playMusic(0);
+                break;
+            case "level2":
+                soundtrack.playMusic(0);
+                break;
+            case "level3":
+                soundtrack.playMusic(0);
+                break;
+            default:
+                soundtrack.playMusic(0);
+                break;
+        }
+    }
 }

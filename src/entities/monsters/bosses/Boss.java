@@ -8,6 +8,7 @@ import utils.HelpMethods;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static enitystates.EntityState.DEATH;
 import static utils.Constants.Screen.*;
 import static utils.Constants.Screen.SCREEN_WIDTH;
 
@@ -16,6 +17,17 @@ public abstract class Boss extends Monster {
         super(name, playing, width, height);
     }
 
+    public int bossThemeId;
+    public boolean isSoundtrackPlayed = false;
+    public void playBossTheme() {
+        if (canSeePlayer() && currentState != DEATH && currentHealth != 0 && !isSoundtrackPlayed) {
+            playing.soundtrack.playMusic(bossThemeId);
+            isSoundtrackPlayed = true;
+        } else if ((!canSeePlayer() || currentHealth == 0) && isSoundtrackPlayed) {
+            isSoundtrackPlayed = false;
+            playing.setLevelTheme();
+        }
+    }
     @Override
     public void update() {
         if (!isBossIntroDrew) currentState = EntityState.IDLE;

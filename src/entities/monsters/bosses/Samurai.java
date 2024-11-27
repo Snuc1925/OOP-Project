@@ -50,11 +50,12 @@ public class Samurai extends Boss {
         attackPoints = 2;
         attackRate = 90;
         speed = 5;
+        bossThemeId = 3;
     }
 
     @Override
     public void update() {
-//        System.out.println(currentState);
+        playBossTheme();
         if (currentPhase == 1) {
             switch (currentState) {
                 case IDLE:
