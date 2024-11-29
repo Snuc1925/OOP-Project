@@ -54,6 +54,17 @@ public class Samurai extends Boss {
     }
 
     @Override
+    public void playBossTheme() {
+        if (canSeePlayer() && !isSoundtrackPlayed  && currentPhase == 1) {
+            playing.soundtrack.playMusic(bossThemeId);
+            isSoundtrackPlayed = true;
+        }
+        if ((!canSeePlayer() || currentState == EntityState.DEATH) && currentPhase == 2 && isSoundtrackPlayed) {
+            isSoundtrackPlayed = false;
+            playing.setLevelTheme();
+        }
+    }
+    @Override
     public void update() {
         playBossTheme();
         if (currentPhase == 1) {
@@ -77,6 +88,9 @@ public class Samurai extends Boss {
                     break;
                 case DEATH:
                     image = transform.getImage();
+                    if (transform.numAnimationFrames == 1 && transform.frameCounter == 1) {
+                        playing.soundtrack.playSE(15);
+                    }
                     if (transform.numAnimationFrames + 1 == transform.totalAnimationFrames) {
                         switchPhase();
                     }

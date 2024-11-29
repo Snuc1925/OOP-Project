@@ -30,6 +30,9 @@ public class MagicCircle extends EffectMethod{
 
     public void update() {
         super.update(5, false);
+        if (frameCounter == frameDuration * 4) {
+            mage.getPlaying().soundtrack.playSE(11);
+        }
     }
 
     @Override

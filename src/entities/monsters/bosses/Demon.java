@@ -76,7 +76,7 @@ public class Demon extends Boss {
             isSoundtrackPlayed = true;
         } else if ((!canSeePlayer() || currentState == EntityState.DEATH) && isSoundtrackPlayed) {
             isSoundtrackPlayed = false;
-            playing.soundtrack.playMusic(0);
+            playing.setLevelTheme();
         }
         if (currentPhase == 1) {
             switch (currentState) {

@@ -31,7 +31,6 @@ import main.Sound;
 
 import system.MonsterAttackSystem;
 
-import static utils.Constants.Screen.TILE_SIZE;
 
 public class Playing extends State implements Statemethods {
     private Player player;
@@ -66,7 +65,7 @@ public class Playing extends State implements Statemethods {
     public SaveLoad saveLoad = new SaveLoad(this);
 
     // Level
-    public String currentLevel = "level3";
+    public String currentLevel = "level1";
     public EnergyOrb energyOrb = null;
     public NextLevel nextLevel = null;
 
@@ -195,7 +194,10 @@ public class Playing extends State implements Statemethods {
         }
 
         if (energyOrb != null) energyOrb.update();
-        if (nextLevel != null) nextLevel.update();
+        if (nextLevel != null) {
+//            System.out.println("Asdasdasdasdasdasdasdasd");
+            nextLevel.update();
+        }
     }
 
     @Override
@@ -249,16 +251,16 @@ public class Playing extends State implements Statemethods {
     public void setLevelTheme() {
         switch (currentLevel) {
             case "level1":
-                soundtrack.playMusic(0);
+                soundtrack.playMusic(4);
                 break;
             case "level2":
-                soundtrack.playMusic(0);
+                soundtrack.playMusic(5);
                 break;
             case "level3":
-                soundtrack.playMusic(0);
+                soundtrack.playMusic(6);
                 break;
             default:
-                soundtrack.playMusic(0);
+                soundtrack.playMusic(7);
                 break;
         }
     }

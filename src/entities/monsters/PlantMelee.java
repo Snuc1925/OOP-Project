@@ -55,6 +55,9 @@ public class PlantMelee extends Monster {
 
         frameCounter++;
         int totalFrame = attack.totalAnimationFrames * attack.frameDuration;
+        if (attack.frameCounter == 5 * attack.frameDuration) {
+            playing.soundtrack.playSE(14);
+        }
         if (frameCounter >= totalFrame - knockbackDuration) {
             getDirectionForAttacking();
             if (player.dash == null && canAttack(false)) {

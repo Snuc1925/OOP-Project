@@ -36,6 +36,9 @@ public class ElectricBurst extends EffectMethod{
             removeEffect(index);
             return;
         }
+        if (frameCounter == 11 * frameDuration)
+            entity.getPlaying().soundtrack.playSE(9);
+
         if (frameCounter % frameDuration == 0 &&
             frameCounter / frameDuration >= 14 &&
             frameCounter / frameDuration <= 21) {

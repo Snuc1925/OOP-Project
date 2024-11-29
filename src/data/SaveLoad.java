@@ -168,6 +168,7 @@ public class SaveLoad {
             for (int i = 0; i < ds.monstersName.length; i++) {
                 Monster monster = createMonster(ds.monstersName[i],
                                                 ds.monstersWorldX[i], ds.monstersWorldY[i], ds.monstersCurrentHealth[i]);
+                System.out.println(ds.monstersName[i] + " " + ds.monstersWorldX[i] + " " + ds.monstersWorldY[i]);
                 playing.monsters[i] = monster;
             }
 
@@ -184,7 +185,7 @@ public class SaveLoad {
             playing.setUpList();
             playing.loadMap();
             playing.setLevelTheme();
-            playing.nextLevel = null;
+            // playing.nextLevel = null;
 
         } catch (Exception e) {
             System.out.println("Error loading save file");
