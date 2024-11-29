@@ -22,16 +22,13 @@ import java.util.Objects;
 import map.GameMap;
 import map.MapManager;
 import map.MapParser;
-import system.CollectibleSystem;
-import system.DoorSystem;
-import system.RenderSystem;
+import system.*;
 import tile.TileManager;
 import utils.ImageLoader;
 import utils.ImageManager;
 import main.Sound;
 
-import system.MonsterAttackSystem;
-
+import static utils.Constants.Player.*;
 import static utils.Constants.Screen.TILE_SIZE;
 
 public class Playing extends State implements Statemethods {
@@ -53,6 +50,7 @@ public class Playing extends State implements Statemethods {
     private DoorSystem doorSystem;
     private MonsterAttackSystem monsterAttackSystem;
     private RenderSystem renderSystem;
+    private MonsterAreaSystem monsterAreaSystem;
 
     private final ImageManager imageManager;
 
@@ -67,7 +65,7 @@ public class Playing extends State implements Statemethods {
     public SaveLoad saveLoad = new SaveLoad(this);
 
     // Level
-    public String currentLevel = "level2";
+    public String currentLevel = "level1";
     public EnergyOrb energyOrb = null;
     public NextLevel nextLevel = null;
 
@@ -78,8 +76,6 @@ public class Playing extends State implements Statemethods {
 
 //        projectileManager = new ProjectileManager(this);
 //        collectibleSystem = new CollectibleSystem(this);
-//        doorSystem = new DoorSystem(this);
-//        renderSystem = new RenderSystem(this);
 
         cameraShake = new CameraShake(20);
 //        monsterAttackSystem = new MonsterAttackSystem(this);
@@ -90,11 +86,16 @@ public class Playing extends State implements Statemethods {
 
         soundtrack = new Sound();
 
-        soundtrack.playMusic(0);
+//        soundtrack.playMusic(0);
 
-        soundtrack.setVolume("theme");
+//        soundtrack.setVolume("theme");
 
         saveLoad.loadGame(currentLevel);
+
+
+        doorSystem = new DoorSystem(this);
+        renderSystem = new RenderSystem(this);
+        monsterAreaSystem = new MonsterAreaSystem(this);
     }
 
     public void setDefaultValues() {
@@ -138,12 +139,37 @@ public class Playing extends State implements Statemethods {
 
     public ProjectileManager getProjectileManager() { return projectileManager; }
 
+    public DoorSystem getDoorSystem() { return doorSystem; }
+
+    public MonsterAreaSystem getMonsterAreaSystem() { return monsterAreaSystem; }
+
     public TileManager getTileManager() {
         return tileManager;
     }
 
     @Override
     public void update() {
+//        -------------------
+        int mouseScreenX = game.getKeyboardInputs().mousePressedScreenX;
+        int mouseScreenY = game.getKeyboardInputs().mousePressedScreenY;
+        if (mouseScreenX != 0 && mouseScreenY != 0) {
+            int worldX = player.worldX + mouseScreenX - PLAYER_SCREEN_X;
+            int worldY = player.worldY + mouseScreenY - PLAYER_SCREEN_Y;
+            System.out.println("(" + worldX + "," + worldY + "), (" + player.worldX + "," + player.worldY + ")");
+            int minDist = 1000000000, id = 0;
+            for (int i = 0; i < monsters.length; i++) {
+                Monster monster = monsters[i];
+                if (monster == null) continue;
+                int d = (monster.worldX - worldX) * (monster.worldX - worldX) + (monster.worldY - worldY) * (monster.worldY - worldY);
+                if (minDist > d) {
+                    minDist = d;
+                    id = i;
+                }
+            }
+            System.out.println(id);
+        }
+//
+
         for (int i = 0; i < entityArray.length; i++)
             if (entityArray[i] != null){
                 if (entityArray[i].image == null && entityArray[i].currentState == EntityState.DEATH) {
@@ -185,7 +211,8 @@ public class Playing extends State implements Statemethods {
 //        monsterAttackSystem.update();
 //        projectileManager.update();
 //        collectibleSystem.update();
-//        doorSystem.update();
+        monsterAreaSystem.update();
+        doorSystem.update();
 //          System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
 //        System.out.println(player.worldX + " " + player.worldY);
         if (KeyboardInputs.isPressedValid("pause", game.getKeyboardInputs().pausePressed)) {
@@ -206,7 +233,7 @@ public class Playing extends State implements Statemethods {
 
 //        projectileManager.draw(g2);
 //        collectibleSystem.draw(g2);
-//        doorSystem.draw(g2);
+        doorSystem.draw(g2);
 
         for (Entity entity : entityList) {
             if (entity instanceof SkeletonReaper && entity.image == null && entity.currentState == EntityState.DEATH) {
@@ -235,7 +262,7 @@ public class Playing extends State implements Statemethods {
             if (monster instanceof Demon || monster instanceof BringerOfDeath || monster instanceof Samurai ||
                 monster instanceof SkeletonReaper) {
                 Boss boss = (Boss) monster;
-                boss.drawBossIntro(g2);
+//                boss.drawBossIntro(g2);
             }
             if (monster instanceof  SkeletonReaper) {
                 ((SkeletonReaper) monster).drawDialogue(g2);

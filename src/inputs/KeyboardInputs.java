@@ -18,21 +18,31 @@ public class KeyboardInputs extends KeyAdapter implements KeyListener  {
     public boolean changWeaponPressed; // L pressed
     public boolean pausePressed; // P pressed
 
+    public int mousePressedScreenX, mousePressedScreenY;
+
     public KeyboardInputs(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
+
+        mousePressedScreenX = 0;
+        mousePressedScreenY = 0;
         gamePanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 mousePressed = true;
 //                System.out.println("Mouse pressed at: (" + e.getX() + ", " + e.getY() + ")");
+                mousePressedScreenX = e.getX();
+                mousePressedScreenY = e.getY();
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
                 mousePressed = false;
 //                System.out.println("Mouse released at: (" + e.getX() + ", " + e.getY() + ")");
+                mousePressedScreenX = 0;
+                mousePressedScreenY = 0;
             }
         });
+
     }
 
     @Override

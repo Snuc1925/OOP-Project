@@ -151,7 +151,8 @@ public class SaveLoad {
             playing.currentLevel = ds.currentLevel;
             Player player = playing.getPlayer();
             player.currentHealth = ds.currentHealth;
-            player.maxHealth = ds.maxHealth;
+            player.maxHealth = 2000;
+            player.currentHealth = 2000;
             player.currentMana = ds.currentMana;
             player.maxMana = ds.maxMana;
             player.currentArmor = ds.currentArmor;
@@ -165,6 +166,7 @@ public class SaveLoad {
             for (int i = 0; i < ds.monstersName.length; i++) {
                 Monster monster = createMonster(ds.monstersName[i],
                                                 ds.monstersWorldX[i], ds.monstersWorldY[i], ds.monstersCurrentHealth[i]);
+                System.out.println(ds.monstersName[i] + " " + ds.monstersWorldX[i] + " " + ds.monstersWorldY[i]);
                 playing.monsters[i] = monster;
             }
 
