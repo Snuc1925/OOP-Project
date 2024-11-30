@@ -1,5 +1,6 @@
 package system;
 import components.PositionComponent;
+import data.DataStorage;
 import entities.Player;
 import gamestates.Playing;
 import objects.Door;
@@ -25,7 +26,13 @@ public class DoorSystem {
         enteredDirection = exitDirection = 0;
         InitSystem.initDoors(doors);
     }
-
+//    public void saveDoors(DataStorage ds) {
+//        ds.doors = doors;
+//    }
+//    public void loadDoors(DataStorage ds) {
+//        doors = ds.doors;
+//        System.out.println("Doors size = " + doors.size());
+//    }
     public void update() {
         for (Door door : doors) {
             if (door.isOpen) {
@@ -39,6 +46,12 @@ public class DoorSystem {
             int totalAnimationFrame = door.animation.totalAnimationFrame;
             BufferedImage image = playing.getImageManager().getObjectImage(key, numAnimationFrame - 1, totalAnimationFrame);
             door.render.image = scaleImage(image, door.render.width, door.render.height);
+        }
+    }
+    public void draw(Graphics2D g2) {
+        for (Door door : doors) {
+            playing.getRenderSystem().draw(g2, door.position, door.render, door.hitbox);
+//            playing.getRenderSystem().draw(g2, door.position, door.render);
         }
     }
 
@@ -102,10 +115,4 @@ public class DoorSystem {
         return 0;
     }
 
-    public void draw(Graphics2D g2) {
-        for (Door door : doors) {
-            playing.getRenderSystem().draw(g2, door.position, door.render, door.hitbox);
-//            playing.getRenderSystem().draw(g2, door.position, door.render);
-        }
-    }
 }

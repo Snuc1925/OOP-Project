@@ -25,7 +25,7 @@ public class InitSystem {
         doors.add(new Door("front_wall", worldX, worldY, 1, renderWidth, renderHeight, hitboxWidth, hitboxHeight));
 
         worldX = 1800; worldY = 1540;
-        doors.add(new Door("front_wall", worldX, worldY, 1, renderWidth, renderHeight, hitboxWidth, hitboxHeight));
+        doors.add(new Door("front_wall", worldX, worldY, -1, renderWidth, renderHeight, hitboxWidth, hitboxHeight));
         //---------------------SideDoor-----------------------------------------------------------
         renderWidth = TILE_SIZE; renderHeight = TILE_SIZE * 4 + 20;
         hitboxWidth = TILE_SIZE * 2; hitboxHeight = TILE_SIZE * 4;

@@ -62,7 +62,7 @@ public class Playing extends State implements Statemethods {
     public Npc[] npcArray;
 
     // Save load
-    public SaveLoad saveLoad = new SaveLoad(this);
+    public SaveLoad saveLoad;
 
     // Level
     public String currentLevel = "level1";
@@ -73,12 +73,9 @@ public class Playing extends State implements Statemethods {
 
     public Playing(Game game) {
         super(game);
-
-//        projectileManager = new ProjectileManager(this);
-//        collectibleSystem = new CollectibleSystem(this);
+        saveLoad = new SaveLoad(this);
 
         cameraShake = new CameraShake(20);
-//        monsterAttackSystem = new MonsterAttackSystem(this);
 
         ImageLoader.initialize();
         imageManager = ImageLoader.imageManager;
@@ -90,9 +87,9 @@ public class Playing extends State implements Statemethods {
 
 //        soundtrack.setVolume("theme");
 
+
+
         saveLoad.loadGame(currentLevel);
-
-
         doorSystem = new DoorSystem(this);
         renderSystem = new RenderSystem(this);
         monsterAreaSystem = new MonsterAreaSystem(this);
