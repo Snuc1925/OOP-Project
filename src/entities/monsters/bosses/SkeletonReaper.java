@@ -2,6 +2,7 @@ package entities.monsters.bosses;
 
 import effect.*;
 import enitystates.*;
+import gamestates.Gamestate;
 import gamestates.Playing;
 import entities.Player;
 import inputs.KeyboardInputs;
@@ -20,6 +21,7 @@ public class SkeletonReaper extends Boss {
     Brushed brushed;
     public Portal[] portals;
     public ElectricBurst electricBurst = null;
+    public LightningSphere[] lightningSpheres;
     Dash dash = null;
 
     public SkeletonReaper(Playing playing, int worldX, int worldY) {
@@ -49,6 +51,10 @@ public class SkeletonReaper extends Boss {
 
         brushed = new Brushed(this, worldX + 58 * SCALE, worldY + 62 * SCALE);
         portals = new Portal[3];
+
+        lightningSpheres = new LightningSphere[4];
+
+        bossThemeId = 8;
     }
 
     @Override
@@ -73,8 +79,13 @@ public class SkeletonReaper extends Boss {
                 portals[1] = new Portal(this, getWorldX() + TILE_SIZE * 2, getWorldY(), 1);
                 portals[2] = new Portal(this, getWorldX(), getWorldY() + TILE_SIZE * 2, 2);
             }
-            if (electricBurst == null)
+            if (electricBurst == null) {
                 electricBurst = new ElectricBurst(this, player.getWorldX(), player.getWorldY(), 0);
+                lightningSpheres[0] = new LightningSphere(this, player.getWorldX() + 3 * TILE_SIZE, player.getWorldY(), 0);
+                lightningSpheres[1] = new LightningSphere(this, player.getWorldX() - 3 * TILE_SIZE, player.getWorldY(), 1);
+                lightningSpheres[2] = new LightningSphere(this, player.getWorldX(), player.getWorldY() + 3 * TILE_SIZE, 2);
+                lightningSpheres[3] = new LightningSphere(this, player.getWorldX(), player.getWorldY() - 3 * TILE_SIZE, 3);
+            }
             attack = normalAttack;
             currentState = EntityState.IDLE;
         }
@@ -86,6 +97,8 @@ public class SkeletonReaper extends Boss {
         frameCounter++;
         getDirectionForAttacking();
         int totalFrame = normalAttack.totalAnimationFrames * normalAttack.frameDuration;
+        if (frameCounter == 3 * normalAttack.frameDuration)
+            playing.soundtrack.playSE(8);
         if (frameCounter == 6 * normalAttack.frameDuration) {
             if (canAttack(false))
                 player.getHurt(attackPoints);
@@ -120,6 +133,8 @@ public class SkeletonReaper extends Boss {
     public boolean isDialogueDraw = false;
     @Override
     public void update() {
+        if (Gamestate.state == Gamestate.PLAYING)
+            playBossTheme();
         brushed.update();
         if (currentHealth < maxHealth / 2) {
             if (!isDialogueDraw) {
@@ -136,6 +151,10 @@ public class SkeletonReaper extends Boss {
         if (electricBurst != null) electricBurst.update();
         for (Portal portal : portals)
             if (portal != null) portal.update();
+
+        for (LightningSphere lightningSphere : lightningSpheres) {
+            if (lightningSphere!= null) lightningSphere.update();
+        }
 
         if (dash != null) {
             speed = 5;
@@ -162,6 +181,10 @@ public class SkeletonReaper extends Boss {
             if (portal != null) portal.draw(g2);
 
         if (dash != null) dash.draw(g2);
+
+        for (LightningSphere lightningSphere : lightningSpheres) {
+            if (lightningSphere!= null) lightningSphere.draw(g2);
+        }
     }
 
     @Override
@@ -178,6 +201,9 @@ public class SkeletonReaper extends Boss {
 
     public void removeElectricBurst(int index) {
         electricBurst = null;
+    }
+    public void removeLightningSphere(int index) {
+        lightningSpheres[index] = null;
     }
     public void removePortal(int index) {
         portals[index] = null;

@@ -1,9 +1,7 @@
 package main;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.*;
+import java.io.IOException;
 import java.net.URL;
 
 public class Sound {
@@ -11,87 +9,124 @@ public class Sound {
     URL[] soundEffectURL = new URL[30];
     URL[] themeURL = new URL[30];
 
-    public float themeVolume = 0.1f, soundEffectVolume = 0.1f;
+    Clip[] soundtrack = new Clip[9], effect = new Clip[20];
+
+
+    public float volume = 0.8f;
+    public int currentSoundtrackId;
+    public boolean soundtrackMute = false, effectMute = false;
+    private Clip getClip(String path) {
+        System.out.println(path);
+        URL url = getClass().getResource(path);
+        AudioInputStream audio;
+
+        try {
+            assert url != null;
+            audio = AudioSystem.getAudioInputStream(url);
+            Clip c = AudioSystem.getClip();
+            c.open(audio);
+            return c;
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
 
     public Sound() {
-        themeURL[0] = getClass().getResource("/sound/Soundtrack/Snowland.wav");
-        themeURL[1] = getClass().getResource("/sound/Theme/Demon.wav");
-        themeURL[2] = getClass().getResource("/sound/Theme/BringerOfDeath.wav");
-        themeURL[3] = getClass().getResource("/sound/Theme/Samurai.wav");
+        soundtrack[0] = getClip("/sound/Soundtrack/Snowland.wav");
+        soundtrack[1] = getClip("/sound/Theme/Demon.wav");
+        soundtrack[2] = getClip("/sound/Theme/BringerOfDeath.wav");
+        soundtrack[3] = getClip("/sound/Theme/Samurai.wav");
+        soundtrack[4] = getClip("/sound/Theme/level1.wav");
+        soundtrack[5] = getClip("/sound/Theme/level2.wav");
+        soundtrack[6] = getClip("/sound/Theme/level3.wav");
+        soundtrack[7] = getClip("/sound/Theme/level4.wav");
+        soundtrack[8] = getClip("/sound/Theme/SkeletonReaper.wav");
 
-        soundEffectURL[0] = getClass().getResource("/sound/Demon/Explosion.wav");
-        soundEffectURL[1] = getClass().getResource("/sound/Demon/FireBreath.wav");
-        soundEffectURL[2] = getClass().getResource("/sound/Demon/Slash.wav");
-        soundEffectURL[3] = getClass().getResource("/sound/Demon/Transform.wav");
+        effect[0] = getClip("/sound/Demon/Explosion.wav");
+        effect[1] = getClip("/sound/Demon/FireBreath.wav");
+        effect[2] = getClip("/sound/Demon/Slash.wav");
+        effect[3] = getClip("/sound/Demon/Transform.wav");
 
-        soundEffectURL[4] = getClass().getResource("/sound/Player/GunAttack.wav");
-        soundEffectURL[5] = getClass().getResource("/sound/Player/SpearAttack.wav");
+        effect[4] = getClip("/sound/Player/GunAttack.wav");
+        effect[5] = getClip("/sound/Player/SpearAttack.wav");
 
-        soundEffectURL[6] = getClass().getResource("/sound/Samurai/attack1.wav");
-        soundEffectURL[7] = getClass().getResource("/sound/Samurai/attack2.wav");
+        effect[6] = getClip("/sound/Samurai/attack1.wav");
+        effect[7] = getClip("/sound/Samurai/attack2.wav");
+        effect[15] = getClip("/sound/Samurai/transform.wav");
 
-        soundEffectURL[8] = getClass().getResource("/sound/SkeletonReaper/attack1.wav");
-        soundEffectURL[9] = getClass().getResource("/sound/SkeletonReaper/cast.wav");
+        effect[8] = getClip("/sound/SkeletonReaper/NormalAttack.wav");
+        effect[9] = getClip("/sound/SkeletonReaper/ElectricBurst.wav");
+
+        effect[10] = getClip("/sound/mage/laser.wav");
+        effect[11] = getClip("/sound/mage/MagicCircle.wav");
+
+        effect[12] = getClip("/sound/morph/poison.wav");
+        effect[13] = getClip("/sound/morph/Spike.wav");
+
+        effect[14] = getClip("/sound/plantMelee/attack1.wav");
+
+        effect[16] = getClip("/sound/Sickle/attack.wav");
+
+        effect[17] = getClip("/sound/Slime/attack.wav");
+
+        effect[18] = getClip("/sound/SwordKnight/attack1.wav");
+        effect[19] = getClip("/sound/SwordKnight/dash.wav");
 
 
     }
-    public void setSE(int index) {
-        try {
-            AudioInputStream ais = AudioSystem.getAudioInputStream(soundEffectURL[index]);
-            clip = AudioSystem.getClip();
-            clip.open(ais);
 
-            setVolume("SE");
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void setVolume(float volume) {
+        this.volume = volume;
+        updateSoundtrackVolume();
+        updateEffectsVolume();
+    }
+
+    private void updateSoundtrackVolume() {
+        FloatControl gainControl = (FloatControl) soundtrack[currentSoundtrackId].getControl(FloatControl.Type.MASTER_GAIN);
+        float range = gainControl.getMaximum() - gainControl.getMinimum();
+        float gain = (range * volume) + gainControl.getMinimum();
+        gainControl.setValue(gain);
+    }
+    private void updateEffectsVolume() {
+        for (Clip c : effect) {
+            FloatControl gainControl = (FloatControl) c.getControl(FloatControl.Type.MASTER_GAIN);
+            float range = gainControl.getMaximum() - gainControl.getMinimum();
+            float gain = (range * volume) + gainControl.getMinimum();
+            gainControl.setValue(gain);
+        }
+    }
+    public void toggleSongMute() {
+        this.soundtrackMute = !soundtrackMute;
+        for (Clip c : soundtrack) {
+            BooleanControl booleanControl = (BooleanControl) c.getControl(BooleanControl.Type.MUTE);
+            booleanControl.setValue(soundtrackMute);
         }
     }
 
-    public void setTheme(int index) {
-        try {
-            AudioInputStream ais = AudioSystem.getAudioInputStream(themeURL[index]);
-            clip = AudioSystem.getClip();
-            clip.open(ais);
-            setVolume("theme");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    public void play() {
-        clip.start();
-
-    }
-    public void loop() {
-        clip.loop(Clip.LOOP_CONTINUOUSLY);
-    }
-    public void stop() {
-        clip.stop();
-    }
-    public void setVolume(String type) {
-        float volume = soundEffectVolume;
-        if (type.equals("theme")) volume = themeVolume;
-        if (type.equals("SE")) volume = soundEffectVolume;
-        if (clip != null && clip.isOpen()) {
-            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            float dB = (float) (Math.log(volume) / Math.log(10.0) * 20.0);
-            gainControl.setValue(dB);
+    public void toggleEffectMute() {
+        this.effectMute = !effectMute;
+        for (Clip c : effect) {
+            BooleanControl booleanControl = (BooleanControl) c.getControl(BooleanControl.Type.MUTE);
+            booleanControl.setValue(effectMute);
         }
     }
 
-    public void playMusic(int index) {
-        System.out.println(index);
-        if (clip != null && clip.isRunning()) {
-            System.out.println("Stopping current theme");
-            clip.stop();
-        }
-        setTheme(index);
-        play();
-        loop();
+    public void stopSong() {
+        if (soundtrack[currentSoundtrackId].isActive())
+            soundtrack[currentSoundtrackId].stop();
+    }
+    public void playSE(int effectId) {
+        effect[effectId].setMicrosecondPosition(0);
+        effect[effectId].start();
     }
 
-    public void playSE(int index) {
-        setSE(index);
-        play();
+    public void playMusic(int soundtrackId) {
+        stopSong();
+        currentSoundtrackId = soundtrackId;
+        updateSoundtrackVolume();
+        soundtrack[soundtrackId].setMicrosecondPosition(0);
+        soundtrack[soundtrackId].loop(Clip.LOOP_CONTINUOUSLY);
     }
-
 }

@@ -32,6 +32,7 @@ public class GameOver extends State implements Statemethods{
                 case 0:
                     game.getPlaying().setDefaultValues();
                     playing.saveLoad.loadGame(playing.currentLevel);
+                    playing.nextLevel = null;
                     Gamestate.state = Gamestate.PLAYING;
                     break;
                 case 1:

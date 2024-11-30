@@ -13,7 +13,6 @@ import inputs.KeyboardInputs;
 import main.Game;
 import java.awt.*;
 import entities.npc.Npc;
-import entities.npc.WhiteSamurai;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -28,8 +27,7 @@ import utils.ImageLoader;
 import utils.ImageManager;
 import main.Sound;
 
-import static utils.Constants.Player.*;
-import static utils.Constants.Screen.TILE_SIZE;
+import system.MonsterAttackSystem;
 
 public class Playing extends State implements Statemethods {
     private Player player;
@@ -82,12 +80,7 @@ public class Playing extends State implements Statemethods {
         setDefaultValues();
 
         soundtrack = new Sound();
-
-//        soundtrack.playMusic(0);
-
-//        soundtrack.setVolume("theme");
-
-
+        setLevelTheme();
 
         saveLoad.loadGame(currentLevel);
         doorSystem = new DoorSystem(this);
@@ -146,27 +139,6 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void update() {
-//        -------------------
-        int mouseScreenX = game.getKeyboardInputs().mousePressedScreenX;
-        int mouseScreenY = game.getKeyboardInputs().mousePressedScreenY;
-        if (mouseScreenX != 0 && mouseScreenY != 0) {
-            int worldX = player.worldX + mouseScreenX - PLAYER_SCREEN_X;
-            int worldY = player.worldY + mouseScreenY - PLAYER_SCREEN_Y;
-            System.out.println("(" + worldX + "," + worldY + "), (" + player.worldX + "," + player.worldY + ")");
-            int minDist = 1000000000, id = 0;
-            for (int i = 0; i < monsters.length; i++) {
-                Monster monster = monsters[i];
-                if (monster == null) continue;
-                int d = (monster.worldX - worldX) * (monster.worldX - worldX) + (monster.worldY - worldY) * (monster.worldY - worldY);
-                if (minDist > d) {
-                    minDist = d;
-                    id = i;
-                }
-            }
-            System.out.println(id);
-        }
-//
-
         for (int i = 0; i < entityArray.length; i++)
             if (entityArray[i] != null){
                 if (entityArray[i].image == null && entityArray[i].currentState == EntityState.DEATH) {
@@ -188,6 +160,8 @@ public class Playing extends State implements Statemethods {
             if (allMonstersNull) {
                 nextLevel = new NextLevel(this, player.getWorldX(), player.getWorldY());
             }
+            // For debugging
+            nextLevel = new NextLevel(this, player.getWorldX(), player.getWorldY());
         }
 
         // NPC talk, other entity stop update
@@ -221,7 +195,10 @@ public class Playing extends State implements Statemethods {
         }
 
         if (energyOrb != null) energyOrb.update();
-        if (nextLevel != null) nextLevel.update();
+        if (nextLevel != null) {
+//            System.out.println("Asdasdasdasdasdasdasdasd");
+            nextLevel.update();
+        }
     }
 
     @Override
@@ -259,7 +236,7 @@ public class Playing extends State implements Statemethods {
             if (monster instanceof Demon || monster instanceof BringerOfDeath || monster instanceof Samurai ||
                 monster instanceof SkeletonReaper) {
                 Boss boss = (Boss) monster;
-//                boss.drawBossIntro(g2);
+                boss.drawBossIntro(g2);
             }
             if (monster instanceof  SkeletonReaper) {
                 ((SkeletonReaper) monster).drawDialogue(g2);
@@ -272,4 +249,20 @@ public class Playing extends State implements Statemethods {
 
     // Sound
     public Sound soundtrack;
+    public void setLevelTheme() {
+        switch (currentLevel) {
+            case "level1":
+                soundtrack.playMusic(4);
+                break;
+            case "level2":
+                soundtrack.playMusic(5);
+                break;
+            case "level3":
+                soundtrack.playMusic(6);
+                break;
+            default:
+                soundtrack.playMusic(7);
+                break;
+        }
+    }
 }

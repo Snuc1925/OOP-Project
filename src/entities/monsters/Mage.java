@@ -55,6 +55,9 @@ public class Mage extends Monster {
     public void attack1() {
         getDirectionForAttacking();
         frameCounter++;
+        if (frameCounter == attack1.frameDuration * 4) {
+            playing.soundtrack.playSE(10);
+        }
         if (frameCounter == 6 * attack1.frameDuration ||
             frameCounter == 7 * attack1.frameDuration ||
             frameCounter == 8 * attack1.frameDuration ||

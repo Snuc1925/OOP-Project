@@ -11,6 +11,7 @@ import utils.ImageLoader;
 import java.awt.*;
 import java.util.Random;
 
+import static enitystates.EntityState.DEATH;
 import static utils.Constants.Screen.*;
 
 public class BringerOfDeath extends Boss {
@@ -43,11 +44,13 @@ public class BringerOfDeath extends Boss {
         walk = new Walk(this, 8, 10);
 
         deathHand = new DeathHand[4];
+        bossThemeId = 2;
     }
 
     int skillCooldownCounter = 0;
     @Override
     public void update() {
+        playBossTheme();
         skillCooldownCounter++;
         switch (currentState) {
             case IDLE:

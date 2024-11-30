@@ -98,6 +98,7 @@ public class NextLevel extends EffectMethod{
         playing.saveLoad.loadGame(playing.currentLevel);
         worldX = player.getWorldX();
         worldY = player.getWorldY();
+        playing.setLevelTheme();
         setCenter();
     }
 

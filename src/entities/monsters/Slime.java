@@ -52,6 +52,7 @@ public class Slime extends Monster {
             if (playing.getGame().getCollisionChecker().checkPlayer(this)) {
                 player.getHurt(attackPoints);
             }
+            playing.soundtrack.playSE(17);
             currentState = EntityState.IDLE;
             frameCounter = 0;
         }

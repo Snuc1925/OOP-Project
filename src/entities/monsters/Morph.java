@@ -55,6 +55,9 @@ public class Morph extends Monster{
     public void attack1() {
         getDirectionForAttacking();
         frameCounter++;
+        if (frameCounter == 2 * attack1.frameDuration) {
+            playing.soundtrack.playSE(12);
+        }
         if (frameCounter == 3 * attack1.frameDuration ||
             frameCounter == 4 * attack1.frameDuration ||
             frameCounter == 5 * attack1.frameDuration) {
@@ -76,9 +79,11 @@ public class Morph extends Monster{
     public void attack2() {
         getDirectionForAttacking();
         frameCounter++;
-        if (frameCounter == 4 * attack2.frameDuration)
+        if (frameCounter == 4 * attack2.frameDuration) {
             if (canAttack(false))
                 player.getHurt(attackPoints);
+            playing.soundtrack.playSE(13);
+        }
         if (frameCounter == attack2.totalAnimationFrames * attack2.frameDuration) {
             attackBox = attack1Box;
             attack = attack1;

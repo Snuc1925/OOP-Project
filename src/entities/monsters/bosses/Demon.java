@@ -66,17 +66,18 @@ public class Demon extends Boss {
         fire_breath = new Attack(this, 21, 5, "Phase2_fire_breath");
 
         deathPhase2 = new Death(this, 23, 10, "Phase2_death");
+
     }
 
     @Override
     public void update() {
-//        if (canSeePlayer() && !isSoundtrackPlayed && currentPhase == 2 && currentState != DEATH) {
-//            playing.soundtrack.playMusic(1);
-//            isSoundtrackPlayed = true;
-//        } else if ((!canSeePlayer() || currentState == EntityState.DEATH) && isSoundtrackPlayed) {
-//            isSoundtrackPlayed = false;
-//            playing.soundtrack.playMusic(0);
-//        }
+        if (canSeePlayer() && !isSoundtrackPlayed && currentPhase == 2 && currentState != DEATH) {
+            playing.soundtrack.playMusic(1);
+            isSoundtrackPlayed = true;
+        } else if ((!canSeePlayer() || currentState == EntityState.DEATH) && isSoundtrackPlayed) {
+            isSoundtrackPlayed = false;
+            playing.setLevelTheme();
+        }
         if (currentPhase == 1) {
             switch (currentState) {
                 case IDLE:

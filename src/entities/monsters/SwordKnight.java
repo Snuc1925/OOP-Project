@@ -55,6 +55,9 @@ public class SwordKnight extends Monster{
         getDirectionForAttacking();
         Player player = playing.getPlayer();
         frameCounter++;
+        if (frameCounter == attack.frameDuration * 3) {
+            playing.soundtrack.playSE(18);
+        }
         if (frameCounter == attack.frameDuration * 5 || frameCounter == attack.frameDuration * 9) {
             if (canAttack(false)) {
                 player.getHurt(attackPoints);
@@ -74,6 +77,9 @@ public class SwordKnight extends Monster{
         getDirectionForAttacking();
         Player player = playing.getPlayer();
         frameCounter++;
+        if (frameCounter == attack2.frameDuration) {
+            playing.soundtrack.playSE(19);
+        }
         if (frameCounter == 3 * attack2.frameDuration) {
             if (canAttack(false))
                 player.getHurt(attackPoints);
