@@ -3,9 +3,11 @@ package components;
 import java.awt.*;
 
 public class HitboxComponent {
-    public Rectangle area;
+    public int width;
+    public int height;
 
     public HitboxComponent(int width, int height) {
-        area = new Rectangle(0, 0, width, height);
+        this.width = width;
+        this.height = height;
     }
 }

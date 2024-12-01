@@ -35,7 +35,7 @@ public class RenderSystem {
         int worldY = position.worldY;
         if (isOnTheScreen(worldX, worldY)) {
             drawImage(g2, position, render.image, width, height);
-            drawRect(g2, position, hitbox.area.width, hitbox.area.height);
+            drawRect(g2, position, hitbox.width, hitbox.height);
         }
     }
 

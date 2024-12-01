@@ -50,6 +50,8 @@ public class Playing extends State implements Statemethods {
     private RenderSystem renderSystem;
     private MonsterAreaSystem monsterAreaSystem;
 
+    private SaveLoadSystem saveLoadSystem;
+
     private final ImageManager imageManager;
 
     // Game map
@@ -86,6 +88,8 @@ public class Playing extends State implements Statemethods {
         doorSystem = new DoorSystem(this);
         renderSystem = new RenderSystem(this);
         monsterAreaSystem = new MonsterAreaSystem(this);
+        saveLoadSystem = new SaveLoadSystem(this);
+        saveLoadSystem.saveGame();
     }
 
     public void setDefaultValues() {

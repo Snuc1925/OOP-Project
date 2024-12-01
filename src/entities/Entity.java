@@ -1,6 +1,7 @@
 package entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import enitystates.EntityState;
 import gamestates.Playing;
 import utils.Constants;
@@ -18,6 +19,8 @@ import static utils.Constants.Screen.*;
 
 public class Entity {
     public String name;
+
+    @JsonIgnore
     public BufferedImage image;
 
     public int width, height;

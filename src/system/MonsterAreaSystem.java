@@ -1,14 +1,18 @@
 package system;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import data.DataStorage;
+import enitystates.EntityState;
 import gamestates.Playing;
 import objects.Door;
 import objects.MonsterArea;
 
+import java.net.Inet4Address;
 import java.util.ArrayList;
 
 public class MonsterAreaSystem {
-    Playing playing;
+    @JsonIgnore
+    public Playing playing;
     public ArrayList<MonsterArea> monsterAreas;
 
     public MonsterAreaSystem(Playing playing) {
@@ -50,26 +54,46 @@ public class MonsterAreaSystem {
     }
 
     private void addDoor(MonsterArea ma, int doorId) {
-        ma.addDoor(playing.getDoorSystem().doors.get(doorId));
+        ma.addDoor(doorId);
     }
 
     private void addMonster(MonsterArea ma, int monsterId) {
-        ma.addMonster(playing.monsters[monsterId]);
+        ma.addMonster(monsterId);
     }
 
-    public void playerEnteredDoor(Door door) {
+    public void playerEnteredDoor(int doorID) {
         for (MonsterArea monsterArea : monsterAreas) {
-            if(!monsterArea.monsters.isEmpty() && monsterArea.doors.contains(door)) {
-                monsterArea.lockArea();
+            if(!monsterArea.monsterIDs.isEmpty() && monsterArea.doorIDs.contains(doorID)) {
+                lockArea(monsterArea);
                 System.out.println("Lock " + monsterArea.getName());
                 return;
             }
         }
     }
 
+    private void lockArea(MonsterArea monsterArea) {
+        monsterArea.isLocked = true;
+        for (Integer id : monsterArea.doorIDs) {
+            playing.getDoorSystem().lockDoor(id);
+        }
+    }
+
+    private void unlockArea(MonsterArea monsterArea) {
+        monsterArea.isLocked = false;
+        for (Integer id : monsterArea.doorIDs) {
+            playing.getDoorSystem().unlockDoor(id);
+        }
+    }
+
     public void update() {
         for (MonsterArea monsterArea : monsterAreas) {
-            monsterArea.update();
+//            monsterArea.update();
+            if (monsterArea.isLocked) {
+                monsterArea.monsterIDs.removeIf(monsterID -> playing.monsters[monsterID].currentState == EntityState.DEATH);
+                if (monsterArea.monsterIDs.isEmpty()) {
+                    unlockArea(monsterArea);
+                }
+            }
         }
     }
 }

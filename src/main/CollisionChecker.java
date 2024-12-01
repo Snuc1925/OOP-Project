@@ -244,23 +244,20 @@ public class CollisionChecker {
 
         boolean contactPlayer = false;
 
-        int hitboxX = hitbox.area.x;
-        int hitboxY = hitbox.area.y;
+        int x = position.worldX - hitbox.width / 2;
+        int y = position.worldY - hitbox.height / 2;
 
-        hitbox.area.x = position.worldX + hitbox.area.x - hitbox.area.width / 2;
-        hitbox.area.y = position.worldY + hitbox.area.y - hitbox.area.height / 2;
+        Rectangle hitboxRegion = new Rectangle(x, y, hitbox.width, hitbox.height);
 
         player.solidArea.x = player.solidArea.x + player.worldX;
         player.solidArea.y = player.solidArea.y + player.worldY;
 
-        if (hitbox.area.intersects(player.solidArea)){
+        if (hitboxRegion.intersects(player.solidArea)){
             contactPlayer = true;
         }
 
         player.solidArea.x = player.solidAreaDefaultX;
         player.solidArea.y = player.solidAreaDefaultY;
-        hitbox.area.x = hitboxX;
-        hitbox.area.y = hitboxY;
 
         return contactPlayer;
     }
