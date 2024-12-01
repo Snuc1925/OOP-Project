@@ -9,7 +9,8 @@
         "totalAnimationFrame" : 8,
         "numAnimationFrame" : 1,
         "frameDuration" : 10,
-        "frameCounter" : 0
+        "frameCounter" : 0,
+        "currentFrame" : 1
       },
       "position" : {
         "worldX" : 600,
@@ -33,7 +34,8 @@
         "totalAnimationFrame" : 8,
         "numAnimationFrame" : 1,
         "frameDuration" : 10,
-        "frameCounter" : 0
+        "frameCounter" : 0,
+        "currentFrame" : 1
       },
       "position" : {
         "worldX" : 600,
@@ -57,7 +59,8 @@
         "totalAnimationFrame" : 8,
         "numAnimationFrame" : 1,
         "frameDuration" : 10,
-        "frameCounter" : 0
+        "frameCounter" : 0,
+        "currentFrame" : 1
       },
       "position" : {
         "worldX" : 1800,
@@ -81,7 +84,8 @@
         "totalAnimationFrame" : 8,
         "numAnimationFrame" : 1,
         "frameDuration" : 10,
-        "frameCounter" : 0
+        "frameCounter" : 0,
+        "currentFrame" : 1
       },
       "position" : {
         "worldX" : 1800,
@@ -105,7 +109,8 @@
         "totalAnimationFrame" : 8,
         "numAnimationFrame" : 1,
         "frameDuration" : 10,
-        "frameCounter" : 0
+        "frameCounter" : 0,
+        "currentFrame" : 1
       },
       "position" : {
         "worldX" : 873,
@@ -129,7 +134,8 @@
         "totalAnimationFrame" : 8,
         "numAnimationFrame" : 1,
         "frameDuration" : 10,
-        "frameCounter" : 0
+        "frameCounter" : 0,
+        "currentFrame" : 1
       },
       "position" : {
         "worldX" : 1560,
@@ -153,7 +159,8 @@
         "totalAnimationFrame" : 8,
         "numAnimationFrame" : 1,
         "frameDuration" : 10,
-        "frameCounter" : 0
+        "frameCounter" : 0,
+        "currentFrame" : 1
       },
       "position" : {
         "worldX" : 1560,
@@ -177,7 +184,8 @@
         "totalAnimationFrame" : 8,
         "numAnimationFrame" : 1,
         "frameDuration" : 10,
-        "frameCounter" : 0
+        "frameCounter" : 0,
+        "currentFrame" : 1
       },
       "position" : {
         "worldX" : 873,
@@ -197,27 +205,25 @@
       "playerPassed" : false
     } ]
   },
-  "monsterAreaSystem" : {
-    "monsterAreas" : [ {
-      "name" : "area1",
-      "monsterIDs" : [ 0, 1, 2, 3, 4, 5 ],
-      "doorIDs" : [ 1, 7 ],
-      "isLocked" : false
-    }, {
-      "name" : "area2",
-      "monsterIDs" : [ 6, 7, 8, 9, 10 ],
-      "doorIDs" : [ 3, 6 ],
-      "isLocked" : false
-    }, {
-      "name" : "area3",
-      "monsterIDs" : [ 11, 12, 13 ],
-      "doorIDs" : [ 2, 5 ],
-      "isLocked" : false
-    }, {
-      "name" : "area4",
-      "monsterIDs" : [ 14 ],
-      "doorIDs" : [ 0, 4 ],
-      "isLocked" : false
-    } ]
-  }
+  "monsterAreas" : [ {
+    "name" : "area1",
+    "monsterIDs" : [ 0, 1, 2, 3, 4, 5 ],
+    "doorIDs" : [ 1, 7 ],
+    "isLocked" : false
+  }, {
+    "name" : "area2",
+    "monsterIDs" : [ 6, 7, 8, 9, 10 ],
+    "doorIDs" : [ 3, 6 ],
+    "isLocked" : false
+  }, {
+    "name" : "area3",
+    "monsterIDs" : [ 11, 12, 13 ],
+    "doorIDs" : [ 2, 5 ],
+    "isLocked" : false
+  }, {
+    "name" : "area4",
+    "monsterIDs" : [ 14 ],
+    "doorIDs" : [ 0, 4 ],
+    "isLocked" : false
+  } ]
 }

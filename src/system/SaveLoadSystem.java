@@ -1,4 +1,5 @@
 package system;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import data.SaveLoad;
@@ -16,30 +17,40 @@ public class SaveLoadSystem {
     private DoorSystem doorSystem;
     private MonsterAreaSystem monsterAreaSystem;
 
-//    public SaveLoadSystem(Playing playing) {
-//        this.playing = playing;
-//    }
-//    public SaveLoadSystem(Game game) {
-//        this.game = game;
-//    }
+    ObjectMapper objectMapper;
+
     public SaveLoadSystem(Playing playing) {
         this.playing = playing;
         this.doorSystem = playing.getDoorSystem();
         this.monsterAreaSystem = playing.getMonsterAreaSystem();
+        objectMapper = new ObjectMapper();
+        objectMapper.configure(MapperFeature.AUTO_DETECT_GETTERS, false);
     }
 
     public void saveGame() {
-        ArrayList<Door> doors = doorSystem.doors;
-        ArrayList<MonsterArea> monsterAreas = monsterAreaSystem.monsterAreas;
-
         GameData gameData = new GameData();
-        gameData.monsterAreas = monsterAreas;
-        gameData.doors = doors;
-
-        ObjectMapper objectMapper = new ObjectMapper();
+        gameData.monsterAreaSystem = monsterAreaSystem;
+        gameData.doorSystem = doorSystem;
 
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("save.json"), gameData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadGame(String filePath) {
+
+        try {
+            GameData gameData = objectMapper.readValue(new File(filePath + ".json"), GameData.class);
+//            System.out.println("aaaaaaa " + doorSystem.doors.size());
+            doorSystem = gameData.doorSystem;
+            doorSystem.playing = playing;
+            playing.doorSystem = doorSystem;
+
+            monsterAreaSystem = gameData.monsterAreaSystem;
+            monsterAreaSystem.playing = playing;
+            playing.monsterAreaSystem = monsterAreaSystem;
         } catch (IOException e) {
             e.printStackTrace();
         }

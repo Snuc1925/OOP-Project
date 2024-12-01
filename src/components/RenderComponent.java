@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.awt.image.BufferedImage;
 
 public class RenderComponent {
+    public RenderComponent() {
+    }
+
     @JsonIgnore
     public BufferedImage image;
 

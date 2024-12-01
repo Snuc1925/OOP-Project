@@ -1,4 +1,5 @@
 package system;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import components.PositionComponent;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,30 +18,30 @@ import java.awt.*;
 import static utils.HelpMethods.scaleImage;
 
 public class DoorSystem {
-    public ArrayList<Door> doors;
+
+    @JsonIgnore
     public Playing playing;
 
-    private int enteredDoorID; // The door that player has just gone in
-    private int enteredDirection;
+    public int enteredDoorID; // The door that player has just gone in
+    public int enteredDirection;
 
-    private int exitDirection;
+    public int exitDirection;
 
-    public DoorSystem(Playing playing) {
-        this.playing = playing;
+    public ArrayList<Door> doors;
+
+    public DoorSystem() {
         doors = new ArrayList<>();
-        enteredDoorID = -1;
-        enteredDirection = exitDirection = 0;
-        InitSystem.initDoors(doors);
-        ObjectMapper objectMapper = new ObjectMapper();
-        ObjectWriter writer = objectMapper.writerWithDefaultPrettyPrinter();
-
-        try {
-            writer.writeValue(new File("doors.json"), doors);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
     }
+//    public DoorSystem(Playing playing) {
+//        this.playing = playing;
+//        doors = new ArrayList<>();
+//        enteredDoorID = -1;
+//        enteredDirection = exitDirection = 0;
+//        InitSystem.initDoors(doors);
+//    }
+
+
 //    public void saveDoors(DataStorage ds) {
 //        ds.doors = doors;
 //    }

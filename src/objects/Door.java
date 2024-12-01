@@ -15,6 +15,8 @@ public class Door {
     public boolean isLocked;
     public boolean playerPassed;
 
+    public Door() {}
+
     public Door(String name, int worldX, int worldY, int direction,
                 int renderWidth, int renderHeight,
                 int hitboxWidth, int hitboxHeight) {

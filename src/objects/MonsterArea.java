@@ -3,20 +3,21 @@ package objects;
 import java.util.ArrayList;
 
 public class MonsterArea {
-    private String name;
+    public String name;
     public ArrayList<Integer> monsterIDs;
     public ArrayList<Integer> doorIDs;
     public boolean isLocked = false;
 
-    public MonsterArea(String name) {
-        this.name = name;
+    public MonsterArea() {
         monsterIDs = new ArrayList<>();
         doorIDs = new ArrayList<>();
     }
 
-    public String getName() {
-        return name;
-    }
+//    public MonsterArea(String name) {
+//        this.name = name;
+//        monsterIDs = new ArrayList<>();
+//        doorIDs = new ArrayList<>();
+//    }
 
     public void addMonster(int monsterID) {
         monsterIDs.add(monsterID);

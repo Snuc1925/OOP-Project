@@ -8,6 +8,8 @@ public class AnimationComponent {
 
     private boolean completeAnimation;
 
+    public AnimationComponent() {}
+
     public AnimationComponent(int totalAnimationFrame, int frameDuration) {
         this.totalAnimationFrame = totalAnimationFrame;
         this.frameDuration = frameDuration;

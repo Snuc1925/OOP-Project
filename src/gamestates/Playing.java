@@ -45,10 +45,10 @@ public class Playing extends State implements Statemethods {
 
     private ProjectileManager projectileManager;
     private CollectibleSystem collectibleSystem;
-    private DoorSystem doorSystem;
+    public DoorSystem doorSystem;
     private MonsterAttackSystem monsterAttackSystem;
     private RenderSystem renderSystem;
-    private MonsterAreaSystem monsterAreaSystem;
+    public MonsterAreaSystem monsterAreaSystem;
 
     private SaveLoadSystem saveLoadSystem;
 
@@ -84,12 +84,12 @@ public class Playing extends State implements Statemethods {
         soundtrack = new Sound();
         setLevelTheme();
 
-        saveLoad.loadGame(currentLevel);
-        doorSystem = new DoorSystem(this);
-        renderSystem = new RenderSystem(this);
-        monsterAreaSystem = new MonsterAreaSystem(this);
         saveLoadSystem = new SaveLoadSystem(this);
-        saveLoadSystem.saveGame();
+
+        saveLoad.loadGame(currentLevel);
+        renderSystem = new RenderSystem(this);
+//        doorSystem = new DoorSystem(this);
+//        monsterAreaSystem = new MonsterAreaSystem(this);
     }
 
     public void setDefaultValues() {
@@ -136,6 +136,8 @@ public class Playing extends State implements Statemethods {
     public DoorSystem getDoorSystem() { return doorSystem; }
 
     public MonsterAreaSystem getMonsterAreaSystem() { return monsterAreaSystem; }
+
+    public SaveLoadSystem getSaveLoadSystem() { return saveLoadSystem; }
 
     public TileManager getTileManager() {
         return tileManager;

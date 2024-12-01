@@ -112,6 +112,7 @@ public class SaveLoad {
 //            playing.getMonsterAreaSystem().saveMonsterAreas(ds);
 
             oos.writeObject(ds);
+            playing.getSaveLoadSystem().saveGame();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -193,7 +194,7 @@ public class SaveLoad {
 
 //            playing.getDoorSystem().loadDoors(ds);
 //            playing.getMonsterAreaSystem().loadMonsterAreas(ds);
-
+            playing.getSaveLoadSystem().loadGame("save");
         } catch (Exception e) {
             System.out.println("Error loading save file");
             e.printStackTrace();

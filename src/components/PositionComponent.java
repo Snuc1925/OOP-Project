@@ -7,4 +7,7 @@ public class PositionComponent {
         this.worldX = worldX;
         this.worldY = worldY;
     }
+
+    public PositionComponent() {
+    }
 }

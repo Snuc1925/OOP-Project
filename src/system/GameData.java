@@ -13,8 +13,8 @@ public class GameData {
 //    public Monster[] monsters;
 //    public Npc[] npcArray;
 
-    public ArrayList<Door> doors;
-    public ArrayList<MonsterArea> monsterAreas;
+    public DoorSystem doorSystem;
+    public MonsterAreaSystem monsterAreaSystem;
 
     public GameData() {}
 }

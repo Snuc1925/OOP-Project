@@ -5,6 +5,9 @@ public class ItemComponent {
     public int value;
     public boolean isCollected;
 
+    public ItemComponent() {
+    }
+
     public ItemComponent(String itemType, int value) {
         this.itemType = itemType;
         this.value = value;
