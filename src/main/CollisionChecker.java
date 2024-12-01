@@ -7,6 +7,7 @@ import entities.Entity;
 import entities.monsters.Monster;
 import entities.Sprite;
 import entities.Player;
+import objects.Door;
 import tile.TileManager;
 import utils.Constants;
 
@@ -111,8 +112,13 @@ public class CollisionChecker {
             System.out.println("Error check tile collision");
             entity.collisionOn = false;
         }
-        return entity.collisionOn;
 
+        if (entity instanceof Player) {
+            game.getPlaying().getDoorSystem().checkPlayerNextMove((Player)entity);
+        }
+
+
+        return entity.collisionOn;
     }
 
     // NPC and monster collision

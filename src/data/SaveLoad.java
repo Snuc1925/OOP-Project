@@ -108,6 +108,9 @@ public class SaveLoad {
                 ds.npcWorldY[i] = playing.npcArray[i].worldY;
             }
 
+//            playing.getDoorSystem().saveDoors(ds);
+//            playing.getMonsterAreaSystem().saveMonsterAreas(ds);
+
             oos.writeObject(ds);
         } catch (IOException e) {
             e.printStackTrace();
@@ -164,6 +167,7 @@ public class SaveLoad {
             player.worldX = ds.worldX;
             player.worldY = ds.worldY;
 
+
             playing.monsters = new Monster[ds.monstersName.length];
             for (int i = 0; i < ds.monstersName.length; i++) {
                 Monster monster = createMonster(ds.monstersName[i],
@@ -186,6 +190,9 @@ public class SaveLoad {
             playing.loadMap();
             playing.setLevelTheme();
             // playing.nextLevel = null;
+
+//            playing.getDoorSystem().loadDoors(ds);
+//            playing.getMonsterAreaSystem().loadMonsterAreas(ds);
 
         } catch (Exception e) {
             System.out.println("Error loading save file");

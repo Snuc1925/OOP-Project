@@ -21,16 +21,13 @@ import java.util.Objects;
 import map.GameMap;
 import map.MapManager;
 import map.MapParser;
-import system.CollectibleSystem;
-import system.DoorSystem;
-import system.RenderSystem;
+import system.*;
 import tile.TileManager;
 import utils.ImageLoader;
 import utils.ImageManager;
 import main.Sound;
 
 import system.MonsterAttackSystem;
-
 
 public class Playing extends State implements Statemethods {
     private Player player;
@@ -51,6 +48,7 @@ public class Playing extends State implements Statemethods {
     private DoorSystem doorSystem;
     private MonsterAttackSystem monsterAttackSystem;
     private RenderSystem renderSystem;
+    private MonsterAreaSystem monsterAreaSystem;
 
     private final ImageManager imageManager;
 
@@ -62,7 +60,7 @@ public class Playing extends State implements Statemethods {
     public Npc[] npcArray;
 
     // Save load
-    public SaveLoad saveLoad = new SaveLoad(this);
+    public SaveLoad saveLoad;
 
     // Level
     public String currentLevel = "level1";
@@ -73,14 +71,9 @@ public class Playing extends State implements Statemethods {
 
     public Playing(Game game) {
         super(game);
-
-//        projectileManager = new ProjectileManager(this);
-//        collectibleSystem = new CollectibleSystem(this);
-//        doorSystem = new DoorSystem(this);
-//        renderSystem = new RenderSystem(this);
+        saveLoad = new SaveLoad(this);
 
         cameraShake = new CameraShake(20);
-//        monsterAttackSystem = new MonsterAttackSystem(this);
 
         ImageLoader.initialize();
         imageManager = ImageLoader.imageManager;
@@ -90,6 +83,9 @@ public class Playing extends State implements Statemethods {
 //        setLevelTheme();
 
         saveLoad.loadGame(currentLevel);
+        doorSystem = new DoorSystem(this);
+        renderSystem = new RenderSystem(this);
+        monsterAreaSystem = new MonsterAreaSystem(this);
     }
 
     public void setDefaultValues() {
@@ -132,6 +128,10 @@ public class Playing extends State implements Statemethods {
     public RenderSystem getRenderSystem() { return renderSystem; }
 
     public ProjectileManager getProjectileManager() { return projectileManager; }
+
+    public DoorSystem getDoorSystem() { return doorSystem; }
+
+    public MonsterAreaSystem getMonsterAreaSystem() { return monsterAreaSystem; }
 
     public TileManager getTileManager() {
         return tileManager;
@@ -182,7 +182,8 @@ public class Playing extends State implements Statemethods {
 //        monsterAttackSystem.update();
 //        projectileManager.update();
 //        collectibleSystem.update();
-//        doorSystem.update();
+        monsterAreaSystem.update();
+        doorSystem.update();
 //          System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
 //        System.out.println(player.worldX + " " + player.worldY);
         if (KeyboardInputs.isPressedValid("pause", game.getKeyboardInputs().pausePressed)) {
@@ -206,7 +207,7 @@ public class Playing extends State implements Statemethods {
 
 //        projectileManager.draw(g2);
 //        collectibleSystem.draw(g2);
-//        doorSystem.draw(g2);
+        doorSystem.draw(g2);
 
         for (Entity entity : entityList) {
             if (entity instanceof SkeletonReaper && entity.image == null && entity.currentState == EntityState.DEATH) {
