@@ -1,20 +1,22 @@
 package system;
 
-import entities.Player;
-import entities.monsters.Monster;
-import entities.npc.Npc;
-import objects.Door;
-import objects.MonsterArea;
-
-import java.util.ArrayList;
+import data.MonstersData;
+import data.NPCsData;
+import data.PlayerData;
 
 public class GameData {
-//    public Player player;
-//    public Monster[] monsters;
-//    public Npc[] npcArray;
+    public PlayerData player;
+    public MonstersData monsters;
+    public NPCsData npcsData;
+
 
     public DoorSystem doorSystem;
     public MonsterAreaSystem monsterAreaSystem;
 
-    public GameData() {}
+    public GameData() {
+        player = new PlayerData();
+        monsters = new MonstersData();
+        npcsData = new NPCsData();
+    }
+
 }

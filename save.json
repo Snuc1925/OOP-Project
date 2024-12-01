@@ -49,7 +49,7 @@
       },
       "direction" : -1,
       "isOpen" : false,
-      "isLocked" : false,
+      "isLocked" : true,
       "playerPassed" : false
     }, {
       "name" : "object/door/front_wall",

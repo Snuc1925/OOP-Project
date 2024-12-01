@@ -86,7 +86,7 @@ public class Playing extends State implements Statemethods {
 
         saveLoadSystem = new SaveLoadSystem(this);
 
-        saveLoad.loadGame(currentLevel);
+        saveLoadSystem.loadGame("level1");
         renderSystem = new RenderSystem(this);
 //        doorSystem = new DoorSystem(this);
 //        monsterAreaSystem = new MonsterAreaSystem(this);

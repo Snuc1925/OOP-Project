@@ -29,11 +29,16 @@ public class SaveLoadSystem {
 
     public void saveGame() {
         GameData gameData = new GameData();
+
+        gameData.player.saveData(playing.getPlayer());
+        gameData.monsters.saveData(playing.monsters);
+        gameData.npcsData.saveData(playing.npcArray);
+
         gameData.monsterAreaSystem = monsterAreaSystem;
         gameData.doorSystem = doorSystem;
 
         try {
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("save.json"), gameData);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("save1.json"), gameData);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -43,7 +48,13 @@ public class SaveLoadSystem {
 
         try {
             GameData gameData = objectMapper.readValue(new File(filePath + ".json"), GameData.class);
-//            System.out.println("aaaaaaa " + doorSystem.doors.size());
+
+            playing.currentLevel = filePath;
+
+            gameData.player.loadData(playing.getPlayer());
+            gameData.monsters.loadData(playing);
+            gameData.npcsData.loadData(playing);
+
             doorSystem = gameData.doorSystem;
             doorSystem.playing = playing;
             playing.doorSystem = doorSystem;
@@ -51,6 +62,10 @@ public class SaveLoadSystem {
             monsterAreaSystem = gameData.monsterAreaSystem;
             monsterAreaSystem.playing = playing;
             playing.monsterAreaSystem = monsterAreaSystem;
+
+            playing.setUpList();
+            playing.loadMap();
+            playing.setLevelTheme();
         } catch (IOException e) {
             e.printStackTrace();
         }

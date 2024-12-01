@@ -30,7 +30,7 @@ public class DoorSystem {
     public ArrayList<Door> doors;
 
     public DoorSystem() {
-        doors = new ArrayList<>();
+//        doors = new ArrayList<>();
 
     }
 //    public DoorSystem(Playing playing) {

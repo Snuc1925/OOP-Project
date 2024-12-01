@@ -64,7 +64,7 @@ public class Pause extends State implements Statemethods {
                 }
                 break;
             case savePanel:
-                playing.saveLoad.saveGame();
+                playing.getSaveLoadSystem().saveGame();
                 if (KeyboardInputs.isPressedValid("pause", keyboardInputs.pausePressed)) {
                     currentPanel = mainPanel;
                     Gamestate.state = Gamestate.PLAYING;

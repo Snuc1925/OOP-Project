@@ -32,8 +32,4 @@ public class DataStorage implements Serializable {
     int[] npcWorldX;
     int[] npcWorldY;
 
-    // Door, MonsterArea
-//    public transient ArrayList<Door> doors;
-//    public transient ArrayList<MonsterArea> monsterAreas;
-
 }
