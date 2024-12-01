@@ -137,13 +137,13 @@ public class SkeletonReaper extends Boss {
             playBossTheme();
         brushed.update();
         if (currentHealth < maxHealth / 2) {
+            KeyboardInputs kb = playing.getGame().getKeyboardInputs();
             if (!isDialogueDraw) {
                 currentState = EntityState.IDLE;
             }
             else if (currentState == EntityState.WALK && dash == null) {
-                KeyboardInputs kb = playing.getGame().getKeyboardInputs();
                 if (KeyboardInputs.isPressedValid("attack", kb.attackPressed) && random.nextInt(3) == 1)
-                    dash = new Dash(this, 20);
+                    dash = new Dash(this, 30);
             }
         }
         super.update();

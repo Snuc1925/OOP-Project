@@ -87,7 +87,7 @@ public class Playing extends State implements Statemethods {
         setDefaultValues();
 
         soundtrack = new Sound();
-        setLevelTheme();
+//        setLevelTheme();
 
         saveLoad.loadGame(currentLevel);
     }
@@ -161,7 +161,7 @@ public class Playing extends State implements Statemethods {
                 nextLevel = new NextLevel(this, player.getWorldX(), player.getWorldY());
             }
             // For debugging
-            nextLevel = new NextLevel(this, player.getWorldX(), player.getWorldY());
+//            nextLevel = new NextLevel(this, player.getWorldX(), player.getWorldY());
         }
 
         // NPC talk, other entity stop update

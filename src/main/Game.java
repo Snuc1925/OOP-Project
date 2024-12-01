@@ -57,6 +57,7 @@ public class Game implements Runnable {
 
         initClasses();
         settings.loadSettings();
+        playing.setLevelTheme();
         ui = new UI(this);
         imageManager = ImageManager.getInstance();
         gamePanel = new GamePanel(this);
