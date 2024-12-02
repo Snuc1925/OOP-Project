@@ -30,8 +30,9 @@ public class DoorSystem {
     public ArrayList<Door> doors;
 
     public DoorSystem() {
-//        doors = new ArrayList<>();
-
+        doors = new ArrayList<>();
+        enteredDoorID = -1;
+        enteredDirection = exitDirection = 0;
     }
 //    public DoorSystem(Playing playing) {
 //        this.playing = playing;

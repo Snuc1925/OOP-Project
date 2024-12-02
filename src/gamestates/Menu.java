@@ -36,7 +36,7 @@ public class Menu extends State implements Statemethods {
                         needDisplayContinuePlaying = true;
                         break;
                     case 1:
-                        game.getPlaying().saveLoad.loadGame();
+                        game.getPlaying().getSaveLoadSystem().loadGame();
                         Gamestate.state = Gamestate.PLAYING;
                         break;
                     case 2:

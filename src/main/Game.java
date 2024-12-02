@@ -3,6 +3,7 @@ package main;
 import java.awt.*;
 
 import data.SaveLoad;
+import data.SaveLoadSystem;
 import gamestates.*;
 import gamestates.Menu;
 import inputs.KeyboardInputs;
@@ -24,8 +25,8 @@ public class Game implements Runnable {
     private Pause pause;
     private UI ui;
 
-    private SaveLoad settings = new SaveLoad(this);
-    public SaveLoad getSettings() {
+    private SaveLoadSystem settings = new SaveLoadSystem(this);
+    public SaveLoadSystem getSettings() {
         return settings;
     }
     public CollisionChecker getCollisionChecker() {

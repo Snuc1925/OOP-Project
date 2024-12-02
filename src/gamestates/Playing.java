@@ -1,6 +1,7 @@
 package gamestates;
 
 import data.SaveLoad;
+import data.SaveLoadSystem;
 import effect.CameraShake;
 import effect.EnergyOrb;
 import effect.NextLevel;
@@ -46,7 +47,6 @@ public class Playing extends State implements Statemethods {
     private ProjectileManager projectileManager;
     private CollectibleSystem collectibleSystem;
     public DoorSystem doorSystem;
-    private MonsterAttackSystem monsterAttackSystem;
     private RenderSystem renderSystem;
     public MonsterAreaSystem monsterAreaSystem;
 
@@ -62,10 +62,8 @@ public class Playing extends State implements Statemethods {
     public Npc[] npcArray;
 
     // Save load
-    public SaveLoad saveLoad;
-
     // Level
-    public String currentLevel = "level1";
+    public String currentLevel = "level2";
     public EnergyOrb energyOrb = null;
     public NextLevel nextLevel = null;
 
@@ -73,7 +71,6 @@ public class Playing extends State implements Statemethods {
 
     public Playing(Game game) {
         super(game);
-        saveLoad = new SaveLoad(this);
 
         cameraShake = new CameraShake(20);
 
@@ -85,17 +82,16 @@ public class Playing extends State implements Statemethods {
         setLevelTheme();
 
         saveLoadSystem = new SaveLoadSystem(this);
-
-        saveLoadSystem.loadGame("level1");
-        renderSystem = new RenderSystem(this);
-//        doorSystem = new DoorSystem(this);
-//        monsterAreaSystem = new MonsterAreaSystem(this);
+        saveLoadSystem.loadGame("level2");
+//        saveLoadSystem.saveGame();
     }
 
     public void setDefaultValues() {
         player = new Player(this);
         tileManager = new TileManager(player);
-
+        doorSystem = new DoorSystem();
+        monsterAreaSystem = new MonsterAreaSystem();
+        renderSystem = new RenderSystem(this);
 
         loadMap();
         monsters = new Monster[3];
@@ -185,11 +181,10 @@ public class Playing extends State implements Statemethods {
         if (player.currentState != EntityState.DEATH)
             player.lockOn();
 
-//        monsterAttackSystem.update();
 //        projectileManager.update();
 //        collectibleSystem.update();
-        monsterAreaSystem.update();
-        doorSystem.update();
+        if (monsterAreaSystem != null) monsterAreaSystem.update();
+        if (doorSystem != null) doorSystem.update();
 //          System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
 //        System.out.println(player.worldX + " " + player.worldY);
         if (KeyboardInputs.isPressedValid("pause", game.getKeyboardInputs().pausePressed)) {
@@ -211,9 +206,8 @@ public class Playing extends State implements Statemethods {
     public void draw(Graphics2D g2) {
         currentMap.render(g2, player);
 
-//        projectileManager.draw(g2);
 //        collectibleSystem.draw(g2);
-        doorSystem.draw(g2);
+        if (doorSystem != null) doorSystem.draw(g2);
 
         for (Entity entity : entityList) {
             if (entity instanceof SkeletonReaper && entity.image == null && entity.currentState == EntityState.DEATH) {

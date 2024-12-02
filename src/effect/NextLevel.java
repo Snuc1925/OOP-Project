@@ -95,7 +95,7 @@ public class NextLevel extends EffectMethod{
                 playing.currentLevel = "level4";
                 break;
         }
-        playing.saveLoad.loadGame(playing.currentLevel);
+        playing.getSaveLoadSystem().loadGame(playing.currentLevel);
         worldX = player.getWorldX();
         worldY = player.getWorldY();
         playing.setLevelTheme();
