@@ -82,7 +82,7 @@ public class Playing extends State implements Statemethods {
         setLevelTheme();
 
         saveLoadSystem = new SaveLoadSystem(this);
-        saveLoadSystem.loadGame("level2");
+        saveLoadSystem.loadGame(currentLevel);
 //        saveLoadSystem.saveGame();
     }
 
