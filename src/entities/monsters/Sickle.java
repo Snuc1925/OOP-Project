@@ -38,7 +38,7 @@ public class Sickle extends Monster{
         getDirectionForAttacking();
         frameCounter++;
         Player player = playing.getPlayer();
-        if (frameCounter == attack.frameDuration * 2) {
+        if (frameCounter == 1) {
             playing.soundtrack.playSE(16);
         }
         if (frameCounter == attack.frameDuration * 2 ||

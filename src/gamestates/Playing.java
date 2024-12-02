@@ -28,8 +28,6 @@ import utils.ImageLoader;
 import utils.ImageManager;
 import main.Sound;
 
-import system.MonsterAttackSystem;
-
 public class Playing extends State implements Statemethods {
     private Player player;
     private TileManager tileManager;
@@ -79,7 +77,7 @@ public class Playing extends State implements Statemethods {
         setDefaultValues();
 
         soundtrack = new Sound();
-        setLevelTheme();
+//        setLevelTheme();
 
         saveLoadSystem = new SaveLoadSystem(this);
         saveLoadSystem.loadGame(currentLevel);
@@ -163,7 +161,7 @@ public class Playing extends State implements Statemethods {
                 nextLevel = new NextLevel(this, player.getWorldX(), player.getWorldY());
             }
             // For debugging
-            nextLevel = new NextLevel(this, player.getWorldX(), player.getWorldY());
+//            nextLevel = new NextLevel(this, player.getWorldX(), player.getWorldY());
         }
 
         // NPC talk, other entity stop update

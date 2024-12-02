@@ -47,7 +47,7 @@ public class SaveLoadSystem {
     }
 
     public void loadGame() {
-        loadGame("save.json");
+        loadGame("save");
     }
 
     public void loadGame(String filePath) {

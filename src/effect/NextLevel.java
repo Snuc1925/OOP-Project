@@ -73,13 +73,19 @@ public class NextLevel extends EffectMethod{
         return image;
     }
 
-    public boolean isTransition = false;
+    public boolean isTransition = false, isBgPlayed = false;
     public void update() {
         KeyboardInputs kb = playing.getGame().getKeyboardInputs();
+        System.out.println(currentStage);
+        if (currentStage <= 1 && !isBgPlayed) {
+            isBgPlayed = true;
+            playing.soundtrack.playMusic(9);
+        }
         if (isIntersect()) {
             if (KeyboardInputs.isPressedValid("enter", kb.enterPressed) && currentStage == 1 && !isTransition) {
                 currentStage++;
                 isTransition = true;
+                playing.soundtrack.playSE(22);
             }
         }
     }
@@ -124,6 +130,7 @@ public class NextLevel extends EffectMethod{
                     frameCounter =  -1;
                     numAnimationFrames = -1;
                     currentStage++;
+                    playing.soundtrack.playSE(20);
                 }
             }
 

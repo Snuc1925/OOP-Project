@@ -9,7 +9,7 @@ public class Sound {
     URL[] soundEffectURL = new URL[30];
     URL[] themeURL = new URL[30];
 
-    Clip[] soundtrack = new Clip[9], effect = new Clip[20];
+    Clip[] soundtrack = new Clip[10], effect = new Clip[23];
 
 
     public float volume = 0.8f;
@@ -43,6 +43,7 @@ public class Sound {
         soundtrack[6] = getClip("/sound/Theme/level3.wav");
         soundtrack[7] = getClip("/sound/Theme/level4.wav");
         soundtrack[8] = getClip("/sound/Theme/SkeletonReaper.wav");
+        soundtrack[9] = getClip("/sound/NextLevel/Idle.wav");
 
         effect[0] = getClip("/sound/Demon/Explosion.wav");
         effect[1] = getClip("/sound/Demon/FireBreath.wav");
@@ -74,6 +75,9 @@ public class Sound {
         effect[18] = getClip("/sound/SwordKnight/attack1.wav");
         effect[19] = getClip("/sound/SwordKnight/dash.wav");
 
+        effect[20] = getClip("/sound/NextLevel/Disappear.wav");
+        effect[21] = getClip("/sound/NextLevel/Idle.wav");
+        effect[22] = getClip("/sound/NextLevel/Rumble.wav");
 
     }
 
