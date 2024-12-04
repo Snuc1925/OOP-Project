@@ -12,8 +12,11 @@ import entities.monsters.bosses.*;
 import entities.projectile.ProjectileManager;
 import inputs.KeyboardInputs;
 import main.Game;
+
 import java.awt.*;
+
 import entities.npc.Npc;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -65,7 +68,6 @@ public class Playing extends State implements Statemethods {
     public NextLevel nextLevel = null;
 
 
-
     public Playing(Game game) {
         super(game);
 
@@ -98,7 +100,7 @@ public class Playing extends State implements Statemethods {
     }
 
     public void loadMap() {
-        MapParser.loadMap( currentLevel ,"res/map/map_" + currentLevel + ".tmx");
+        MapParser.loadMap(currentLevel, "res/map/map_" + currentLevel + ".tmx");
         currentMap = MapManager.getGameMap(currentLevel);
         currentMap.buildTileManager(tileManager);
     }
@@ -114,6 +116,7 @@ public class Playing extends State implements Statemethods {
     public Game getGame() {
         return game;
     }
+
     public Player getPlayer() {
         return player;
     }
@@ -122,15 +125,25 @@ public class Playing extends State implements Statemethods {
         return imageManager;
     }
 
-    public RenderSystem getRenderSystem() { return renderSystem; }
+    public RenderSystem getRenderSystem() {
+        return renderSystem;
+    }
 
-    public ProjectileManager getProjectileManager() { return projectileManager; }
+    public ProjectileManager getProjectileManager() {
+        return projectileManager;
+    }
 
-    public DoorSystem getDoorSystem() { return doorSystem; }
+    public DoorSystem getDoorSystem() {
+        return doorSystem;
+    }
 
-    public MonsterAreaSystem getMonsterAreaSystem() { return monsterAreaSystem; }
+    public MonsterAreaSystem getMonsterAreaSystem() {
+        return monsterAreaSystem;
+    }
 
-    public SaveLoadSystem getSaveLoadSystem() { return saveLoadSystem; }
+    public SaveLoadSystem getSaveLoadSystem() {
+        return saveLoadSystem;
+    }
 
     public TileManager getTileManager() {
         return tileManager;
@@ -138,14 +151,34 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void update() {
+
         for (int i = 0; i < entityArray.length; i++)
-            if (entityArray[i] != null){
+            if (entityArray[i] != null) {
                 if (entityArray[i].image == null && entityArray[i].currentState == EntityState.DEATH) {
+                    if ((entityArray[i] instanceof Demon && ((Demon) entityArray[i]).currentPhase == 1) ||
+                            (entityArray[i] instanceof Samurai && ((Samurai) entityArray[i]).currentPhase == 1)) {
+                        continue;
+                    }
                     entityArray[i] = null;
                 }
             }
+        for (int i = 0; i < monsters.length; i++) {
+            if (monsters[i] != null && monsters[i].currentState == EntityState.DEATH) {
+                if ((monsters[i] instanceof Demon && ((Demon) monsters[i]).currentPhase == 1)) {
+                    continue;
+                }
+                if ((monsters[i] instanceof Samurai && ((Samurai) monsters[i]).currentPhase == 1)) {
+                    continue;
+                }
+                monsters[i] = null;
+            }
+        }
+
         if (!currentLevel.equals("level4") && nextLevel == null) {
             boolean allMonstersNull = true;
+
+            System.out.println(Arrays.toString(entityArray));
+            System.out.println(entityArray.length);
             for (Monster monster : monsters) {
                 if (monster == null || (monster.image == null && monster.currentState == EntityState.DEATH)) continue;
 
@@ -156,6 +189,7 @@ public class Playing extends State implements Statemethods {
                     break;
                 }
             }
+
             if (allMonstersNull) {
                 nextLevel = new NextLevel(this, player.getWorldX(), player.getWorldY());
             }
@@ -171,7 +205,7 @@ public class Playing extends State implements Statemethods {
 
         cameraShake.update();
         for (Entity entity : entityArray) {
-            if (entity != null && entity.isOnTheScreen()){
+            if (entity != null && entity.isOnTheScreen()) {
                 entity.update();
             }
         }
@@ -231,20 +265,16 @@ public class Playing extends State implements Statemethods {
 
         for (Monster monster : monsters) {
             if (monster instanceof Demon || monster instanceof BringerOfDeath || monster instanceof Samurai ||
-                monster instanceof SkeletonReaper) {
+                    monster instanceof SkeletonReaper) {
                 Boss boss = (Boss) monster;
                 boss.drawBossIntro(g2);
             }
-            if (monster instanceof  SkeletonReaper) {
+            if (monster instanceof SkeletonReaper) {
                 ((SkeletonReaper) monster).drawDialogue(g2);
             }
         }
 
-        for (int i = 0; i < monsters.length; i++) {
-            if (monsters[i] != null && monsters[i].currentState == EntityState.DEATH) {
-                monsters[i] = null;
-            }
-        }
+
 
         if (energyOrb != null) energyOrb.draw(g2);
         if (nextLevel != null) nextLevel.draw(g2);
@@ -252,6 +282,7 @@ public class Playing extends State implements Statemethods {
 
     // Sound
     public Sound soundtrack;
+
     public void setLevelTheme() {
         switch (currentLevel) {
             case "level1":

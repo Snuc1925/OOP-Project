@@ -283,7 +283,7 @@ public class Demon extends Boss {
         currentState = IDLE;
 
         // Phase 2's attributes
-        maxHealth = 10;
+        maxHealth = 100;
         currentHealth = maxHealth;
 
         solidArea = new Rectangle(7 * TILE_SIZE, 7 * TILE_SIZE, 4 * TILE_SIZE, 3 * TILE_SIZE);

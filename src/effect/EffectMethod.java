@@ -59,7 +59,7 @@ public abstract class EffectMethod {
 
         // Draw effect rect
         g2.setColor(Color.WHITE);
-        g2.drawRect(effectRect.x - worldX + screenX, effectRect.y - worldY + screenY, effectRect.width, effectRect.height);
+//        g2.drawRect(effectRect.x - worldX + screenX, effectRect.y - worldY + screenY, effectRect.width, effectRect.height);
     }
 
     // Decrease player's health when keyFrame is on the screen

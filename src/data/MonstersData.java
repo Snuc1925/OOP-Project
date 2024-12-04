@@ -48,6 +48,7 @@ public class MonstersData {
         for (MonsterData monsterData : monstersData) {
             Monster monster = createMonster(playing, monsterData.name,
                     monsterData.worldX, monsterData.worldY, monsterData.currentHealth);
+            System.out.println(monster.name);
             playing.monsters[id] = monster;
             id++;
         }

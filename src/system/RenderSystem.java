@@ -59,7 +59,7 @@ public class RenderSystem {
         int playerWorldY = player.worldY;
         int screenX = worldX - playerWorldX + PLAYER_SCREEN_X;
         int screenY = worldY - playerWorldY + PLAYER_SCREEN_Y;
-        g2.drawRect(screenX, screenY, width, height);
+//        g2.drawRect(screenX, screenY, width, height);
 //        g2.setStroke(new BasicStroke(1));
     }
 

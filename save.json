@@ -1,316 +1,55 @@
 {
-  "currentLevel" : "level1",
   "player" : {
-    "worldX" : 539,
-    "worldY" : 673,
+    "worldX" : 197,
+    "worldY" : 1580,
     "currentHealth" : 12,
     "maxHealth" : 12,
-    "currentMana" : 180,
+    "currentMana" : 190,
     "maxMana" : 200,
-    "currentArmor" : 0,
+    "currentArmor" : 10,
     "maxArmor" : 10,
-    "direction" : "left_up",
+    "direction" : "down",
     "currentWeapon" : "GUN"
   },
   "monsters" : {
     "monstersData" : [ {
-      "name" : "Slime",
-      "worldX" : 231,
-      "worldY" : 1949,
-      "currentHealth" : 10
-    }, {
-      "name" : "Slime",
-      "worldX" : 191,
-      "worldY" : 1800,
-      "currentHealth" : 10
-    }, {
-      "name" : "Slime",
-      "worldX" : 149,
-      "worldY" : 1750,
-      "currentHealth" : 10
-    }, {
-      "name" : "Slime",
-      "worldX" : 97,
-      "worldY" : 1700,
-      "currentHealth" : 10
-    }, {
-      "name" : "Slime",
-      "worldX" : 55,
-      "worldY" : 1950,
-      "currentHealth" : 10
-    }, {
-      "name" : "Slime",
-      "worldX" : 300,
-      "worldY" : 1670,
-      "currentHealth" : 10
-    }, {
-      "name" : "PlantMelee",
-      "worldX" : 1811,
-      "worldY" : 1989,
+      "name" : "Sword_Knight",
+      "worldX" : 1832,
+      "worldY" : 419,
       "currentHealth" : 30
     }, {
-      "name" : "PlantMelee",
-      "worldX" : 1900,
-      "worldY" : 1800,
+      "name" : "Sword_Knight",
+      "worldX" : 1498,
+      "worldY" : 625,
       "currentHealth" : 30
     }, {
-      "name" : "PlantMelee",
-      "worldX" : 1590,
-      "worldY" : 1750,
-      "currentHealth" : 30
+      "name" : "Demon",
+      "worldX" : -49,
+      "worldY" : 96,
+      "currentHealth" : 0
     }, {
-      "name" : "PlantMelee",
-      "worldX" : 1646,
-      "worldY" : 1903,
-      "currentHealth" : 30
-    }, {
-      "name" : "PlantMelee",
-      "worldX" : 2052,
-      "worldY" : 1645,
-      "currentHealth" : 30
-    }, {
-      "name" : "Mage",
-      "worldX" : 1798,
-      "worldY" : 227,
+      "name" : "Sickle",
+      "worldX" : 1435,
+      "worldY" : 1247,
       "currentHealth" : 30
     }, {
       "name" : "Sickle",
-      "worldX" : 2020,
-      "worldY" : 293,
-      "currentHealth" : 30
-    }, {
-      "name" : "Sickle",
-      "worldX" : 1947,
-      "worldY" : 668,
+      "worldX" : 1074,
+      "worldY" : 1134,
       "currentHealth" : 30
     } ]
   },
   "npcsData" : {
-    "npcsData" : [ {
-      "name" : "White_Samurai",
-      "worldX" : 624,
-      "worldY" : 240
-    } ]
+    "npcsData" : [ ]
   },
+  "currentLevel" : "level2",
   "doorSystem" : {
     "enteredDoorID" : -1,
     "enteredDirection" : 0,
     "exitDirection" : 0,
-    "doors" : [ {
-      "name" : "object/door/front_wall",
-      "animation" : {
-        "totalAnimationFrame" : 8,
-        "numAnimationFrame" : 1,
-        "frameDuration" : 10,
-        "frameCounter" : 0
-      },
-      "position" : {
-        "worldX" : 600,
-        "worldY" : 970
-      },
-      "render" : {
-        "width" : 144,
-        "height" : 144
-      },
-      "hitbox" : {
-        "width" : 144,
-        "height" : 126
-      },
-      "direction" : 1,
-      "isOpen" : false,
-      "isLocked" : false,
-      "playerPassed" : false
-    }, {
-      "name" : "object/door/front_wall",
-      "animation" : {
-        "totalAnimationFrame" : 8,
-        "numAnimationFrame" : 1,
-        "frameDuration" : 10,
-        "frameCounter" : 0
-      },
-      "position" : {
-        "worldX" : 600,
-        "worldY" : 1540
-      },
-      "render" : {
-        "width" : 144,
-        "height" : 144
-      },
-      "hitbox" : {
-        "width" : 144,
-        "height" : 126
-      },
-      "direction" : -1,
-      "isOpen" : false,
-      "isLocked" : true,
-      "playerPassed" : false
-    }, {
-      "name" : "object/door/front_wall",
-      "animation" : {
-        "totalAnimationFrame" : 8,
-        "numAnimationFrame" : 1,
-        "frameDuration" : 10,
-        "frameCounter" : 0
-      },
-      "position" : {
-        "worldX" : 1800,
-        "worldY" : 970
-      },
-      "render" : {
-        "width" : 144,
-        "height" : 144
-      },
-      "hitbox" : {
-        "width" : 144,
-        "height" : 126
-      },
-      "direction" : 1,
-      "isOpen" : false,
-      "isLocked" : false,
-      "playerPassed" : false
-    }, {
-      "name" : "object/door/front_wall",
-      "animation" : {
-        "totalAnimationFrame" : 8,
-        "numAnimationFrame" : 1,
-        "frameDuration" : 10,
-        "frameCounter" : 0
-      },
-      "position" : {
-        "worldX" : 1800,
-        "worldY" : 1540
-      },
-      "render" : {
-        "width" : 144,
-        "height" : 144
-      },
-      "hitbox" : {
-        "width" : 144,
-        "height" : 126
-      },
-      "direction" : -1,
-      "isOpen" : false,
-      "isLocked" : false,
-      "playerPassed" : false
-    }, {
-      "name" : "object/door/side_wall",
-      "animation" : {
-        "totalAnimationFrame" : 8,
-        "numAnimationFrame" : 1,
-        "frameDuration" : 10,
-        "frameCounter" : 0
-      },
-      "position" : {
-        "worldX" : 873,
-        "worldY" : 600
-      },
-      "render" : {
-        "width" : 48,
-        "height" : 212
-      },
-      "hitbox" : {
-        "width" : 96,
-        "height" : 192
-      },
-      "direction" : 2,
-      "isOpen" : false,
-      "isLocked" : false,
-      "playerPassed" : false
-    }, {
-      "name" : "object/door/side_wall",
-      "animation" : {
-        "totalAnimationFrame" : 8,
-        "numAnimationFrame" : 1,
-        "frameDuration" : 10,
-        "frameCounter" : 0
-      },
-      "position" : {
-        "worldX" : 1560,
-        "worldY" : 600
-      },
-      "render" : {
-        "width" : 48,
-        "height" : 212
-      },
-      "hitbox" : {
-        "width" : 96,
-        "height" : 192
-      },
-      "direction" : -2,
-      "isOpen" : false,
-      "isLocked" : false,
-      "playerPassed" : false
-    }, {
-      "name" : "object/door/side_wall",
-      "animation" : {
-        "totalAnimationFrame" : 8,
-        "numAnimationFrame" : 1,
-        "frameDuration" : 10,
-        "frameCounter" : 0
-      },
-      "position" : {
-        "worldX" : 1560,
-        "worldY" : 1896
-      },
-      "render" : {
-        "width" : 48,
-        "height" : 212
-      },
-      "hitbox" : {
-        "width" : 96,
-        "height" : 192
-      },
-      "direction" : -2,
-      "isOpen" : false,
-      "isLocked" : false,
-      "playerPassed" : false
-    }, {
-      "name" : "object/door/side_wall",
-      "animation" : {
-        "totalAnimationFrame" : 8,
-        "numAnimationFrame" : 1,
-        "frameDuration" : 10,
-        "frameCounter" : 0
-      },
-      "position" : {
-        "worldX" : 873,
-        "worldY" : 1896
-      },
-      "render" : {
-        "width" : 48,
-        "height" : 212
-      },
-      "hitbox" : {
-        "width" : 96,
-        "height" : 192
-      },
-      "direction" : 2,
-      "isOpen" : false,
-      "isLocked" : false,
-      "playerPassed" : false
-    } ]
+    "doors" : [ ]
   },
   "monsterAreaSystem" : {
-    "monsterAreas" : [ {
-      "name" : "area1",
-      "monsterIDs" : [ 0, 1, 2, 3, 4, 5 ],
-      "doorIDs" : [ 1, 7 ],
-      "isLocked" : false
-    }, {
-      "name" : "area2",
-      "monsterIDs" : [ 6, 7, 8, 9, 10 ],
-      "doorIDs" : [ 3, 6 ],
-      "isLocked" : false
-    }, {
-      "name" : "area3",
-      "monsterIDs" : [ 11, 12, 13 ],
-      "doorIDs" : [ 2, 5 ],
-      "isLocked" : false
-    }, {
-      "name" : "area4",
-      "monsterIDs" : [ ],
-      "doorIDs" : [ 0, 4 ],
-      "isLocked" : false
-    } ]
+    "monsterAreas" : [ ]
   }
 }
