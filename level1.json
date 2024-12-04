@@ -1,4 +1,5 @@
 {
+  "currentLevel": "level1",
   "player" : {
     "worldX" : 1119,
     "worldY" : 1469,

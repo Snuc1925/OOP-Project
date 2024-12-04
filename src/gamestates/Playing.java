@@ -61,7 +61,7 @@ public class Playing extends State implements Statemethods {
 
     // Save load
     // Level
-    public String currentLevel = "level2";
+    public String currentLevel = "level1";
     public EnergyOrb energyOrb = null;
     public NextLevel nextLevel = null;
 
@@ -238,6 +238,12 @@ public class Playing extends State implements Statemethods {
             }
             if (monster instanceof  SkeletonReaper) {
                 ((SkeletonReaper) monster).drawDialogue(g2);
+            }
+        }
+
+        for (int i = 0; i < monsters.length; i++) {
+            if (monsters[i] != null && monsters[i].currentState == EntityState.DEATH) {
+                monsters[i] = null;
             }
         }
 

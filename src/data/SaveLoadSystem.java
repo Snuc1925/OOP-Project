@@ -31,7 +31,7 @@ public class SaveLoadSystem {
 
     public void saveGame() {
         GameData gameData = new GameData();
-
+        gameData.currentLevel = playing.currentLevel;
         gameData.player.saveData(playing.getPlayer());
         gameData.monsters.saveData(playing.monsters);
         gameData.npcsData.saveData(playing.npcArray);
@@ -55,7 +55,7 @@ public class SaveLoadSystem {
         try {
             GameData gameData = objectMapper.readValue(new File(filePath + ".json"), GameData.class);
 
-            playing.currentLevel = filePath;
+            playing.currentLevel = gameData.currentLevel;
 
             gameData.player.loadData(playing.getPlayer());
             gameData.monsters.loadData(playing);

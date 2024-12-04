@@ -56,13 +56,13 @@ public class MonsterAreaSystem {
 //        monsterAreas.add(area4);
 //    }
 
-    private void addDoor(MonsterArea ma, int doorId) {
-        ma.addDoor(doorId);
-    }
-
-    private void addMonster(MonsterArea ma, int monsterId) {
-        ma.addMonster(monsterId);
-    }
+//    private void addDoor(MonsterArea ma, int doorId) {
+//        ma.addDoor(doorId);
+//    }
+//
+//    private void addMonster(MonsterArea ma, int monsterId) {
+//        ma.addMonster(monsterId);
+//    }
 
     public void playerEnteredDoor(int doorID) {
         for (MonsterArea monsterArea : monsterAreas) {
@@ -92,7 +92,8 @@ public class MonsterAreaSystem {
         for (MonsterArea monsterArea : monsterAreas) {
 //            monsterArea.update();
             if (monsterArea.isLocked) {
-                monsterArea.monsterIDs.removeIf(monsterID -> playing.monsters[monsterID].currentState == EntityState.DEATH);
+                monsterArea.monsterIDs.removeIf(monsterID -> playing.monsters[monsterID] == null);
+                System.out.println(monsterArea.monsterIDs);
                 if (monsterArea.monsterIDs.isEmpty()) {
                     unlockArea(monsterArea);
                 }
