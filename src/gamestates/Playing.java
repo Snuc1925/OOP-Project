@@ -59,9 +59,8 @@ public class Playing extends State implements Statemethods {
     public Npc npcTalking = null;
     public Npc[] npcArray;
 
-    // Save load
     // Level
-    public String currentLevel = "level2";
+    public String currentLevel = "level1";
     public EnergyOrb energyOrb = null;
     public NextLevel nextLevel = null;
 

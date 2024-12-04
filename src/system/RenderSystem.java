@@ -51,7 +51,7 @@ public class RenderSystem {
 
     public void drawRect(Graphics2D g2, PositionComponent position, int width, int height) {
         g2.setColor(Color.WHITE);
-        g2.setStroke(new BasicStroke(3));
+        g2.setStroke(new BasicStroke(1));
 
         int worldX = position.worldX - width / 2;
         int worldY = position.worldY - height / 2;
@@ -60,14 +60,15 @@ public class RenderSystem {
         int screenX = worldX - playerWorldX + PLAYER_SCREEN_X;
         int screenY = worldY - playerWorldY + PLAYER_SCREEN_Y;
         g2.drawRect(screenX, screenY, width, height);
+//        g2.setStroke(new BasicStroke(1));
     }
 
     public boolean isOnTheScreen(int worldX, int worldY) {
         int playerWorldX = player.worldX;
         int playerWorldY = player.worldY;
-        return worldX > (playerWorldX + TILE_SIZE) - (PLAYER_SCREEN_X + TILE_SIZE) - TILE_SIZE * 3
-                && worldX < (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE) + TILE_SIZE * 3
-                && worldY > (playerWorldY + TILE_SIZE) - (PLAYER_SCREEN_Y + TILE_SIZE) - TILE_SIZE * 3
-                && worldY < (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE) + TILE_SIZE * 3;
+        return worldX > (playerWorldX + TILE_SIZE) - (PLAYER_SCREEN_X + TILE_SIZE) - TILE_SIZE * 5
+                && worldX < (playerWorldX + TILE_SIZE) + (PLAYER_SCREEN_X + TILE_SIZE) + TILE_SIZE * 5
+                && worldY > (playerWorldY + TILE_SIZE) - (PLAYER_SCREEN_Y + TILE_SIZE) - TILE_SIZE * 5
+                && worldY < (playerWorldY + TILE_SIZE) + (PLAYER_SCREEN_Y + TILE_SIZE) + TILE_SIZE * 5;
     }
 }

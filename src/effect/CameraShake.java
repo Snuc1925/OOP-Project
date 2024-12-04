@@ -8,8 +8,8 @@ public class CameraShake {
     private int elapsedTime;
     private boolean isShaking;
     private final Random random;
-    private final int tempX;
-    private final int tempY;
+    private int tempX;
+    private int tempY;
     public CameraShake(int duration) {
         this.duration = duration;
         this.elapsedTime = 0;
@@ -22,6 +22,8 @@ public class CameraShake {
     public void startShake() {
         this.elapsedTime = 0;
         this.isShaking = true;
+        tempX = PLAYER_SCREEN_X;
+        tempY = PLAYER_SCREEN_Y;
     }
 
     public void update() {

@@ -9,8 +9,10 @@ import inputs.KeyboardInputs;
 import main.CollisionChecker;
 import utils.HelpMethods;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 import static utils.Constants.Player.*;
 import static utils.Constants.Screen.*;
@@ -170,7 +172,7 @@ public class Player extends Sprite {
 
     public void lockOn() {
         int angle = getAngleAuto();
-        if (angle == 181) return;
+//        if (angle == 181) return;
         if (angle <= 15 && angle >= -15) this.direction = "left";
         else if (angle < -15 && angle > -75) this.direction = "left_down";
         else if (angle <= -75 && angle >= -105) this.direction = "down";
@@ -178,7 +180,82 @@ public class Player extends Sprite {
         else if (angle > 105 && angle < 170) this.direction = "right_up";
         else if (angle >= 75 && angle <= 105) this.direction = "up";
         else if (angle > 15 && angle < 75) this.direction = "left_up";
-        else this.direction = "right";
+        else if (angle != 181) this.direction = "right";
+//        System.out.println(direction + " " + angle);
+        changeScreenPosition(angle, 2 * TILE_SIZE);
+    }
+
+
+    public void transition(int x1, int y1, int x2, int y2) {
+        float dx = x2 - PLAYER_SCREEN_X;
+        float dy = y2 - PLAYER_SCREEN_Y;
+        float speed = 4f; // Tốc độ di chuyển (pixels/frame)
+        float distance = (float) Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < speed) {
+            PLAYER_SCREEN_X = x2;
+            PLAYER_SCREEN_Y = y2;
+            return;
+        }
+
+        float stepX = (dx / distance) * speed;
+        float stepY = (dy / distance) * speed;
+
+        PLAYER_SCREEN_X += (int) stepX;
+        PLAYER_SCREEN_Y += (int) stepY;
+    }
+
+
+    String lastDirection;
+    public void changeScreenPosition(int angle, int distance) {
+        int normalPlayerScreenX = 312;
+        int normalPlayerScreenY = 216;
+        int newX = normalPlayerScreenX, newY = normalPlayerScreenY;
+        if (angle != 181) {
+            switch (this.direction) {
+                case "left":
+                    newX = normalPlayerScreenX + distance;
+                    break;
+                case "left_down":
+                    newX = normalPlayerScreenX + (int)(distance * 0.7f);
+                    newY = normalPlayerScreenY - (int)(distance * 0.7f);
+                    break;
+                case "down":
+                    newY = normalPlayerScreenY - distance;
+                    break;
+                case "right":
+                    newX = normalPlayerScreenX - distance;
+                    break;
+                case "right_down":
+                    newX = normalPlayerScreenX - (int)(distance * 0.7f);
+                    newY = normalPlayerScreenY - (int)(distance * 0.7f);
+                    break;
+                case "right_up":
+                    newX = normalPlayerScreenX - (int)(distance * 0.7f);
+                    newY = normalPlayerScreenY + (int)(distance * 0.7f);
+                    break;
+                case "up":
+                    newY = normalPlayerScreenY + distance;
+                    break;
+                case "left_up":
+                    newX = normalPlayerScreenX + (int)(distance * 0.7f);
+                    newY = normalPlayerScreenY + (int)(distance * 0.7f);
+                    break;
+            }
+        }
+//        System.out.println(newX + " " + newY);
+//        System.out.println(normalPlayerScreenX + " " + normalPlayerScreenY + " asdasd");
+        if (PLAYER_SCREEN_X != newX || PLAYER_SCREEN_Y != newY) {
+//            System.out.println(angle + " " + PLAYER_SCREEN_X + " " + PLAYER_SCREEN_Y + " " + newX + " " + newY);
+            transition(PLAYER_SCREEN_X, PLAYER_SCREEN_Y, newX, newY);
+        }
+        lastDirection = direction;
+    }
+    public void resetScreenPosition() {
+        PLAYER_SCREEN_X = 312;
+        PLAYER_SCREEN_Y = 216;
+//        normalPlayerScreenY = 312;
+//        normalPlayerScreenX = 216;
     }
 
     public int getAngleMouse() {

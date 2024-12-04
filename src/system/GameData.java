@@ -8,6 +8,7 @@ public class GameData {
     public PlayerData player;
     public MonstersData monsters;
     public NPCsData npcsData;
+    public String currentLevel;
 
 
     public DoorSystem doorSystem;

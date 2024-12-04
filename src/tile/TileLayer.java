@@ -42,12 +42,13 @@ public class TileLayer {
     }
 
     int startRow, startCol, endRow, endCol;
+    int offSet = 5;
     public void render(Graphics2D g2, Player player) {
         if (Gamestate.state != Gamestate.CUTSCENE) {
-            startRow = max(player.getWorldY() / TILE_SIZE - MAX_SCREEN_ROW / 2 - 1, 0);
-            endRow = min(player.getWorldY() / TILE_SIZE + MAX_WORLD_ROW / 2 + 1, MAX_WORLD_ROW);
-            startCol = max(player.getWorldX() / TILE_SIZE - MAX_SCREEN_COL / 2 - 1, 0);
-            endCol = min(player.getWorldX() / TILE_SIZE + MAX_SCREEN_COL / 2 + 1, MAX_WORLD_COL);
+            startRow = max(player.getWorldY() / TILE_SIZE - MAX_SCREEN_ROW / 2 - offSet, 0);
+            endRow = min(player.getWorldY() / TILE_SIZE + MAX_WORLD_ROW / 2 + offSet, MAX_WORLD_ROW);
+            startCol = max(player.getWorldX() / TILE_SIZE - MAX_SCREEN_COL / 2 - offSet, 0);
+            endCol = min(player.getWorldX() / TILE_SIZE + MAX_SCREEN_COL / 2 + offSet, MAX_WORLD_COL);
         }
         else {
             startRow = 0;
