@@ -93,8 +93,8 @@
   "npcsData" : {
     "npcsData" : [ {
       "name" : "White_Samurai",
-      "worldX" : 624,
-      "worldY" : 240
+      "worldX" : 1300,
+      "worldY" : 1450
     } ]
   },
   "doorSystem" : {

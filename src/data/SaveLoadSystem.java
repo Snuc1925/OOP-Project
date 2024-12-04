@@ -39,6 +39,8 @@ public class SaveLoadSystem {
         gameData.monsterAreaSystem = monsterAreaSystem;
         gameData.doorSystem = doorSystem;
 
+        gameData.currentLevel = playing.currentLevel;
+
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("save.json"), gameData);
         } catch (IOException e) {
@@ -72,6 +74,8 @@ public class SaveLoadSystem {
                 monsterAreaSystem.playing = playing;
             }
             playing.monsterAreaSystem = monsterAreaSystem;
+            if (gameData.currentLevel != null)
+                playing.currentLevel = gameData.currentLevel;
 
             playing.setUpList();
             playing.loadMap();

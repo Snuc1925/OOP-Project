@@ -1,5 +1,6 @@
 package data;
 
+import enitystates.EntityState;
 import entities.monsters.*;
 import entities.monsters.bosses.BringerOfDeath;
 import entities.monsters.bosses.Demon;
