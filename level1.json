@@ -147,7 +147,7 @@
       },
       "direction" : -1,
       "isOpen" : false,
-      "isLocked" : true,
+      "isLocked" : false,
       "playerPassed" : false
     }, {
       "name" : "object/door/front_wall",
@@ -317,5 +317,321 @@
       "doorIDs" : [ 0, 4 ],
       "isLocked" : false
     } ]
+  },
+  "collectibleSystem": {
+    "collectibleList": [
+      {
+        "name": "object/heart",
+        "render": {
+          "width": 48,
+          "height": 96
+        },
+        "position": {
+          "worldX": 630,
+          "worldY": 2026
+        },
+        "hitbox": {
+          "width": 24,
+          "height": 24
+        },
+        "item": {
+          "itemType": "heart",
+          "value": 2,
+          "isCollected": false
+        },
+        "animation": {
+          "totalAnimationFrame": 12,
+          "numAnimationFrame": 1,
+          "frameDuration": 5,
+          "frameCounter": 0
+        }
+      },
+      {
+        "name": "object/heart",
+        "render": {
+          "width": 48,
+          "height": 96
+        },
+        "position": {
+          "worldX": 70,
+          "worldY": 1600
+        },
+        "hitbox": {
+          "width": 24,
+          "height": 24
+        },
+        "item": {
+          "itemType": "heart",
+          "value": 2,
+          "isCollected": false
+        },
+        "animation": {
+          "totalAnimationFrame": 12,
+          "numAnimationFrame": 1,
+          "frameDuration": 5,
+          "frameCounter": 0
+        }
+      },
+      {
+        "name": "object/mana",
+        "render": {
+          "width": 48,
+          "height": 96
+        },
+        "position": {
+          "worldX": 263,
+          "worldY": 1934
+        },
+        "hitbox": {
+          "width": 24,
+          "height": 24
+        },
+        "item": {
+          "itemType": "mana",
+          "value": 2,
+          "isCollected": false
+        },
+        "animation": {
+          "totalAnimationFrame": 12,
+          "numAnimationFrame": 1,
+          "frameDuration": 5,
+          "frameCounter": 0
+        }
+      },
+      {
+        "name": "object/heart",
+        "render": {
+          "width": 48,
+          "height": 96
+        },
+        "position": {
+          "worldX": 164,
+          "worldY": 721
+        },
+        "hitbox": {
+          "width": 24,
+          "height": 24
+        },
+        "item": {
+          "itemType": "heart",
+          "value": 2,
+          "isCollected": false
+        },
+        "animation": {
+          "totalAnimationFrame": 12,
+          "numAnimationFrame": 1,
+          "frameDuration": 5,
+          "frameCounter": 0
+        }
+      },
+      {
+        "name": "object/heart",
+        "render": {
+          "width": 48,
+          "height": 96
+        },
+        "position": {
+          "worldX": 274,
+          "worldY": 146
+        },
+        "hitbox": {
+          "width": 24,
+          "height": 24
+        },
+        "item": {
+          "itemType": "heart",
+          "value": 2,
+          "isCollected": false
+        },
+        "animation": {
+          "totalAnimationFrame": 12,
+          "numAnimationFrame": 1,
+          "frameDuration": 5,
+          "frameCounter": 0
+        }
+      },
+      {
+        "name": "object/mana",
+        "render": {
+          "width": 48,
+          "height": 96
+        },
+        "position": {
+          "worldX": 672,
+          "worldY": 178
+        },
+        "hitbox": {
+          "width": 24,
+          "height": 24
+        },
+        "item": {
+          "itemType": "mana",
+          "value": 2,
+          "isCollected": false
+        },
+        "animation": {
+          "totalAnimationFrame": 12,
+          "numAnimationFrame": 1,
+          "frameDuration": 5,
+          "frameCounter": 0
+        }
+      },
+      {
+        "name": "object/heart",
+        "render": {
+          "width": 48,
+          "height": 96
+        },
+        "position": {
+          "worldX": 1737,
+          "worldY": 231
+        },
+        "hitbox": {
+          "width": 24,
+          "height": 24
+        },
+        "item": {
+          "itemType": "heart",
+          "value": 2,
+          "isCollected": false
+        },
+        "animation": {
+          "totalAnimationFrame": 12,
+          "numAnimationFrame": 1,
+          "frameDuration": 5,
+          "frameCounter": 0
+        }
+      },
+      {
+        "name": "object/heart",
+        "render": {
+          "width": 48,
+          "height": 96
+        },
+        "position": {
+          "worldX": 2215,
+          "worldY": 450
+        },
+        "hitbox": {
+          "width": 24,
+          "height": 24
+        },
+        "item": {
+          "itemType": "heart",
+          "value": 2,
+          "isCollected": false
+        },
+        "animation": {
+          "totalAnimationFrame": 12,
+          "numAnimationFrame": 1,
+          "frameDuration": 5,
+          "frameCounter": 0
+        }
+      },
+      {
+        "name": "object/mana",
+        "render": {
+          "width": 48,
+          "height": 96
+        },
+        "position": {
+          "worldX": 1987,
+          "worldY": 769
+        },
+        "hitbox": {
+          "width": 24,
+          "height": 24
+        },
+        "item": {
+          "itemType": "mana",
+          "value": 2,
+          "isCollected": false
+        },
+        "animation": {
+          "totalAnimationFrame": 12,
+          "numAnimationFrame": 1,
+          "frameDuration": 5,
+          "frameCounter": 0
+        }
+      },
+      {
+        "name": "object/heart",
+        "render": {
+          "width": 48,
+          "height": 96
+        },
+        "position": {
+          "worldX": 2135,
+          "worldY": 2027
+        },
+        "hitbox": {
+          "width": 24,
+          "height": 24
+        },
+        "item": {
+          "itemType": "heart",
+          "value": 2,
+          "isCollected": false
+        },
+        "animation": {
+          "totalAnimationFrame": 12,
+          "numAnimationFrame": 1,
+          "frameDuration": 5,
+          "frameCounter": 0
+        }
+      },
+      {
+        "name": "object/heart",
+        "render": {
+          "width": 48,
+          "height": 96
+        },
+        "position": {
+          "worldX": 2059,
+          "worldY": 1600
+        },
+        "hitbox": {
+          "width": 24,
+          "height": 24
+        },
+        "item": {
+          "itemType": "heart",
+          "value": 2,
+          "isCollected": false
+        },
+        "animation": {
+          "totalAnimationFrame": 12,
+          "numAnimationFrame": 1,
+          "frameDuration": 5,
+          "frameCounter": 0
+        }
+      },
+      {
+        "name": "object/mana",
+        "render": {
+          "width": 48,
+          "height": 96
+        },
+        "position": {
+          "worldX": 1709,
+          "worldY": 2097
+        },
+        "hitbox": {
+          "width": 24,
+          "height": 24
+        },
+        "item": {
+          "itemType": "mana",
+          "value": 2,
+          "isCollected": false
+        },
+        "animation": {
+          "totalAnimationFrame": 12,
+          "numAnimationFrame": 1,
+          "frameDuration": 5,
+          "frameCounter": 0
+        }
+      }
+    ]
   }
 }

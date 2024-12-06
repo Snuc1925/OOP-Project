@@ -52,9 +52,168 @@
     "enteredDoorID" : -1,
     "enteredDirection" : 0,
     "exitDirection" : 0,
-    "doors" : [ ]
+    "doors" : [ {
+      "name" : "object/door/front_wall",
+      "animation" : {
+        "totalAnimationFrame" : 8,
+        "numAnimationFrame" : 1,
+        "frameDuration" : 10,
+        "frameCounter" : 0
+      },
+      "position" : {
+        "worldX" : 1367,
+        "worldY" : 1390
+      },
+      "render" : {
+        "width" : 238,
+        "height" : 144
+      },
+      "hitbox" : {
+        "width" : 220,
+        "height" : 144
+      },
+      "direction" : 1,
+      "isOpen" : false,
+      "isLocked" : false,
+      "playerPassed" : false
+    }, {
+      "name" : "object/door/front_wall",
+      "animation" : {
+        "totalAnimationFrame" : 8,
+        "numAnimationFrame" : 1,
+        "frameDuration" : 10,
+        "frameCounter" : 0
+      },
+      "position" : {
+        "worldX" : 1392,
+        "worldY" : 764
+      },
+      "render" : {
+        "width" : 290,
+        "height" : 144
+      },
+      "hitbox" : {
+        "width" : 220,
+        "height" : 144
+      },
+      "direction" : -1,
+      "isOpen" : false,
+      "isLocked" : false,
+      "playerPassed" : false
+    },  {
+      "name" : "object/door/side_wall",
+      "animation" : {
+        "totalAnimationFrame" : 8,
+        "numAnimationFrame" : 1,
+        "frameDuration" : 10,
+        "frameCounter" : 0
+      },
+      "position" : {
+        "worldX" : 1032,
+        "worldY" : 1128
+      },
+      "render" : {
+        "width" : 48,
+        "height" : 240
+      },
+      "hitbox" : {
+        "width" : 96,
+        "height" : 220
+      },
+      "direction" : -2,
+      "isOpen" : false,
+      "isLocked" : false,
+      "playerPassed" : false
+    } ]
   },
   "monsterAreaSystem" : {
-    "monsterAreas" : [ ]
+    "monsterAreas" : [{
+      "name" : "area1",
+      "monsterIDs" : [ 0 ],
+      "doorIDs" : [ 0, 1, 2 ],
+      "isLocked" : false
+    } ]
+  },
+  "collectibleSystem": {
+    "collectibleList": [
+      {
+        "name": "object/heart",
+        "render": {
+          "width": 48,
+          "height": 96
+        },
+        "position": {
+          "worldX": 442,
+          "worldY": 1257
+        },
+        "hitbox": {
+          "width": 24,
+          "height": 24
+        },
+        "item": {
+          "itemType": "heart",
+          "value": 2,
+          "isCollected": false
+        },
+        "animation": {
+          "totalAnimationFrame": 12,
+          "numAnimationFrame": 1,
+          "frameDuration": 5,
+          "frameCounter": 0
+        }
+      },
+      {
+        "name": "object/heart",
+        "render": {
+          "width": 48,
+          "height": 96
+        },
+        "position": {
+          "worldX": 91,
+          "worldY": 2050
+        },
+        "hitbox": {
+          "width": 24,
+          "height": 24
+        },
+        "item": {
+          "itemType": "heart",
+          "value": 2,
+          "isCollected": false
+        },
+        "animation": {
+          "totalAnimationFrame": 12,
+          "numAnimationFrame": 1,
+          "frameDuration": 5,
+          "frameCounter": 0
+        }
+      },
+      {
+        "name": "object/heart",
+        "render": {
+          "width": 48,
+          "height": 96
+        },
+        "position": {
+          "worldX": 1932,
+          "worldY": 972
+        },
+        "hitbox": {
+          "width": 24,
+          "height": 24
+        },
+        "item": {
+          "itemType": "heart",
+          "value": 2,
+          "isCollected": false
+        },
+        "animation": {
+          "totalAnimationFrame": 12,
+          "numAnimationFrame": 1,
+          "frameDuration": 5,
+          "frameCounter": 0
+        }
+      }
+    ]
   }
 }

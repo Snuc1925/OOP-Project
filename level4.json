@@ -3,8 +3,8 @@
   "player" : {
     "worldX" : 1116,
     "worldY" : 1709,
-    "currentHealth" : 12,
-    "maxHealth" : 12,
+    "currentHealth" : 120,
+    "maxHealth" : 120,
     "currentMana" : 200,
     "maxMana" : 200,
     "currentArmor" : 10,
@@ -31,5 +31,8 @@
   },
   "monsterAreaSystem" : {
     "monsterAreas" : [ ]
+  },
+  "collectibleSystem": {
+    "collectibleList": []
   }
 }

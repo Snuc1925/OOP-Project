@@ -1,5 +1,6 @@
 package objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import components.*;
 import entities.Player;
 

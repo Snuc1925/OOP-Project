@@ -43,7 +43,7 @@ public class Playing extends State implements Statemethods {
     public CameraShake cameraShake;
 
     private ProjectileManager projectileManager;
-    private CollectibleSystem collectibleSystem;
+    public CollectibleSystem collectibleSystem;
     public DoorSystem doorSystem;
     private RenderSystem renderSystem;
     public MonsterAreaSystem monsterAreaSystem;
@@ -88,6 +88,7 @@ public class Playing extends State implements Statemethods {
         tileManager = new TileManager(player);
         doorSystem = new DoorSystem();
         monsterAreaSystem = new MonsterAreaSystem();
+        collectibleSystem = new CollectibleSystem();
         renderSystem = new RenderSystem(this);
 
         loadMap();
@@ -132,12 +133,15 @@ public class Playing extends State implements Statemethods {
 
     public SaveLoadSystem getSaveLoadSystem() { return saveLoadSystem; }
 
+    public CollectibleSystem getCollectibleSystem() { return collectibleSystem; }
+
     public TileManager getTileManager() {
         return tileManager;
     }
 
     @Override
     public void update() {
+        System.out.println("(" + player.worldX + "," + player.worldY + ")");
         for (int i = 0; i < entityArray.length; i++)
             if (entityArray[i] != null){
                 if (entityArray[i].image == null && entityArray[i].currentState == EntityState.DEATH) {
@@ -179,7 +183,7 @@ public class Playing extends State implements Statemethods {
             player.lockOn();
 
 //        projectileManager.update();
-//        collectibleSystem.update();
+        collectibleSystem.update();
         if (monsterAreaSystem != null) monsterAreaSystem.update();
         if (doorSystem != null) doorSystem.update();
 //          System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
@@ -203,7 +207,7 @@ public class Playing extends State implements Statemethods {
     public void draw(Graphics2D g2) {
         currentMap.render(g2, player);
 
-//        collectibleSystem.draw(g2);
+        collectibleSystem.draw(g2);
         if (doorSystem != null) doorSystem.draw(g2);
 
         for (Entity entity : entityList) {

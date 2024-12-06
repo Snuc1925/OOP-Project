@@ -3,9 +3,7 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gamestates.Playing;
 import main.Game;
-import system.DoorSystem;
-import system.GameData;
-import system.MonsterAreaSystem;
+import system.*;
 
 import java.io.*;
 
@@ -14,6 +12,8 @@ public class SaveLoadSystem {
     private Game game;
     private DoorSystem doorSystem;
     private MonsterAreaSystem monsterAreaSystem;
+
+    private CollectibleSystem collectibleSystem;
 
     ObjectMapper objectMapper;
 
@@ -25,6 +25,7 @@ public class SaveLoadSystem {
         this.playing = playing;
         this.doorSystem = playing.getDoorSystem();
         this.monsterAreaSystem = playing.getMonsterAreaSystem();
+        this.collectibleSystem = playing.getCollectibleSystem();
         objectMapper = new ObjectMapper();
         objectMapper.configure(MapperFeature.AUTO_DETECT_GETTERS, false);
     }
@@ -39,7 +40,7 @@ public class SaveLoadSystem {
         gameData.monsterAreaSystem = monsterAreaSystem;
         gameData.doorSystem = doorSystem;
 
-        gameData.currentLevel = playing.currentLevel;
+        gameData.collectibleSystem = collectibleSystem;
 
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("save.json"), gameData);
@@ -74,6 +75,13 @@ public class SaveLoadSystem {
                 monsterAreaSystem.playing = playing;
             }
             playing.monsterAreaSystem = monsterAreaSystem;
+
+            collectibleSystem = gameData.collectibleSystem;
+            collectibleSystem.playing = playing;
+//            InitSystem.initCollectibleObjects(collectibleSystem.collectibleList);
+            playing.collectibleSystem = collectibleSystem;
+
+
             if (gameData.currentLevel != null)
                 playing.currentLevel = gameData.currentLevel;
 

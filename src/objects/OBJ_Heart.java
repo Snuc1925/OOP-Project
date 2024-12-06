@@ -6,6 +6,7 @@ import static utils.Constants.Screen.TILE_SIZE;
 
 public class OBJ_Heart extends Collectible {
 
+    public OBJ_Heart() {}
     public OBJ_Heart(String name, int worldX, int worldY, int itemValue) {
         this.name = super.name + "/" + name;
         position = new PositionComponent(worldX, worldY);

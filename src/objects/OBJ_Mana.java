@@ -5,7 +5,7 @@ import entities.Player;
 import static utils.Constants.Screen.TILE_SIZE;
 
 public class OBJ_Mana extends Collectible {
-
+    public OBJ_Mana() {}
     public OBJ_Mana(String name, int worldX, int worldY, int itemValue) {
         this.name = super.name + "/" + name;
         position = new PositionComponent(worldX, worldY);

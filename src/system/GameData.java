@@ -9,11 +9,11 @@ public class GameData {
     public PlayerData player;
     public MonstersData monsters;
     public NPCsData npcsData;
-    public String currentLevel;
-
 
     public DoorSystem doorSystem;
     public MonsterAreaSystem monsterAreaSystem;
+
+    public CollectibleSystem collectibleSystem;
 
     public GameData() {
         player = new PlayerData();

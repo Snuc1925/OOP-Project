@@ -1,5 +1,6 @@
 package system;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import gamestates.Playing;
 import objects.Collectible;
 import objects.OBJ_Heart;
@@ -10,28 +11,15 @@ import java.util.ArrayList;
 import static utils.Constants.Screen.*;
 
 public class CollectibleSystem {
-    public ArrayList<Collectible> collectibleList;
+
+    @JsonIgnore
     public Playing playing;
-    public CollectibleSystem(Playing playing) {
-        this.playing = playing;
+
+    public ArrayList<Collectible> collectibleList;
+
+    public CollectibleSystem() {
         collectibleList = new ArrayList<>();
-        InitSystem.initCollectibleObjects(collectibleList);
     }
-
-    public void initCollectibleObjects() {
-        OBJ_Heart objHeart1 = new OBJ_Heart("heart", 9 * TILE_SIZE, 10 * TILE_SIZE, 2);
-        OBJ_Heart objHeart2 = new OBJ_Heart("heart", 6 * TILE_SIZE, 15 * TILE_SIZE, 2);
-        OBJ_Mana objMana1 = new OBJ_Mana("mana", 8 * TILE_SIZE, 20 * TILE_SIZE, 2);
-        OBJ_Mana objMana2 = new OBJ_Mana("mana", 15 * TILE_SIZE, 10 * TILE_SIZE, 2);
-        OBJ_Mana objMana3 = new OBJ_Mana("mana", 12 * TILE_SIZE, 12 * TILE_SIZE, 2);
-
-        collectibleList.add(objHeart1);
-        collectibleList.add(objHeart2);
-        collectibleList.add(objMana1);
-        collectibleList.add(objMana2);
-        collectibleList.add(objMana3);
-    }
-
 
     public void update() {
         for (Collectible collectible : collectibleList) {
@@ -51,6 +39,7 @@ public class CollectibleSystem {
     }
 
     public void draw(Graphics2D g2) {
+        if (collectibleList == null) return;
         for (Collectible collectible : collectibleList) {
             playing.getRenderSystem().draw(g2, collectible.position, collectible.render, collectible.hitbox);
         }

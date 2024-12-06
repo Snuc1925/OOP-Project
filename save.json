@@ -1,16 +1,16 @@
 {
   "currentLevel" : "level1",
   "player" : {
-    "worldX" : 539,
-    "worldY" : 673,
-    "currentHealth" : 12,
-    "maxHealth" : 12,
-    "currentMana" : 180,
+    "worldX" : 1119,
+    "worldY" : 1469,
+    "currentHealth" : 200,
+    "maxHealth" : 200,
+    "currentMana" : 200,
     "maxMana" : 200,
-    "currentArmor" : 0,
+    "currentArmor" : 10,
     "maxArmor" : 10,
-    "direction" : "left_up",
-    "currentWeapon" : "GUN"
+    "direction" : "down",
+    "currentWeapon" : "NORMAL"
   },
   "monsters" : {
     "monstersData" : [ {
@@ -83,13 +83,18 @@
       "worldX" : 1947,
       "worldY" : 668,
       "currentHealth" : 30
+    }, {
+      "name" : "BringerOfDeath",
+      "worldX" : 52,
+      "worldY" : 325,
+      "currentHealth" : 100
     } ]
   },
   "npcsData" : {
     "npcsData" : [ {
       "name" : "White_Samurai",
-      "worldX" : 624,
-      "worldY" : 240
+      "worldX" : 1300,
+      "worldY" : 1450
     } ]
   },
   "doorSystem" : {
@@ -142,7 +147,7 @@
       },
       "direction" : -1,
       "isOpen" : false,
-      "isLocked" : true,
+      "isLocked" : false,
       "playerPassed" : false
     }, {
       "name" : "object/door/front_wall",
@@ -308,9 +313,91 @@
       "isLocked" : false
     }, {
       "name" : "area4",
-      "monsterIDs" : [ ],
+      "monsterIDs" : [ 14 ],
       "doorIDs" : [ 0, 4 ],
       "isLocked" : false
     } ]
+  },
+  "collectibleSystem" : {
+    "collectibleList": [
+      {
+        "name": "object/heart",
+        "render": {
+          "width": 48,
+          "height": 96
+        },
+        "position": {
+          "worldX": 630,
+          "worldY": 2026
+        },
+        "hitbox": {
+          "width": 24,
+          "height": 24
+        },
+        "item": {
+          "itemType": "heart",
+          "value": 2,
+          "isCollected": false
+        },
+        "animation": {
+          "totalAnimationFrame": 12,
+          "numAnimationFrame": 1,
+          "frameDuration": 5,
+          "frameCounter": 0
+        }
+      },
+      {
+        "name": "object/heart",
+        "render": {
+          "width": 48,
+          "height": 96
+        },
+        "position": {
+          "worldX": 60,
+          "worldY": 1600
+        },
+        "hitbox": {
+          "width": 24,
+          "height": 24
+        },
+        "item": {
+          "itemType": "heart",
+          "value": 2,
+          "isCollected": false
+        },
+        "animation": {
+          "totalAnimationFrame": 12,
+          "numAnimationFrame": 1,
+          "frameDuration": 5,
+          "frameCounter": 0
+        }
+      },
+      {
+        "name": "object/mana",
+        "render": {
+          "width": 48,
+          "height": 96
+        },
+        "position": {
+          "worldX": 263,
+          "worldY": 1934
+        },
+        "hitbox": {
+          "width": 24,
+          "height": 24
+        },
+        "item": {
+          "itemType": "mana",
+          "value": 2,
+          "isCollected": false
+        },
+        "animation": {
+          "totalAnimationFrame": 12,
+          "numAnimationFrame": 1,
+          "frameDuration": 5,
+          "frameCounter": 0
+        }
+      }
+    ]
   }
 }
