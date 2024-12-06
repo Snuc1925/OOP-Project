@@ -65,7 +65,6 @@ public class Playing extends State implements Statemethods {
     public NextLevel nextLevel = null;
 
 
-
     public Playing(Game game) {
         super(game);
 
@@ -99,7 +98,7 @@ public class Playing extends State implements Statemethods {
     }
 
     public void loadMap() {
-        MapParser.loadMap( currentLevel ,"res/map/map_" + currentLevel + ".tmx");
+        MapParser.loadMap(currentLevel, "res/map/map_" + currentLevel + ".tmx");
         currentMap = MapManager.getGameMap(currentLevel);
         currentMap.buildTileManager(tileManager);
     }
@@ -115,6 +114,7 @@ public class Playing extends State implements Statemethods {
     public Game getGame() {
         return game;
     }
+
     public Player getPlayer() {
         return player;
     }
@@ -141,7 +141,6 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void update() {
-        System.out.println("(" + player.worldX + "," + player.worldY + ")");
         for (int i = 0; i < entityArray.length; i++)
             if (entityArray[i] != null){
                 if (entityArray[i].image == null && entityArray[i].currentState == EntityState.DEATH) {

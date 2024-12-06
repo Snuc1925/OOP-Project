@@ -76,7 +76,7 @@ public class NextLevel extends EffectMethod{
     public boolean isTransition = false, isBgPlayed = false;
     public void update() {
         KeyboardInputs kb = playing.getGame().getKeyboardInputs();
-        System.out.println(currentStage);
+//        System.out.println(currentStage);
         if (currentStage <= 1 && !isBgPlayed) {
             isBgPlayed = true;
             playing.soundtrack.playMusic(9);
