@@ -93,7 +93,7 @@ public class MonsterAreaSystem {
 //            monsterArea.update();
             if (monsterArea.isLocked) {
                 monsterArea.monsterIDs.removeIf(monsterID -> playing.monsters[monsterID] == null);
-                System.out.println(monsterArea.monsterIDs);
+//                System.out.println(monsterArea.monsterIDs);
                 if (monsterArea.monsterIDs.isEmpty()) {
                     unlockArea(monsterArea);
                 }

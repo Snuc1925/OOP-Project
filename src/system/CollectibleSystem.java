@@ -1,6 +1,8 @@
 package system;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import gamestates.Playing;
 import objects.Collectible;
 import objects.OBJ_Heart;
@@ -9,6 +11,7 @@ import objects.OBJ_Mana;
 import java.awt.*;
 import java.util.ArrayList;
 import static utils.Constants.Screen.*;
+
 
 public class CollectibleSystem {
 

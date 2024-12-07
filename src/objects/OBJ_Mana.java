@@ -15,6 +15,7 @@ public class OBJ_Mana extends Collectible {
         animation = new AnimationComponent(12, 5);
     }
 
+    @Override
     public void interact(Player player) {
         player.increaseMana(item.value);
     }

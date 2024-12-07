@@ -7,15 +7,8 @@ import static utils.Constants.Screen.TILE_SIZE;
 public class OBJ_Heart extends Collectible {
 
     public OBJ_Heart() {}
-    public OBJ_Heart(String name, int worldX, int worldY, int itemValue) {
-        this.name = super.name + "/" + name;
-        position = new PositionComponent(worldX, worldY);
-        render = new RenderComponent(TILE_SIZE, TILE_SIZE * 2);
-        hitbox = new HitboxComponent(TILE_SIZE / 2, TILE_SIZE / 2);
-        item = new ItemComponent("heart", itemValue);
-        animation = new AnimationComponent(12, 5);
-    }
 
+    @Override
     public void interact(Player player) {
         player.increaseHealth(item.value);
     }
