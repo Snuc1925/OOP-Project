@@ -80,9 +80,9 @@ public class DoorSystem {
 
         if (enteredDoorID != -1) {
             Door enteredDoor = doors.get(enteredDoorID);
-            System.out.println(enteredDoor.position.worldX + " " + enteredDoor.position.worldY);
+//            System.out.println(enteredDoor.position.worldX + " " + enteredDoor.position.worldY);
             exitDirection = getExitDirection(playerCurrent, playerNext, enteredDoor);
-            System.out.println("EnteredDiretion: " + enteredDirection + ", ExitDirection: " + exitDirection);
+//            System.out.println("EnteredDiretion: " + enteredDirection + ", ExitDirection: " + exitDirection);
 
             if (exitDirection != 0) {
                 enteredDoor.isOpen = false;
@@ -93,18 +93,6 @@ public class DoorSystem {
                 enteredDoorID = -1;
             }
         } else {
-//            for (Door door : doors) {
-//                enteredDirection = getEnterDirection(playerCurrent, playerNext, door);
-//                if (enteredDirection == 0) continue;
-//                if (door.isLocked) {
-//                    player.collisionOn = true;
-//                    return;
-//                }
-//
-//                enteredDoor = door;
-//                enteredDoor.isOpen = true;
-//                break;
-//            }
             for (int i = 0; i < doors.size(); i++) {
                 Door door = doors.get(i);
                 enteredDirection = getEnterDirection(playerCurrent, playerNext, door);
