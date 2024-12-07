@@ -13,9 +13,10 @@ public class GameData {
     public MonsterAreaSystem monsterAreaSystem;
 
     public CollectibleSystem collectibleSystem;
+    public String currentLevel;
 
     public GameData() {
-        player = new PlayerData();
+        player = new PlayerData();u
         monsters = new MonstersData();
         npcsData = new NPCsData();
     }
