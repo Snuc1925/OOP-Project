@@ -21,7 +21,7 @@ public class MonsterAttackSystem {
         if (frameCounter < 120) return;
         frameCounter = 0;
         ArrayList<Integer> monsterIds = new ArrayList<>();
-        for (int id = 0; id < playing.monsters.length; id++) {
+        for (int id = 0; id < playing.monsters.size(); id++) {
             monsterIds.add(id);
         }
 
@@ -34,7 +34,7 @@ public class MonsterAttackSystem {
 
             int id = random.nextInt(monsterIds.size());
             int monsterId = monsterIds.get(id);
-            Monster monster = playing.monsters[monsterId];
+            Monster monster = playing.monsters.get(monsterId);
 
             monster.getDirectionForAttacking();
             Projectile projectile = new Projectile(playing,"MONSTER", monster);

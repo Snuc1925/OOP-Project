@@ -7,11 +7,13 @@ import gamestates.Gamestate;
 import gamestates.Playing;
 import inputs.KeyboardInputs;
 import main.CollisionChecker;
+import utils.Constants;
 import utils.HelpMethods;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import static utils.Constants.Player.*;
@@ -273,7 +275,7 @@ public class Player extends Sprite {
         int distance = Integer.MAX_VALUE;
         int angle = 0;
         Monster lockedMonster = null;
-        Monster[] entities = this.getPlaying().monsters;
+        ArrayList<Monster> entities = this.getPlaying().monsters;
         for (Monster entity : entities)
             if (entity != null && entity.isOnTheScreen()) {
                 entity.isBeingLockOn = false;
