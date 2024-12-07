@@ -155,10 +155,16 @@ public class Playing extends State implements Statemethods {
             Gamestate.state = Gamestate.GAME_OVER;
         }
 
-        if  (currentLevel.equals("level4") && monsters.size() == 1) {
-            Monster monster = monsters.get(0);
-            if (monster.image == null && monster.currentState == EntityState.DEATH) {
-                energyOrb = new EnergyOrb(this, 1150, 410);
+        if  (currentLevel.equals("level4") && energyOrb == null) {
+            boolean allMonstersDeath = true;
+            for (Monster monster : monsters) {
+                if (monster.currentState != EntityState.DEATH || monster.image != null) {
+                    allMonstersDeath = false;
+                    break;
+                }
+            }
+            if (allMonstersDeath) {
+                energyOrb = new EnergyOrb(this, 1220, 577);
             }
         }
 
