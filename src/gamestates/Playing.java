@@ -34,8 +34,6 @@ public class Playing extends State implements Statemethods {
 
     // List and array of entities
     public ArrayList<Sprite> entityList;
-//    public Entity[] entityArray;
-//    public ArrayList<Entity> entityArray;
 
     // Camera shake
     public CameraShake cameraShake;
@@ -165,7 +163,7 @@ public class Playing extends State implements Statemethods {
         }
 
         entityList.removeIf(entity -> entity.image == null && entity.currentState == EntityState.DEATH);
-        monsters.removeIf(monster -> monster.image == null && monster.currentState == EntityState.DEATH);
+//        monsters.removeIf(monster -> monster.image == null && monster.currentState == EntityState.DEATH);
 
         if (energyOrb != null) energyOrb.update();
 
@@ -196,6 +194,14 @@ public class Playing extends State implements Statemethods {
         if (nextLevel != null) {
             nextLevel.update();
         }
+        for (Monster monster : monsters) {
+            if (monster.currentState == EntityState.DEATH) {
+                System.out.print(0);
+            } else {
+                System.out.print(1);
+            }
+        }
+        System.out.println();
     }
 
     @Override

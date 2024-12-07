@@ -92,8 +92,7 @@ public class MonsterAreaSystem {
         for (MonsterArea monsterArea : monsterAreas) {
 //            monsterArea.update();
             if (monsterArea.isLocked) {
-                monsterArea.monsterIDs.removeIf(monsterID -> playing.monsters.get(monsterID) == null);
-//                System.out.println(monsterArea.monsterIDs);
+                monsterArea.monsterIDs.removeIf(monsterID -> playing.monsters.get(monsterID).currentState == EntityState.DEATH);
                 if (monsterArea.monsterIDs.isEmpty()) {
                     unlockArea(monsterArea);
                 }
