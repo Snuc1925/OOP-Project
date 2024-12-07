@@ -65,6 +65,7 @@
   "collectibleSystem": {
     "collectibleList": [
       {
+        "@class": "objects.OBJ_Heart",
         "name": "object/heart",
         "render": {
           "width": 48,
@@ -91,6 +92,7 @@
         }
       },
       {
+        "@class": "objects.OBJ_Heart",
         "name": "object/heart",
         "render": {
           "width": 48,
@@ -117,6 +119,7 @@
         }
       },
       {
+        "@class": "objects.OBJ_Mana",
         "name": "object/mana",
         "render": {
           "width": 48,
@@ -143,6 +146,7 @@
         }
       },
       {
+        "@class": "objects.OBJ_Heart",
         "name": "object/heart",
         "render": {
           "width": 48,
@@ -169,6 +173,7 @@
         }
       },
       {
+        "@class": "objects.OBJ_Heart",
         "name": "object/heart",
         "render": {
           "width": 48,
