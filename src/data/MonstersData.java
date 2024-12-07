@@ -32,7 +32,7 @@ public class MonstersData {
         monstersData = new ArrayList<>();
     }
 
-    public void saveData(Monster[] monsters) {
+    public void saveData(ArrayList<Monster> monsters) {
         for (Monster monster : monsters) {
             if (monster != null) {
                 monstersData.add(new MonsterData(monster.name, monster.worldX, monster.worldY, monster.currentHealth));
@@ -41,16 +41,15 @@ public class MonstersData {
     }
 
     public void loadData(Playing playing) {
-        playing.monsters = new Monster[monstersData.size()];
+//        playing.monsters = new Monster[monstersData.size()]
+        playing.monsters = new ArrayList<>();
         System.out.println(monstersData.size());
 
-        int id = 0;
         for (MonsterData monsterData : monstersData) {
             Monster monster = createMonster(playing, monsterData.name,
                     monsterData.worldX, monsterData.worldY, monsterData.currentHealth);
             System.out.println(monster.name);
-            playing.monsters[id] = monster;
-            id++;
+            playing.monsters.add(monster);
         }
     }
 

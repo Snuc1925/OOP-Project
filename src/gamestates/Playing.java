@@ -1,6 +1,5 @@
 package gamestates;
 
-import data.SaveLoad;
 import data.SaveLoadSystem;
 import effect.CameraShake;
 import effect.EnergyOrb;
@@ -14,10 +13,8 @@ import inputs.KeyboardInputs;
 import main.Game;
 import java.awt.*;
 import entities.npc.Npc;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Objects;
+
+import java.util.*;
 
 import map.GameMap;
 import map.MapManager;
@@ -33,11 +30,12 @@ public class Playing extends State implements Statemethods {
     private TileManager tileManager;
 
     // Array of monsters
-    public Monster[] monsters;
+    public ArrayList<Monster> monsters;
 
     // List and array of entities
     public ArrayList<Sprite> entityList;
-    public Entity[] entityArray;
+//    public Entity[] entityArray;
+//    public ArrayList<Entity> entityArray;
 
     // Camera shake
     public CameraShake cameraShake;
@@ -60,7 +58,7 @@ public class Playing extends State implements Statemethods {
     public Npc[] npcArray;
 
     // Level
-    public String currentLevel = "level3";
+    public String currentLevel = "level1";
     public EnergyOrb energyOrb = null;
     public NextLevel nextLevel = null;
 
@@ -79,7 +77,6 @@ public class Playing extends State implements Statemethods {
 
         saveLoadSystem = new SaveLoadSystem(this);
         saveLoadSystem.loadGame(currentLevel);
-//        saveLoadSystem.saveGame();
     }
 
     public void setDefaultValues() {
@@ -89,12 +86,6 @@ public class Playing extends State implements Statemethods {
         monsterAreaSystem = new MonsterAreaSystem();
         collectibleSystem = new CollectibleSystem();
         renderSystem = new RenderSystem(this);
-
-        loadMap();
-        monsters = new Monster[3];
-//        monsters[0] = new Shadow(this, 1125 - 4 * TILE_SIZE, 377 + 13 * TILE_SIZE);
-        npcArray = new Npc[0];
-        setUpList();
     }
 
     public void loadMap() {
@@ -106,9 +97,8 @@ public class Playing extends State implements Statemethods {
     public void setUpList() {
         entityList = new ArrayList<>();
         entityList.add(player);
-        entityList.addAll(Arrays.asList(monsters));
+        entityList.addAll(monsters);
         entityList.addAll(Arrays.asList(npcArray));
-        entityArray = entityList.toArray(new Entity[0]);
     }
 
     public Game getGame() {
@@ -141,12 +131,45 @@ public class Playing extends State implements Statemethods {
 
     @Override
     public void update() {
-        for (int i = 0; i < entityArray.length; i++)
-            if (entityArray[i] != null){
-                if (entityArray[i].image == null && entityArray[i].currentState == EntityState.DEATH) {
-                    entityArray[i] = null;
-                }
+        System.out.println(player.worldX + " " + player.worldY);
+        cameraShake.update();
+
+        if (npcTalking != null) {
+            npcTalking.update();
+            return;
+        }
+
+        for (Sprite entity : new ArrayList<>(entityList)) {
+            if (entity != null && entity.isOnTheScreen()) {
+                entity.update();
             }
+        }
+
+        collectibleSystem.update();
+        monsterAreaSystem.update();
+        doorSystem.update();
+
+
+        if (player.currentState != EntityState.DEATH)
+            player.lockOn();
+
+        if (player.currentState == EntityState.DEATH) {
+            Gamestate.state = Gamestate.GAME_OVER;
+        }
+
+        if  (currentLevel.equals("level4") && monsters.size() == 1) {
+            Monster monster = monsters.get(0);
+            if (monster.image == null && monster.currentState == EntityState.DEATH) {
+                energyOrb = new EnergyOrb(this, 1150, 410);
+            }
+        }
+
+        entityList.removeIf(entity -> entity.image == null && entity.currentState == EntityState.DEATH);
+        monsters.removeIf(monster -> monster.image == null && monster.currentState == EntityState.DEATH);
+
+        if (energyOrb != null) energyOrb.update();
+
+
         if (!currentLevel.equals("level4") && nextLevel == null) {
             boolean allMonstersNull = true;
             for (Monster monster : monsters) {
@@ -166,38 +189,11 @@ public class Playing extends State implements Statemethods {
 //            nextLevel = new NextLevel(this, player.getWorldX(), player.getWorldY());
         }
 
-        // NPC talk, other entity stop update
-        if (npcTalking != null) {
-            npcTalking.update();
-            return;
-        }
-
-        cameraShake.update();
-        for (Entity entity : entityArray) {
-            if (entity != null && entity.isOnTheScreen()){
-                entity.update();
-            }
-        }
-        if (player.currentState != EntityState.DEATH)
-            player.lockOn();
-
-//        projectileManager.update();
-        collectibleSystem.update();
-        if (monsterAreaSystem != null) monsterAreaSystem.update();
-        if (doorSystem != null) doorSystem.update();
-//          System.out.println(player.getWorldX()/TILE_SIZE + " " + player.getWorldY()/TILE_SIZE);
-//        System.out.println(player.worldX + " " + player.worldY);
         if (KeyboardInputs.isPressedValid("pause", game.getKeyboardInputs().pausePressed)) {
             Gamestate.state = Gamestate.PAUSE;
         }
 
-        if (player.currentState == EntityState.DEATH) {
-            Gamestate.state = Gamestate.GAME_OVER;
-        }
-
-        if (energyOrb != null) energyOrb.update();
         if (nextLevel != null) {
-//            System.out.println("Asdasdasdasdasdasdasdasd");
             nextLevel.update();
         }
     }
@@ -209,14 +205,6 @@ public class Playing extends State implements Statemethods {
         collectibleSystem.draw(g2);
         if (doorSystem != null) doorSystem.draw(g2);
 
-        for (Entity entity : entityList) {
-            if (entity instanceof SkeletonReaper && entity.image == null && entity.currentState == EntityState.DEATH) {
-                energyOrb = new EnergyOrb(this, entity.getWorldX(), entity.getWorldY());
-            }
-        }
-
-        entityList.removeIf(Objects::isNull);
-        entityList.removeIf(entity -> entity.image == null && entity.currentState == EntityState.DEATH);
         entityList.stream()
                 .sorted(Comparator.comparingDouble(Entity::getRenderOrder))
                 .forEach(entity -> {
@@ -226,11 +214,9 @@ public class Playing extends State implements Statemethods {
                     }
                 });
 
-
         game.getUI().drawPlayerUI(g2);
 
         if (npcTalking != null) game.getUI().drawDialogueScreen(npcTalking.talk(), g2);
-
 
         for (Monster monster : monsters) {
             if (monster instanceof Demon || monster instanceof BringerOfDeath || monster instanceof Samurai ||
@@ -240,12 +226,6 @@ public class Playing extends State implements Statemethods {
             }
             if (monster instanceof  SkeletonReaper) {
                 ((SkeletonReaper) monster).drawDialogue(g2);
-            }
-        }
-
-        for (int i = 0; i < monsters.length; i++) {
-            if (monsters[i] != null && monsters[i].currentState == EntityState.DEATH) {
-                monsters[i] = null;
             }
         }
 
