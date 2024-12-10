@@ -1,15 +1,22 @@
 package data;
 
 import entities.Player;
+import gamestates.Selection;
 
 public class PlayerData {
+    public int playerType;
     public int worldX, worldY, currentHealth, maxHealth, currentMana, maxMana, currentArmor, maxArmor;
     public String direction;
     public String currentWeapon;
 
-    public PlayerData() {}
+    public PlayerData() {
+    }
 
     public void loadData(Player player) {
+        if (Selection.playerType == -1) {
+            Selection.playerType = this.playerType;
+        }
+
         player.worldX = this.worldX;
         player.worldY = this.worldY;
         player.currentHealth = this.currentHealth;
@@ -23,6 +30,7 @@ public class PlayerData {
     }
 
     public void saveData(Player player) {
+        this.playerType = Selection.playerType;
         this.worldX = player.worldX;
         this.worldY = player.worldY;
         this.currentHealth = player.currentHealth;

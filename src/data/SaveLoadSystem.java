@@ -2,6 +2,7 @@ package data;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gamestates.Playing;
+import gamestates.State;
 import main.Game;
 import system.*;
 
@@ -115,9 +116,9 @@ public class SaveLoadSystem {
             // Load data
             Settings settings = (Settings) ois.readObject();
 
-            game.getPause().currentVolume = settings.volume;
-            game.getPause().isSoundtrackOn = settings.isSoundtrackOn;
-            game.getPause().isSoundEffectOn = settings.isSoundEffectOn;
+            State.currentVolume = settings.volume;
+            State.isSoundtrackOn = settings.isSoundtrackOn;
+            State.isSoundEffectOn = settings.isSoundEffectOn;
 
             game.getPlaying().soundtrack.setVolume(settings.volume / 100f);
 
